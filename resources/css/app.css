@@ -1,0 +1,30 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+p {
+    @apply pb-3
+}
+
+.main-nav {
+    @apply flex flex-col
+}
+
+.main-nav a {
+    @apply p-4 text-gray-400 text-base  hover:bg-gray-800 duration-500
+}
+
+#sidebar .full {
+    @apply w-[350px]
+}
+
+#sidebar .min {
+    @apply w-[40px]
+}
+
+.hidden {
+    display: none;
+}
+#logo{
+    @apply w-[100px] h-[100px] mx-auto rounded-full object-cover
+}
