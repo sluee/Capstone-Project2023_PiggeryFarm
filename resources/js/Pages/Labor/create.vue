@@ -7,13 +7,22 @@
         breedings:Object,
         labors:Object,
         sow:Object,
-        boar:Object
+        boar:Object,
+        breed_id: String,
 
     });
 
+    // function breed({
+    //     if (props.breedings && this.breedings.id) {
+    //     return this.breedings.id;
+    //   }
+    //   return '';
+    // });
+
     const form = useForm({
+    breed_id:props.breed_id,
     parity_no:'',
-    actual_date_farrowing:null,
+    actual_date_farrowing:'',
     no_pigs_born:'',
     no_pigs_alive:'',
     date_of_weaning: ''
@@ -41,8 +50,8 @@ watch(() => form.actual_date_farrowing, (newDateOfBreed) => {
 }
 
     function submit() {
-        form.post('/labors/');
-        console.log('Date Of weaning:', calculateWeaning.value);
+        form.post('/labors');
+
     }
 
 </script>
@@ -74,7 +83,7 @@ watch(() => form.actual_date_farrowing, (newDateOfBreed) => {
                                     <input
                                       type="text"
                                       class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600"
-                                      :value="breedings ? breedings.id : ''"
+                                     v-model="breed_id "
                                       readonly
                                     />
 

@@ -35,52 +35,68 @@
                                 <th class="py-3 px-3 text-left">Sow </th>
                                 <th class="py-3 px-3 text-center">Boar</th>
                                 <th class="py-3 px-3 text-center">Date of Breeding</th>
-                                <th class="py-3 px-3 text-center">Expected Date of Labor</th>
                                 <th class="py-3 px-3 text-center">Actual Date of Labor</th>
-                                <th class="py-3 px-3 text-center">No of Pigs Born</th>
-                                <th class="py-3 px-3 text-center">No of Pigs Alive</th>
+                                <th class="py-3 px-3 text-center"># Pigs Born</th>
+                                <th class="py-3 px-3 text-center"># Pigs Alive</th>
+                                <th class="py-3 px-3 text-center">Date of Weaning</th>
                                 <th class="py-3 px-3 text-center">Remarks</th>
                                 <th class="py-3 px-3 text-center">Actions</th>
                             </tr>
                         </thead>
-                        <!-- <tbody class="text-gray-600 text-sm font-light" >
+                        <tbody class="text-gray-600 text-sm font-light" >
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="breeding in breedings" :key="breeding.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="labor in labors" :key="labor.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium">{{ breeding.id }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <p class="font-medium">{{ breeding.sow.name }}</p>
+                                        <p class="font-medium">{{ labor.id }}</p>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{breeding.boar.breed}}</p>
+                                        <p class="font-medium">{{labor.sow.sow_no}}</p>
+                                    </div>
+                                </td>
+
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{labor.boar.breed}}</p>
+                                    </div>
+                                </td>
+
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{formattedDate(labor.breeding.date_of_breed)}}</p>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{ breeding.date_of_breed}}</p>
+                                        <p class="font-medium">{{formattedDate (labor.actual_date_farrowing)}}</p>
                                     </div>
                                 </td>
+
                                 <td class="py-3 px-6 text-center">
-                                    <p class="font-medium">{{ breeding.possible_reheat}}</p>
+                                    <p class="font-medium">{{ labor.no_pigs_born}}</p>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ breeding.remarks }}</span>
+                                    <p class="font-medium">{{ labor.no_pigs_alive}}</p>
+                                </td>
+                                <td class="py-3 px-6 text-center">
+                                    <p class="font-medium">{{ formattedDate(labor.date_of_weaning)}}</p>
+                                </td>
+                                <td class="py-3 px-6 text-center">
+                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ labor.remarks }}</span>
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
+                                            <a :href="'/labors/' + labor.id">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -95,7 +111,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        </tbody> -->
+                        </tbody>
 
                     </table>
                 </div>
@@ -110,17 +126,21 @@
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 
 import { Head, Link, router } from '@inertiajs/vue3';
-
+import moment from 'moment'
 const props = defineProps({
-    // breedings: Array,
-    // sow:Object,
-    // boar:Object
+    breeding: Object,
+    sow:Object,
+    boar:Object,
+    labors:Object
 
 })
 
 function search(ev){
     router.visit('/labors/search/'+ ev.target.value);
 
+}
+function formattedDate(date){
+        return moment(date).format('MMMM   D, YYYY');
 }
 
 </script>

@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('cust_id')->unsigned();
+            $table->string('pen_no');
+            $table->double('pig_weight');
+            $table->double('rate');
+            $table->double('total_amount');
+            $table->double('payment');
+            $table->double('balance');
             $table->timestamps();
+
+            $table->foreign('cust_id')->references('id')->on('customers');
         });
     }
 

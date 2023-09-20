@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,13 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::orderBy('id')->get();
+        return inertia('Sales/index', [
+            'sales' => Sale::with('customers') // Load related data
+                ->orderBy('id', 'asc')
+                ->get(),
+            'customers' =>$customers
+        ]);
     }
 
     /**
@@ -20,7 +27,13 @@ class SaleController extends Controller
      */
     public function create()
     {
-        //
+        $customers = Customer::orderBy('id', 'asc')->get();
+
+        return inertia('Sales/create',[
+            'sales' =>Sale::orderBy('id','asc'),
+            'customers'    =>$customers
+
+        ]);
     }
 
     /**
@@ -28,7 +41,20 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'cust_id'               => 'required|numeric',
+            'pen_no'                => 'required|numeric',
+            'pig_weight'            => 'required',
+            'rate'                  => 'required'
+            // 'total_amount'          =>'required',
+            // 'payment'               => 'required_if:total_amount > 0',
+            // 'balance'               => 'required_if:total_amount > 0',
+
+        ]);
+
+        Sale::create($fields);
+
+        return redirect('/sales')->with('success', 'Pig Added Successfully');
     }
 
     /**

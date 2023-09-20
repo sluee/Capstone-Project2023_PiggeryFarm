@@ -14,7 +14,9 @@ class LaborController extends Controller
     public function index()
     {
         return inertia('Labor/index',[
-            'labors' => Labor::orderBy('id','desc')->get(),
+            'labors' => Labor::with('sow', 'boar','breeding')
+            ->orderBy('id', 'asc')
+            ->get(),
 
         ]);
     }
@@ -27,23 +29,21 @@ class LaborController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return inertia('Labor/create', [
-            'labors' => Labor::with('sow', 'boar','breeding') // Load related data
-                ->orderBy('id', 'asc')
-                ->get(),
-        ]);
-    }
+    public function create($breed_id)
+{
+    return inertia('Labor/create', [
+        'breed_id' => $breed_id,
+        'labors' => Labor::with('sow', 'boar', 'breeding')
+            ->orderBy('id', 'asc')
+            ->get(),
+    ]);
+}
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage.`
      */
     public function store(Request $request)
     {
-
-        $breed_id = $request->input('breed_id');
-        $breed = Breeding::findOrFail($breed_id);
         $fields = $request->validate([
             'breed_id'  =>'required',
             'parity_no' => 'required|numeric',
@@ -53,11 +53,7 @@ class LaborController extends Controller
             'date_of_weaning' => 'required|date|after:actual_date_farrowing',
         ]);
 
-        // $actual_date_farrowing = Carbon::parse($fields['actual_date_farrowing']);
-        // $fields['date_of_weaning'] = $actual_date_farrowing->addDays(30)->toDateString();
-        $fields['breed_id']= $breed->id;
         Labor::create($fields);
-
         return redirect('/labors')->with('success', 'Labor Added Successfully');
     }
 
@@ -67,7 +63,10 @@ class LaborController extends Controller
      */
     public function show(Labor $labor)
     {
-        //
+        $labor->load('sow','boar','breeding');
+        return inertia('Labor/show', [
+            'labor' => $labor ,
+        ]);
     }
 
     /**

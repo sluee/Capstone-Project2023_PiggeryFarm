@@ -41,7 +41,7 @@ class CustomerController extends Controller
         $fields=$request->validate([
             'name' => 'required',
             'address' => 'required',
-            'phone' => 'required|min:11|max:12',
+            'phone' => 'required|min:10|max:11',
 
         ]);
 

@@ -18,7 +18,7 @@ class Breeding extends Model
         return $this->belongsTo(Boar::class,'boar_id');
     }
 
-    public function labor(){
+    public function labors(){
         return $this->hasMany(Labor::class , 'breed_id');
     }
 }

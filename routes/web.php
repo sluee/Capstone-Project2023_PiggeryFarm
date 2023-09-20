@@ -5,6 +5,7 @@ use App\Http\Controllers\BreedingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SowController;
 use App\Http\Controllers\WeaningController;
 use Illuminate\Foundation\Application;
@@ -39,14 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-// Route::resource('sows' , [SowController::class]);
-// Route::resource('boars', [BoarController::class]);
-// Route::resource('breedings', [BreedingController::class]);
-// Route::resource('labors', [LaborController::class]);
-
-Route::get('/sows' ,[SowController::class, 'index'])->name('sow.index');
+    Route::get('/sows' ,[SowController::class, 'index'])->name('sow.index');
 Route::get('/sows/create', [SowController::class, 'create'])->name('sow.create');
 Route::post('/sows',[SowController::class, 'store'])->name('sow.store');
 Route::get('/sows/{sow}',[SowController::class,'show']);
@@ -76,16 +71,36 @@ Route::delete('/breedings/{breeding}', [BreedingController::class, 'destroy']);
 Route::get('/labors',[LaborController::class, 'index'])->name('labor.index');
 Route::get('/labors/create/{breed_id}',[LaborController::class,'create']);
 Route::post('/labors',[LaborController::class,'store']);
+Route::get('/labors/{labor}',[LaborController::class,'show']);
 Route::get('/labors/edit/{labor}', [LaborController::class, 'edit']);
 Route::put('/labors/{labor}', [LaborController::class, 'update']);
 Route::delete('/labors/{labor}', [LaborController::class, 'destroy']);
 
 Route::get('/weaning' ,[WeaningController::class, 'index'])->name('weaning.index');
+Route::get('/weaning/create/{labor_id}',[WeaningController::class,'create']);
+Route::post('/weaning',[WeaningController::class,'store']);
+Route::get('/weaning/{weaning}',[WeaningController::class,'show']);
+Route::get('/weaning/edit/{weaning}', [WeaningController::class, 'edit']);
+Route::put('/weaning/{weaning}', [WeaningController::class, 'update']);
+Route::delete('/weaning/{weaning}', [WeaningController::class, 'destroy']);
+
+
+Route::get('/sales' ,[SaleController::class, 'index'])->name('sale.index');
+Route::get('/sales/create', [SaleController::class, 'create'])->name('sale.create');
+Route::post('/sales',[SaleController::class, 'store'])->name('sale.store');
 
 
 Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');
-Route::get('/customers/create',[CustomerController::class , 'create'])->name('customer.create');
-Route::post('/customers',[CustomerController::class, 'store'])->name('customer.store');
+Route::get('/customers/create',[CustomerController::class , 'create']);
+Route::post('/customers',[CustomerController::class, 'store']);
+});
+
+// Route::resource('sows' , [SowController::class]);
+// Route::resource('boars', [BoarController::class]);
+// Route::resource('breedings', [BreedingController::class]);
+// Route::resource('labors', [LaborController::class]);
+
+
 
 
 

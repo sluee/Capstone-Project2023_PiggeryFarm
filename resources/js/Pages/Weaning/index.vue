@@ -44,35 +44,35 @@
                                 <th class="py-3 px-3 text-center">Actions</th>
                             </tr>
                         </thead>
-                        <!-- <tbody class="text-gray-600 text-sm font-light" >
+                        <tbody class="text-gray-600 text-sm font-light" >
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="breeding in breedings" :key="breeding.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="w in weaning" :key="w.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium">{{ breeding.id }}</p>
+                                        <p class="font-medium">{{ w.id }}</p>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-left">
                                     <div class="flex items-center">
-                                        <p class="font-medium">{{ breeding.sow.name }}</p>
+                                        <p class="font-medium">{{ w.sow.sow_no }}</p>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{breeding.boar.breed}}</p>
+                                        <p class="font-medium">{{w.boar.breed}}</p>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 text-center">
+                                <!-- <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{ breeding.date_of_breed}}</p>
+                                        <p class="font-medium">{{ w.date_of_breed}}</p>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                    <p class="font-medium">{{ breeding.possible_reheat}}</p>
-                                </td>
+                                    <p class="font-medium">{{ w.possible_reheat}}</p>
+                                </td> -->
                                 <td class="py-3 px-6 text-center">
-                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ breeding.remarks }}</span>
+                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ w.remarks }}</span>
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
@@ -96,7 +96,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        </tbody> -->
+                        </tbody>
 
                     </table>
                 </div>
@@ -113,9 +113,11 @@ import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({
-    // breedings: Array,
-    // sow:Object,
-    // boar:Object
+    breeding: Object,
+    sow:Object,
+    boar:Object,
+    labor:Object,
+    weaning:Object
 
 })
 

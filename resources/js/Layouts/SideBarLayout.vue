@@ -1,6 +1,5 @@
 <script setup>
 import MainNav from '@/Components/MainNav.vue'
-// import Nav from '@/Components/Nav.vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -86,7 +85,7 @@ const isCollapsed = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {{ $page.props.auth.user.firstname }} {{ $page.props.auth.user.lastname }}
+                                            {{ $page.props.auth.user.name }}
 
                                                 <svg
                                                     class="ml-2 -mr-0.5 h-4 w-4"
