@@ -1,11 +1,60 @@
+<script setup>
+import SideBarLayout from '@/Layouts/SideBarLayout.vue';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import moment from'moment'
+import { ref } from 'vue';
+import SaleItemForm from '@/Components/SaleItemForm.vue'
+
+
+// const form = useForm({
+//     sale_id: '',
+//     pen_no: '',
+//     pig_weight: '',
+//     rate:'',
+//     // total_amount:'',
+//     // payment:'',
+//     // balance:''
+// });
+
+const form= useForm({
+  sale_id: null, // Initialize sale_id with an appropriate default value
+  // Other form fields...
+});
+const props = defineProps({
+    saleItems: Array,
+    sales:Object,
+    customers: Object,
+    totalSum: Number,
+    customerId: String, // Define customerId as a prop
+    saleId: String,
+    selectedCustomer:String
+
+})
+function formattedDate(date){
+    return moment(date).format('MMMM   D, YYYY');
+}
+// function search(ev){
+//     router.visit('/sales/search/'+ ev.target.value);
+
+// }
+
+// function submit() {
+//     form.post('/sales/');
+
+
+// }
+
+</script>
+
+
 <template>
 
-    <Head title="POS" />
+    <Head title="Invoice" />
 
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Point of Sale</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Sale Invoice</h2>
                 <!-- <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search sow here" @keydown.enter="search($event)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -29,34 +78,37 @@
                         <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
                             Sales Details
                         </h4>
-                        <form @submit.prevent="submit" >
+                        <!-- <form @submit.prevent="submit">
                             <div class="px-4 py-5">
+                              <label class="font-semibold text-sm text-gray-600 block" for="cust_id">Customer Name</label>
+                              <select name="" id="cust_id" v-model="form.sale_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">
+                                <option value="" disabled>Select a Customer</option>
+                                <option v-for="c in sales" :value="c.id" :key="c.id">{{ c.customers.name }}</option>
+                              </select>
+                              <div class="text-red-600" v-if="form.errors.cust_id">{{ form.errors.cust_id }}</div>
 
-                                <label class="font-semibold text-sm text-gray-600  block" for="cust_id">Customer Name</label>
-                                        <select name="" id="cust_id" v-model="form.cust_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
-                                            <option value="" disabled>Select a Customer</option>
-                                            <option v-for="c in customers" :value="c.id" :key="c.id" >{{ c.name }}</option>
-                                        </select>
-                                        <div class="text-red-600" v-if="form.errors.cust_id">{{ form.errors.cust_id }}</div>
-
-                                <label class="font-semibold text-sm text-gray-600  block" for="pen_no">Pen no</label>
-                                <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.pen_no"/>
-                                <div class="text-red-600" v-if="form.errors.pen_no">{{ form.errors.pen_no }}</div>
-
-                                <label class="font-semibold text-sm text-gray-600  block" for="pig_weight">Pig's Weight</label>
-                                <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.pig_weight"/>
-                                <div class="text-red-600" v-if="form.errors.pig_weight">{{ form.errors.pig_weight }}</div>
-
-                                <label class="font-semibold text-sm text-gray-600  block" for="rate" >Rate</label>
-                                <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.rate" />
-                                <div class="text-red-600" v-if="form.errors.rate">{{ form.errors.rate }}</div>
-
-
-                                <button  type="submit" class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
-                                    Add
-                                </button>
+                              <div v-for="(saleItem, index) in saleItems" :key="index">
+                                <label>Item {{ index + 1 }}</label>
+                                <input v-model="saleItem.pen_no" placeholder="Pen No">
+                                <input v-model="saleItem.pig_weight" placeholder="Pig Weight">
+                                <input v-model="saleItem.rate" placeholder="Rate">
+                              </div>
+                              <button @click.prevent="addItem">Add Item</button>
+                              <button type="submit">Create Sale</button>
                             </div>
-                        </form>
+                        </form> -->
+                        <div class="px-4">
+                            <label class="font-semibold text-sm text-gray-600  block" for="sale_id">Customer Name</label>
+                            <select name="" id="sale_id" v-model="form.sale_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                <option value="" disabled>Select a Customer</option>
+                                <option v-for="c in customers" :value="c.id" :key="c.id" >{{ c.name }}</option>
+                            </select>
+                            <div class="text-red-600" v-if="form.errors.sale_id">{{ form.errors.sale_id }}</div>
+
+                        </div>
+                          <!-- <SaleItemForm :customerId="form.sale_id" /> -->
+                        <SaleItemForm :customerId ="selectedCustomer" :saleId ="saleId"/>
+
                     </div>
                   </div>
                   <div class="w-3/4 ">
@@ -158,40 +210,3 @@
 
 </template>
 
-<script setup>
-import SideBarLayout from '@/Layouts/SideBarLayout.vue';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import moment from'moment'
-import { ref } from 'vue';
-
-
-const form = useForm({
-    cust_id: '',
-    pen_no: '',
-    pig_weight: '',
-    rate:'',
-    // total_amount:'',
-    // payment:'',
-    // balance:''
-});
-const props = defineProps({
-    sales: Array,
-    customers: Object,
-    totalSum: Number,
-
-})
-function formattedDate(date){
-    return moment(date).format('MMMM   D, YYYY');
-}
-// function search(ev){
-//     router.visit('/sales/search/'+ ev.target.value);
-
-// }
-
-function submit() {
-    form.post('/sales/');
-
-
-}
-
-</script>

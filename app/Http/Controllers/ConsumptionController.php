@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sale;
+use App\Models\Consumption;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class SaleController extends Controller
+class ConsumptionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia('SalesItem/index');
+        //
     }
 
     /**
@@ -35,7 +34,7 @@ class SaleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sale $sale)
+    public function show(Consumption $consumption)
     {
         //
     }
@@ -43,7 +42,7 @@ class SaleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Sale $sale)
+    public function edit(Consumption $consumption)
     {
         //
     }
@@ -51,7 +50,7 @@ class SaleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sale $sale)
+    public function update(Request $request, Consumption $consumption)
     {
         //
     }
@@ -59,7 +58,7 @@ class SaleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Sale $sale)
+    public function destroy(Consumption $consumption)
     {
         //
     }

@@ -9,13 +9,13 @@ class Sale extends Model
 {
     use HasFactory;
 
-    protected $fillable =['cust_id', 'pig_weight','rate', 'pen_no'];
+    protected $fillable= ['cust_id'];
 
-    public function customers(){
-        return $this->belongsTo(Customer::class,'cust_id');
+    public function saleItem(){
+        return $this->hasMany(SaleItem::class , 'sale_id');
     }
 
-    public function totalamount(){
-
+    public function customer(){
+        return $this->belongsTo(Customer::class, 'cust_id');
     }
 }

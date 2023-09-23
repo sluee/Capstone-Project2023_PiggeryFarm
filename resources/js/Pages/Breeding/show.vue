@@ -60,15 +60,15 @@ function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
 }
 
-// function reheatBreeding() {
-//       // Make a POST request to the Laravel route for reheat
-//      route.visit('breedings.reheat', { id: this.breeding.id }))
-//         .then(() => {
-//           // Optionally, you can reload the page or update the component data
-//           // This depends on your application's needs.
-//           // For example, you can use `this.$inertia.reload()` to refresh the page.
-//         });
-//     }
+function reheatBreeding() {
+      // Make a POST request to the Laravel route for reheat
+     route.visit('breedings.reheat', { id: this.breeding.id })
+        .then(() => {
+          // Optionally, you can reload the page or update the component data
+          // This depends on your application's needs.
+          // For example, you can use `this.$inertia.reload()` to refresh the page.
+        });
+    }
 
 
 </script>

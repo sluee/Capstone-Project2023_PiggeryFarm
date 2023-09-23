@@ -14,4 +14,11 @@ class Customer extends Model
     public function sales(){
         return $this->hasMany(Sale::class , 'cust_id');
     }
+    public function saleItem(){
+        return $this->hasMany(SaleItem::class , 'cust_id');
+    }
+
+    // public function saleItem(){
+    //     return $this->hasOne(SaleItem::class, '')
+    // }
 }

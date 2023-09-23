@@ -1,11 +1,11 @@
 <template>
 
-    <Head title="POS" />
+    <Head title="Category" />
 
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Point of Sale</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Category</h2>
                 <!-- <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search sow here" @keydown.enter="search($event)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -27,33 +27,29 @@
                 <div class="w-1/3 ml-2 ">
                     <div class=" pr-6">
                         <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
-                            Sales Details
+                            Category Details
                         </h4>
                         <form @submit.prevent="submit" >
                             <div class="px-4 py-5">
 
-                                <label class="font-semibold text-sm text-gray-600  block" for="cust_id">Customer Name</label>
-                                        <select name="" id="cust_id" v-model="form.cust_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
-                                            <option value="" disabled>Select a Customer</option>
-                                            <option v-for="c in customers" :value="c.id" :key="c.id" >{{ c.name }}</option>
-                                        </select>
-                                        <div class="text-red-600" v-if="form.errors.cust_id">{{ form.errors.cust_id }}</div>
+                                <label class="font-semibold text-sm text-gray-600  block" for="sup_id">Supplier Name</label>
+                                <select name="" id="sup_id" v-model="form.sup_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                    <option value="" disabled>Select Supplier</option>
+                                    <option v-for="sup in suppliers" :value="sup.id" :key="sup.id" >{{ sup.name }}</option>
+                                </select>
+                                <div class="text-red-600" v-if="form.errors.sup_id">{{ form.errors.sup_id }}</div>
 
-                                <label class="font-semibold text-sm text-gray-600  block" for="pen_no">Pen no</label>
-                                <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.pen_no"/>
-                                <div class="text-red-600" v-if="form.errors.pen_no">{{ form.errors.pen_no }}</div>
+                                <label class="font-semibold text-sm text-gray-600  block" for="name">Name</label>
+                                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.name"/>
+                                <div class="text-red-600" v-if="form.errors.name">{{ form.errors.name }}</div>
 
-                                <label class="font-semibold text-sm text-gray-600  block" for="pig_weight">Pig's Weight</label>
-                                <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.pig_weight"/>
-                                <div class="text-red-600" v-if="form.errors.pig_weight">{{ form.errors.pig_weight }}</div>
-
-                                <label class="font-semibold text-sm text-gray-600  block" for="rate" >Rate</label>
-                                <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.rate" />
-                                <div class="text-red-600" v-if="form.errors.rate">{{ form.errors.rate }}</div>
+                                <label class="font-semibold text-sm text-gray-600  block" for="description">Description</label>
+                                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.description"/>
+                                <div class="text-red-600" v-if="form.errors.description">{{ form.errors.description }}</div>
 
 
                                 <button  type="submit" class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
-                                    Add
+                                    Add Category
                                 </button>
                             </div>
                         </form>
@@ -67,49 +63,39 @@
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                         <th class="py-3 px-6 text-left">Id</th>
-                                        <th class="py-3 px-6 text-left">Customer</th>
-                                        <th class="py-3 px-6 text-left">Pen No.</th>
-                                        <th class="py-3 px-6 text-center">Weight</th>
-                                        <th class="py-3 px-6 text-right">Rate</th>
-                                        <th class="py-3 px-6 text-right">Total</th>
+                                        <th class="py-3 px-6 text-left">Supplier</th>
+                                        <th class="py-3 px-6 text-left">Name</th>
+                                        <th class="py-3 px-6 text-left">Description</th>
                                         <th class="py-3 px-6 text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 text-sm font-light" >
 
-                                    <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="sale in sales" :key="sale.id">
+                                    <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cat in categories" :key="cat.id">
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
-                                                <p class="font-medium">{{ sale.id }}</p>
+                                                <p class="font-medium">{{ cat.id }}</p>
                                             </div>
                                         </td>
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
-                                                <p class="font-medium">{{ sale.customers.name }}</p>
+                                                <p class="font-medium">{{ cat.supplier.name }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                                            <div class="flex items-center">
+
+                                                <p class="font-medium">{{ cat.name }}</p>
                                             </div>
                                         </td>
                                         <td class="py-3 px-6 text-left">
                                             <div class="flex items-center">
-                                                <p class="font-medium">{{ sale.pen_no }}</p>
+                                                <p class="font-medium">{{ cat.description }}</p>
                                             </div>
                                         </td>
-                                        <td class="py-3 px-6 text-left">
-                                            <div class="flex items-center">
-                                                <p class="font-medium">{{ sale.pig_weight }}</p>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-6 text-center">
-                                            <div class="flex items-center justify-center">
-                                                <p class="font-medium">{{ sale.rate}}</p>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-6 text-center">
-                                            <div class="flex items-center justify-center">
-                                                <p class="font-medium">{{ sale.total}}</p>
-                                            </div>
-                                        </td>
+
 
 
                                         <td class="py-3 px-6 text-center">
@@ -135,17 +121,7 @@
                                         </td>
 
                                     </tr>
-                                    <tr class="text-gray-600 text-sm font-light text-right ">
-                                        <td class="py-3 px-6"></td>
-                                        <td class="py-3 px-6"></td>
-                                        <td class="py-3 px-6"></td>
-                                        <td class="py-3 px-6"></td>
-                                        <td class="py-3 px-6"></td>
-                                        <td class="py-3 px-6"></td>
-                                        <td class="py-3 px-6 justify-right">
-                                            <p class="text-medium text-bold">Total Sum: {{ totalSum }}</p>
-                                          </td>
-                                      </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -162,23 +138,17 @@
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import moment from'moment'
-import { ref } from 'vue';
+// import { ref } from 'vue';
 
 
 const form = useForm({
-    cust_id: '',
-    pen_no: '',
-    pig_weight: '',
-    rate:'',
-    // total_amount:'',
-    // payment:'',
-    // balance:''
+    name:'',
+    description:'',
+    sup_id:''
 });
 const props = defineProps({
-    sales: Array,
-    customers: Object,
-    totalSum: Number,
-
+    categories:Array,
+    suppliers:Object
 })
 function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
@@ -189,9 +159,10 @@ function formattedDate(date){
 // }
 
 function submit() {
-    form.post('/sales/');
-
-
+    form.post('/categories/');
+    form.name='',
+    form.description='',
+    form.sup_id=''
 }
 
 </script>
