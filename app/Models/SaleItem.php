@@ -17,13 +17,9 @@ class SaleItem extends Model
     }
 
     public function customers(){
-        return $this->belongsTo(Customer::class,'cust_id');
+        return $this->belongsTo(Customer::class, 'id');
     }
-    public function getCustomerAttribute()
-    {
-        // Retrieve customer information based on cust_id
-        return Customer::find($this->cust_id);
-    }
+
 
     public function getTotalAttribute()
     {

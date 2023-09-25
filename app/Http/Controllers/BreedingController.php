@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Boar;
 use App\Models\Breeding;
 use App\Models\Sow;
@@ -14,11 +14,21 @@ class BreedingController extends Controller
      */
     public function index()
     {
-        return inertia('Breeding/index', [
-            'breedings' => Breeding::with('sow', 'boar') // Load related data
-                ->orderBy('id', 'asc')
-                ->get(),
-        ]);
+    
+        $breedings = Breeding::with('sow', 'boar')
+        ->when(HttpRequest::input('search'), function ($query, $search) {
+            $query->where('date_of_breed', 'like', '%' . $search . '%')
+                ->orWhere('exp_date_of_farrowing', 'like', '%' . $search . '%')
+                ->orWhere('remarks', 'like', '%' . $search . '%')
+                ->orWhere('possible_reheat', 'like', '%' . $search . '%');
+        })
+        ->paginate(8)
+        ->withQueryString();
+
+    return inertia('Breeding/index', [
+        'breedings' => $breedings,
+        'filters' => HttpRequest::only(['search']),
+    ]);
     }
 
     /**

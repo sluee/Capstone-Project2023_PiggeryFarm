@@ -67,13 +67,34 @@ class SaleItemController extends Controller
                 'pen_no' => $item['pen_no'],
                 'pig_weight' => $item['pig_weight'],
                 'rate' => $item['rate'],
-                // Add other fields as needed
+
             ]);
         }
 
         return redirect('/sales')->with('success', 'pig Added Successfully');
     }
+    // public function store(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'pen_number' => 'required',
+    //         'pig_weight' => 'required',
+    //         'rate' => 'required',
 
+    //     ]);
+
+    //     $saleItem = new SaleItem([
+    //         'id' => $id,
+    //         'pen_no' => $request->pen_number,
+    //         'pig_weight' => $request->pig_weight,
+    //         'rate' => $request->rate,
+    //         // 'Quantity' => $request->quantity,
+    //         // 'TotalAmount' => $request->quantity * $request->rate,
+    //     ]);
+
+    //     $saleItem->save();
+
+    //     return redirect('/sales')->with('success', 'pig Added Successfully'); // Redirect back to the invoice page or another appropriate location.
+    // }
     /**
      * Display the specified resource.
      */

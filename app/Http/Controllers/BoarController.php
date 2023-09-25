@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Boar;
 use Illuminate\Http\Request;
 
@@ -13,8 +13,13 @@ class BoarController extends Controller
     public function index()
     {
         return inertia('Boar/index',[
-            'boars' => Boar::orderBy('boar_no')->get(),
-
+            'boars' => Boar::query()
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->where('boar_no', 'like', '%' . $search . '%')
+                ->orWhere('breed','like','%' .$search . '%');
+            })->paginate(8)
+            ->withQueryString(),
+            'filters' => HttpRequest::only(['search'])
         ]);
     }
 

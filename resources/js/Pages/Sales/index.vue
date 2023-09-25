@@ -191,7 +191,6 @@ function formattedDate(date){
 function submit() {
     form.post('/sales/');
 
-
 }
 
 </script>

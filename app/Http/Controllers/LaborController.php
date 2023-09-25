@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Breeding;
 use App\Models\Labor;
 use Illuminate\Http\Request;
@@ -13,12 +13,27 @@ class LaborController extends Controller
      */
     public function index()
     {
-        return inertia('Labor/index',[
-            'labors' => Labor::with('sow', 'boar','breeding')
-            ->orderBy('id', 'asc')
-            ->get(),
+        // return inertia('Labor/index',[
+        //     'labors' => Labor::with('sow', 'boar','breeding')
+        //     ->orderBy('id', 'asc')
+        //     ->get(),
 
-        ]);
+        // ]);
+        $labors = Labor::with('sow', 'boar','breeding')
+        ->when(HttpRequest::input('search'), function ($query, $search) {
+            $query->where('parity_no', 'like', '%' . $search . '%')
+                ->orWhere('date_of_weaning', 'like', '%' . $search . '%')
+                ->orWhere('remarks', 'like', '%' . $search . '%')
+                ->orWhere('no_pigs_born', 'like', '%' . $search . '%')
+                ->orWhere('actual_date_farrowing', 'like', '%' . $search . '%');
+        })
+        ->paginate(8)
+        ->withQueryString();
+
+    return inertia('Labor/index', [
+        'labors' => $labors,
+        'filters' => HttpRequest::only(['search']),
+    ]);
     }
 
     public function search($searchKey){

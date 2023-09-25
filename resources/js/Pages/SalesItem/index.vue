@@ -18,7 +18,7 @@ import SaleItemForm from '@/Components/SaleItemForm.vue'
 
 const form= useForm({
   sale_id: null, // Initialize sale_id with an appropriate default value
-  // Other form fields...
+
 });
 const props = defineProps({
     saleItems: Array,

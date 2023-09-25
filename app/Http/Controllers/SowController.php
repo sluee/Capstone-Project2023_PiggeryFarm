@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sow;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as HttpRequest;
 
 class SowController extends Controller
 {
@@ -13,9 +14,15 @@ class SowController extends Controller
     public function index()
     {
         return inertia('Sow/index',[
-            'sows' => Sow::orderBy('sow_no')->get(),
-
+            'sows' => Sow::query()
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->where('sow_no', 'like', '%' . $search . '%')
+                ->orWhere('location','like','%' .$search . '%');
+            })->paginate(8)
+            ->withQueryString(),
+            'filters' => HttpRequest::only(['search'])
         ]);
+
     }
 
     public function search($searchKey){

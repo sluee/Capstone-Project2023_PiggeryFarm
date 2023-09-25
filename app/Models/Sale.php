@@ -12,7 +12,7 @@ class Sale extends Model
     protected $fillable= ['cust_id'];
 
     public function saleItem(){
-        return $this->hasMany(SaleItem::class , 'sale_id');
+        return $this->hasMany(SaleItem::class , 'id');
     }
 
     public function customer(){

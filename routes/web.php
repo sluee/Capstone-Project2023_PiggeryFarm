@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/sows/pdf',[PdfController::class,'sowsSummary']);
     Route::get('/sows/pdf/{sow}',[PdfController::class,'prodSummary']);
     Route::get('/sows/email/{sow}', [SowController::class, 'email']);
-    Route::get('/sows/search/{searchKey}', [SowController::class, 'search']);
+    // Route::get('/sows/search/{searchKey}', [SowController::class, 'search']);
     Route::get('/sows/edit/{sow}',[SowController::class,'edit']);
     Route::put('/sows/{sow}', [SowController::class, 'update']);
     Route::delete('/sows/{sow}', [SowController::class, 'destroy']);
