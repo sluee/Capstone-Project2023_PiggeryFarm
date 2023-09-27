@@ -13,11 +13,11 @@ class Sale extends Model
 
     public function salesItems()
     {
-        return $this->hasMany(SaleItem::class);
+        return $this->hasMany(SaleItem::class ,'sale_id');
     }
 
     // Define a relationship to represent the customer who made the sale
-    public function customer()
+    public function customers()
     {
         return $this->belongsTo(Customer::class, 'cust_id');
     }

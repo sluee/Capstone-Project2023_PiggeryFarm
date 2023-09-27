@@ -15,4 +15,10 @@ class Category extends Model
     public function supplier(){
         return $this->belongsTo(Supplier::class,'sup_id');
     }
+
+
+    public function feeds()
+    {
+        return $this->hasMany(Feed::class ,'cat_id');
+    }
 }

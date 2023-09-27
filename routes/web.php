@@ -8,6 +8,7 @@ use App\Http\Controllers\LaborController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleItemController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\SowController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WeaningController;
@@ -111,6 +112,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/categories' ,[CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create',[CategoryController::class , 'create']);
     Route::post('/categories',[CategoryController::class, 'store']);
+
+    Route::get('/feeds' ,[FeedController::class, 'index'])->name('feeds.index');
+    Route::get('/feeds/create',[FeedController::class , 'create']);
+    Route::post('/feeds',[FeedController::class, 'store']);
 
 });
 

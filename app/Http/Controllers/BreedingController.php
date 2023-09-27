@@ -14,7 +14,7 @@ class BreedingController extends Controller
      */
     public function index()
     {
-    
+
         $breedings = Breeding::with('sow', 'boar')
         ->when(HttpRequest::input('search'), function ($query, $search) {
             $query->where('date_of_breed', 'like', '%' . $search . '%')

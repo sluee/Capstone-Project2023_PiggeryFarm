@@ -81,7 +81,7 @@ class SaleItemController extends Controller
 
         return redirect('/sales')->with('success', 'sales Added Successfully');
     }
-
+    
     /**
      * Display the specified resource.
      */

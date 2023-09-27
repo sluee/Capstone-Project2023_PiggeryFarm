@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Feed;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,13 @@ class FeedController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::orderBy('id')->get();
+        return inertia('Feeds/index',[
+            'feeds' => Feed::with('categories')
+            ->orderBy('id', 'asc')
+            ->get(),
+            'categories' =>$categories
+        ]);
     }
 
     /**
@@ -28,7 +35,14 @@ class FeedController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'cat_id'                => 'required|numeric',
+            'name'               => 'required',
+        ]);
+
+        Feed::create($fields);
+
+        return redirect('/feeds')->with('success', 'Feeds Added Successfully');
     }
 
     /**

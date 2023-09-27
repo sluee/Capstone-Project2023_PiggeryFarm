@@ -60,6 +60,7 @@ function submit() {
                             <option value="" disabled>Select Customer</option>
                             <option v-for="cust in customers" :value="cust.id" :key="cust.id">{{ cust.name }}</option>
                           </select>
+                          <div class="text-sm text-red-500 italic" v-if="form.errors.cust_id">{{ form.errors.cust_id }}</div>
                         </div>
                         <div v-for="(item, index) in form.salesItems" :key="index">
                           <div class="grid gap-6 mb-6 md:grid-cols-4 px-2">
@@ -118,7 +119,7 @@ function submit() {
             <div class="w-full px-2">
                 <div class="h-12">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->
+                       
                         <table class="min-w-max w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -137,27 +138,27 @@ function submit() {
 
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium"> items.sale.customers.name</p>
+                                            <p class="font-medium"> {{items.sale.customers.name}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">items.pig.pen_no</p>
+                                            <p class="font-medium">{{items.pig.pen_no}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">items.pig_weight</p>
+                                            <p class="font-medium">{{items.pig_weight}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">items.rate</p>
+                                            <p class="font-medium">{{items.rate}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">items.total</p>
+                                            <p class="font-medium">{{items.total}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
