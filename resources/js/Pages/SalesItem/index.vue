@@ -138,12 +138,13 @@ function submit() {
 
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium"> {{items.sale.customers.name}}</p>
+                                            <p class="font-medium">{{ items.sale.cust_id }}</p>
+
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{items.pig.pen_no}}</p>
+                                            <p class="font-medium">{{items.pen_no}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">

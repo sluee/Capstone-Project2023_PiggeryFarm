@@ -55,7 +55,10 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        $customer->load('sale');
+        return inertia('Customer/show', [
+            '$customer' => $customer ,
+        ]);
     }
 
     /**

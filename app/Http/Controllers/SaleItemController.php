@@ -16,7 +16,7 @@ class SaleItemController extends Controller
     {
         $customers = Customer::orderBy('id')->get();
         return inertia('SalesItem/index', [
-            'salesItem' => SaleItem::with('sale') // Load related data
+            'salesItems' => SaleItem::with('sale') // Load related data
                 ->orderBy('id', 'asc')
                 ->get(),
             'customers' =>$customers
