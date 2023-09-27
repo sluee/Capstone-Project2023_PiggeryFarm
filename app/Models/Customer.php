@@ -11,14 +11,13 @@ class Customer extends Model
 
     protected $fillable =['name','address','phone'];
 
-    public function sales(){
-        return $this->hasMany(Sale::class , 'cust_id');
-    }
-    public function saleItem(){
-        return $this->hasMany(SaleItem::class, 'id');
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
     }
 
-    // public function saleItem(){
-    //     return $this->hasOne(SaleItem::class, '')
+
+    // public function salesItem(){
+    //     return $this->hasOne(SaleItem::class);
     // }
 }

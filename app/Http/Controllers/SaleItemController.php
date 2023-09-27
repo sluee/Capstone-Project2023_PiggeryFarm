@@ -16,7 +16,7 @@ class SaleItemController extends Controller
     {
         $customers = Customer::orderBy('id')->get();
         return inertia('SalesItem/index', [
-            'saleItem' => SaleItem::with('customers,sales') // Load related data
+            'salesItem' => SaleItem::with('sale') // Load related data
                 ->orderBy('id', 'asc')
                 ->get(),
             'customers' =>$customers
@@ -46,55 +46,42 @@ class SaleItemController extends Controller
      */
     public function store(Request $request)
     {
-        $sales = Sale::orderBy('cust_id', 'asc')->get();
-         $customers = Customer::orderBy('id', 'asc')->get();
-        $validatedData = $request->validate([
-            'sale_id' => 'required|exists:customers,id',
-            'pen_no'    =>'required',
-            'pig_weight'    =>'required',
-            'rate'      =>'required'
-            // Add validation rules for other fields (pen_no, pig_weight, rate) here
+
+        $request->validate([
+            'cust_id' => 'required|exists:customers,id',
+            'salesItems' => 'required|array|min:1', // Ensure at least one sales item
+            'salesItems.*.pen_no' => 'required|numeric',
+            'salesItems.*.pig_weight' => 'required|numeric',
+            'salesItems.*.rate' => 'required|numeric',
         ]);
 
         $sale = Sale::create([
-            'sale_id' => $validatedData['sale_id'],
-            // Add other fields as needed
+            'cust_id' => $request->input('cust_id'),
+            // Add any other relevant fields here
         ]);
 
-        foreach ($request->sale_items as $item) {
-            SaleItem::create([
-                'sale_id' => $sale->id, // Associate the sale item with the sale
-                'pen_no' => $item['pen_no'],
-                'pig_weight' => $item['pig_weight'],
-                'rate' => $item['rate'],
+        // Loop through the sales items and associate them with the sale
+        $salesItems = $request->input('salesItems');
 
-            ]);
+        if (!is_null($salesItems)) {
+            foreach ($salesItems as $salesItemData) {
+                $sale->salesItems()->create([
+                    'pen_no' => $salesItemData['pen_no'],
+                    'pig_weight' => $salesItemData['pig_weight'],
+                    'rate' => $salesItemData['rate'],
+                    // Add any other relevant fields here
+                ]);
+            }
+        } else {
+            // Handle the case where 'salesItems' is null
+            // You can log an error, return a response, or perform other appropriate actions.
         }
 
-        return redirect('/sales')->with('success', 'pig Added Successfully');
+
+
+        return redirect('/sales')->with('success', 'sales Added Successfully');
     }
-    // public function store(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'pen_number' => 'required',
-    //         'pig_weight' => 'required',
-    //         'rate' => 'required',
 
-    //     ]);
-
-    //     $saleItem = new SaleItem([
-    //         'id' => $id,
-    //         'pen_no' => $request->pen_number,
-    //         'pig_weight' => $request->pig_weight,
-    //         'rate' => $request->rate,
-    //         // 'Quantity' => $request->quantity,
-    //         // 'TotalAmount' => $request->quantity * $request->rate,
-    //     ]);
-
-    //     $saleItem->save();
-
-    //     return redirect('/sales')->with('success', 'pig Added Successfully'); // Redirect back to the invoice page or another appropriate location.
-    // }
     /**
      * Display the specified resource.
      */

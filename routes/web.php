@@ -96,8 +96,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/sales' ,[SaleItemController::class, 'index'])->name('SalesItem.index');
-    Route::get('/sales/create', [SaleItemController::class, 'create'])->name('SalesItem.create');
-    Route::post('/sales',[SaleItemController::class, 'store'])->name('sale.store');
+    // Route::get('/sales/create', [SaleItemController::class, 'create'])->name('SalesItem.create');
+    Route::post('/sales',[SaleItemController::class, 'store']);
 
 
     Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');

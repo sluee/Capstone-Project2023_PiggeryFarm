@@ -13,7 +13,7 @@ class SaleItem extends Model
 
     public function sale()
     {
-        return $this->belongsTo(Sale::class, 'sale_id');
+        return $this->belongsTo(Sale::class);
     }
 
     public function customers(){
@@ -28,7 +28,7 @@ class SaleItem extends Model
             return $this->pig_weight * $this->rate;
         } else {
             // Handle cases where pig_weight or rate are not numeric
-            return 0; // You can choose an appropriate default value or error handling strategy
+            return 0;
         }
     }
 
