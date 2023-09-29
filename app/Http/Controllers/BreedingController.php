@@ -90,7 +90,7 @@ class BreedingController extends Controller
     // Update the "remarks" field to "Reheat"
     $breeding->update(['remarks' => 'Reheat']);
 
-    return redirect('breedings');
+    return redirect('/breedings');
     }
 
     /**

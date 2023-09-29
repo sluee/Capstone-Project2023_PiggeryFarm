@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\SaleItem;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -55,9 +56,10 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        $customer->load('sale');
+        $customer->load('salesItems'); // Load all sale items for this customer
         return inertia('Customer/show', [
-            '$customer' => $customer ,
+            'customer' => $customer,
+            
         ]);
     }
 
