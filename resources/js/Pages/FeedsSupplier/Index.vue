@@ -94,14 +94,51 @@
                                                     </svg>
                                                 </div> -->
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                    </svg>
+                                                    <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" @click="updateModal(sup.id, sup.name, sup.phone)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                        </svg>
+                                                    </button>
                                                 </div>
+
+                                                <!-- Update Supplier Modal -->
+                                                <div id="updateSupplierModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-gray-800 bg-opacity-50 hidden">
+                                                    <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+                                                        <!-- Modal content for updating supplier -->
+                                                        <!-- Modify this as needed for your update form -->
+                                                        <div class="relative bg-white rounded-lg shadow">
+                                                            <button type="button"  @click="closeUpdateModal" class="absolute top-5 right-5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
+                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                            <div class="px-6 py-6 lg:px-8">
+                                                                <h3 class="mb-4 text-xl font-medium text-gray-900">Update Supplier</h3>
+                                                                <form class="space-y-6">
+                                                                    <div>
+                                                                        <label for="updateName" class="block mb-2 text-sm font-medium text-gray-900 flex justify-start text-start">Supplier Name</label>
+                                                                        <input type="text" name="updateName" id="updateName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="updateForm.name" required>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="updatePhone" class="block mb-2 text-sm font-medium text-gray-900 flex justify-start text-start">Phone</label>
+                                                                        <input type="number" name="updatePhone" id="updatePhone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="updateForm.phone" required>
+                                                                    </div>
+                                                                    <button @click="updateSupplierForm" class="px-4 py-2 mt-2 bg-blue-400 w-full text-gray-900 rounded border border-blue-600 shadow hover:bg-blue-500">
+                                                                        Update Supplier Info
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
+                                                    <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" @click="deleteSupplier(sup.id)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -122,9 +159,10 @@
 
 <script setup>
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import moment from'moment'
-// import { ref } from 'vue';
+import { Head, router, useForm } from '@inertiajs/vue3';
+import { Inertia } from '@inertiajs/inertia';
+// import moment from'moment'
+import { ref } from 'vue';
 
 
 const form = useForm({
@@ -134,9 +172,9 @@ const form = useForm({
 const props = defineProps({
     suppliers:Array
 })
-function formattedDate(date){
-    return moment(date).format('MMMM   D, YYYY');
-}
+// function formattedDate(date){
+//     return moment(date).format('MMMM   D, YYYY');
+// }
 // function search(ev){
 //     router.visit('/sales/search/'+ ev.target.value);
 
@@ -146,6 +184,74 @@ function submit() {
     form.post('/suppliers/');
     form.name='',
     form.phone=''
+    alert('Supplier created successfully!')
+    }
+
+function deleteSupplier(supplierId) {
+  if (confirm('Are you sure you want to remove this supplier?')) {
+    try {
+      Inertia.delete(`/suppliers/${supplierId}`)
+      alert('Supplier has been deleted successfully!')
+      window.location.reload()
+    } catch (error) {
+      alert('Error deleting supplier')
+    }
+  }
 }
+
+const supplier = ref({
+  id: null,
+  name: '',
+  phone: '',
+});
+
+const updateForm = ref({
+  id: null,
+  name: '',
+  phone: ''
+});
+
+function updateModal(id, name, phone) {
+  updateForm.value.id = id;
+  updateForm.value.name = name;
+  updateForm.value.phone = phone;
+  // Store the original supplier information
+  supplier.value = { ...updateForm.value };
+  // Show the update supplier modal
+  document.getElementById('updateSupplierModal').classList.remove('hidden');
+};
+
+function closeUpdateModal() {
+  // Hide the update supplier modal
+  document.getElementById('updateSupplierModal').classList.add('hidden');
+};
+
+  // Function to update a supplier
+function updateSupplierForm() {
+    const supplierId = updateForm.value.id;
+    const data = {
+      name: updateForm.value.name,
+      phone: updateForm.value.phone,
+    };
+
+        // Check if there are any changes
+    if (
+        supplier.value.name === updateForm.value.name &&
+        supplier.value.phone === updateForm.value.phone
+    ) {
+        alert("You've made no changes!");
+        return; // Exit early if no changes were made
+    }
+
+    try {
+      Inertia.put(`/suppliers/${supplierId}`, data);
+      alert('Supplier information has been updated successfully!');
+      closeUpdateModal();
+    } catch (error) {
+      console.error('Error updating supplier:', error);
+      alert('Error updating supplier');
+    }
+  }
+
 
 </script>

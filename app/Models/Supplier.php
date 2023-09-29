@@ -13,4 +13,8 @@ class Supplier extends Model
     public function category(){
         return $this->hasMany(Category::class, 'sup_id');
     }
+
+    public function inventory(){
+        return $this->hasMany(Inventory::class, 'inv_id');
+    }
 }

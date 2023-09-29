@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('qtyConsumed');
             $table->bigInteger('inventory_id')->unsigned();
+            $table->string('date_consumed');
             $table->timestamps();
             $table->foreign('inventory_id')->references('id')->on('inventories');
         });

@@ -37,8 +37,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $fields=$request->validate([
-            'name' => 'required',
-            // 'description' => 'required',
+            'name' => 'string|required',
+            'description' => 'nullable',
             'sup_id'    =>'required'
 
         ]);
@@ -69,7 +69,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $fields = $request->validate([
+            'sup_id' => 'required',
+            'name' => 'string|required',
+            'description' => 'string|required',
+        ]);
+
+        $category->update($fields);
+
+        return redirect('/categories')->with('message', 'Category information has been updated successfully!');
     }
 
     /**
@@ -77,6 +85,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect('/categories')->with('message', 'Category has been deleted successfully!');
     }
 }

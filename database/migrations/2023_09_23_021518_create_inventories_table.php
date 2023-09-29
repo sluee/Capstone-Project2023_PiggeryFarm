@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('qty');
             $table->string('date_received');
-            $table->string('status');
-            $table->double('costPerSocks');
-            // $table->string('status');
-            $table->string('discountedPrice');
-            $table->string('totalAmountAfterDiscount');
+            $table->double('costPerStocks');
+            $table->double('discount');
+            $table->double('totalAmountAfterDiscount');
             $table->bigInteger('feed_id')->unsigned();
             $table->bigInteger('cat_id')->unsigned();
 

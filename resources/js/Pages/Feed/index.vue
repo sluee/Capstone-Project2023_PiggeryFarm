@@ -1,11 +1,11 @@
 <template>
 
-    <Head title="Category" />
+    <Head title="Feeds" />
 
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Category</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Feeds</h2>
                 <!-- <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search sow here" @keydown.enter="search($event)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -27,17 +27,17 @@
                 <div class="w-1/3 ml-2 ">
                     <div class=" pr-6">
                         <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
-                            Category Details
+                            Feed Details
                         </h4>
                         <form @submit.prevent="submit" >
                             <div class="px-4 py-5">
 
-                                <label class="font-semibold text-sm text-gray-600  block" for="sup_id">Supplier Name</label>
-                                <select name="" id="sup_id" v-model="form.sup_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
-                                    <option value="" disabled>Select Supplier</option>
-                                    <option v-for="sup in suppliers" :value="sup.id" :key="sup.id" >{{ sup.name }}</option>
+                                <label class="font-semibold text-sm text-gray-600  block" for="cat_id">Category</label>
+                                <select name="" id="cat_id" v-model="form.cat_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                    <option value="" disabled>Select Category</option>
+                                    <option v-for="cat in categories" :value="cat.id" :key="cat.id" >{{ cat.name }}</option>
                                 </select>
-                                <div class="text-red-600" v-if="form.errors.sup_id">{{ form.errors.sup_id }}</div>
+                                <div class="text-red-600" v-if="form.errors.cat_id">{{ form.errors.cat_id }}</div>
 
                                 <label class="font-semibold text-sm text-gray-600  block" for="name">Name</label>
                                 <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.name"/>
@@ -47,9 +47,8 @@
                                 <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.description"/>
                                 <div class="text-red-600" v-if="form.errors.description">{{ form.errors.description }}</div>
 
-
                                 <button  type="submit" class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
-                                    Add Category
+                                    Add Feed
                                 </button>
                             </div>
                         </form>
@@ -63,7 +62,7 @@
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                         <th class="py-3 px-6 text-left">Id</th>
-                                        <th class="py-3 px-6 text-left">Supplier</th>
+                                        <th class="py-3 px-6 text-left">Category</th>
                                         <th class="py-3 px-6 text-left">Name</th>
                                         <th class="py-3 px-6 text-left">Description</th>
                                         <th class="py-3 px-6 text-center">Actions</th>
@@ -71,29 +70,29 @@
                                 </thead>
                                 <tbody class="text-gray-600 text-sm font-light" >
 
-                                    <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cat in categories" :key="cat.id">
+                                    <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="feed in feeds" :key="feed.id">
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
-                                                <p class="font-medium">{{ cat.id }}</p>
+                                                <p class="font-medium">{{ feed.id }}</p>
                                             </div>
                                         </td>
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
-                                                <p class="font-medium">{{ cat.supplier.name }}</p>
+                                                <p class="font-medium">{{ feed.category.name }}</p>
                                             </div>
                                         </td>
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
-                                                <p class="font-medium">{{ cat.name }}</p>
+                                                <p class="font-medium">{{ feed.name }}</p>
                                             </div>
                                         </td>
                                         <td class="py-3 px-6 text-left">
                                             <div class="flex items-center">
 
-                                                <p class="font-medium">{{ cat.description }}</p>
+                                                <p class="font-medium">{{ feed.description }}</p>
                                             </div>
                                         </td>
 
@@ -109,17 +108,17 @@
                                                     </svg>
                                                 </div> -->
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" @click="updateModal(cat.id, cat.name, cat.description, cat.sup_id)">
+                                                    <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" @click="updateModal(feed.id, feed.name, feed.description, feed.cat_id)">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                         </svg>
                                                     </button>
                                                 </div>
 
-                                                    <!-- Update Category Modal -->
-                                                <div id="updateCategoryModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-gray-800 bg-opacity-50 hidden">
+                                                    <!-- Update Feed Modal -->
+                                                <div id="updateFeedModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-gray-800 bg-opacity-50 hidden">
                                                     <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full p-6">
-                                                        <!-- Modal content for updating category -->
+                                                        <!-- Modal content for updating feed -->
                                                         <!-- Modify this as needed for your update form -->
                                                         <div class="relative bg-white rounded-lg shadow">
                                                             <button type="button"  @click="closeUpdateModal" class="absolute top-5 right-5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
@@ -129,13 +128,13 @@
                                                                 <span class="sr-only">Close modal</span>
                                                             </button>
                                                             <div class="px-6 py-6 lg:px-8">
-                                                                <h3 class="mb-4 text-xl font-medium text-gray-900">Update Category</h3>
+                                                                <h3 class="mb-4 text-xl font-medium text-gray-900">Update Feed</h3>
                                                                 <form class="space-y-6">
                                                                     <div>
-                                                                        <label for="updateSupplier" class="block mb-2 text-sm font-medium text-gray-900 flex justify-start items-start">Supplier</label>
-                                                                        <select name="updateSupplier" id="updateSupplier" v-model="updateForm.sup_id" class="border border-gray-300 rounded-lg px-3 py-2 mt-1 text-sm w-full text-gray-600">
-                                                                        <option value="" disabled>Select Supplier</option>
-                                                                        <option v-for="sup in suppliers" :value="sup.id" :key="sup.id">{{ sup.name }}</option>
+                                                                        <label for="updateCategory" class="block mb-2 text-sm font-medium text-gray-900 flex justify-start items-start">Category</label>
+                                                                        <select name="updateCategory" id="updateCategory" v-model="updateForm.cat_id" class="border border-gray-300 rounded-lg px-3 py-2 mt-1 text-sm w-full text-gray-600">
+                                                                        <option value="" disabled>Select Category</option>
+                                                                        <option v-for="cat in categories" :value="cat.id" :key="cat.id">{{ cat.name }}</option>
                                                                         </select>
                                                                     </div>
                                                                     <div>
@@ -146,8 +145,8 @@
                                                                         <label for="updateDescription" class="block mb-2 text-sm font-medium text-gray-900 flex justify-start items-start">Description</label>
                                                                         <input type="text" name="updateDescription" id="updateDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="updateForm.description" required>
                                                                     </div>
-                                                                    <button @click="updateCategoryForm" class="px-4 py-2 mt-2 bg-blue-400 w-full text-gray-900 rounded border border-blue-600 shadow hover:bg-blue-500">
-                                                                        Update Category Info
+                                                                    <button @click="updateFeedForm" class="px-4 py-2 mt-2 bg-blue-400 w-full text-gray-900 rounded border border-blue-600 shadow hover:bg-blue-500">
+                                                                        Update Feed Info
                                                                     </button>
                                                                 </form>
                                                             </div>
@@ -157,7 +156,7 @@
 
 
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" @click="deleteCategory(cat.id)">
+                                                    <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" @click="deleteFeed(feed.id)">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
@@ -191,12 +190,12 @@ import { ref } from 'vue';
 const form = useForm({
     name:'',
     description:'',
-    sup_id:''
+    cat_id:''
 });
 
 const props = defineProps({
-    categories:Array,
-    suppliers:Object
+    feeds:Array,
+    categories:Object
 })
 
 // function formattedDate(date){
@@ -208,80 +207,80 @@ const props = defineProps({
 // }
 
 function submit() {
-    form.post('/categories/');
+    form.post('/feeds/');
     form.name='',
     form.description='',
-    form.sup_id=''
-    alert('Category created successfully!')
+    form.cat_id=''
+    alert('Feed created successfully!')
 }
 
-function deleteCategory(categoryId) {
-  if (confirm('Are you sure you want to remove this category?')) {
+function deleteFeed(feedId) {
+  if (confirm('Are you sure you want to remove selected feed?')) {
     try {
-      Inertia.delete(`/categories/${categoryId}`)
-      alert('Category has been deleted successfully!')
+      Inertia.delete(`/feeds/${feedId}`)
+      alert('Feed has been deleted successfully!')
       window.location.reload()
     } catch (error) {
-      alert('Error deleting category')
+      alert('Error deleting feed')
     }
   }
 }
 
-const category = ref({
+const feed = ref({
   id: null,
   name: '',
   description: '',
-  sup_id:''
+  cat_id:''
 });
 
 const updateForm = ref({
   id: null,
   name: '',
   description: '',
-  sup_id:''
+  cat_id:''
 });
 
-function updateModal(id, name, description, sup_id) {
+function updateModal(id, name, description, cat_id) {
   updateForm.value.id = id;
   updateForm.value.name = name;
   updateForm.value.description = description;
-  updateForm.value.sup_id = sup_id;
-  // Store the original category information
-  category.value = { ...updateForm.value };
-  // Show the update category modal
-  document.getElementById('updateCategoryModal').classList.remove('hidden');
+  updateForm.value.cat_id = cat_id;
+  // Store the original feed information
+  feed.value = { ...updateForm.value };
+  // Show the update feed modal
+  document.getElementById('updateFeedModal').classList.remove('hidden');
 };
 
 function closeUpdateModal() {
-  // Hide the update category modal
-  document.getElementById('updateCategoryModal').classList.add('hidden');
+  // Hide the update feed modal
+  document.getElementById('updateFeedModal').classList.add('hidden');
 };
 
-  // Function to update a category
-  function updateCategoryForm() {
-    const categoryId = updateForm.value.id;
+  // Function to update a feed
+  function updateFeedForm() {
+    const feedId = updateForm.value.id;
     const data = {
       name: updateForm.value.name,
       description: updateForm.value.description,
-      sup_id: updateForm.value.sup_id,
+      cat_id: updateForm.value.cat_id,
     };
 
         // Check if there are any changes
     if (
-        category.value.name === updateForm.value.name &&
-        category.value.description === updateForm.value.description &&
-        category.value.sup_id === updateForm.value.sup_id
+        feed.value.name === updateForm.value.name &&
+        feed.value.description === updateForm.value.description &&
+        feed.value.cat_id === updateForm.value.cat_id
     ) {
         alert("You've made no changes!");
         return; // Exit early if no changes were made
     }
 
     try {
-      Inertia.put(`/categories/${categoryId}`, data);
-      alert('Category information has been updated successfully!');
+      Inertia.put(`/feeds/${feedId}`, data);
+      alert('Feed information has been updated successfully!');
       closeUpdateModal();
     } catch (error) {
-      alert('Error updating category');
+      alert('Error updating feed');
     }
   }
 </script>

@@ -3,7 +3,9 @@
 use App\Http\Controllers\BoarController;
 use App\Http\Controllers\BreedingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ConsumptionController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\SaleItemController;
 use App\Http\Controllers\SowController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WeaningController;
+use App\Http\Controllers\InventoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -107,11 +110,44 @@ Route::middleware('auth')->group(function () {
     Route::get('/suppliers' ,[SupplierController::class, 'index'])->name('suppliers.index');
     Route::get('/suppliers/create',[SupplierController::class , 'create']);
     Route::post('/suppliers',[SupplierController::class, 'store']);
+    Route::put('/suppliers/{supplier}', [SupplierController::class, 'update']);
+    Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy']);
 
     Route::get('/categories' ,[CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create',[CategoryController::class , 'create']);
     Route::post('/categories',[CategoryController::class, 'store']);
+    Route::put('/categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
+    Route::get('/feeds' ,[FeedController::class, 'index'])->name('feeds.index');
+    Route::get('/feeds/create',[FeedController::class , 'create']);
+    Route::post('/feeds',[FeedController::class, 'store']);
+    Route::put('/feeds/{feed}', [FeedController::class, 'update']);
+    Route::delete('/feeds/{feed}', [FeedController::class, 'destroy']);
+
+    Route::get('/inventories' ,[InventoryController::class, 'index'])->name('inventories.index');
+    Route::get('/inventories/create', [InventoryController::class, 'create'])->name('inventories.create');
+    Route::post('/inventories',[InventoryController::class, 'store'])->name('inventories.store');
+    Route::get('/inventories/{inventory}',[InventoryController::class,'show']);
+    // Route::get('/inventories/pdf',[PdfController::class,'inventoriesSummary']);
+    // Route::get('/inventories/pdf/{inventory}',[PdfController::class,'prodSummary']);
+    // Route::get('/inventories/email/{inventory}', [InventoryController::class, 'email']);
+    Route::get('/inventories/search/{searchKey}', [InventoryController::class, 'search']);
+    Route::get('/inventories/edit/{inventory}',[InventoryController::class,'edit']);
+    Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
+    Route::delete('/inventories/{inventory}', [InventoryController::class, 'destroy']);
+
+    Route::get('/consumptions' ,[ConsumptionController::class, 'index'])->name('consumptions.index');
+    Route::get('/consumptions/create', [ConsumptionController::class, 'create'])->name('consumptions.create');
+    Route::post('/consumptions',[ConsumptionController::class, 'store'])->name('consumptions.store');
+    Route::get('/consumptions/{consumption}',[ConsumptionController::class,'show']);
+    // Route::get('/consumptions/pdf',[PdfController::class,'consumptionsSummary']);
+    // Route::get('/consumptions/pdf/{consumption}',[PdfController::class,'prodSummary']);
+    // Route::get('/consumptions/email/{consumption}', [ConsumptionController::class, 'email']);
+    Route::get('/consumptions/search/{searchKey}', [ConsumptionController::class, 'search']);
+    Route::get('/consumptions/edit/{consumption}',[ConsumptionController::class,'edit']);
+    Route::put('/consumptions/{consumption}', [ConsumptionController::class, 'update']);
+    Route::delete('/consumptions/{consumption}', [ConsumptionController::class, 'destroy']);
 });
 
 

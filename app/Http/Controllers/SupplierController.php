@@ -12,7 +12,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return inertia('FeedsSupplier/Index',[
+        return inertia('FeedsSupplier/index',[
             'suppliers' => Supplier::orderBy('id')->get(),
 
         ]);
@@ -32,12 +32,9 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $fields=$request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-
+            'name' => 'string|required',
+            'phone' => 'required|integer'
         ]);
-
-
 
         Supplier::create($fields);
 
@@ -65,7 +62,14 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'string|required',
+            'phone' => 'required|integer',
+        ]);
+
+        $supplier->update($fields);
+
+        return redirect('/suppliers')->with('message', 'Supplier information has been updated successfully!');
     }
 
     /**
@@ -73,6 +77,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->delete();
+
+        return redirect('/suppliers')->with('message', 'Supplier has been deleted successfully!');
     }
 }
