@@ -32,4 +32,14 @@ class SaleItem extends Model
         }
     }
 
+    public function calculateTotalAmount()
+    {
+        $totalAmount = $this->salesItems->sum(function ($item) {
+            return $item->total ?? 0;
+        });
+
+        $this->total_amount = $totalAmount;
+        $this->save();
+    }
+
 }

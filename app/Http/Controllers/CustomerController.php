@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Customer;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
@@ -54,14 +54,62 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
+   
+
     public function show(Customer $customer)
     {
-        $customer->load('salesItems'); // Load all sale items for this customer
+        $customer->load('salesItems') // Load all sale items for this customer
+        ->when(HttpRequest::input('search'), function ($query, $search) {
+            $query->where('created_at', 'like', '%' . $search . '%')
+                ->orWhere('pen_no', 'like', '%' . $search . '%')
+                ->orWhere('pig_weight', 'like', '%' . $search . '%')
+                ->orWhere('rate', 'like', '%' . $search . '%');
+        })
+        ->paginate(8)
+        ->withQueryString();
+        // Access the 'total' attribute on the 'customer' object
+        $total = $customer->total;
+        // $totalAmount = $total->sum('total');
+
         return inertia('Customer/show', [
             'customer' => $customer,
-            
+            'total' => $total, // Pass the total to the view if needed
+            // 'totalAmount'=> $totalAmount,
+            'filters' => HttpRequest::only(['search']),
         ]);
     }
+
+//      public function show(Customer $customer)
+// {
+//     $query = $customer->salesItems();
+
+//     if (request()->input('search')) {
+//         $search = request()->input('search');
+//         $query->where('created_at', 'like', '%' . $search . '%')
+//             ->orWhere('pen_no', 'like', '%' . $search . '%')
+//             ->orWhere('pig_weight', 'like', '%' . $search . '%')
+//             ->orWhere('rate', 'like', '%' . $search . '%');
+//     }
+
+//     $salesItems = $query->paginate(8)
+//         ->withQueryString();
+    
+//     // Calculate the total amount of salesItems
+//     $totalAmount = $salesItems->sum('total');
+
+//     // Calculate the total for each sale item
+//     foreach ($salesItems as $saleItem) {
+//         $saleItem->individualTotal = $saleItem->getTotalAttribute();
+//     }
+
+//     return inertia('Customer/show', [
+//         'customer' => $customer,
+//         'salesItems' => $salesItems,
+//         'totalAmount' => $totalAmount,
+//         'filters' => request()->only(['search']),
+//     ]);
+// }
+
 
     /**
      * Show the form for editing the specified resource.

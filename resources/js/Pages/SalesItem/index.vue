@@ -6,7 +6,8 @@ const form = useForm({
     salesItems: [{
           pen_no: '',
           pig_weight: '',
-          rate: ''
+          rate: '',
+          
         }]
 });
 
@@ -14,7 +15,8 @@ function addSaleItem() {
     form.salesItems.push({
         pen_no: '',
         pig_weight: '',
-        rate: ''
+        rate: '',
+       
     });
 };
 
@@ -26,6 +28,8 @@ const props = defineProps({
     salesItems:Array,
     customers:Object,
     sale:Object,
+    total:Number,
+    totalAmount:Number
 });
 
 function submit() {
@@ -93,6 +97,8 @@ function submit() {
                               />
                               <div class="text-sm text-red-500 italic" v-if="form.errors.rate">{{ form.errors.rate }}</div>
                             </div>
+                           
+        
                             <div class="mt-7">
                               <button @click="removeSaleItem(index)" class="bg-red-500 flex justify-center items-center w-full text-dark px-3 py-2 rounded-md focus:outline-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -162,6 +168,7 @@ function submit() {
                                             <p class="font-medium">{{items.total}}</p>
                                         </div>
                                     </td>
+                                   
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
 
@@ -182,7 +189,17 @@ function submit() {
                                         </div>
                                     </td>
                                 </tr>
+                                
                             </tbody>
+                            <tr>
+                                 <td></td>   
+                                 <td></td>   
+                                 <td></td>   
+                                 <td></td>   
+                                <td class="py-3 px-6 text-center"><div class="flex items-center justify-center">
+                                   <p class="font-medium">Total Amount: {{totalAmount}}</p>
+                                </div></td>
+                            </tr>
                         </table>
                     </div>
                 </div>

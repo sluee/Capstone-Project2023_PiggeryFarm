@@ -20,4 +20,25 @@ class Customer extends Model
     {
         return $this->hasManyThrough(SaleItem::class, Sale::class, 'cust_id', 'sale_id');
     }
+
+    public function getTotalAttribute()
+    {
+        // Ensure that pig_weight and rate are numeric before calculating total
+        if (is_numeric($this->pig_weight) && is_numeric($this->rate)) {
+            return $this->pig_weight * $this->rate;
+        } else {
+            // Handle cases where pig_weight or rate are not numeric
+            return 0;
+        }
+    }
+
+    public function calculateTotalAmount()
+    {
+        $totalAmount = $this->salesItems->sum(function ($item) {
+            return $item->total ?? 0;
+        });
+
+        $this->total_amount = $totalAmount;
+        $this->save();
+    }
 }
