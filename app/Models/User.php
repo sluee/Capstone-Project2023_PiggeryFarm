@@ -20,7 +20,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'firstName',
+        'lastName',
+        'middleName',
+        'suffix',
+        'gender',
+        'phone',
+        'status',
         'email',
         'password',
     ];
@@ -44,4 +50,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function employee(){
+        return $this->hasOne(Employee::class, 'user_id');
+    }
 }

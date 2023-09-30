@@ -26,7 +26,7 @@
                             Customer's Details
                         </h4>
                         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 ">
-                            <div class="bg-white  shadow-lg sm:rounded-lg">
+                            <div class="bg-blue-200  shadow-lg sm:rounded-lg">
                                 <div class="p-6 text-gray-900 flex">
             
                                     <div class="flex-1 ml-4 bg-">

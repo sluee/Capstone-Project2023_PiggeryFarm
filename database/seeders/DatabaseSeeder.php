@@ -19,35 +19,47 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-      $users= [
+
         \App\Models\User::factory()->create([
-            'name' => 'Administrator',
+            'firstName' => 'Test',
+            'lastName' => 'Administrator',
+            'gender' => 'Female',
+            'phone'=> '09121244888',
             'email' => 'admin@test.com',
             'password' =>bcrypt('password123'),
-        ]),
+        ]);
 
         \App\Models\User::factory()->create([
-            'name' => ' Employee',
+            'firstName' => 'test',
+            'lastName' => 'Employee',
+            'gender' => 'Female',
+            'phone'=> '09121244888',
             'email' => 'employee@test.com',
             'password' =>bcrypt('password123'),
-        ]),
+        ]);
         \App\Models\User::factory()->create([
-            'name' => 'Special Employee',
+            'firstName' => 'Test',
+            'lastName' => 'Special Employee',
+            'gender' => 'Male',
+            'phone'=> '09121244888',
             'email' => 'special@test.com',
             'password' =>bcrypt('password123'),
-        ]),
+        ]);
 
         \App\Models\User::factory()->create([
-            'name' => 'Owner',
-            'email' => 'owner@test.com',
-            'password' =>bcrypt('password123'),
+                'firstName' => 'Test',
+                'lastName' => 'Owner',
+                'gender' => 'Male',
+                'phone'=> '09121244888',
+                'email' => 'owner@test.com',
+                'password' =>bcrypt('password123'),
 
-        ]),
+        ]);
         $this->call([
             RolesPermissionsSeeder::class,
             // UserSeeder::class
-        ]),
-    ];
+        ]);
+
     }
 }
 

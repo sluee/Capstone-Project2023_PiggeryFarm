@@ -4,11 +4,13 @@ use App\Http\Controllers\BoarController;
 use App\Http\Controllers\BreedingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleItemController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SowController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WeaningController;
@@ -117,6 +119,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/feeds' ,[FeedController::class, 'index'])->name('feeds.index');
     Route::get('/feeds/create',[FeedController::class , 'create']);
     Route::post('/feeds',[FeedController::class, 'store']);
+
+    Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
+    Route::post('/positions', [PositionController::class, 'store']);
+
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('/employees/create',[EmployeeController::class , 'create']);
+    Route::post('/employees', [EmployeeController::class, 'store']);
 
 });
 
