@@ -17,9 +17,10 @@
 </script>
 
 <template>
+
     <Head title="Create Customer" />
 
-    <SideBarLayout>
+<SideBarLayout>
         <template #header>
             <div class="flex">
                 <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Create Customer</h2>
@@ -27,10 +28,7 @@
             </div>
         </template>
 
-
-        <div class="py-6">
-            <div class="flex flex-col justify-center items-center">
-                <div class="relative flex flex-col items-center rounded-[20px] w-[500px] max-w-[95%] mx-auto bg-white bg-clip-border shadow-3xl shadow-shadow-500 dark:!bg-navy-800 dark:text-white dark:!shadow-none p-3">
+        <div class="relative flex flex-col items-center rounded-[20px] w-[500px] max-w-[95%] mx-auto bg-white bg-clip-border shadow-3xl shadow-shadow-500 dark:!bg-navy-800 dark:text-white dark:!shadow-none p-3 mt-7">
                     <div class="mt-2 mb-8 w-full">
                         <form @submit.prevent="submit" class="flex">
                             <div class="flex-1 pr-4">
@@ -60,8 +58,7 @@
 
                     </div>
                 </div>
-            </div>
-        </div>
+
     </SideBarLayout>
 </template>
 

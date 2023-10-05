@@ -83,14 +83,11 @@ class BreedingController extends Controller
         ]);
     }
 
-    public function reheatRemarks($id) {
-        // Find the record in the database by its ID
-        $breeding = Breeding::findOrFail($id);
+    public function reheatRemarks(Breeding $breeding) {
+        $breeding->update(['remarks' => 'Reheat']);
+        $breeding->save();
 
-    // Update the "remarks" field to "Reheat"
-    $breeding->update(['remarks' => 'Reheat']);
-
-    return redirect('/breedings');
+        return redirect('/breedings');
     }
 
     /**

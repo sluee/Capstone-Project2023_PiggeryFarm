@@ -84,8 +84,17 @@
                                 <td class="py-3 px-6 text-center">
                                     <p class="font-medium">{{ formattedDate(labor.date_of_weaning)}}</p>
                                 </td>
-                                <td class="py-3 px-6 text-center">
+                                <!-- <td class="py-3 px-6 text-center">
                                     <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ labor.remarks }}</span>
+                                </td> -->
+                                <td class="py-3 px-3 text-center">
+                                    <span class="remarks-cell  py-1 px-3 rounded-full text-xs "
+                                        :class="{
+                                            'bg-green-200 text-green-600': labor.remarks == 'Waiting for results',
+                                            'bg-red-200 text-blue-600':labor.remarks == 'Weaned',
+                                           // 'bg-blue-200 text-red-600': labor.remarks =='Miscarriage'
+                                        }"
+                                    >{{ labor.remarks }}</span>
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
@@ -124,29 +133,26 @@
 </template>
 
 <script setup>
-import SideBarLayout from '@/Layouts/SideBarLayout.vue';
-import Pagination from '@/Components/Pagination.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import moment from 'moment'
-import { watch, ref } from 'vue';
-const props = defineProps({
-    breeding: Object,
-    sow:Object,
-    boar:Object,
-    labors:Object,
-    filters:Object
+    import SideBarLayout from '@/Layouts/SideBarLayout.vue';
+    import Pagination from '@/Components/Pagination.vue';
+    import { Head, Link, router } from '@inertiajs/vue3';
+    import moment from 'moment'
+    import { watch, ref } from 'vue';
+    const props = defineProps({
+        breeding: Object,
+        sow:Object,
+        boar:Object,
+        labors:Object,
+        filters:Object
 
-})
+    })
 
-// function search(ev){
-//     router.visit('/labors/search/'+ ev.target.value);
 
-// }
-function formattedDate(date){
-        return moment(date).format('MMMM   D, YYYY');
-}
+    function formattedDate(date){
+            return moment(date).format('MMMM   D, YYYY');
+    }
 
-let search = ref(props.filters.search);
+    let search = ref(props.filters.search);
     watch(search, (value) => {
         router.get(
             "/labors",

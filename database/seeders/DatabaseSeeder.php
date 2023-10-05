@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'lastName' => 'Administrator',
             'gender' => 'Female',
             'phone'=> '09121244888',
+            'address'=> 'Sagbayan, Bohol',
             'email' => 'admin@test.com',
             'password' =>bcrypt('password123'),
         ]);
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             'lastName' => 'Employee',
             'gender' => 'Female',
             'phone'=> '09121244888',
+            'address'=> 'Sagbayan, Bohol',
             'email' => 'employee@test.com',
             'password' =>bcrypt('password123'),
         ]);
@@ -42,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'lastName' => 'Special Employee',
             'gender' => 'Male',
             'phone'=> '09121244888',
+            'address'=> 'Sagbayan, Bohol',
             'email' => 'special@test.com',
             'password' =>bcrypt('password123'),
         ]);
@@ -51,6 +54,7 @@ class DatabaseSeeder extends Seeder
                 'lastName' => 'Owner',
                 'gender' => 'Male',
                 'phone'=> '09121244888',
+                'address'=> 'Sagbayan, Bohol',
                 'email' => 'owner@test.com',
                 'password' =>bcrypt('password123'),
 

@@ -32,13 +32,13 @@
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-3 text-left">Id</th>
-                                <th class="py-3 px-3 text-left">Sow </th>
-                                <th class="py-3 px-3 text-center">Boar</th>
-                                <th class="py-3 px-3 text-center">Date of Breeding</th>
+                                <!-- <th class="py-3 px-3 text-left">Sow </th>
+                                <th class="py-3 px-3 text-center">Boar</th> -->
+                                <!-- <th class="py-3 px-3 text-center">Date of Breeding</th>
                                 <th class="py-3 px-3 text-center">Date of Labor</th>
-                                <th class="py-3 px-3 text-center">Date Weaned</th>
-                                <th class="py-3 px-3 text-center">No of Pigs Born</th>
-                                <th class="py-3 px-3 text-center">No of Pigs Alive</th>
+                                <th class="py-3 px-3 text-center">Date Weaned</th> -->
+                                <!-- <th class="py-3 px-3 text-center">No of Pigs Born</th> -->
+                                <th class="py-3 px-3 text-center">Labor</th>
                                 <th class="py-3 px-3 text-center">No of Pigs Weaned</th>
                                 <th class="py-3 px-3 text-center">Remarks</th>
                                 <th class="py-3 px-3 text-center">Actions</th>
@@ -46,33 +46,22 @@
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="w in weaning" :key="w.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="weaning in weanings" :key="weaning.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium">{{ w.id }}</p>
+                                        <p class="font-medium">{{ weaning.id }}</p>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <p class="font-medium">{{ w.sow.sow_no }}</p>
-                                    </div>
-                                </td>
+                                <td>{{ weaning.labors.sow.sow_no }}</td>
+                                <!-- <td>{{ weaning.labors.no_pigs_born }}</td> -->
+                                <td  class="py-3 px-6 text-center">{{ weaning.labor_id }}</td>
+                                <!-- <td  class="py-3 px-6 text-center">{{ weaning.labors.no_pigs_born }}</td> -->
+                                <!-- <td>{{ weaning.labors.no_pigs_alive }}</td> -->
+                                <td  class="py-3 px-6 text-center">{{ weaning.no_of_pigs_weaned }}</td>
+
                                 <td class="py-3 px-6 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{w.boar.breed}}</p>
-                                    </div>
-                                </td>
-                                <!-- <td class="py-3 px-6 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{ w.date_of_breed}}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <p class="font-medium">{{ w.possible_reheat}}</p>
-                                </td> -->
-                                <td class="py-3 px-6 text-center">
-                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ w.remarks }}</span>
+                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ weaning.remarks }}</span>
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
@@ -116,8 +105,8 @@ const props = defineProps({
     breeding: Object,
     sow:Object,
     boar:Object,
-    labor:Object,
-    weaning:Object
+    labors:Object,
+    weanings:Object
 
 })
 

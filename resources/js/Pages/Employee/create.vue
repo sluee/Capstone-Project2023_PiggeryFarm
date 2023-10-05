@@ -11,6 +11,7 @@
         middleName:'',
         suffix: '',
         email:'',
+        address:'',
         password:'',
         password_confirmation:'',
         status:'',
@@ -96,7 +97,7 @@
                             </div>
                           </div>
 
-                          <div class="sm:col-span-2">
+                          <div class="m:col-span-2">
                             <label for="pos_id" class="block text-sm font-medium leading-6 text-gray-900">Position</label>
                             <div class="mt-2">
                                 <select id="pos_id" v-model="form.pos_id" name="services" autocomplete="services"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" >
@@ -107,11 +108,18 @@
                               </div>
                           </div>
 
-                          <div class="sm:col-span-2">
+                          <div class="sm:col-span-1 ">
                             <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Contact No</label>
                             <div class="mt-2">
                               <input id="phone" v-model="form.phone" name="phone" type="number" autocomplete="phone" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                               <div class="text-sm text-red-500 italic" v-if="form.errors.phone">{{ form.errors.phone }}</div>
+                            </div>
+                          </div>
+                          <div class="sm:col-span-1 ">
+                            <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
+                            <div class="mt-2">
+                              <input id="address" v-model="form.address" name="address" type="text" autocomplete="address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                              <div class="text-sm text-red-500 italic" v-if="form.errors.address">{{ form.errors.address }}</div>
                             </div>
                           </div>
 

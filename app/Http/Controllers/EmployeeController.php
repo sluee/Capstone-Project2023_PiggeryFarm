@@ -43,6 +43,7 @@ class EmployeeController extends Controller
             'suffix' =>$request->input('suffix'),
             'gender' =>$request->input('gender'),
             'phone' =>$request->input('phone'),
+            'address' =>$request->input('address'),
             'email' =>$request->input('email'),
             'password' =>$request->input('password'),
         ]);

@@ -13,12 +13,6 @@ class LaborController extends Controller
      */
     public function index()
     {
-        // return inertia('Labor/index',[
-        //     'labors' => Labor::with('sow', 'boar','breeding')
-        //     ->orderBy('id', 'asc')
-        //     ->get(),
-
-        // ]);
         $labors = Labor::with('sow', 'boar','breeding')
         ->when(HttpRequest::input('search'), function ($query, $search) {
             $query->where('parity_no', 'like', '%' . $search . '%')
@@ -30,10 +24,10 @@ class LaborController extends Controller
         ->paginate(8)
         ->withQueryString();
 
-    return inertia('Labor/index', [
-        'labors' => $labors,
-        'filters' => HttpRequest::only(['search']),
-    ]);
+        return inertia('Labor/index', [
+            'labors' => $labors,
+            'filters' => HttpRequest::only(['search']),
+        ]);
     }
 
     public function search($searchKey){
@@ -44,15 +38,18 @@ class LaborController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($breed_id)
-{
-    return inertia('Labor/create', [
-        'breed_id' => $breed_id,
-        'labors' => Labor::with('sow', 'boar', 'breeding')
-            ->orderBy('id', 'asc')
-            ->get(),
-    ]);
-}
+    public function create($breed_id , Breeding $breeding)
+    {
+        // $breedings = $breeding->where('id', $breed_id)->first();
+        $breedings = $breeding->with('sow','boar')->where('id', $breed_id)->first();
+        return inertia('Labor/create', [
+            'breed_id' => $breed_id,
+            'labors' => Labor::with('sow', 'boar', 'breeding')
+                ->orderBy('id', 'asc')
+                ->get(),
+            'breedings' => $breedings
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.`
@@ -69,6 +66,12 @@ class LaborController extends Controller
         ]);
 
         Labor::create($fields);
+        $breeding = Breeding::findOrFail($request->input('breed_id'));
+
+        // Update the remarks field to "Laboring"
+        $breeding->update(['remarks' => 'Laboring']);
+
+        // Breeding::update($breeding);
         return redirect('/labors')->with('success', 'Labor Added Successfully');
     }
 

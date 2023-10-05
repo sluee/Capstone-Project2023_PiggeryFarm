@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Breeding;
+use App\Models\Labor;
 use App\Models\Weaning;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,26 +13,61 @@ class WeaningController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return inertia('Weaning/index',[
-            'weaning' => Weaning::with('breeding','labors', 'sow', 'boar')
+    // public function index()
+    // {
+    //     $breeding = Breeding::with('sow:sow_id, id', 'boar:boar_id, id')->get(['id','sow_id', 'id', 'boar_id']);
+    //     return inertia('Weaning/index',[
+    //         'weaning' => Weaning::with('labors')
+    //         ->orderBy('id', 'asc')
+    //         ->get(),
+    //         'breeding' => $breeding
+    //     ]);
+    // }
+
+
+    public function index(Labor $labor)
+{
+    // Retrieve all Labor records with their related Breeding, Sow, and Boar records
+    $labors = $labor->with('breeding','sow', 'boar')->get();
+
+    return inertia('Weaning/index', [
+        'weanings' => Weaning::with('labors')
             ->orderBy('id', 'asc')
             ->get(),
+        'labors' => $labors
+    ]);
+}
 
-        ]);
-    }
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create($labor_id)
+    // public function create($labor_id)
+    // {
+    //     return inertia('Weaning/create', [
+    //         'labor_id' => $labor_id,
+    //         'weaning' => Weaning::with('labors', 'breeding')
+    //             ->orderBy('id', 'asc')
+    //             ->get(),
+    //     ]);
+    // }
+
+    public function create($labor_id , Labor $labor)
     {
+        // $breedings = $breeding->where('id', $breed_id)->first();
+        $labors = $labor->with('breeding','sow','boar')->where('id', $labor_id)->first();
         return inertia('Weaning/create', [
             'labor_id' => $labor_id,
-            'weaning' => Weaning::with('labors', 'breeding')
+            'weaning' => Weaning::with('labors')
                 ->orderBy('id', 'asc')
                 ->get(),
+            'labor' => $labors
         ]);
     }
 
@@ -46,8 +83,15 @@ class WeaningController extends Controller
         ]);
 
         Weaning::create($fields);
+
+        $labor = Labor::findOrFail($request->input('labor_id'));
+
+        // Update the remarks field to "Laboring"
+        $labor->update(['remarks' => 'Weaned']);
         return redirect('/weaning')->with('success', 'Labor Added Successfully');
     }
+
+
 
     /**
      * Display the specified resource.

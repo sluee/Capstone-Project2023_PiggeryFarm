@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Sale;
 use App\Models\SaleHistory;
+use App\Models\SaleItem;
 use Illuminate\Http\Request;
 
 class SaleHistoryController extends Controller
@@ -12,7 +15,26 @@ class SaleHistoryController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::orderBy('id')->get();
+        $sales = Sale::with('customers')->get();
+        $salesItems = SaleItem::with('sale') // Load related data
+            ->orderBy('id', 'asc')
+            ->get();
+
+        // Calculate the total for each SaleItem and add it to the data
+        foreach ($salesItems as $saleItem) {
+            $saleItem->total = $saleItem->getTotalAttribute(); // Assuming you have a getTotalAttribute method in your SaleItem model
+        }
+
+        // Calculate the total amount of all listed purchases
+        $totalAmount = $salesItems->sum('total');
+
+        return inertia('SalesHistory/index', [
+            'salesItems' => $salesItems,
+            'sales'=>$sales,
+            'customers' => $customers,
+            'totalAmount' => $totalAmount, // Pass the total amount to your view
+        ]);
     }
 
     /**

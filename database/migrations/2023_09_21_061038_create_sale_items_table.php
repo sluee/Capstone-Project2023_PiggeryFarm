@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('pen_no');
             $table->double('pig_weight');
             $table->double('rate');
+            $table->double('total');
             $table->timestamps();
 
             $table->foreign('sale_id')->references('id')->on('sales');

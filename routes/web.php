@@ -11,6 +11,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleItemController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\SaleHistoryController;
 use App\Http\Controllers\SowController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WeaningController;
@@ -74,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/breedings' ,[BreedingController::class, 'index'])->name('breeding.index');
     Route::get('/breedings/create', [BreedingController::class, 'create'])->name('breeding.create');
     Route::post('/breedings',[BreedingController::class, 'store'])->name('breeding.store');
+    Route::post('/breedings/reheat/{breeding}', [BreedingController::class, 'reheatRemarks']);
     Route::get('/breedings/edit/{breeding}', [BreedingController::class, 'edit']);
     Route::put('/breedings/{breeding}', [BreedingController::class, 'update']);
     Route::get('/breedings/{breeding}',[BreedingController::class,'show']);
@@ -101,6 +103,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/sales' ,[SaleItemController::class, 'index'])->name('SalesItem.index');
     // Route::get('/sales/create', [SaleItemController::class, 'create'])->name('SalesItem.create');
     Route::post('/sales',[SaleItemController::class, 'store']);
+
+    Route::get('/histories' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.index');
 
 
     Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');

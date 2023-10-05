@@ -16,8 +16,6 @@
             </div>
         </template>
 
-        
-
         <div class="py-12">
             <div class="flex -mx-2">
                 <div class="w-1/3 ml-2 ">
@@ -28,19 +26,19 @@
                         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 ">
                             <div class="bg-blue-200  shadow-lg sm:rounded-lg">
                                 <div class="p-6 text-gray-900 flex">
-            
+
                                     <div class="flex-1 ml-4 bg-">
                                         <div class="flex">
                                             <h3 class="text-2xl flex-1 ">Details of Customer</h3>
-            
+
                                         </div>
                                         <hr>
                                         <div class="mt-2" ><strong>Customer:</strong>  {{ customer.name }} </div>
                                         <div class="mt-2" ><strong>Address</strong>  {{customer.address }} </div>
                                         <div class="mt-2"><strong>Phone</strong> {{ customer.phone }}</div>
-            
+
                                     </div>
-            
+
                                 </div>
                             </div>
                         </div>
@@ -100,15 +98,15 @@
                                             <div class="flex items-center">
                                                 <p class="font-medium">{{ sale.total }}</p>
                                             </div>
-                                        </td>                                        
+                                        </td>
                                     </tr>
 
                                 </tbody>
                                 <tr>
-                                    <td></td>   
-                                    <td></td>   
-                                    <td></td>   
-                                    <td></td>   
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                    <td class="py-3 px-6 text-center"><div class="flex items-center justify-center">
                                       <p class="font-medium">Total Amount: {{totalAmount}}</p>
                                    </div></td>
@@ -137,7 +135,7 @@ const props = defineProps({
     salesItems:Object,
     filters:Object,
     totalAmount:Number
-   
+
 
 
 })

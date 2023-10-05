@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('no_pigs_born');
             $table->integer('no_pigs_alive');
             $table->string('date_of_weaning');
-            $table->string('remarks')->nullable();
+            $table->string('remarks')->default('Waiting for results');
             $table->timestamps();
 
             $table->foreign('breed_id')->references('id')->on('breedings');

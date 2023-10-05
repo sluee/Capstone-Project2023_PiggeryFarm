@@ -12,31 +12,31 @@ class SaleItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-   
+
 
      public function index()
      {
          $customers = Customer::orderBy('id')->get();
-         
+
          $salesItems = SaleItem::with('sale') // Load related data
              ->orderBy('id', 'asc')
              ->get();
-     
+
          // Calculate the total for each SaleItem and add it to the data
          foreach ($salesItems as $saleItem) {
              $saleItem->total = $saleItem->getTotalAttribute(); // Assuming you have a getTotalAttribute method in your SaleItem model
          }
-     
+
          // Calculate the total amount of all listed purchases
          $totalAmount = $salesItems->sum('total');
-     
+
          return inertia('SalesItem/index', [
              'salesItems' => $salesItems,
              'customers' => $customers,
              'totalAmount' => $totalAmount, // Pass the total amount to your view
          ]);
      }
-     
+
 
     /**
      * Show the form for creating a new resource.
@@ -100,43 +100,43 @@ class SaleItemController extends Controller
     // }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'cust_id' => 'required|exists:customers,id',
-        'salesItems' => 'required|array|min:1', // Ensure at least one sales item
-        'salesItems.*.pen_no' => 'required|numeric',
-        'salesItems.*.pig_weight' => 'required|numeric',
-        'salesItems.*.rate' => 'required|numeric',
-    ]);
+    {
+        $request->validate([
+            'cust_id' => 'required|exists:customers,id',
+            'salesItems' => 'required|array|min:1', // Ensure at least one sales item
+            'salesItems.*.pen_no' => 'required|numeric',
+            'salesItems.*.pig_weight' => 'required|numeric',
+            'salesItems.*.rate' => 'required|numeric',
+        ]);
 
-    $sale = Sale::create([
-        'cust_id' => $request->input('cust_id'),
-        // Add any other relevant fields here
-    ]);
+        $sale = Sale::create([
+            'cust_id' => $request->input('cust_id'),
+            // Add any other relevant fields here
+        ]);
 
-    // Loop through the sales items and associate them with the sale
-    $salesItems = $request->input('salesItems');
+        // Loop through the sales items and associate them with the sale
+        $salesItems = $request->input('salesItems');
 
-    if (!is_null($salesItems)) {
-        foreach ($salesItems as $salesItemData) {
-            $total = $salesItemData['pig_weight'] * $salesItemData['rate'];
+        if (!is_null($salesItems)) {
+            foreach ($salesItems as $salesItemData) {
+                $total = $salesItemData['pig_weight'] * $salesItemData['rate'];
 
-            $sale->salesItems()->create([
-                'pen_no' => $salesItemData['pen_no'],
-                'pig_weight' => $salesItemData['pig_weight'],
-                'rate' => $salesItemData['rate'],
-                'total' => $total, // Calculate the total for each sales item
-                // Add any other relevant fields here
-            ]);
+                $sale->salesItems()->create([
+                    'pen_no' => $salesItemData['pen_no'],
+                    'pig_weight' => $salesItemData['pig_weight'],
+                    'rate' => $salesItemData['rate'],
+                    'total' => $total, // Calculate the total for each sales item
+                    // Add any other relevant fields here
+                ]);
+            }
+        } else {
+            // Handle the case where 'salesItems' is null
+            // You can log an error, return a response, or perform other appropriate actions.
         }
-    } else {
-        // Handle the case where 'salesItems' is null
-        // You can log an error, return a response, or perform other appropriate actions.
+        return redirect('/sales')->with('success', 'sales Added Successfully');
     }
-    return redirect('/sales')->with('success', 'sales Added Successfully'); 
-}
 
-    
+
     /**
      * Display the specified resource.
      */

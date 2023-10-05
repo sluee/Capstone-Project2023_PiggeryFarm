@@ -9,7 +9,7 @@ class Labor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['breed_id', 'parity_no', 'actual_date_farrowing', 'no_pigs_born', 'no_pigs_alive','date_of_weaning'];
+    protected $fillable = ['breed_id', 'parity_no', 'actual_date_farrowing', 'no_pigs_born', 'no_pigs_alive','date_of_weaning', 'remarks'];
 
     // Labor.php
     public function breeding()
@@ -22,10 +22,10 @@ class Labor extends Model
         return $this->hasOneThrough(
             Sow::class,
             Breeding::class,
-            'id',      // Foreign key on breedings table
-            'id',      // Foreign key on sows table
-            'breed_id', // Local key on labor table
-            'sow_id'  // Local key on breedings table
+            'id',      // local key on breedings table
+            'id',      // local key on sows table
+            'breed_id', // foreign key on labor table
+            'sow_id'  // foreign key on breedings table
         );
     }
 

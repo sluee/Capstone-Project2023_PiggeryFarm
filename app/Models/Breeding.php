@@ -9,7 +9,7 @@ class Breeding extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sow_id', 'date_of_breed', 'possible_reheat', 'changeFeeds', 'exp_date_of_farrowing', 'boar_id',];
+    protected $fillable = ['sow_id', 'date_of_breed', 'possible_reheat', 'changeFeeds', 'exp_date_of_farrowing', 'boar_id','remarks'];
 
     public function sow(){
         return $this->belongsTo(Sow::class,'sow_id');
@@ -21,4 +21,9 @@ class Breeding extends Model
     public function labors(){
         return $this->hasMany(Labor::class , 'breed_id');
     }
+
+    public function weanings()
+{
+    return $this->hasMany(Weaning::class, 'labor_id', 'labor_id');
+}
 }

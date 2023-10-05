@@ -25,11 +25,11 @@
                             <div class="mt-2"><strong>Date of Breed:</strong> {{ formattedDate(labor.breeding.date_of_breed) }}</div>
                             <div class="mt-2"><strong>Expected Date of Farrowing:</strong> {{formattedDate (labor.breeding.exp_date_of_farrowing)}}</div>
                             <div class="mt-2"><strong>Actual Date of Farrowing:</strong> {{formattedDate (labor.actual_date_farrowing)}}</div>
-                            <div class="mt-2"><strong>No of Pigs Born</strong> {{labor.no_pigs_born}}</div>
-                            <div class="mt-2"><strong>No of Pigs Alive</strong> {{labor.no_pigs_alive}}</div>
-                            <div class="mt-2"><strong>No of Pigs Alive</strong> {{ labor.remarks}}</div>
+                            <div class="mt-2"><strong>No of Pigs Born:</strong> {{labor.no_pigs_born}}</div>
+                            <div class="mt-2"><strong>No of Pigs Alive:</strong> {{labor.no_pigs_alive}}</div>
+                            <div class="mt-2"><strong>Remarks:</strong> {{ labor.remarks}}</div>
                         </div>
-                        <div>
+                        <div v-if="labor.remarks =='Waiting for results'">
                             <Link class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline" as="button"  :href="'/weaning/create/'+ labor.id" >Weaning</Link>
                             <!-- <a
                                 class="border border-red-500 bg-red-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline"
