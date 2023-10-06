@@ -50,15 +50,6 @@ class SowController extends Controller
             'date_arrived' => 'required|date',
         ]);
 
-        $fileName = null;
-
-        //process image
-        // if($request->pic){
-        //     $fileName = time().'.'.$request->pic->extension();
-        //     $request->pic->move(public_path('images/supplier_pics'), $fileName);
-        //     $fields['pic'] = $fileName;
-        // }
-
         Sow::create($fields);
 
         return redirect('/sows')->with('message','Sow Added Successfully');
@@ -77,7 +68,9 @@ class SowController extends Controller
      */
     public function edit(Sow $sow)
     {
-        //
+        return inertia('Sow/edit',[
+            'sows' => $sow
+        ]);
     }
 
     /**
@@ -85,7 +78,15 @@ class SowController extends Controller
      */
     public function update(Request $request, Sow $sow)
     {
-        //
+        $fields=$request->validate([
+            'sow_no' => 'required',
+            'location' => 'required',
+            'date_arrived' => 'required|date',
+        ]);
+
+        $sow->update($fields);
+
+        return redirect('/sows')->with('message','Sow Updated Successfully');
     }
 
     /**

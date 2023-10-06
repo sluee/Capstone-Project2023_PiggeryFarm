@@ -53,7 +53,7 @@ class BoarController extends Controller
 
         Boar::create($fields);
 
-        return redirect('/boars')->with('message','Sow Added Successfully');
+        return redirect('/boars')->with('message','Boar Added Successfully');
     }
 
     /**
@@ -61,7 +61,10 @@ class BoarController extends Controller
      */
     public function show(Boar $boar)
     {
-        return inertia('Sow/show', compact('sows'));
+
+        return inertia('Boar/show', [
+            'boar' => $boar ,
+        ]);
     }
 
     /**
@@ -69,7 +72,9 @@ class BoarController extends Controller
      */
     public function edit(Boar $boar)
     {
-        //
+        return inertia('Boar/edit',[
+            'boars' => $boar
+        ]);
     }
 
     /**
@@ -77,7 +82,16 @@ class BoarController extends Controller
      */
     public function update(Request $request, Boar $boar)
     {
-        //
+        $fields=$request->validate([
+            'boar_no' => 'required',
+            'breed' => 'required',
+            'location' => 'required',
+            'date_arrived' => 'required|date',
+        ]);
+
+        $boar->update($fields);
+
+        return redirect('/boars')->with('message','Boar Updated Successfully');
     }
 
     /**

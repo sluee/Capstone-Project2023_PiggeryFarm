@@ -90,17 +90,37 @@ class LaborController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    
+
     public function edit(Labor $labor)
-    {
-        //
-    }
+{
+    $labor->load('breeding.sow', 'breeding.boar');
+
+    return inertia('Labor/edit', [
+        'labors' => $labor,
+    ]);
+}
+
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Labor $labor)
     {
-        //
+        $fields = $request->validate([
+            'breed_id'  =>'required',
+            'parity_no' => 'required|numeric',
+            'actual_date_farrowing' => 'required|date',
+            'no_pigs_born' =>'required|numeric',
+            'no_pigs_alive' =>'required|numeric',
+            'date_of_weaning' => 'required|date|after:actual_date_farrowing',
+        ]);
+
+        $labor->update($fields);
+
+        // Breeding::update($breeding);
+        return redirect('/labors')->with('success', 'Labor Updated Successfully');
     }
 
     /**

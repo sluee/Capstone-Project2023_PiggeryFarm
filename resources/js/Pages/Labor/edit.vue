@@ -9,19 +9,19 @@
         labors:Object,
         sow:Object,
         boar:Object,
-        breed_id: String,
+        //  breed_id: String,
 
     });
 
 
 
     const form = useForm({
-    breed_id:props.breed_id,
-    parity_no:'',
-    actual_date_farrowing:'',
-    no_pigs_born:'',
-    no_pigs_alive:'',
-    date_of_weaning: ''
+    breed_id:props.labors.breed_id,
+    parity_no:props.labors.parity_no,
+    actual_date_farrowing:props.labors.actual_date_farrowing,
+    no_pigs_born:props.labors.no_pigs_born,
+    no_pigs_alive:props.labors.no_pigs_alive,
+    date_of_weaning: props.labors.date_of_weaning
     });
 
 
@@ -49,19 +49,19 @@
     }
 
     function submit() {
-        form.post('/labors');
+        form.put('/labors/' +props.labors.id);
 
     }
 
 </script>
 
 <template>
-    <Head title="Create Labor" />
+    <Head title="Update Labor" />
 
     <SideBarLayout>
         <template #header>
             <div class="flex">
-                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Create Labor</h2>
+                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Update Labor</h2>
                 <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" href="/labors">Back</Link>
             </div>
         </template>
@@ -74,22 +74,22 @@
                         </h4>
                         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 mt-5">
                             <div class="bg-blue-300  shadow-lg sm:rounded-lg">
-                                <div class="p-6 text-gray-900 flex">
+                                <div class="p-6 text-gray-900 flex" >
 
-                                    <div class="flex-1 ml-4 bg-">
+                                    <div class="flex-1 ml-4 bg-" >
                                         <label class="font-semibold text-sm text-gray-600 block" for="">Sow</label>
-                                            <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ breedings.sow.sow_no }}</p>
+                                            <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ labors.breeding.sow.sow_no }}</p>
                                         <label class="font-semibold text-sm text-gray-600 block" for="">Boar</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ breedings.boar.breed }}</p>
+                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ labors.breeding.boar.breed }}</p>
 
                                         <label class="font-semibold text-sm text-gray-600 block" for="">Date of Breed</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(breedings.date_of_breed) }}</p>
+                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(labors.breeding.date_of_breed) }}</p>
 
                                         <label class="font-semibold text-sm text-gray-600 block" for="">Date of Changing Feeds</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(breedings.changeFeeds) }}</p>
+                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(labors.breeding.changeFeeds) }}</p>
 
                                         <label class="font-semibold text-sm text-gray-600 block" for="">Date of Breed</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(breedings.exp_date_of_farrowing) }}</p>
+                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(labors.breeding.exp_date_of_farrowing) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                         <input
                                             type="text"
                                             class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600"
-                                            v-model="breed_id "
+                                            v-model="form.breed_id "
                                             readonly
                                         />
 
@@ -136,7 +136,7 @@
                                         <div class="text-red-600" v-if="form.errors.date_of_weaning">{{ form.errors.date_of_weaning }}</div>
 
                                         <button class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
-                                            Create Labor
+                                            Update Labor
                                         </button>
                                         </div>
                                     </div>

@@ -53,10 +53,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/sows/create', [SowController::class, 'create'])->name('sow.create');
     Route::post('/sows',[SowController::class, 'store'])->name('sow.store');
     Route::get('/sows/{sow}',[SowController::class,'show']);
-    Route::get('/sows/pdf',[PdfController::class,'sowsSummary']);
-    Route::get('/sows/pdf/{sow}',[PdfController::class,'prodSummary']);
-    Route::get('/sows/email/{sow}', [SowController::class, 'email']);
-    // Route::get('/sows/search/{searchKey}', [SowController::class, 'search']);
+    // Route::get('/sows/pdf',[PdfController::class,'sowsSummary']);
+    // Route::get('/sows/pdf/{sow}',[PdfController::class,'prodSummary']);
+    // Route::get('/sows/email/{sow}', [SowController::class, 'email']);
     Route::get('/sows/edit/{sow}',[SowController::class,'edit']);
     Route::put('/sows/{sow}', [SowController::class, 'update']);
     Route::delete('/sows/{sow}', [SowController::class, 'destroy']);
@@ -68,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/boars',[BoarController::class, 'store'])->name('boar.store');
     Route::get('/boars/edit/{boar}', [BoarController::class, 'edit']);
     Route::put('/boars/{boar}', [BoarController::class, 'update']);
+    Route::get('/boars/{boar}',[BoarController::class,'show']);
     Route::delete('/boars/{boar}', [BoarController::class, 'destroy']);
 
 

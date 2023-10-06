@@ -2,28 +2,28 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm  } from '@inertiajs/vue3';
     const form = useForm({
-        boar_no: null,
-        breed: null,
-        location: null,
-        date_arrived: null,
+        boar_no: props.boars.boar_no,
+        breed: props.boars.breed,
+        location: props.boars.location,
+        date_arrived: props.boars.date_arrived,
 
     })
     const props = defineProps({
         boars:Object
     })
     function submit() {
-        form.post('/boars/')
+        form.put('/boars/' +props.boars.id)
     }
 </script>
 
 <template>
-    <Head title="Create Boar" />
+    <Head title="Update Boar" />
 
     <SideBarLayout>
         <template #header>
             <div class="flex">
-                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Create Boar</h2>
-                <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" href="/sow">Back</Link>
+                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Update Boar</h2>
+                <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" href="/boars">Back</Link>
             </div>
         </template>
 
@@ -55,7 +55,7 @@
                                     <div class="text-red-600" v-if="form.errors.date_arrived">{{ form.errors.date_arrived }}</div>
 
                                     <button class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
-                                        Create Boar
+                                        Update Boar
                                     </button>
                                   </div>
                             </div>

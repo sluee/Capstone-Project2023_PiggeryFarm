@@ -17,8 +17,14 @@ defineProps({
 const user = usePage().props.auth.user;
 
 const form = useForm({
-    name: user.name,
+    LastName: user.LastName,
+    firstName: user.firstName,
+    middleName: user.middleName,
+    suffix: user.suffix,
     email: user.email,
+    gender: user.gender,
+
+
 });
 </script>
 
@@ -34,20 +40,67 @@ const form = useForm({
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="firstName" value="First Name" />
 
                 <TextInput
-                    id="name"
+                    id="firstName"
                     type="text"
                     class="mt-1 block w-full"
-                    v-model="form.name"
+                    v-model="form.firstName"
                     required
                     autofocus
-                    autocomplete="name"
+                    autocomplete="firstName"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError class="mt-2" :message="form.errors.middleName" />
             </div>
+            <div>
+                <InputLabel for="middleName" value="Middle Name" />
+
+                <TextInput
+                    id="middleName"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.middleName"
+                    required
+                    autofocus
+                    autocomplete="middleName"
+                />
+
+                <InputError class="mt-2" :message="form.errors.middleName" />
+            </div>
+            <div>
+                <InputLabel for="LastName" value="Last Name" />
+
+                <TextInput
+                    id="LastName"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.LastName"
+                    required
+                    autofocus
+                    autocomplete="LastName"
+                />
+
+                <InputError class="mt-2" :message="form.errors.LastName" />
+            </div>
+
+            <div>
+                <InputLabel for="suffix" value="Suffix" />
+
+                <TextInput
+                    id="suffix"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.suffix"
+                    required
+                    autofocus
+                    autocomplete="suffix"
+                />
+
+                <InputError class="mt-2" :message="form.errors.suffix" />
+            </div>
+
 
             <div>
                 <InputLabel for="email" value="Email" />
@@ -62,6 +115,20 @@ const form = useForm({
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+            <div>
+                <InputLabel for="gender" value="Gender" />
+
+                <TextInput
+                    id="gender"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.gender"
+                    required
+                    autocomplete="gender"
+                />
+
+                <InputError class="mt-2" :message="form.errors.gender" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
@@ -84,6 +151,7 @@ const form = useForm({
                     A new verification link has been sent to your email address.
                 </div>
             </div>
+
 
             <div class="flex items-center gap-4">
                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>

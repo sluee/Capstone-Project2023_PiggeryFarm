@@ -95,15 +95,35 @@ class BreedingController extends Controller
      */
     public function edit(Breeding $breeding)
     {
-        //
+        // Load the specific $breeding record with its related sow and boar
+        $breeding->load('sow', 'boar');
+        $sows = Sow::orderBy('sow_no', 'asc')->get();
+        $boars = Boar::orderBy('breed', 'asc')->get();
+        return inertia('Breeding/edit', [
+            'breeding' => $breeding, // Pass the specific $breeding record to the view
+            'sows' => $sows,
+            'boars' => $boars
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Breeding $breeding)
     {
-        //
+        $fields = $request->validate([
+            'sow_id'                => 'required|numeric',
+            'boar_id'               => 'required|numeric',
+            'date_of_breed'         => 'required|date',
+            'possible_reheat'       => 'required|date|after:date_of_breed',
+            'changeFeeds'           =>'required|date|after:date_of_breed',
+            'exp_date_of_farrowing' => 'required|date|after:possible_reheat'
+        ]);
+
+        $breeding->update($fields);
+
+        return redirect('/breedings')->with('success', 'Breeding Updated Successfully');
     }
 
     /**

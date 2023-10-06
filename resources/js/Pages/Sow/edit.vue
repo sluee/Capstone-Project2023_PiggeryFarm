@@ -2,28 +2,27 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm  } from '@inertiajs/vue3';
     const form = useForm({
-        boar_no: null,
-        breed: null,
-        location: null,
-        date_arrived: null,
+        sow_no: props.sows.sow_no,
+        location: props.sows.location,
+        date_arrived: props.sows.date_arrived,
 
     })
     const props = defineProps({
-        boars:Object
+        sows:Object
     })
     function submit() {
-        form.post('/boars/')
+        form.put('/sows/' +props.sows.id)
     }
 </script>
 
 <template>
-    <Head title="Create Boar" />
+    <Head title="Update Sow" />
 
     <SideBarLayout>
         <template #header>
             <div class="flex">
-                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Create Boar</h2>
-                <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" href="/sow">Back</Link>
+                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Update Sow</h2>
+                <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" href="/sows">Back</Link>
             </div>
         </template>
 
@@ -35,16 +34,12 @@
                         <form @submit.prevent="submit" class="flex">
                             <div class="flex-1 pr-4">
                                 <h4 class="px-2 text-xl font-bold text-navy-700 dark:text-black">
-                                    Boar Details
+                                    Sow Details
                                 </h4>
                                 <div class="px-5 py-5">
-                                    <label class="font-semibold text-sm text-gray-600  block" for="boar_no">Boar No</label>
-                                    <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.boar_no"/>
-                                    <div class="text-red-600" v-if="form.errors.boar_no">{{ form.errors.boar_no }}</div>
-
-                                    <label class="font-semibold text-sm text-gray-600  block" for="breed">Boar Breed</label>
-                                    <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.breed"/>
-                                    <div class="text-red-600" v-if="form.errors.breed">{{ form.errors.breed }}</div>
+                                    <label class="font-semibold text-sm text-gray-600  block" for="sow_no">Sow No</label>
+                                    <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.sow_no"/>
+                                    <div class="text-red-600" v-if="form.errors.sow_no">{{ form.errors.sow_no }}</div>
 
                                     <label class="font-semibold text-sm text-gray-600  block" for="location">Location</label>
                                     <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.location" />
@@ -55,7 +50,7 @@
                                     <div class="text-red-600" v-if="form.errors.date_arrived">{{ form.errors.date_arrived }}</div>
 
                                     <button class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
-                                        Create Boar
+                                        Update Sow
                                     </button>
                                   </div>
                             </div>
