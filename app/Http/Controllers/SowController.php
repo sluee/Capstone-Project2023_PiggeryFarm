@@ -60,7 +60,9 @@ class SowController extends Controller
      */
     public function show(Sow $sow)
     {
-        return inertia('Sow/show', compact('sows'));
+        return inertia('Sow/show',[
+            'sows' => $sow
+        ]);
     }
 
     /**

@@ -107,10 +107,15 @@ class SaleItemController extends Controller
             'salesItems.*.pen_no' => 'required|numeric',
             'salesItems.*.pig_weight' => 'required|numeric',
             'salesItems.*.rate' => 'required|numeric',
+            'salesItems.*.total' => 'required|numeric',
         ]);
 
         $sale = Sale::create([
             'cust_id' => $request->input('cust_id'),
+            'total_amount' => $request->input('total_amount'),
+            'is_credit' => $request->input('is_credit'),
+            'balance' => $request->input('balance'),
+            'remarks' => $request->input('remarks'),
             // Add any other relevant fields here
         ]);
 
@@ -119,13 +124,14 @@ class SaleItemController extends Controller
 
         if (!is_null($salesItems)) {
             foreach ($salesItems as $salesItemData) {
-                $total = $salesItemData['pig_weight'] * $salesItemData['rate'];
+                // $total = $salesItemData['pig_weight'] * $salesItemData['rate'];
 
                 $sale->salesItems()->create([
                     'pen_no' => $salesItemData['pen_no'],
                     'pig_weight' => $salesItemData['pig_weight'],
                     'rate' => $salesItemData['rate'],
-                    'total' => $total, // Calculate the total for each sales item
+                    'total' => $salesItemData['total'],
+                    // 'total' => $total, // Calculate the total for each sales item
                     // Add any other relevant fields here
                 ]);
             }

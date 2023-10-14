@@ -54,11 +54,11 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-   
+
 
     public function show(Customer $customer)
     {
-        $customer->load('salesItems') // Load all sale items for this customer
+        $customer->load('sales') // Load all sale items for this customer
         ->when(HttpRequest::input('search'), function ($query, $search) {
             $query->where('created_at', 'like', '%' . $search . '%')
                 ->orWhere('pen_no', 'like', '%' . $search . '%')
@@ -93,7 +93,7 @@ class CustomerController extends Controller
 
 //     $salesItems = $query->paginate(8)
 //         ->withQueryString();
-    
+
 //     // Calculate the total amount of salesItems
 //     $totalAmount = $salesItems->sum('total');
 

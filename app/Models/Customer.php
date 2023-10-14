@@ -11,10 +11,10 @@ class Customer extends Model
 
     protected $fillable =['name','address','phone'];
 
-    // public function sale()
-    // {
-    //     return $this->hasMany(Sale::class,'cust_id');
-    // }
+    public function sales()
+    {
+        return $this->hasMany(Sale::class,'cust_id');
+    }
 
     public function salesItems()
     {

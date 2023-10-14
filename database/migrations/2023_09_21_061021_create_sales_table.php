@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('cust_id')->unsigned();
+            $table->double('total_amount');
+            $table->double('is_credit');
+            $table->double('balance');
+            $table->double('remarks');
             $table->timestamps();
 
             $table->foreign('cust_id')->references('id')->on('customers');

@@ -13,8 +13,6 @@
 
     });
 
-
-
     const form = useForm({
     breed_id:props.breed_id,
     parity_no:'',
@@ -42,15 +40,14 @@
     });
 
     function formatDate(date){
-    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-}
+        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    }
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }
 
     function submit() {
         form.post('/labors');
-
     }
 
 </script>
