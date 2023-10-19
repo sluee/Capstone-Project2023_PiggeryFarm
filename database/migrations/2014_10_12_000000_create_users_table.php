@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('firstName');
             $table->string('middleName')->nullable();
-            $table->string('LastName');
+            $table->string('lastName');
             $table->string('suffix')->nullable();
             $table->string('gender');
             $table->string('phone');
@@ -23,6 +23,7 @@ return new class extends Migration
             // $table->string('status')->default(1);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('status')->default(1)->comment("1-active, 0-inactive");
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

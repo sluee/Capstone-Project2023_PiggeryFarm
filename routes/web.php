@@ -14,6 +14,7 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SaleHistoryController;
 use App\Http\Controllers\SowController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeaningController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -76,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/breedings/create', [BreedingController::class, 'create'])->name('breeding.create');
     Route::post('/breedings',[BreedingController::class, 'store'])->name('breeding.store');
     Route::post('/breedings/reheat/{breeding}', [BreedingController::class, 'reheatRemarks']);
+    Route::post('/breedings/abort/{breeding}', [BreedingController::class, 'abortRemarks']);
     Route::get('/breedings/edit/{breeding}', [BreedingController::class, 'edit']);
     Route::put('/breedings/{breeding}', [BreedingController::class, 'update']);
     Route::get('/breedings/{breeding}',[BreedingController::class,'show']);
@@ -110,7 +112,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');
     Route::get('/customers/create',[CustomerController::class , 'create']);
     Route::post('/customers',[CustomerController::class, 'store']);
+    Route::get('/customers/edit/{customer}', [CustomerController::class, 'edit']);
+    Route::put('/customers/{customer}', [CustomerController::class, 'update']);
     Route::get('/customers/{customer}',[CustomerController::class,'show']);
+    Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
 
     Route::get('/suppliers' ,[SupplierController::class, 'index'])->name('suppliers.index');
     Route::get('/suppliers/create',[SupplierController::class , 'create']);
@@ -130,6 +135,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
     Route::get('/employees/create',[EmployeeController::class , 'create']);
     Route::post('/employees', [EmployeeController::class, 'store']);
+    Route::get('/employees/edit/{employee}',[EmployeeController::class , 'edit']);
+    Route::post('/employees/toggle/{employee}', [EmployeeController::class, 'toggleActive'])->name('employees.toggle');
+    Route::put('/employees/{employee}', [EmployeeController::class, 'update']);
+    Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy']);
+
+
+    Route::get('/users',[UserController::class, 'index'])->name('user.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/users',[UserController::class, 'store'])->name('user.store');
+    Route::get('/users/edit/{user}', [UserController::class, 'edit']);
+    Route::put('/users/{user}',[UserController::class, 'update']);
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
 });
 

@@ -2,11 +2,12 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import Pagination from '@/Components/Pagination.vue';
     import moment from 'moment'
-    import {Head, Link, router} from '@inertiajs/vue3'
+    import {Head, Link, router, useForm} from '@inertiajs/vue3'
     import { ref,watch } from 'vue';
     import DangerButton from '@/Components/DangerButton.vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
-
+    
+    let deleteForm = useForm({ })
     const props = defineProps({
         customer: Object,
         salesItems:Object,
@@ -29,6 +30,17 @@
             }
         );
     });
+
+    function remove(customer) {
+        deleteForm.delete('/customers/' + props.customer.id)
+
+        // console.log(props.errors)
+    }
+
+    function edit(){
+        router.visit('/customers/edit/' + props.customer.id)
+    }
+
 </script>
 <template>
     <Head title="View Customer" {{ customer.name }}/>

@@ -104,17 +104,24 @@ class SaleItemController extends Controller
         $request->validate([
             'cust_id' => 'required|exists:customers,id',
             'salesItems' => 'required|array|min:1', // Ensure at least one sales item
-            'salesItems.*.pen_no' => 'required|numeric',
             'salesItems.*.pig_weight' => 'required|numeric',
             'salesItems.*.rate' => 'required|numeric',
             'salesItems.*.total' => 'required|numeric',
         ]);
 
-        $sale = Sale::create([
+        $totalAmount = 0;
+        foreach ($request->salesItems as $item) {
+            // Assuming each item has a 'total' field
+            $totalAmount += $item['total'];
+        }
+        $balance = $request->is_credit - $totalAmount;
+        // $balance = $totalAmount - $amountPaid;
+        Sale::create([
             'cust_id' => $request->input('cust_id'),
-            'total_amount' => $request->input('total_amount'),
-            'is_credit' => $request->input('is_credit'),
-            'balance' => $request->input('balance'),
+            'total_amount' => $totalAmount,
+            'is_credit' => $request->is_credit,
+            'payment' => $request->payment,
+            'balance' => $balance,
             'remarks' => $request->input('remarks'),
             // Add any other relevant fields here
         ]);
@@ -122,23 +129,7 @@ class SaleItemController extends Controller
         // Loop through the sales items and associate them with the sale
         $salesItems = $request->input('salesItems');
 
-        if (!is_null($salesItems)) {
-            foreach ($salesItems as $salesItemData) {
-                // $total = $salesItemData['pig_weight'] * $salesItemData['rate'];
-
-                $sale->salesItems()->create([
-                    'pen_no' => $salesItemData['pen_no'],
-                    'pig_weight' => $salesItemData['pig_weight'],
-                    'rate' => $salesItemData['rate'],
-                    'total' => $salesItemData['total'],
-                    // 'total' => $total, // Calculate the total for each sales item
-                    // Add any other relevant fields here
-                ]);
-            }
-        } else {
-            // Handle the case where 'salesItems' is null
-            // You can log an error, return a response, or perform other appropriate actions.
-        }
+        
         return redirect('/sales')->with('success', 'sales Added Successfully');
     }
 

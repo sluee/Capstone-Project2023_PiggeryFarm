@@ -116,7 +116,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return inertia('Customer/edit',[
+            'customer' => $customer
+        ]);
     }
 
     /**
@@ -124,7 +126,16 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $fields=$request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+           
+        ]);
+
+        $customer->update($fields);
+
+        return redirect('/customers')->with('message','Customer Updated Successfully');
     }
 
     /**
@@ -132,6 +143,10 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+       
+        $customer->delete();
+
+        return back();
+
     }
 }

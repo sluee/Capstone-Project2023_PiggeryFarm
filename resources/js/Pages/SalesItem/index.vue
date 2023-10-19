@@ -1,39 +1,38 @@
 <script setup>
 import {Head, useForm } from "@inertiajs/vue3";
 import SideBarLayout from "@/Layouts/SideBarLayout.vue";
-import { computed, ref } from "vue";
-const form = useForm({
-  cust_id: '',
-  payment:'',
-  is_credit:0,
-  balance:'',   
-  salesItems:
-  [{
-    pen_no: '',
-    pig_weight: '',
-    rate: '',
-    total:''
-  
-  }]
+import { computed, ref , watch} from "vue";
+    const form = useForm({
+        cust_id: '',
+        total_amount:'',
+        payment:'',
+        is_credit:0,
+        balance:'',
+        salesItems:
+        [{
+            pig_weight: '',
+            rate: '',
+            total:''
 
-});
+        }]
 
-function addSaleItem() {
-  form.salesItems.push
-  ({
-    pen_no: '',
-    pig_weight: '',
-    rate: '',
-   
-  });
-};
+    });
 
-function removeSaleItem(index)
-{
-  form.salesItems.splice(index, 1);
-};
+    function addSaleItem() {
+        form.salesItems.push
+        ({
+            pig_weight: '',
+            rate: '',
 
-    const calculateTotal = (item) => 
+        });
+    };
+
+    function removeSaleItem(index)
+    {
+        form.salesItems.splice(index, 1);
+    };
+
+    const calculateTotal = (item) =>
     {
         const pigWeight = parseFloat(item.pig_weight);
         const rate = parseFloat(item.rate);
@@ -47,40 +46,57 @@ function removeSaleItem(index)
 
     //this is to compute all the total amount in the array(inputted)
     const totalOfAllItems = computed(() => {
-      let total = 0;
-      form.salesItems.forEach((item) => {
-        const itemTotal = parseFloat(calculateTotal(item));
-        if (!isNaN(itemTotal)) {
-          total += itemTotal;
-        }
-      });
-      return total.toFixed(2); // Ensure two decimal places
+        let total = 0;
+        form.salesItems.forEach((item) => {
+            const itemTotal = parseFloat(calculateTotal(item));
+            if (!isNaN(itemTotal)) {
+            total += itemTotal;
+            }
+        });
+
+        form.total_amount = total.toFixed(2);
+        return total.toFixed(2); // Ensure two decimal places
     });
 
     //to compute the totalofallitems minus the amount inputted (pilay gibayad)
     const balance = computed(() => {
-      const total = parseFloat(totalOfAllItems.value);
-      const amount = parseFloat(form.is_credit);
-      if (!isNaN(total) && !isNaN(amount)) {
-        return (total - amount).toFixed(2); // Ensure two decimal places
-      }
-      return '';
+        const total = parseFloat(totalOfAllItems.value);
+        const amount = parseFloat(form.is_credit);
+        if (!isNaN(total) && !isNaN(amount)) {
+            return (total - amount).toFixed(2); // Ensure two decimal places
+        }
+        return '';
     });
 
-const props = defineProps({
-  salesItems:Array,
-  customers:Object,
-  sale:Object,
-  total:Number,
-  totalAmount:Number
-});
 
-function submit() {
-  form.post('/sales/');
-  form.cust_id=""
-//   form.salesItems=[];
+    watch(() => form.total_amount, (newTotalAmount) => {
+        if (newTotalAmount) {
+            const balanceAmount = (newTotalAmount);
+            balanceAmount.computed(form.total_amount - form.is_credit);
+            form.balance = (balanceAmount);
 
-}
+            
+        } else {
+            // Handle the case where date_of_breed is empty
+            form.balance = '';
+        
+        }
+    });
+
+
+    const props = defineProps({
+    salesItems:Array,
+    customers:Object,
+    sale:Object,
+    total:Number,
+    totalAmount:Number
+    });
+
+    function submit() {
+    form.post('/sales/');
+    //   form.cust_id=""
+    //   form.salesItems=[];
+    }
 </script>
 
 <template>
@@ -96,15 +112,15 @@ function submit() {
 
       <div class="px-2 mt-5">
           <div class="p-4 mx-2">
-              <div class="flex justify-start">
+              <div class="flex justify-start ">
                   <form @submit.prevent="submit">
                       <div>
-                        <label class="leading-loose">Customer</label>
+                        <label class="leading-loose">Customer: </label>
                         <select
                           id="cust_id"
                           name="cust_id"
                           v-model="form.cust_id"
-                          class="pr-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                          class="pr-4 py-2 w-[180px]  border focus:ring-gray-500 focus:border-gray-900  sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
                         >
                           <option value="" disabled>Select Customer</option>
                           <option v-for="cust in customers" :value="cust.id" :key="cust.id">{{ cust.name }}</option>
@@ -115,19 +131,18 @@ function submit() {
                       <div class="container mx-auto mt-2">
                         <div class="flex justify-between">
                             <h1 class="text-3xl font-medium text-gray-700 "></h1>
-                            <button @click="addSaleItem" class="bg-blue-500 flex justify-center items-center w-full text-dark px-3 py-2 rounded-md focus:outline-none">
+                            <button @click="addSaleItem" class="bg-blue-500 hover:bg-blue-600 flex justify-center items-center w-[180px] mb-5 text-dark px-3 py-2 rounded-md focus:outline-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                                 </svg>
                             Add item
                             </button>
                         </div>
-                        
+
                         <table class="min-w-full">
-                            
+
                           <thead>
                             <tr>
-                              <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Pen No</th>
                               <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Pig Weight</th>
                               <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Rate</th>
                               <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Total</th>
@@ -136,9 +151,7 @@ function submit() {
                           </thead>
                           <tbody>
                             <tr  v-for="(item, index) in form.salesItems" :key="index">
-                              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                <input type="text" class="w-full border rounded-md p-2" placeholder="Pen No" v-model="item.pen_no">
-                              </td>
+                        
                               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <input type="number" class="w-full border rounded-md p-2" placeholder="Pig Weight" v-model="item.pig_weight">
                               </td>
@@ -149,31 +162,31 @@ function submit() {
                                 <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
                                 <input type="number" class="w-full border rounded-md p-2" placeholder="Total" :value="calculateTotal(item)" readonly>
                               </td>
-                              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                <button @click="removeSaleItem(index)" class="bg-red-500 flex justify-center items-center w-full text-dark px-3 py-2 rounded-md focus:outline-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                    Remove
-                                  </button>
-                              </td>
+                              <td class="py-3 px-6 text-center">
+                                    <button @click="removeSaleItem(index)" class="bg-red-500 flex hover:bg-red-600 justify-center items-center w-full text-dark px-1 py-2 rounded-md focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        Remove
+                                    </button>       
+                              </td> 
                             </tr>
                             <tr >
                                 <td ></td>
                                 <td ></td>
                                 <td ></td>
-                                
+
                                 <td colspan="2" class="mt-6 mr-2">
                                     <div class="flex justify-between">
                                         <label class="leading-loose mr-3 mt-3">Total:</label>
-                                        <input type="number" class=" px-3 py-2 mt-3 mb-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="totalOfAllItems" readonly>
+                                        <input id="total_amount" type="number" class=" px-3 py-2 mt-3 mb-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="totalOfAllItems" readonly>
                                     </div>
-                                    
+
                                     <div class="flex justify-between">
                                         <label class="leading-loose mr-3">Payment</label>
                                         <select
-                                        id="cust_id"
-                                        name="cust_id"
+                                        id="payment"
+                                        name="payment"
                                         v-model="form.payment"
                                         class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
                                         >
@@ -185,17 +198,18 @@ function submit() {
                                     </div>
                                     <div class="flex justify-between">
                                         <label class="leading-loose mr-3 mt-3 ">Amount</label>
-                                        <input type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="amount" v-model="form.is_credit">
+                                        <input id="is_credit" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="amount" v-model="form.is_credit">
                                     </div>
                                     <div class="flex justify-between">
                                         <label class="leading-loose mr-3 mt-3 ">Balance:</label>
-                                        <input type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="balance" readonly>
-                                        
+                                        <input id="balance" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="balance" readonly>
+                                        <input id="balance" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="balance" readonly>
+
                                         <!-- <input type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Balance" v-model="form.balance"> -->
                                     </div>
                                     <div class="flex justify-between">
                                         <label class="leading-loose mr-3 mt-3 ">Remarks</label>
-                                        <input type="text" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600 mb-2" placeholder="Remarks" v-model="form.remarks">
+                                        <input id="remarks" type="text" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600 mb-2" placeholder="Remarks" v-model="form.remarks">
                                     </div>
                                 </td>
 
@@ -269,20 +283,14 @@ function submit() {
                         <br>
 
                       </div> -->
-                    
-                        <button class="bg-blue-500 flex justify-center items-center w-full text-dark px-5 py-2 rounded-md focus:outline-none p" type="submit">Create </button>
-                    
-                      
+                        <div class="flex justify-between">
+                            <h1 class="text-3xl font-medium text-gray-700 "></h1>
 
-
+                            <button class=" bg-blue-600 flex justify-center hover:bg-blue-700 w-[180px] items-center text-dark px-5 py-2 rounded-md focus:outline-none p" type="submit">Save </button>
+                        </div>
                     </form>
-
-
-              </div>
-
-
-          </div>
-      </div>
-
-  </SideBarLayout>
+                </div>
+            </div>
+        </div>
+    </SideBarLayout>
 </template>

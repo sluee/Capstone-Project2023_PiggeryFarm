@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -49,15 +50,16 @@ class EmployeeController extends Controller
         ]);
         $user->save();
 
-        $employee = new Employee([
-            'pos_id' =>$request->input('pos_id')
-        ]);
+        $employeeRole = Role::where('name', 'employee')->first();
+        $user->assignRole($employeeRole);
 
-        $employee->status =1;
+        $employee = new Employee([
+            'pos_id' => $request->input('pos_id'),
+        ]);
 
         $user->employee()->save($employee);
 
-        return redirect('/employees')->with('message', 'Category successfully created');
+        return redirect('/employees')->with('message', 'Employee successfully created');
     }
 
     /**
@@ -73,7 +75,11 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        $position = Position::all();
+        return Inertia('Employee/edit',[
+            'position' => $position,
+            'employee' => $employee->load('user')
+        ]);
     }
 
     /**
@@ -81,7 +87,38 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $user = $employee->user;
+        $user->update([
+            'firstName' => $request->input('firstName'),
+            'middleName' => $request->input('middleName'),
+            'lastName' => $request->input('lastName'),
+            'suffix' => $request->input('suffix'),
+            'gender' => $request->input('gender'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'email' => $request->input('email'),
+        ]);
+
+        // Update employee details
+        $employee->update([
+            'pos_id' => $request->input('pos_id'),
+            'status' => $request->input('status'),
+        ]);
+
+        $roleName = $request->input('role');
+
+        $spatieRoleNames = [
+            'Employee' => 'employee',
+            'Special Employee' => 'specialEmployee',
+        ];
+
+        $role = Role::where('name', $spatieRoleNames[$roleName])->first();
+
+        if ($role) {
+            $user->syncRoles([$role->name]);
+        }
+
+        return redirect('/employees')->with('message', 'Employee information updated successfully');
     }
 
     /**
@@ -89,6 +126,8 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+
+        return redirect('/employees')->with('message', 'Employee has been deleted successfully!');
     }
 }

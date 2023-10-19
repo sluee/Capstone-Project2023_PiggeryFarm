@@ -90,6 +90,13 @@ class BreedingController extends Controller
         return redirect('/breedings');
     }
 
+    public function abortRemarks(Breeding $breeding) {
+        $breeding->update(['remarks' => 'Abort']);
+        $breeding->save();
+
+        return redirect('/breedings');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

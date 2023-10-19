@@ -1,55 +1,92 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import { Link , Head} from '@inertiajs/vue3';
     import { useForm } from '@inertiajs/vue3';
+    import { onMounted } from 'vue';
+
+    let props = defineProps({
+        employee: Object,
+        position: Object,
+        user: Object
+    })
 
     let form = useForm({
         // doc_id: '',
-        lastName: '',
-        firstName:'',
-        middleName:'',
-        suffix: '',
-        email:'',
-        address:'',
+        lastName: props.employee.user.lastName,
+        firstName:props.employee.user.firstName,
+        middleName:props.employee.user.middleName,
+        suffix: props.employee.user.suffix,
+        email:props.employee.user.email,
+        address:props.employee.user.address,
+        role: '',
         password:'',
         password_confirmation:'',
-        status:'',
-        gender:'',
-        pos_id: '',
-        phone: '',
+        status:props.employee.status,
+        gender:props.employee.user.gender,
+        pos_id: props.employee.pos_id,
+        phone: props.employee.user.phone,
         // selectedServices: [],
-        service_id: ''
-    })
-
-    let props = defineProps({
-        employees: Array,
-        position:Object
+        // service_id: props.employee.service_id
     })
 
     // const selectedServices = ref([]);
     // const services = ref([]);
 
-    const submit = () =>{
-        form.post('/employees')
-    }
+    const localStorageKeyToggle = `toggleState_${props.employee.id}`;
 
+    onMounted(() => {
+        const savedToggleState = JSON.parse(localStorage.getItem(localStorageKeyToggle));
+        if (savedToggleState !== null) {
+            isActive.value = savedToggleState;
+        }
+
+        const savedScrollPosition = localStorage.getItem('scrollPosition');
+        if (savedScrollPosition !== null) {
+            window.scrollTo(0, savedScrollPosition);
+        }
+    });
+
+    const isActive = ref(props.employee.status === 1);
+
+    const toggleActive = () => {
+        isActive.value = !isActive.value;
+        form.status = isActive.value ? 1 : 0;
+
+        localStorage.setItem(localStorageKeyToggle, JSON.stringify(isActive.value));
+    };
+
+    const submit = () =>{
+        let roleName = form.role === 'Employee' ? 'employee' : 'specialEmployee';
+
+        form.put(`/employees/${props.employee.id}`, {
+            role: roleName,
+        });
+    }
 </script>
 
 <template>
-    <Head title="Create Employee"/>
+    <Head title="Edit Employee"/>
     <SideBarLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create Employee</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Employee</h2>
         </template>
         <div>
             <div class="w-full mt-10 mx-auto px-4 ">
                 <form @submit.prevent="submit">
                     <div class="space-y-6">
-                        <div class="block pl-12 font-semibold text-xl self-start text-gray-700">
-                            <h1 class="leading-relaxed">Employee Details Form</h1>
-                            <hr>
-                          </div>
+                        <div class="block pl-12 font-semibold text-xl self-start text-gray-700 flex -mb-4">
+                            <h1 class="leading-relaxed flex-1">Employee Details Form</h1>
+
+                            <div class="flex items-center mr-6">
+                                <h1 class="text-sm mr-2">Active status:</h1>
+                                <label class="relative inline-flex items-center cursor-pointer" :for="'status-' + employee.id">
+                                    <input type="checkbox" v-model="isActive" class="peer hidden" @change="toggleActive">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" @click="toggleActive"></div>
+                                    <span class="ml-6 text-md font-semibold text-gray-900 dark:text-gray-300"></span>
+                                </label>
+                            </div>
+                        </div><hr>
                       <div class="border-b border-gray-900/10 pb-12">
 
                         <div class=" px-12 py-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mx-auto">
@@ -123,6 +160,17 @@
                             </div>
                           </div>
 
+                          <div class="m:col-span-2">
+                            <label for="role" class="block text-sm font-medium leading-6 text-gray-900">Role</label>
+                            <div class="mt-2">
+                                <select id="role" v-model="form.role" name="role" autocomplete="role" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" >
+                                  <option selected disabled >Select Role</option>
+                                  <option value="Employee">Employee</option>
+                                  <option value="Special Employee">Special Employee</option>
+                                </select>
+                                <div class="text-sm text-red-500 italic" v-if="form.errors.role">{{ form.errors.role }}</div>
+                              </div>
+                          </div>
 
                           <div class="sm:col-span-1 sm:col-start-1">
                             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
