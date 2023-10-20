@@ -8,6 +8,7 @@ import { computed, ref , watch} from "vue";
         payment:'',
         is_credit:0,
         balance:'',
+        remarks:'',
         salesItems:
         [{
             pig_weight: '',
@@ -43,6 +44,12 @@ import { computed, ref , watch} from "vue";
         return '';
         }
     };
+        watch(() => form.salesItems, (newSalesItems) => {
+    newSalesItems.forEach((item) => {
+        item.total = calculateTotal(item);
+    });
+    }, { deep: true });
+
 
     //this is to compute all the total amount in the array(inputted)
     const totalOfAllItems = computed(() => {
@@ -59,29 +66,46 @@ import { computed, ref , watch} from "vue";
     });
 
     //to compute the totalofallitems minus the amount inputted (pilay gibayad)
-    const balance = computed(() => {
-        const total = parseFloat(totalOfAllItems.value);
-        const amount = parseFloat(form.is_credit);
-        if (!isNaN(total) && !isNaN(amount)) {
-            return (total - amount).toFixed(2); // Ensure two decimal places
-        }
-        return '';
+    // const balance = computed(() => {
+    //     const total = parseFloat(totalOfAllItems.value);
+    //     const amount = parseFloat(form.is_credit);
+    //     if (!isNaN(total) && !isNaN(amount)) {
+    //         return (total - amount).toFixed(2); // Ensure two decimal places
+    //     }
+    //     return '';
+    // });
+    watch([totalOfAllItems, () => form.is_credit], ([total, isCredit]) => {
+  const totalAmount = parseFloat(total);
+  const creditAmount = parseFloat(isCredit);
+  if (!isNaN(totalAmount) && !isNaN(creditAmount)) {
+    form.balance = (totalAmount - creditAmount).toFixed(2);
+  } else {
+    form.balance = '';
+  }
+});
+
+
+    watch(() => form.salesItems, (newSalesItems) => {
+  // Calculate the total amount from the newSalesItems array
+        const totalAmount = newSalesItems.reduce((total, item) => {
+            // Assuming that 'pig_weight' and 'rate' are numeric values
+            return total + (item.pig_weight * item.rate);
+        }, 0);
+
+        // Update the form's total_amount property with the calculated total
+        form.total_amount = totalAmount;
     });
 
-
-    watch(() => form.total_amount, (newTotalAmount) => {
-        if (newTotalAmount) {
-            const balanceAmount = (newTotalAmount);
-            balanceAmount.computed(form.total_amount - form.is_credit);
-            form.balance = (balanceAmount);
-
-            
+    watch(() => [form.total_amount, form.is_credit], ([newTotalAmount, newIsCredit]) => {
+        if (newTotalAmount !== undefined && newIsCredit !== undefined) {
+            const balanceAmount = newTotalAmount - newIsCredit;
+            form.balance = balanceAmount;
         } else {
-            // Handle the case where date_of_breed is empty
-            form.balance = '';
-        
+            // Handle the case where either total_amount or is_credit is not defined
+            form.balance = null; // You can set this to an appropriate default value or handle it differently
         }
     });
+
 
 
     const props = defineProps({
@@ -93,9 +117,7 @@ import { computed, ref , watch} from "vue";
     });
 
     function submit() {
-    form.post('/sales/');
-    //   form.cust_id=""
-    //   form.salesItems=[];
+        form.post('/sales');
     }
 </script>
 
@@ -151,7 +173,7 @@ import { computed, ref , watch} from "vue";
                           </thead>
                           <tbody>
                             <tr  v-for="(item, index) in form.salesItems" :key="index">
-                        
+
                               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <input type="number" class="w-full border rounded-md p-2" placeholder="Pig Weight" v-model="item.pig_weight">
                               </td>
@@ -160,7 +182,7 @@ import { computed, ref , watch} from "vue";
                               </td>
                               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
-                                <input type="number" class="w-full border rounded-md p-2" placeholder="Total" :value="calculateTotal(item)" readonly>
+                                <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly>
                               </td>
                               <td class="py-3 px-6 text-center">
                                     <button @click="removeSaleItem(index)" class="bg-red-500 flex hover:bg-red-600 justify-center items-center w-full text-dark px-1 py-2 rounded-md focus:outline-none">
@@ -168,8 +190,8 @@ import { computed, ref , watch} from "vue";
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
                                         Remove
-                                    </button>       
-                              </td> 
+                                    </button>
+                              </td>
                             </tr>
                             <tr >
                                 <td ></td>
@@ -179,7 +201,7 @@ import { computed, ref , watch} from "vue";
                                 <td colspan="2" class="mt-6 mr-2">
                                     <div class="flex justify-between">
                                         <label class="leading-loose mr-3 mt-3">Total:</label>
-                                        <input id="total_amount" type="number" class=" px-3 py-2 mt-3 mb-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="totalOfAllItems" readonly>
+                                        <input v-model="form.total_amount"  name="total_amount"  class=" px-3 py-2 mt-3 mb-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total"  readonly>
                                     </div>
 
                                     <div class="flex justify-between">
@@ -202,8 +224,8 @@ import { computed, ref , watch} from "vue";
                                     </div>
                                     <div class="flex justify-between">
                                         <label class="leading-loose mr-3 mt-3 ">Balance:</label>
-                                        <input id="balance" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="balance" readonly>
-                                        <input id="balance" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total" :value="balance" readonly>
+
+                                        <input id="balance" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total"  v-model="form.balance"  name="balance" readonly>
 
                                         <!-- <input type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Balance" v-model="form.balance"> -->
                                     </div>

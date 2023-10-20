@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double('total_amount');
             $table->double('is_credit');
             $table->double('balance');
-            $table->double('remarks');
+            $table->string('remarks');
             $table->timestamps();
 
             $table->foreign('cust_id')->references('id')->on('customers');

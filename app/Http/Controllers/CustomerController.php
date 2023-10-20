@@ -68,12 +68,12 @@ class CustomerController extends Controller
         ->paginate(8)
         ->withQueryString();
         // Access the 'total' attribute on the 'customer' object
-        $total = $customer->total;
+       
         // $totalAmount = $total->sum('total');
 
         return inertia('Customer/show', [
             'customer' => $customer,
-            'total' => $total, // Pass the total to the view if needed
+             // Pass the total to the view if needed
             // 'totalAmount'=> $totalAmount,
             'filters' => HttpRequest::only(['search']),
         ]);

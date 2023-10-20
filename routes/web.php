@@ -16,6 +16,7 @@ use App\Http\Controllers\SowController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeaningController;
+use App\Http\Controllers\FinancialCategoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -108,7 +109,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/histories' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.index');
 
-
+    // Route for customers
     Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');
     Route::get('/customers/create',[CustomerController::class , 'create']);
     Route::post('/customers',[CustomerController::class, 'store']);
@@ -117,10 +118,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/{customer}',[CustomerController::class,'show']);
     Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
 
+    //Route for suppliers
     Route::get('/suppliers' ,[SupplierController::class, 'index'])->name('suppliers.index');
     Route::get('/suppliers/create',[SupplierController::class , 'create']);
     Route::post('/suppliers',[SupplierController::class, 'store']);
 
+    //Route for category
     Route::get('/categories' ,[CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create',[CategoryController::class , 'create']);
     Route::post('/categories',[CategoryController::class, 'store']);
@@ -148,6 +151,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{user}',[UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
+
+
+    Route::get('/financial',[FinancialCategoryController::class, 'index'])->name('financial.index');
+    Route::post('/financial',[FinancialCategoryController::class, 'store'])->name('financial.store');
 });
 
 

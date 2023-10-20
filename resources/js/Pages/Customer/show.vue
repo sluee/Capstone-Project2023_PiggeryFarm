@@ -10,9 +10,9 @@
     let deleteForm = useForm({ })
     const props = defineProps({
         customer: Object,
-        salesItems:Object,
+        sales:Object,
         filters:Object,
-        totalAmount:Number
+        
     })
 
     function formattedDate(date){
@@ -95,22 +95,22 @@
                 <div class="bg-white p-4 rounded shadow w-[68%]">
                     <h4 class="text-2xl mb-3">Transaction Log</h4>
                     <table class="w-full text-sm text-left text-black-500 dark:text-gray-400">
-                        <thead class="text-xs text-white uppercase text-center bg-gray-50 dark:bg-blue-500 dark:text-white-400">
+                        <thead class="text-xs text-white uppercase text-center bg-gray-50 dark:bg-blue-500 dark:text-white-400" >
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     Date
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    No of Pigs
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Total Weight
+                                   Details
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Total Amount
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Payment
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Balance
                                 </th><th scope="col" class="px-6 py-3">
                                     Remarks
                                 </th>
@@ -125,18 +125,23 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
-                                    {{ customer.name }}
+                                     {{ sale.payment }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
-                                    {{ sale.pig_weight }}
+                                    ₱ {{ sale.total_amount }}
+                                </td>
+                                
+                                <td class="px-6 py-4">
+                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
+                                    ₱ {{ sale.is_credit }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
-                                    {{ sale.rate }}
+                                    ₱ {{ sale.balance }}
                                 </td>
                                 <td class="px-6 py-4">
-                                  PHP {{ sale.totalAmount }}
+                                   {{ sale.remarks }}
                                 </td>
                             </tr>
                         </tbody>

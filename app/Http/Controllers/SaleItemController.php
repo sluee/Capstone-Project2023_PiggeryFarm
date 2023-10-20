@@ -62,76 +62,48 @@ class SaleItemController extends Controller
     // public function store(Request $request)
     // {
 
-    //     $request->validate([
-    //         'cust_id' => 'required|exists:customers,id',
-    //         'salesItems' => 'required|array|min:1', // Ensure at least one sales item
-    //         'salesItems.*.pen_no' => 'required|numeric',
-    //         'salesItems.*.pig_weight' => 'required|numeric',
-    //         'salesItems.*.rate' => 'required|numeric',
-    //     ]);
-
-    //     $sale = Sale::create([
-    //         'cust_id' => $request->input('cust_id'),
-    //         // Add any other relevant fields here
-    //     ]);
-
-    //     // Loop through the sales items and associate them with the sale
-    //     $salesItems = $request->input('salesItems');
-    //     $total = $request->input('pig_weight') * $request->input('rate');
-
-    //     if (!is_null($salesItems)) {
-    //         foreach ($salesItems as $salesItemData) {
-    //             $sale->salesItems()->create([
-    //                 'pen_no' => $salesItemData['pen_no'],
-    //                 'pig_weight' => $salesItemData['pig_weight'],
-    //                 'rate' => $salesItemData['rate'],
-    //                 'total' =>$total
-    //                 // Add any other relevant fields here
-    //             ]);
-    //         }
-    //     } else {
-    //         // Handle the case where 'salesItems' is null
-    //         // You can log an error, return a response, or perform other appropriate actions.
-    //     }
 
 
-
-    //     return redirect('/sales')->with('success', 'sales Added Successfully');
-    // }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $fields = $request->validate([
             'cust_id' => 'required|exists:customers,id',
-            'salesItems' => 'required|array|min:1', // Ensure at least one sales item
+            'salesItems' => 'required|array|min:1',
             'salesItems.*.pig_weight' => 'required|numeric',
             'salesItems.*.rate' => 'required|numeric',
-            'salesItems.*.total' => 'required|numeric',
+            // You may remove 'salesItems.*.total' from validation
         ]);
 
-        $totalAmount = 0;
-        foreach ($request->salesItems as $item) {
-            // Assuming each item has a 'total' field
-            $totalAmount += $item['total'];
-        }
-        $balance = $request->is_credit - $totalAmount;
-        // $balance = $totalAmount - $amountPaid;
-        Sale::create([
+        // Create the Sale instance
+        $sale = Sale::create([
             'cust_id' => $request->input('cust_id'),
-            'total_amount' => $totalAmount,
-            'is_credit' => $request->is_credit,
-            'payment' => $request->payment,
-            'balance' => $balance,
+            'total_amount' => 0, // Calculate 'total_amount' based on the associated SaleItems
+            'is_credit' => $request->input('is_credit'),
+            'payment' => $request->input('payment'),
+            'balance' => $request->input('balance'),
             'remarks' => $request->input('remarks'),
             // Add any other relevant fields here
         ]);
 
         // Loop through the sales items and associate them with the sale
-        $salesItems = $request->input('salesItems');
+        foreach ($fields['salesItems'] as $itemData) {
+            $total = $itemData['pig_weight'] * $itemData['rate'];
+            $saleItem = new SaleItem([
+                'pig_weight' => $itemData['pig_weight'],
+                'rate' => $itemData['rate'],
+                'total' => $total,
+            ]);
+            $sale->salesItems()->save($saleItem);
+        }
 
-        
-        return redirect('/sales')->with('success', 'sales Added Successfully');
+        // Calculate the total amount for the sale based on associated SaleItems
+        $sale->total_amount = $sale->salesItems->sum('total');
+        $sale->save();
+
+        return redirect('/sales')->with('success', 'Sale Added Successfully');
     }
+
 
 
     /**
