@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Customer;
+use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
 
@@ -56,10 +57,48 @@ class CustomerController extends Controller
      */
 
 
+    // public function show(Customer $customer)
+    // {
+    //     $customer->load('sales')
+    //     // Load all sale items for this customer
+    //     ->when(HttpRequest::input('search'), function ($query, $search) {
+    //         $query->where('created_at', 'like', '%' . $search . '%')
+    //             ->orWhere('pen_no', 'like', '%' . $search . '%')
+    //             ->orWhere('pig_weight', 'like', '%' . $search . '%')
+    //             ->orWhere('rate', 'like', '%' . $search . '%');
+    //     })
+
+    //     ->paginate(8)
+    //     ->withQueryString();
+    //     // Access the 'total' attribute on the 'customer' object
+
+    //     // $totalAmount = $total->sum('total');
+
+    //     return inertia('Customer/show', [
+    //         'customer' => $customer,
+    //          // Pass the total to the view if needed
+    //         // 'totalAmount'=> $totalAmount,
+    //         'filters' => HttpRequest::only(['search']),
+    //     ]);
+    // }
     public function show(Customer $customer)
     {
-        $customer->load('sales') // Load all sale items for this customer
-        ->when(HttpRequest::input('search'), function ($query, $search) {
+        $customer->load(['sales.salesItems']);
+
+        // Calculate the total weight for each sale
+        $customer->sales->each(function ($sale) {
+            $totalWeight = $sale->salesItems->sum('pig_weight');
+            $sale->total = number_format($totalWeight);
+        });
+
+        $customer->sales->each(function ($sale) {
+            $totalPigs = $sale->salesItems->count(); // Count the number of salesItems
+            $sale->totalPig = $totalPigs; // Store the count in the 'totalPig' attribute
+        });
+
+        $sales = Sale::query() // Or any query builder conditions you need
+        ->when(request('search'), function ($query) {
+            $search = request('search');
             $query->where('created_at', 'like', '%' . $search . '%')
                 ->orWhere('pen_no', 'like', '%' . $search . '%')
                 ->orWhere('pig_weight', 'like', '%' . $search . '%')
@@ -67,17 +106,15 @@ class CustomerController extends Controller
         })
         ->paginate(8)
         ->withQueryString();
-        // Access the 'total' attribute on the 'customer' object
-       
-        // $totalAmount = $total->sum('total');
 
         return inertia('Customer/show', [
             'customer' => $customer,
-             // Pass the total to the view if needed
-            // 'totalAmount'=> $totalAmount,
-            'filters' => HttpRequest::only(['search']),
+            'sales' => $sales,
+            'filters' => request()->only(['search']),
         ]);
+
     }
+
 
 //      public function show(Customer $customer)
 // {
@@ -130,7 +167,7 @@ class CustomerController extends Controller
             'name' => 'required',
             'address' => 'required',
             'phone' => 'required',
-           
+
         ]);
 
         $customer->update($fields);
@@ -143,7 +180,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-       
+
         $customer->delete();
 
         return back();

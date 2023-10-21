@@ -37,7 +37,19 @@ class SaleController extends Controller
      */
     public function show(Sale $sale)
     {
-        //
+        // Load the related salesItems and the parent Customer model if needed
+        $sale->load('salesItems', 'customers');
+
+        // Calculate and store the totalPigs and totalWeight
+        $totalPigs = $sale->salesItems->count();
+        $totalWeight = $sale->salesItems->sum('pig_weight');
+
+        // Pass the Sale model and the calculated values to the Inertia view
+        return inertia('SalesItem/show', [
+            'sale' => $sale,
+            'totalPigs' => $totalPigs,
+            'totalWeight' => $totalWeight, // Format the total weight
+        ]);
     }
 
     /**

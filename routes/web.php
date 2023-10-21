@@ -17,6 +17,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeaningController;
 use App\Http\Controllers\FinancialCategoryController;
+use App\Http\Controllers\FinancialTransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -104,8 +105,11 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/sales' ,[SaleItemController::class, 'index'])->name('SalesItem.index');
-    // Route::get('/sales/create', [SaleItemController::class, 'create'])->name('SalesItem.create');
+    Route::get('/sales/create', [SaleItemController::class, 'create'])->name('SalesItem.create');
     Route::post('/sales',[SaleItemController::class, 'store']);
+    Route::get('/sales/{sale}',[SaleController::class,'show'])->name('SalesItem.show');
+
+
 
     Route::get('/histories' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.index');
 
@@ -155,6 +159,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/financial',[FinancialCategoryController::class, 'index'])->name('financial.index');
     Route::post('/financial',[FinancialCategoryController::class, 'store'])->name('financial.store');
+
+    Route::get('/transactions',[FinancialTransactionController::class, 'index'])->name('transaction.index');
+    Route::get('/transactions/create', [FinancialTransactionController::class, 'create'])->name('user.create');
+    Route::post('/transactions',[FinancialTransactionController::class, 'store'])->name('user.store');
 });
 
 

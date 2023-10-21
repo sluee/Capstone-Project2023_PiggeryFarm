@@ -10,4 +10,8 @@ class FinancialCategory extends Model
     use HasFactory;
 
     protected $fillable =['particulars'];
+
+    public function transaction(){
+        return $this->hasMany(FinancialTransaction::class , 'fin_id');
+    }
 }

@@ -23,17 +23,11 @@ class SaleItemController extends Controller
              ->get();
 
          // Calculate the total for each SaleItem and add it to the data
-         foreach ($salesItems as $saleItem) {
-             $saleItem->total = $saleItem->getTotalAttribute(); // Assuming you have a getTotalAttribute method in your SaleItem model
-         }
-
-         // Calculate the total amount of all listed purchases
-         $totalAmount = $salesItems->sum('total');
 
          return inertia('SalesItem/index', [
              'salesItems' => $salesItems,
              'customers' => $customers,
-             'totalAmount' => $totalAmount, // Pass the total amount to your view
+
          ]);
      }
 
@@ -101,7 +95,8 @@ class SaleItemController extends Controller
         $sale->total_amount = $sale->salesItems->sum('total');
         $sale->save();
 
-        return redirect('/sales')->with('success', 'Sale Added Successfully');
+        return redirect('/customers/' . $fields['cust_id'])->with('success', 'Sale Added Successfully');
+
     }
 
 
@@ -109,10 +104,24 @@ class SaleItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SaleItem $saleItem)
-    {
-        //
-    }
+    // public function show(SaleItem $saleItem)
+    // {
+    //     $saleItem->load('sale'); // Load the parent Sale model for the SaleItem
+    //     return inertia('SalesItem/show', [
+    //         'saleItem' => $saleItem,
+    //     ]);
+    // }
+
+//     public function show(SaleItem $saleItem)
+// {
+//     $saleItem->load('sale'); // Load the parent Sale model for the SaleItem
+
+//     return inertia('SalesItem/show', [
+//         'saleItem' => $saleItem,
+//         'sale' => $saleItem->sale, // Include the Sale model
+//     ]);
+// }
+
 
     /**
      * Show the form for editing the specified resource.

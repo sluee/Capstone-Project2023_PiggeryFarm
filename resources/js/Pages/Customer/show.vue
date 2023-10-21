@@ -6,14 +6,17 @@
     import { ref,watch } from 'vue';
     import DangerButton from '@/Components/DangerButton.vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
-    
+    import SaleItemForm from '@/Components/SaleItemForm.vue';
+
     let deleteForm = useForm({ })
     const props = defineProps({
         customer: Object,
         sales:Object,
+
         filters:Object,
-        
+
     })
+
 
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
@@ -98,10 +101,19 @@
                         <thead class="text-xs text-white uppercase text-center bg-gray-50 dark:bg-blue-500 dark:text-white-400" >
                             <tr>
                                 <th scope="col" class="px-6 py-3">
+                                    Invoice Id
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Date
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                    Details
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                   No of Pigs
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                   Total Weight
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Total Amount
@@ -111,41 +123,58 @@
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Balance
-                                </th><th scope="col" class="px-6 py-3">
-                                    Remarks
                                 </th>
+                                <!-- <th scope="col" class="px-6 py-3">
+                                    Remarks
+                                </th> -->
                             </tr>
                         </thead>
                         <tbody v-for="sale in customer.sales" :key="sale.id">
 
                             <tr class="bg-blue-200 hover:bg-s-50 text-center font-medium text-black  whitespace-nowrap ">
 
-                                <td scope="row" >
+                                <td class="px-3 py-4">
+                                    <Link :href="'/sales/'+sale.id">
+                                        <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
+                                        00{{ sale.id }}
+                                    </Link>
+                                </td>
+                                <td class="px-3 py-4">
                                     {{ formattedDate(sale.created_at)}}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 py-4">
                                     <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                      {{ sale.payment }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 py-4">
+                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
+                                    {{ sale.totalPig }}
+                                </td>
+                                <td class="px-3 py-4">
+                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
+                                     {{ sale.total }} kgs.
+                                </td>
+                                <td class="px-3 py-4">
                                     <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                     ₱ {{ sale.total_amount }}
                                 </td>
-                                
-                                <td class="px-6 py-4">
+
+                                <td class="px-3 py-4">
                                     <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                     ₱ {{ sale.is_credit }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 py-4">
                                     <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                     ₱ {{ sale.balance }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <!-- <td class="px-3 py-4">
                                    {{ sale.remarks }}
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
+
                     </table>
+                    <!-- <Pagination :links="sales.links" class="mt-6 flex justify-center"/> -->
                 </div>
             </div>
         </div>
