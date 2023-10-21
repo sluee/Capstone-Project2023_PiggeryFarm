@@ -23,7 +23,7 @@ return new class extends Migration
             // $table->string('status')->default(1);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('status')->default(1)->comment("1-active, 0-inactive");
+            // $table->string('status')->default(1)->comment("1-active, 0-inactive");
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

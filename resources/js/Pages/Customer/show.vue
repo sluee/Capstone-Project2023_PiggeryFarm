@@ -133,9 +133,8 @@
 
                             <tr class="bg-blue-200 hover:bg-s-50 text-center font-medium text-black  whitespace-nowrap ">
 
-                                <td class="px-3 py-4">
-                                    <Link :href="'/sales/'+sale.id">
-                                        <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
+                                <td class="px-3 py-4 text-center">
+                                    <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue;">
                                         00{{ sale.id }}
                                     </Link>
                                 </td>

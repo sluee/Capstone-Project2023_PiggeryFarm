@@ -1,17 +1,20 @@
 <script setup>
 // import {Head, useForm } from "@inertiajs/vue3";
-import {Head} from '@inertiajs/vue3'
+import {Head, Link, useForm} from '@inertiajs/vue3'
 import SideBarLayout from "@/Layouts/SideBarLayout.vue";
+import moment from 'moment'
 
 
-const props = defineProps({
-    salesItems:Array,
-    customers:Object,
-    sale:Object,
-    total:Number,
-    totalAmount:Number
-});
+    const props = defineProps({
+        sales:Object,
+        totalAmountAllSales: Number
+        // totalPigs: Number, // Assuming you have a totalPigs prop
+        // totalWeight: Number,
+    });
 
+    function formattedDate(date){
+        return moment(date).format('MMMM   D, YYYY');
+    }
 
 </script>
 
@@ -35,76 +38,73 @@ const props = defineProps({
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                     <!-- <th class="py-3 px-6 text-center">Customer</th> -->
+                                    <th class="py-3 px-6 text-center">Invoice ID</th>
                                     <th class="py-3 px-6 text-center">Customer Name</th>
-                                    <th class="py-3 px-6 text-center">Pen No</th>
-                                    <th class="py-3 px-6 text-center">Weight</th>
-                                    <th class="py-3 px-6 text-center">Rate</th>
-                                    <th class="py-3 px-6 text-center">Total</th>
+                                    <th class="py-3 px-6 text-center">Date</th>
+                                    <th class="py-3 px-6 text-center">Quantity</th>
+                                    <th class="py-3 px-6 text-center">Total Weight</th>
+                                    <th class="py-3 px-6 text-center">Total Amount</th>
                                     <!-- <th class="py-3 px-6 text-center">Action</th> -->
                                 </tr>
                             </thead>
-                            <tbody class="text-gray-600 text-sm font-light" v-for="items in salesItems" :key="items.id">
+                            <tbody class="text-gray-600 text-sm font-light" v-for="sale in sales" :key="sale.id">
 
                                 <tr  class="border-b border-gray-200 hover:bg-gray-100" >
+                                    <td class="px-3 py-4 text-center">
+                                        <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue;">
+                                            00{{ sale.id }}
+                                        </Link>
+                                    </td>
+                                    
+                                    <td class="py-3 px-6 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">{{ sale.customers.name }}</p>
 
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{ items.sale.cust_id }}</p>
-
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{items.pen_no}}</p>
+                                            <p class="font-medium">{{formattedDate(sale.created_at)}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{items.pig_weight}}</p>
+                                            <p class="font-medium">{{sale.totalPigs}}</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{items.rate}}</p>
+                                            <p class="font-medium">{{sale.totalWeight}} kgs.</p>
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{items.total}}</p>
+                                            <p class="font-medium">₱ {{sale.total_amount}}</p>
                                         </div>
                                     </td>
 
-                                    <!-- <td class="py-3 px-6 text-center">
-                                        <div class="flex item-center justify-center">
-
-                                            <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                                <a href="#" class="btn">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                            <div class="w-4  ml-2 mr-2 transform hover:text-red-500 hover:scale-110">
-                                                <a href="#" class="btn">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td> -->
+                                    
                                 </tr>
 
+
                             </tbody>
-                            <tr>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                <td class="py-3 px-6 text-center"><div class="flex items-center justify-center">
-                                   <p class="font-medium">Total Amount: {{totalAmount}}</p>
-                                </div></td>
-                            </tr>
+                            <tfoot>
+                        
+                                <tr>
+                                    <th scope="row" colspan="5" class="hidden pt-6 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                       <p class="font-medium">Total Amount: </p> 
+                                    </th>
+                                    <!-- <th scope="row" class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
+                                        Total Amount
+                                    </th> -->
+                                    <td class="pt-6  text-sm text-center  sm:pr-6 md:pr-0">
+                                       <p class="font-medium text-bold"><strong> ₱ {{ totalAmountAllSales }} </strong></p> 
+                                    </td>
+                                </tr>
+    
+    
+                            </tfoot>
+                           
                         </table>
                     </div>
                 </div>

@@ -24,19 +24,22 @@ class RolesPermissionsSeeder extends Seeder
         $manage_pig = Permission::create(['name' => 'manage_pigs']);
         $manage_feeds = Permission::create(['name' => 'manage_feeds']);
         $manage_users = Permission::create(['name' =>'manage_users']);
+        $read_employee = Permission::create(['name' =>'read_users']);
         $manage_financial = Permission::create (['name' =>'manage_finance']);
         $permission_read = Permission::create(['name' => 'read_invoice']);
+        $manage_invoice = Permission::create(['name' =>'manage_invoice']);
         $permission_create = Permission::create(['name' => 'create_invoice']);
         $permission_edit = Permission::create(['name' => 'edit_invoice']);
         $permission_delete = Permission::create(['name' => 'delete_invoice']);
+        $permission_view = Permission::create(['name' => 'view_invoice']);
         $manage_payroll   = Permission::create (['name' =>'manage_payroll']);
         $read_payroll = Permission::create (['name' => 'read_payslip']);
         $manage_report = Permission::create (['name'=> 'manage_reports']);
 
-        $permission_admin = [$manage_feeds, $manage_report,$manage_financial, $manage_pig, $manage_users, $permission_edit, $permission_delete,$permission_read,$manage_payroll];
+        $permission_admin = [$manage_feeds, $manage_report,$manage_financial, $manage_pig, $manage_invoice, $read_employee, $manage_users, $permission_edit, $permission_delete,$permission_read,$manage_payroll, $permission_view];
         $permission_employee = [$read_payroll];
-        $permission_specialEmployee = [$manage_feeds, $manage_pig, $permission_create,$read_payroll];
-        $permission_owner =[$manage_report];
+        $permission_specialEmployee = [$manage_feeds, $manage_pig, $manage_invoice, $permission_create,$read_payroll, $permission_view];
+        $permission_owner =[$manage_report, $read_employee, $permission_read, $permission_view];
 
         $role_admin->syncPermissions($permission_admin);
         $role_employee->syncPermissions($permission_employee);

@@ -5,6 +5,7 @@
     const props =defineProps({
         // saleItem:Object,
         sale:Object,
+        customers:Object,
         totalPigs: Number, // Assuming you have a totalPigs prop
         totalWeight: Number,
     })
@@ -34,145 +35,123 @@
             </div>
 
         </template>
-        <div class="py-12 ">
-        <div class="max-w-3xl mx-auto  ">
-            <div class="bg-[white] rounded-b-md">
-                <div class=" mt-3 mb-3">
-                    <div class="flex justify-center mb-2">
-                        <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
-                        <div class=" text-sm">
-                            <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
-                            <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
-                            <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3>
-                        </div>
-
-                    </div>
-                    <div class="flex justify-between mt-9">
-
-                        <div class="text-sm font-light text-slate-500">
-                            <p class="text-sm font-normal text-slate-700">
-                                Invoice Detail: <strong>  0000{{ sale.id }}</strong>
-                            </p>
-                            <p class="text-sm font-normal text-slate-700">
-                                Customer: <strong>{{ sale.customers.name }}</strong>
-                            </p>
-                            <p class="text-sm font-normal text-slate-700">
-                                Date: <strong>{{ formattedDate(sale.created_at) }}</strong>
-                            </p>
+        <div class="py-10 ">
+            <div class="max-w-3xl mx-auto  ">
+                <div class="bg-[white] rounded-b-md">
+                    <div class=" mt-3 mb-3">
+                        <div class="flex justify-center mb-2">
+                            <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                            <div class=" text-sm">
+                                <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
+                                <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
+                                <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3>
+                            </div>
 
                         </div>
-                        <div class="justify-right">
-                            <p class="text-sm font-normal ">
-                                Mode of Payment : <strong>{{ sale.payment }}</strong>
-                            </p>
-                            <p class="text-sm font-normal ">
-                                Remarks : <strong>{{ sale.remarks }}</strong>
-                            </p>
+                        <div class="flex justify-between mt-9">
+
+                            <div class="text-sm font-light text-slate-500">
+                                <p class="text-sm font-normal text-slate-700">
+                                    Invoice Detail: <strong>  0000{{ sale.id }}</strong>
+                                </p>
+                                <p class="text-sm font-normal text-slate-700">
+                                    Customer: <strong>{{ sale.customers.name }}</strong>
+                                </p>
+                                <p class="text-sm font-normal text-slate-700">
+                                    Date: <strong>{{ formattedDate(sale.created_at) }}</strong>
+                                </p>
+
+                            </div>
+                            <div class="justify-right">
+                                <p class="text-sm font-normal ">
+                                    Mode of Payment : <strong>{{ sale.payment }}</strong>
+                                </p>
+                                <p class="text-sm font-normal ">
+                                    Quanity of Pigs : <strong>{{ totalPigs }} pc/pcs.</strong>
+                                </p>
+                                <p class="text-sm font-normal ">
+                                    Remarks : <strong>{{ sale.remarks }}</strong>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="flex flex-col mx-0 ">
+                    <table class="min-w-full divide-y divide-slate-500">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="py-3.5 pl-4 pr-3  text-sm text-center font-normal text-slate-700 sm:pl-6 md:pl-0">
+                                    Pig Weight
+                                </th>
+                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                    Rate
+                                </th>
+                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                    Total
+                                </th>
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-200" v-for="saleItem in sale.sales_items" :key="saleItem.id">
+                                <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
+                                    <div class="font-medium text-slate-700 text-center">{{ saleItem.pig_weight }} kgs.</div>
+                                </td>
+                                <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                    ₱ {{ saleItem.rate }}
+                                </td>
+                                <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                    ₱ {{ saleItem.total }}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        
+                            <tr>
+                                <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                    Total Weight
+                                </th>
+                                <!-- <th scope="row" class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
+                                    Total Amount
+                                </th> -->
+                                <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                    <strong>{{ totalWeight }} kgs.</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                    Total Amount
+                                </th>
+                                <!-- <th scope="row" class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
+                                    Total Amount
+                                </th> -->
+                                <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                    ₱ <strong>{{ sale.total_amount }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                    Cash Amount
+                                </th>
+
+                                <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                    ₱ <strong>{{ sale.is_credit }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <th scope="row" colspan="3" class="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                    Balance
+                                </th>
+                                <td class="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                    ₱ <strong>{{ sale.balance }}</strong>
+                                </td>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+                </div>
             </div>
-
-            <div >
-            <div class="flex flex-col mx-0 ">
-                <table class="min-w-full divide-y divide-slate-500">
-                <thead>
-                <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3  text-sm text-center font-normal text-slate-700 sm:pl-6 md:pl-0">
-                    Pig Weight
-                </th>
-                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                    Rate
-                </th>
-                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                    Total
-                </th>
-                <!-- <th scope="col" class="py-3.5 pl-3 pr-4 text-right text-sm font-normal text-slate-700 sm:pr-6 md:pr-0">
-
-                </th> -->
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="border-b border-slate-200" v-for="saleItem in sale.sales_items" :key="saleItem.id">
-                    <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                        <div class="font-medium text-slate-700 text-center">{{ saleItem.pig_weight }} kgs.</div>
-                    </td>
-                    <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                        ₱ {{ saleItem.rate }}
-                    </td>
-                    <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                        ₱ {{ saleItem.total }}
-                    </td>
-                    </tr>
-
-
-
-                <!-- Here you can write more products/tasks that you want to charge for-->
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                        Total No of pigs
-                    </th>
-                    <!-- <th scope="row" class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
-                        Total Amount
-                    </th> -->
-                    <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                         <strong>{{ totalPigs }} pc/pcs.</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                        Total Weight
-                    </th>
-                    <!-- <th scope="row" class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
-                        Total Amount
-                    </th> -->
-                    <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                        <strong>{{ totalWeight }} kgs.</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                        Total Amount
-                    </th>
-                    <!-- <th scope="row" class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
-                        Total Amount
-                    </th> -->
-                    <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                        ₱ <strong>{{ sale.total_amount }}</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                        Cash Amount
-                    </th>
-
-                    <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                        ₱ <strong>{{ sale.is_credit }}</strong>
-                    </td>
-                </tr>
-                <tr>
-
-                <th scope="row" colspan="3" class="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                    Balance
-                </th>
-                <!-- <th scope="row" class="pt-4 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
-                    Tax
-                </th> -->
-                <td class="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    ₱ <strong>{{ sale.balance }}</strong>
-                </td>
-                </tr>
-
-                </tfoot>
-                </table>
-            </div>
-            </div>
-            </div>
-
         </div>
-
-
     </SideBarLayout>
 </template>

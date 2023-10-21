@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class SaleController extends Controller
@@ -13,9 +14,24 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return Inertia('SalesItem/index');
+        $sales = Sale::with('salesItems', 'customers')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        // Calculate the total weight and total pigs for each sale
+        foreach ($sales as $sale) {
+            $sale->totalWeight = $sale->salesItems->sum('pig_weight');
+            $sale->totalPigs = $sale->salesItems->count();
+        }
+        $totalAmountAllSales = $sales->sum('total_amount');
+    
+        return inertia('SalesHistory/index', [
+            'sales' => $sales,
+            'totalAmountAllSales' => $totalAmountAllSales,
+        ]);
     }
-
+    
+    
     /**
      * Show the form for creating a new resource.
      */

@@ -95,7 +95,7 @@ class SaleItemController extends Controller
         $sale->total_amount = $sale->salesItems->sum('total');
         $sale->save();
 
-        return redirect('/customers/' . $fields['cust_id'])->with('success', 'Sale Added Successfully');
+        return redirect('/sales/' .  $sale->id)->with('success', 'Sale Added Successfully');
 
     }
 
