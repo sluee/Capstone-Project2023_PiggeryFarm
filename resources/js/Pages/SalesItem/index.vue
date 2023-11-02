@@ -2,6 +2,7 @@
 import {Head, useForm } from "@inertiajs/vue3";
 import SideBarLayout from "@/Layouts/SideBarLayout.vue";
 import { computed, ref , watch} from "vue";
+import SalesChart from "@/Components/SalesChart.vue";
     const form = useForm({
         cust_id: '',
         total_amount:'',
@@ -305,6 +306,10 @@ import { computed, ref , watch} from "vue";
                     </form>
                 </div>
             </div>
+
+            <SalesChart></SalesChart>
+
         </div>
+
     </SideBarLayout>
 </template>

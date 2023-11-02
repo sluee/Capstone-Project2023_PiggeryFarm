@@ -23,7 +23,7 @@ class Breeding extends Model
     }
 
     public function weanings()
-{
-    return $this->hasMany(Weaning::class, 'labor_id', 'labor_id');
-}
+    {
+        return $this->hasMany(Weaning::class, 'labor_id', 'labor_id');
+    }
 }

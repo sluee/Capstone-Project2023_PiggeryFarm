@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BoarController;
 use App\Http\Controllers\BreedingController;
+use App\Http\Controllers\CashAdvanceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -19,6 +20,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeaningController;
 use App\Http\Controllers\FinancialCategoryController;
 use App\Http\Controllers\FinancialTransactionController;
+use App\Http\Controllers\PayrollController;
+use App\Models\Payroll;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -116,6 +119,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/histories' ,[SaleController::class, 'index'])->name('SalesHistory.index');
+    Route::get('/salesChart' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.chart');
 
     // Route for customers
     Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');
@@ -167,6 +171,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/transactions',[FinancialTransactionController::class, 'index'])->name('transaction.index');
     Route::get('/transactions/create', [FinancialTransactionController::class, 'create'])->name('user.create');
     Route::post('/transactions',[FinancialTransactionController::class, 'store'])->name('user.store');
+
+    Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
+    Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.index');
+
+    Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
+    Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');
+    Route::post('/cashAdvance',[CashAdvanceController::class, 'store'])->name('cashAdvance.store');
 });
 
 

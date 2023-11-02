@@ -5,16 +5,17 @@ import SideBarLayout from "@/Layouts/SideBarLayout.vue";
 import moment from 'moment'
 
 
+
     const props = defineProps({
         sales:Object,
-        totalAmountAllSales: Number
-        // totalPigs: Number, // Assuming you have a totalPigs prop
-        // totalWeight: Number,
+        totalAmountAllSales: Number,
+
     });
 
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }
+
 
 </script>
 
@@ -28,8 +29,6 @@ import moment from 'moment'
 
             </div>
         </template>
-
-
             <div class="w-full px-5 py-4">
                 <div class="h-12">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -55,7 +54,7 @@ import moment from 'moment'
                                             00{{ sale.id }}
                                         </Link>
                                     </td>
-                                    
+
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
                                             <p class="font-medium">{{ sale.customers.name }}</p>
@@ -83,33 +82,36 @@ import moment from 'moment'
                                         </div>
                                     </td>
 
-                                    
+
                                 </tr>
 
 
                             </tbody>
                             <tfoot>
-                        
+
                                 <tr>
                                     <th scope="row" colspan="5" class="hidden pt-6 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                                       <p class="font-medium">Total Amount: </p> 
+                                       <p class="font-medium">Total Amount: </p>
                                     </th>
                                     <!-- <th scope="row" class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden">
                                         Total Amount
                                     </th> -->
                                     <td class="pt-6  text-sm text-center  sm:pr-6 md:pr-0">
-                                       <p class="font-medium text-bold"><strong> ₱ {{ totalAmountAllSales }} </strong></p> 
+                                       <p class="font-medium text-bold"><strong> ₱ {{ totalAmountAllSales }} </strong></p>
                                     </td>
                                 </tr>
-    
-    
+
+
                             </tfoot>
-                           
+
                         </table>
+
+
                     </div>
                 </div>
-            </div>
 
+
+            </div>
 
 
    </SideBarLayout>

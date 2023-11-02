@@ -20,7 +20,7 @@
         pos_id: '',
         address:'',
         phone: '',
-        
+
     })
 
     let props = defineProps({
@@ -103,7 +103,7 @@
                             </div>
                           </div>
 
-                         
+
                           <div class="m:col-span-1">
                             <label for="roles" class="block text-sm font-medium leading-6 text-gray-900">Roles</label>
                             <div class="mt-2">
@@ -146,7 +146,7 @@
                               <div class="text-sm text-red-500 italic" v-if="form.errors.pos_id">{{ form.errors.pos_id }}</div>
                             </div>
                           </div>
-                          
+
                           <div class="sm:col-span-1">
                             <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div class="mt-2">

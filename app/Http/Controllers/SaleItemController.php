@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SaleItemController extends Controller
 {
@@ -16,6 +17,10 @@ class SaleItemController extends Controller
 
      public function index()
      {
+        $monthlySales =DB::table('sales')
+        ->select(DB::raw('MONTH(created_at) as month'), DB::raw('YEAR(created_at) as year'), DB::raw('SUM(total_amount) as total_sales'))
+        ->groupBy('year', 'month')
+        ->get();
          $customers = Customer::orderBy('id')->get();
 
          $salesItems = SaleItem::with('sale') // Load related data
@@ -27,6 +32,7 @@ class SaleItemController extends Controller
          return inertia('SalesItem/index', [
              'salesItems' => $salesItems,
              'customers' => $customers,
+             'monthlySales' =>$monthlySales
 
          ]);
      }

@@ -25,10 +25,10 @@ class BreedingController extends Controller
         ->paginate(8)
         ->withQueryString();
 
-    return inertia('Breeding/index', [
-        'breedings' => $breedings,
-        'filters' => HttpRequest::only(['search']),
-    ]);
+        return inertia('Breeding/index', [
+            'breedings' => $breedings,
+            'filters' => HttpRequest::only(['search']),
+        ]);
     }
 
     /**

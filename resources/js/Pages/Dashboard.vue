@@ -3,11 +3,16 @@
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import moment from 'moment'
+import { ref, onMounted, watch } from 'vue';
+import Chart from 'chart.js/auto';
 
 
     const props = defineProps({
         sales:Object,
-        totalAmountAllSales: Number
+        totalAmountAllSales: Number,
+        employeeCount:Number,
+        pigsCount:Number,
+        currentMonthSales :Array
         // totalPigs: Number, // Assuming you have a totalPigs prop
         // totalWeight: Number,
     });
@@ -15,6 +20,48 @@ import moment from 'moment'
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }
+    const currentMonthSalesChart = ref(null);
+
+    watch(() => props.currentMonthSales, () => {
+      if (currentMonthSalesChart.value) {
+        currentMonthSalesChart.value.destroy(); // Destroy the existing chart if it exists
+      }
+
+      createChart();
+    });
+
+    function createChart() {
+      if (!props.currentMonthSales) {
+        return;
+      }
+
+      const ctx = document.getElementById('currentMonthSalesChart').getContext('2d');
+
+      const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+      currentMonthSalesChart.value = new Chart(ctx, {
+        type: 'bar',
+        data: {
+             labels: props.currentMonthSales.map(item => `${monthNames[item.month - 1]} ${item.year}`),
+            datasets: [
+                {
+                    label: `Total Sales of ${monthNames[props.currentMonthSales[0].month - 1]}`, // Display the month name
+                    data: props.currentMonthSales.map(item => item.total_sales),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                },
+            ],
+        },
+      });
+    }
+
+    onMounted(() => {
+      createChart();
+    });
+
 </script>
 
 <template>
@@ -32,7 +79,7 @@ import moment from 'moment'
                         <div class="bg-blue-100 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
-                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">2,340</span>
+                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ employeeCount }}</span>
                                  <h3 class="text-base font-normal text-gray-500">No of Employees</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
@@ -46,7 +93,7 @@ import moment from 'moment'
                         <div class="bg-blue-100 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
-                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">5,355</span>
+                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ pigsCount }}</span>
                                  <h3 class="text-base font-normal text-gray-500">Total No of Pigs</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
@@ -89,14 +136,16 @@ import moment from 'moment'
                             </svg>
                          </div>
                       </div>
-                      <div id="main-chart">Chart here</div>
+                      <div id="main-chart">
+                            <canvas id="currentMonthSalesChart"></canvas>
+                      </div>
                    </div>
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
                       <div class="mb-4 flex items-center justify-between">
                          <div>
                             <h3 class="text-xl font-bold text-gray-900 mb-2">Latest Invoice</h3>
                             <span class="text-base font-normal text-gray-500">This is a list of latest Sales</span>
-                            
+
                          </div>
                          <div class="flex-shrink-0">
                             <a href="/histories" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2">View all</a>
@@ -135,7 +184,7 @@ import moment from 'moment'
                                               {{ formattedDate(sale.created_at) }}
                                            </td>
                                            <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900 text-center">
-                                              {{ sale.totalPigs }} 
+                                              {{ sale.totalPigs }}
                                            </td>
                                            <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                                               {{ sale.totalWeight }} kgs
@@ -144,7 +193,7 @@ import moment from 'moment'
                                             ₱ {{ sale.total_amount }}
                                            </td>
                                         </tr>
-                                        
+
                                      </tbody>
                                   </table>
                                </div>
@@ -154,6 +203,7 @@ import moment from 'moment'
                    </div>
                 </div>
             </div>
+
         </div>
 
     </SideBarLayout>
