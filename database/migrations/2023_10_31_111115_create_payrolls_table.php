@@ -18,11 +18,12 @@ return new class extends Migration
             $table->double('daysWorked');
             $table->double('overtimeHours')->nullable();
             $table->double('overtimeAmount')->nullable();
-            $table->double('cashAdvance')->nullable();
+            $table->double('cashAdvanceId')->nullable();
             $table->string('totalDeductions')->nullable();
             $table->string('netAmount');
             $table->timestamps();
             $table->foreign('emp_id')->references('id')->on('employees');
+            $table->foreign('cashAdvanceId')->references('id')->on('cash_advances');
         });
     }
 

@@ -11,13 +11,22 @@ class CashAdvance extends Model
 
     protected $guarded =[];
 
-    public function employees(){
-        return $this->belongsTo(Employee::class ,'emp_id');
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'emp_id');
     }
 
     public function deductions()
     {
         return $this->hasMany(Deductions::class, 'cashAdvanceId');
+    }
+    public function payroll()
+    {
+        return $this->hasMany(Payroll::class, 'cashAdvanceId');
+    }
+    public function advance()
+    {
+        return $this->hasMany(Advances::class, 'cashId');
     }
 
 }

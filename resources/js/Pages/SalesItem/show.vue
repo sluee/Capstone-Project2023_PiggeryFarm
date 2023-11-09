@@ -67,7 +67,7 @@
                                     Mode of Payment : <strong>{{ sale.payment }}</strong>
                                 </p>
                                 <p class="text-sm font-normal ">
-                                    Quanity of Pigs : <strong>{{ totalPigs }} pc/pcs.</strong>
+                                    Quantity of Pigs : <strong>{{ totalPigs }} pc/pcs.</strong>
                                 </p>
                                 <p class="text-sm font-normal ">
                                     Remarks : <strong>{{ sale.remarks }}</strong>

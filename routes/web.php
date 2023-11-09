@@ -173,7 +173,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/transactions',[FinancialTransactionController::class, 'store'])->name('user.store');
 
     Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
-    Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.index');
+    Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.create');
+    Route::post('/payroll', [PayrollController::class, 'store'])->name('payroll.create');
 
     Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
     Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');

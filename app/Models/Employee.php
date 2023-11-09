@@ -22,7 +22,7 @@ class Employee extends Model
     public function payroll(){
         return $this->hasMany(Payroll::class , 'emp_id');
     }
-    public function cashAdvance(){
-        return $this->hasMany(CashAdvance::class , 'emp_id');
+    public function cash_advance(){
+        return $this->hasOne(CashAdvance::class ,'emp_id');
     }
 }

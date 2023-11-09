@@ -11,8 +11,12 @@ class Payroll extends Model
 
     protected $guarded =[];
 
-    public function employees()
+    public function employee()
     {
         return $this->belongsTo(Employee::class, 'emp_id');
     }
+    // public function cash_advance()
+    // {
+    //     return $this->belongsTo(CashAdvance::class, 'cashAdvanceId');
+    // }
 }

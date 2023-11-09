@@ -43,8 +43,6 @@
                                 <th class="py-3 px-6 text-left">Employee</th>
                                 <th class="py-3 px-6 text-left">Requested Date</th>
                                 <th class="py-3 px-6 text-center">Amount</th>
-                                <th class="py-3 px-6 text-center">Remarks/Reason</th>
-
                                 <th class="py-3 px-6 text-center">Actions</th>
                             </tr>
                         </thead>
@@ -59,7 +57,7 @@
                                 </td>
                                 <td class="py-3 px-6 text-left">
                                     <div class="flex items-center">
-                                        <p class="font-medium">{{ cash.employees.user.firstName }} {{ cash.employees.user.lastName }}</p>
+                                        <p class="font-medium">{{ cash.employee.user.firstName }} {{ cash.employee.user.lastName }}</p>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-left">
@@ -69,14 +67,14 @@
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{ cash.amount}}</p>
+                                        <p class="font-medium">₱ {{ cash.amount}}</p>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 text-center">
+                                <!-- <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
                                         <p class="font-medium">{{ cash.status}}</p>
                                     </div>
-                                </td>
+                                </td> -->
 
 
                                 <td class="py-3 px-6 text-center">

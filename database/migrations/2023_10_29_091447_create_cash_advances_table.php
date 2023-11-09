@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('emp_id')->unsigned();
             $table->string('requestDate');
-            $table->string('amount');
-            $table->string('status');
+            $table->string('amount')->default(0);
             // $table->string('repaymentDetails')->comment('')
             $table->foreign('emp_id')->references('id')->on('employees');
             $table->timestamps();

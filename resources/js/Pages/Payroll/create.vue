@@ -2,27 +2,86 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue'
     import { Head, Link, router, useForm } from '@inertiajs/vue3';
     import moment from'moment'
-    import { ref, computed } from 'vue';
+    import { ref, computed, watch, onMounted, reactive } from 'vue';
+
 
     const props = defineProps({
         employees : Object,
-        payroll:Array
-    })
+        payroll:Array,
 
+    })
     const form = useForm({
-        employees: [{}],
-        payrollPeriod:'',
-        daysWorked:'',
-        overtimeHours:'',
-        overtimeAmount:'',
-        totalDeductions:'',
-        netAmount:''
+        payrolls: reactive(props.employees.map(employee => ({
 
-    })
-   
+            emp_id: employee.id,
+            payrollPeriod:null,
+            daysWorked: '',
+            totalBasicPay:0,
+            overtimeHours: 0,
+            overtimeAmount: 0,
+            // cashAdvanceId:null,
+            totalDeductions: 0,
+            netAmount: 0,
+        })))
+    });
+
+
+    // const updateTotalBasicPay = (index) => {
+    //     const employee = props.employees.find(emp => emp.id === form.payrolls[index].emp_id);
+    //     if (employee) {
+    //         const rate = employee.position.rate;
+    //         const daysWorked = form.payrolls[index].daysWorked;
+    //         form.payrolls[index].totalBasicPay = rate * parseFloat(daysWorked);
+    //     }else {
+    //       form.payrolls[index].totalBasicPay = '';
+    //     }
+    // };
+
+     // Watch for changes in form.payrolls
+    watch(() => form.payrolls, (newPayrolls) => {
+      newPayrolls.forEach((payroll, index) => {
+        const rate = props.employees[index].position.rate;
+        const daysWorked = payroll.daysWorked;
+        if (rate && daysWorked !== '') {
+          payroll.totalBasicPay = rate * parseFloat(daysWorked);
+        } else {
+          payroll.totalBasicPay = 0;
+        }
+      });
+    }, { deep: true });
+
+    // If needed, you can initialize the initial totalBasicPay values here
+    onMounted(() => {
+      form.payrolls.forEach((payroll, index) => {
+        const rate = props.employees[index].position.rate;
+        const daysWorked = payroll.daysWorked;
+        if (rate && daysWorked !== '') {
+          payroll.totalBasicPay = rate * parseFloat(daysWorked);
+        }
+      });
+    });
+
+    //This is to get the overtimeAmount
+    watch(form.payrolls, (newPayrolls) => {
+        newPayrolls.forEach((payroll, index) => {
+            const rate = props.employees[index].position.rate;
+            const overtimeHours = payroll.overtimeHours;
+            if (rate && overtimeHours !== '') {
+                // Calculate overtimeAmount and format it with two decimal points
+                const rawOvertimeAmount = (rate / 8) * overtimeHours * 1.25;
+                payroll.overtimeAmount = parseFloat(rawOvertimeAmount.toFixed(2));
+            } else {
+                payroll.overtimeAmount = 0;
+            }
+        });
+    }, { deep: true });
+
+
     function submit() {
         form.post('/payroll');
+
     }
+
 </script>
 
 <template>
@@ -51,70 +110,80 @@
         <div class="px-2 mt-5">
             <div class="p-4 mx-2">
                 <div class="container mx-auto mt-2">
-                    <form @submit.prevent="submit" >
-                        <table class="min-w-full">
+                    <div class="  mb-7">
+                        <div class="flex justify-center mb-2">
+                            <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                            <div class=" text-sm">
+                                <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
+                                <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
+                                <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3>
+                            </div>
 
+                        </div>
+                    </div>
+                    <form @submit.prevent="submit">
+                        <div class="overflow-x-auto">
+                          <table class="w-full table-auto">
                             <thead>
-                            <tr>
-                                <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Employee</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Payroll Period</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Days Worked</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Overtime Hours</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Overtime Amount</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">totalDeductions</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Net Amount</th>
-                            </tr>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Rate</th>
+                                    <th>Payroll Period</th>
+                                    <th>Days Worked</th>
+                                    <th>Total Basic Pay</th>
+                                    <th colspan="2">Overtime</th>
+                                    <th>Total Deductions</th>
+                                    <th>Net Amount</th>
+                                  </tr>
+                                  <tr>
+                                    <th colspan="5"></th> <!-- Placeholder for empty cells -->
+                                    <th>Overtime Hours</th>
+                                    <th>Overtime Amount</th>
+                                    <th colspan="5"></th> <!-- Placeholder for empty cells -->
+                                  </tr>
+
                             </thead>
                             <tbody>
-                                <tr  v-for="(employee, index) in employees" :key="index">
-
-                                    <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <input
-                                            type="text"
-                                            class="w-full border rounded-md p-2"
-                                            placeholder="Employee ID"
-                                            v-model="employee.id"
-                                            readonly
-                                        >
-                                        {{ employee.user.firstName }}  {{ employee.user.lastName }}
-                                    </td>
-                                   
-                                   
-                                
-                                    
-                                    <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                                    <input type="text" class="w-full border rounded-md p-2" placeholder="payroll period" v-model="employee.payrollPeriod">
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                                    <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
-                                    <input type="number" class="w-full border rounded-md p-2" placeholder="Days Worked" v-model="employee.daysWorked">
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                                    <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
-                                    <input type="number" class="w-full border rounded-md p-2" placeholder="Overtime" v-model="employee.overtimeHours">
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                                    <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
-                                    <input type="number" class="w-full border rounded-md p-2" placeholder="Overtime Amount" v-model="employee.overtimeAmount">
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                                    <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
-                                    <input type="number" class="w-full border rounded-md p-2" placeholder="Deductions" v-model="employee.totalDeductions">
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                                    <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
-                                    <input type="number" class="w-full border rounded-md p-2" placeholder="Net Amount" v-model="employee.netAmount">
-                                    </td>
-                                    
-                                </tr>
+                              <tr v-for="(employee, index) in employees" :key="employee.id">
+                                <td class="py-2 px-2 text-left whitespace-nowrap">
+                                  <span>{{ employee.user.firstName }} {{ employee.user.lastName }}</span>
+                                </td>
+                                <td class="py-2 px-2">{{ employee.position.rate }}</td>
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].payrollPeriod" type="number" />
+                                </td>
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].daysWorked"  type="number" step="0.01" />
+                                </td>
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].totalBasicPay" type="number" step="0.01" readonly />
+                                </td>
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].overtimeHours"  type="number" step="0.01"/>
+                                </td>
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].overtimeAmount" type="number" step="0.01" readonly/>
+                                </td>
+                                <!-- <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].cashAdvanceId" type="number" />
+                                  {{  employee.position.id }}
+                                </td> -->
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].totalDeductions" type="number" step="0.01"/>
+                                </td>
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].netAmount" type="number" step="0.01" />
+                                </td>
+                              </tr>
                             </tbody>
-                        </table>
-                        <div class="flex justify-between mt-3">
-                            <h1 class="text-3xl font-medium text-gray-700 "></h1>
-
-                            <button class=" bg-blue-500 flex justify-center hover:bg-blue-700 w-[180px] items-center text-dark px-5 py-2 rounded-md focus:outline-none p" type="submit">Save </button>
+                          </table>
                         </div>
-                    </form>
+                        <div class="flex justify-between mt-3">
+                          <h1 class="text-3xl font-medium text-gray-700"></h1>
+                          <button class="bg-blue-500 flex justify-center hover:bg-blue-700 w-[180px] items-center text-dark px-5 py-2 rounded-md focus:outline-none" type="submit">Save</button>
+                        </div>
+                      </form>
+
                 </div>
             </div>
         </div>

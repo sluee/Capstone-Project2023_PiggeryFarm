@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CashAdvance;
 use App\Models\Employee;
 use App\Models\Payroll;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PayrollController extends Controller
 {
@@ -13,7 +15,13 @@ class PayrollController extends Controller
      */
     public function index()
     {
-        return inertia('Payroll/index');
+        // $employees = Employee::with('user', 'position', 'cash_advance')->get();
+        $payroll = Payroll::with('employee.user', 'employee.position', 'employee.cash_advance')->get();
+        // $payroll = Payroll::orderBy('id')->get();
+        return inertia('Payroll/index',[
+            'payroll' => $payroll
+
+        ]);
     }
 
     /**
@@ -21,10 +29,12 @@ class PayrollController extends Controller
      */
     public function create()
     {
-        $employees = Employee::with('user')->get();
+        $employees = Employee::with('user', 'position', 'cash_advance')->get();
+
 
         return inertia('Payroll/create', [
             'employees' => $employees,
+
         ]);
     }
 
@@ -34,7 +44,26 @@ class PayrollController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+
+        $data = $request->validate([
+            'payrolls' => 'required|array',
+            'payrolls.*.emp_id' => 'required|exists:employees,id',
+            'payrolls.*.payrollPeriod' => 'required',
+            'payrolls.*.daysWorked' => 'required|numeric',
+            'payrolls.*.overtimeHours' => 'nullable|numeric',
+            'payrolls.*.overtimeAmount' => 'nullable|numeric',
+            'payrolls.*.totalBasicPay' => 'nullable|numeric',
+            // 'payrolls.*.cashAdvanceId' => 'nullable|exists:cash_advances,id',
+            'payrolls.*.totalDeductions' => 'nullable|numeric',
+            'payrolls.*.netAmount' => 'required|numeric',
+        ]);
+
+        foreach ($data['payrolls'] as $payrollData) {
+            Payroll::create($payrollData);
+        }
+        return redirect('/payroll')->with('success', 'Payroll data saved successfully');
     }
 
     /**

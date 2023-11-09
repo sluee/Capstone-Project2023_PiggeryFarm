@@ -14,7 +14,7 @@ class CashAdvanceController extends Controller
     public function index()
     {
 
-        $cashAdvance = CashAdvance::with('employees.user')->get();
+        $cashAdvance = CashAdvance::with('employee.user')->get();
 
 
         return inertia('CashAdvance/index', [
@@ -41,20 +41,47 @@ class CashAdvanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $fields = $request->validate([
+    //         'emp_id'                => 'required|numeric',
+    //         'requestDate'           => 'required|date',
+    //         'amount'                => 'required',
+
+
+    //     ]);
+
+    //     CashAdvance::create($fields);
+
+    //     return redirect('/cashAdvance')->with('success', 'Cash Advance Added Successfully');
+    // }
     public function store(Request $request)
     {
-        $fields = $request->validate([
-            'emp_id'                => 'required|numeric',
-            'requestDate'           => 'required|date',
-            'amount'            => 'required',
-            'status'       => 'required',
+        $employeeId = $request->input('emp_id');
+        $amount = $request->input('amount');
+        $requestDate = $request->input('requestDate');
 
-        ]);
+        // Find the existing cash advance record for the employee
+        $cashAdvance = CashAdvance::where('emp_id', $employeeId)->first();
 
-        CashAdvance::create($fields);
+        if ($cashAdvance) {
+            // Update the existing cash advance balance
+            $cashAdvance->amount += $amount;
+            $cashAdvance->requestDate == now();
+            $cashAdvance->save();
+        } else {
+            // Create a new cash advance record if it doesn't exist
+            $newCashAdvance = new CashAdvance;
+            $newCashAdvance->emp_id = $employeeId;
+            $newCashAdvance->amount = $amount;
+            $newCashAdvance->requestDate = $requestDate;
+            $newCashAdvance->save();
+        }
 
         return redirect('/cashAdvance')->with('success', 'Cash Advance Added Successfully');
     }
+
+
 
     /**
      * Display the specified resource.

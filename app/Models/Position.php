@@ -9,7 +9,7 @@ class Position extends Model
 {
     use HasFactory;
 
-    protected $fillable =['position'];
+    protected $fillable =['position', 'rate'];
 
     public function employee(){
         return $this->hasOne(Position::class, 'pos_id');

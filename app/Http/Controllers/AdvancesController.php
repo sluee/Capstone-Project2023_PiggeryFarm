@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Position;
+use App\Models\advances;
+use App\Models\Advances as ModelsAdvances;
+use App\Models\CashAdvance;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class PositionController extends Controller
+class AdvancesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return inertia('Position/index',[
-            'positions' => Position::orderBy('id')->get(),
-
+        $cashAdvances = CashAdvance::orderBy('id')->get();
+        $advance   = advances::orderBy('id')->with('cashAdvances')->get();
+        return inertia('Advance/index',[
+            'cashAdvances' => $cashAdvances,
+            'advance'    =>$advance
         ]);
     }
 
@@ -24,7 +27,7 @@ class PositionController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -32,21 +35,13 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        $fields=$request->validate([
-            'position' => 'required',
-            'rate' => 'required',
-
-        ]);
-
-        Position::create($fields);
-
-        return redirect('/positions')->with('message','Position Added Successfully');
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Position $position)
+    public function show(advances $advances)
     {
         //
     }
@@ -54,7 +49,7 @@ class PositionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Position $position)
+    public function edit(advances $advances)
     {
         //
     }
@@ -62,7 +57,7 @@ class PositionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Position $position)
+    public function update(Request $request, advances $advances)
     {
         //
     }
@@ -70,7 +65,7 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Position $position)
+    public function destroy(advances $advances)
     {
         //
     }

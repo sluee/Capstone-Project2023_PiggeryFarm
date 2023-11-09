@@ -6,7 +6,7 @@
         emp_id: '',
         requestDate:'',
         amount:'',
-        status: '',
+        // status: '',
 
     })
     const props = defineProps({
@@ -70,10 +70,10 @@ function submit() {
                                       v-model="form.amount"  />
                                     <div class="text-red-600" v-if="form.errors.amount">{{ form.errors.amount }}</div>
 
-                                    <label class="font-semibold text-sm text-gray-600 block" for="status">Remarks</label>
+                                    <!-- <label class="font-semibold text-sm text-gray-600 block" for="status">Remarks</label>
                                     <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600"
                                       v-model="form.status" />
-                                    <div class="text-red-600" v-if="form.errors.status">{{ form.errors.status }}</div>
+                                    <div class="text-red-600" v-if="form.errors.status">{{ form.errors.status }}</div> -->
 
 
 

@@ -35,6 +35,9 @@
                                 <label class="font-semibold text-sm text-gray-600  block" for="position">Position</label>
                                 <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.position"/>
                                 <div class="text-red-600" v-if="form.errors.position">{{ form.errors.position }}</div>
+                                <label class="font-semibold text-sm text-gray-600  block" for="rate">Rate Per Day</label>
+                                <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.rate"/>
+                                <div class="text-red-600" v-if="form.errors.rate">{{ form.errors.rate }}</div>
 
                                 <button  type="submit" class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
                                     Add Position
@@ -52,7 +55,7 @@
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                         <th class="py-3 px-6 text-left">Id</th>
                                         <th class="py-3 px-6 text-left">Position</th>
-
+                                        <th class="py-3 px-6 text-left">Rate per Day</th>
                                         <th class="py-3 px-6 text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -69,6 +72,12 @@
                                             <div class="flex items-center">
 
                                                 <p class="font-medium">{{ pos.position }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                                            <div class="flex items-center">
+
+                                                <p class="font-medium">{{ pos.rate }}</p>
                                             </div>
                                         </td>
 
@@ -118,8 +127,8 @@ import moment from'moment'
 
 
 const form = useForm({
-    position:''
-
+    position:'',
+    rate:''
 });
 const props = defineProps({
     positions:Array,
