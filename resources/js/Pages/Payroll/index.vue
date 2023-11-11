@@ -1,12 +1,18 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue'
-    import { Head, Link, router, useForm } from '@inertiajs/vue3';
+    import { Head, Link } from '@inertiajs/vue3';
     import moment from'moment'
+    import Card from '@/Components/Card.vue'
 
     const props= defineProps({
         payroll:Object,
         employee:Object
     })
+
+    function formattedDate(date){
+        return moment(date).format('MMMM   D, YYYY');
+    }
+    
 </script>
 
 <template>
@@ -34,85 +40,103 @@
         </template>
 
         <div class="py-12 ">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-7">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+            <!-- <div class="grid">
+                <Card v-for="pay in payroll" :key="pay.id">
+                    <template v-slot:head>
+                        <div class='p-4 sm:p-6'>
+                                <p class='font-bold text-[16px]'>Period Covered:</p>
+                                <p class='text-[15px] font-bold text-[#0f43b4]'>{{ formattedDate(pay.payrollPeriodFrom) }} - {{ formattedDate(pay.payrollPeriodTo) }}</p> 
+                            <div class='flex flex-row'>
+                                <p class='font-bold text-[16px] mr-2'>No of Days Worked:</p>
+                                <p class='text-[15px] font-bold text-[#0f43b4]'>{{ pay.noOfDaysWorked }} days</p>
+                            </div>   
+                            <div class='flex flex-row'>
+                                <p class='font-bold text-[16px] mr-2'>Total Deductions</p>
+                                <p class='text-[15px] font-bold text-[#0f43b4]'>₱ {{ pay.total_deductions_amount }}</p>
+                            </div>   
+                            <div class='flex flex-row'>
+                                <p class='font-bold text-[16px] mr-2'>Total Net Amount</p>
+                                <p class='text-[15px] font-bold text-[#0f43b4]'>₱ {{ pay.total_net_amount }}</p>
+                            </div>   
+                        </div>
+                    </template>
+                   
+                    <template v-slot:footer>
+                        <Link as="button" :href="'/payroll/' + payroll.id" class='block mt-10 w-full px-4 py-3 font-medium tracking-wide text-center capitalize transition-colors duration-300 transform bg-blue-500 rounded-[14px] hover:bg-blue-700 focus:outline-none focus:ring focus:ring-teal-300 focus:ring-opacity-80'>
+                            View on Payroll
+                        </Link>
+                    </template>
+                </Card>
+            </div> -->
+            <div class="max-w-7xl sm:px-6 lg:px-8">
+                <div class="bg-white overflow-x-auto shadow-sm sm:rounded-lg">
                     <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Id</th>
-                                <th class="py-3 px-6 text-left">Employee</th>
-                                <th class="py-3 px-6 text-left">Days Worked</th>
-                                <th class="py-3 px-6 text-left">Total Basic Pay</th>
-                                <th class="py-3 px-6 text-center">Overtime</th>
-                                <th class="py-3 px-6 text-center">Overtime AMount</th>
-                                <th class="py-3 px-6 text-center">Overtime AMount</th>
-                                <!-- <th class="py-3 px-6 text-center">Cash Advance</th> -->
-                                <th class="py-3 px-6 text-center">Deductions</th>
-                                <th class="py-3 px-6 text-center">net Amount</th>
-                                <th class="py-3 px-6 text-center">Gross amount</th>
+                                <th class="py-3 px-3 text-left">Id</th>
+                                <th class="py-3 px-3 text-left">Date Covered</th>
+                                <th class="py-3 px-3 text-left">No of Days Worked</th>
+                                <th class="py-3 px-3 text-left">Total Gross Pay</th>
+                                <th class="py-3 px-3 text-center">Total Deductions</th>
+                                <th class="py-3 px-3 text-center">Total Net Amount</th>
+                               
+                                <th class="py-3 px-3 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
 
                             <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="pay in payroll" :key="pay.id">
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                <td class="py-3 px-3 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium">{{ pay.id }}</p>
+                                        <Link :href="'/payroll/'+pay.id" style="text-decoration: underline; color: blue; ">
+                                            Pay00{{ pay.id }}
+                                         </Link>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                               
+                                <td class="py-3 px-3 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium">{{ pay.payrollPeriod }}</p>
-                                    </div>
-                                </td>
-
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-
-                                        <p class="font-medium">{{ pay.daysWorked }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-
-                                        <p class="font-medium">{{ pay.totalBasicPay }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-
-                                        <p class="font-medium">{{ pay.daysWorked }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-
-                                        <p class="font-medium">{{ pay.overtimeHours }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-
-                                        <p class="font-medium">{{ pay.overtimeAmount }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-
-                                        <p class="font-medium">{{ pay.totalDeductions }}</p>
+                                        <p class="font-medium">{{formattedDate( pay.payrollPeriodFrom )}}-{{formattedDate( pay.payrollPeriodTo )}}</p>
                                     </div>
                                 </td>
 
+                                <td class="py-3 px-3 text-right whitespace-nowrap">
+                                    <div class="flex items-center">
+
+                                        <p class="font-medium">{{ pay.noOfDaysWorked }}</p>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-3 text-right whitespace-nowrap">
+                                    <div class="flex items-center">
+
+                                        <p class="font-medium">{{ pay.total_gross_amount }}</p>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-3 text-right whitespace-nowrap">
+                                    <div class="flex items-center">
+
+                                        <p class="font-medium">{{ pay.total_deductions_amount }}</p>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-3 text-center whitespace-nowrap">
+                                    <div class="flex items-center">
+
+                                        <p class="font-medium">{{ pay.total_net_amount }}</p>
+                                    </div>
+                                </td>
+                               
 
 
-                                <td class="py-3 px-6 text-center">
+
+                                <td class="py-3 px-3 text-center">
                                     <div class="flex item-center justify-center">
                                         <!-- <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
 
-                                             <svg xmlns="http://www.w3.org/2000/svg" fill="#6666" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="#6666" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
@@ -135,7 +159,15 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div>  
           </div>
     </SideBarLayout>
 </template>
+<style scoped>
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 24px;
+}
+</style>

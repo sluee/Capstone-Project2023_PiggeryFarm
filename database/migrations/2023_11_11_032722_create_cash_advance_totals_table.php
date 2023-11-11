@@ -11,19 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payrolls', function (Blueprint $table) {
+        Schema::create('cash_advance_totals', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('emp_id')->unsigned();
-            $table->string('payrollPeriod');
-            $table->double('daysWorked');
-            $table->double('overtimeHours')->nullable();
-            $table->double('overtimeAmount')->nullable();
-            $table->double('cashAdvanceId')->nullable();
-            $table->string('totalDeductions')->nullable();
-            $table->string('netAmount');
+            $table->double('totalCashAdvance');
             $table->timestamps();
             $table->foreign('emp_id')->references('id')->on('employees');
-            $table->foreign('cashAdvanceId')->references('id')->on('cash_advances');
         });
     }
 
@@ -32,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payrolls');
+        Schema::dropIfExists('cash_advance_totals');
     }
 };

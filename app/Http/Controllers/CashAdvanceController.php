@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CashAdvance;
+use App\Models\CashAdvanceTotals;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
@@ -14,12 +15,11 @@ class CashAdvanceController extends Controller
     public function index()
     {
 
-        $cashAdvance = CashAdvance::with('employee.user')->get();
-
-
+        $cashAdvance = CashAdvance::with('employee.user')->OrderBy('requestDate', 'desc' )->get();
+        $cashAdvanceTotal =CashAdvanceTotals::with('employee.user')->get();
         return inertia('CashAdvance/index', [
             'cashAdvance' => $cashAdvance,
-
+            'cashAdvanceTotal'  =>$cashAdvanceTotal
         ]);
 
     }
@@ -41,42 +41,38 @@ class CashAdvanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $fields = $request->validate([
-    //         'emp_id'                => 'required|numeric',
-    //         'requestDate'           => 'required|date',
-    //         'amount'                => 'required',
 
-
-    //     ]);
-
-    //     CashAdvance::create($fields);
-
-    //     return redirect('/cashAdvance')->with('success', 'Cash Advance Added Successfully');
-    // }
     public function store(Request $request)
     {
+
+
         $employeeId = $request->input('emp_id');
         $amount = $request->input('amount');
         $requestDate = $request->input('requestDate');
+        $reason = $request->input('reason');
 
-        // Find the existing cash advance record for the employee
-        $cashAdvance = CashAdvance::where('emp_id', $employeeId)->first();
+        // Find or create the associated EmployeeCashAdvanceTotal record
+        $employeeTotal = CashAdvanceTotals::firstOrNew(['emp_id' => $employeeId]);
+        $employeeTotal->totalCashAdvance += $amount; // Add the new cash advance amount
+        $employeeTotal->save();
 
-        if ($cashAdvance) {
-            // Update the existing cash advance balance
-            $cashAdvance->amount += $amount;
-            $cashAdvance->requestDate == now();
-            $cashAdvance->save();
-        } else {
-            // Create a new cash advance record if it doesn't exist
-            $newCashAdvance = new CashAdvance;
-            $newCashAdvance->emp_id = $employeeId;
-            $newCashAdvance->amount = $amount;
-            $newCashAdvance->requestDate = $requestDate;
-            $newCashAdvance->save();
-        }
+        // Create a new cash advance record
+        $newCashAdvance = new CashAdvance;
+        $newCashAdvance->emp_id = $employeeId;
+        $newCashAdvance->amount = $amount;
+        $newCashAdvance->reason = $reason;
+        $newCashAdvance->requestDate = $requestDate;
+
+
+        // Save the EmployeeCashAdvanceTotal record
+        $employeeTotal->save();
+
+        // Set the total_advance_id for the CashAdvance record
+        $newCashAdvance->cash_id = $employeeTotal->id;
+
+        // Save the new cash advance record
+        $newCashAdvance->save();
+
 
         return redirect('/cashAdvance')->with('success', 'Cash Advance Added Successfully');
     }

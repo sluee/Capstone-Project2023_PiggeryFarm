@@ -153,7 +153,7 @@
 
 
     function formattedDate(date){
-            return moment(date).format('MMMM   D, YYYY');
+        return moment(date).format('MMMM   D, YYYY');
     }
 
     let search = ref(props.filters.search);

@@ -18,6 +18,7 @@ class DashboardController extends Controller
 
         $sales = Sale::with('salesItems', 'customers')
             ->orderBy('created_at', 'desc')
+            ->take(5)
             ->get();
 
 

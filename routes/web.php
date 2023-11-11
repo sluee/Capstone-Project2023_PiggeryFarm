@@ -21,7 +21,9 @@ use App\Http\Controllers\WeaningController;
 use App\Http\Controllers\FinancialCategoryController;
 use App\Http\Controllers\FinancialTransactionController;
 use App\Http\Controllers\PayrollController;
-use App\Models\Payroll;
+use App\Http\Controllers\PayrollItemController;
+use App\Http\Controllers\CashAdvanceTotalsController;
+// use App\Models\Payroll;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -174,7 +176,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
     Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.create');
-    Route::post('/payroll', [PayrollController::class, 'store'])->name('payroll.create');
+    Route::post('/payroll', [PayrollItemController::class, 'store'])->name('payroll.create');
+    Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
+    // Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
 
     Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
     Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');

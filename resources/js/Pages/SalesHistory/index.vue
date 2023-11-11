@@ -50,8 +50,8 @@ import moment from 'moment'
 
                                 <tr  class="border-b border-gray-200 hover:bg-gray-100" >
                                     <td class="px-3 py-4 text-center">
-                                        <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue;">
-                                            00{{ sale.id }}
+                                        <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue; ">
+                                           Inv00{{ sale.id }}
                                         </Link>
                                     </td>
 

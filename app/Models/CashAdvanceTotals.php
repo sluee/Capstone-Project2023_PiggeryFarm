@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CashAdvance extends Model
+class CashAdvanceTotals extends Model
 {
     use HasFactory;
 
@@ -15,17 +15,4 @@ class CashAdvance extends Model
     {
         return $this->belongsTo(Employee::class, 'emp_id');
     }
-
-    public function deductions()
-    {
-        return $this->hasMany(Deductions::class, 'cashAdvanceId');
-    }
-
-
-
-    public function total()
-    {
-        return $this->belongsTo(EmployeeCashAdvanceTotal::class, 'cash_id');
-    }
-
 }

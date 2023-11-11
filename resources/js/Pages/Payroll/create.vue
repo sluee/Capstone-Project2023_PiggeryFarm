@@ -8,34 +8,31 @@
     const props = defineProps({
         employees : Object,
         payroll:Array,
+        cashAdvances:Object
 
     })
     const form = useForm({
+        payrollPeriodFrom:'',
+        payrollPeriodTo:'',
+        noOfDaysWorked:15,
+        total_gross_amount:'',
+        total_deductions_amount:'',
+        total_net_amount:'',
         payrolls: reactive(props.employees.map(employee => ({
 
             emp_id: employee.id,
-            payrollPeriod:null,
             daysWorked: '',
             totalBasicPay:0,
             overtimeHours: 0,
             overtimeAmount: 0,
-            // cashAdvanceId:null,
+            grossAmount:0,
+            personalDeduction:0,
             totalDeductions: 0,
             netAmount: 0,
         })))
     });
 
 
-    // const updateTotalBasicPay = (index) => {
-    //     const employee = props.employees.find(emp => emp.id === form.payrolls[index].emp_id);
-    //     if (employee) {
-    //         const rate = employee.position.rate;
-    //         const daysWorked = form.payrolls[index].daysWorked;
-    //         form.payrolls[index].totalBasicPay = rate * parseFloat(daysWorked);
-    //     }else {
-    //       form.payrolls[index].totalBasicPay = '';
-    //     }
-    // };
 
      // Watch for changes in form.payrolls
     watch(() => form.payrolls, (newPayrolls) => {
@@ -75,6 +72,96 @@
             }
         });
     }, { deep: true });
+
+    // watch(form.payrolls, (newPayrolls) => {
+    //     newPayrolls.forEach((payroll, index) => {
+
+    //         const totalBasicPay = payroll.totalBasicPay;
+    //         const overtimeAmount = payroll.overtimeAmount;
+    //         if (totalBasicPay && overtimeAmount !== '') {
+    //             // Calculate overtimeAmount and format it with two decimal points
+    //             const rawGrossAmount = totalBasicPay+overtimeAmount;
+    //             payroll.grossAmount = parseFloat(rawGrossAmount.toFixed(2));
+    //         } else {
+    //             payroll.grossAmount = 0;
+    //         }
+    //     });
+    // }, { deep: true });
+
+    watch(form.payrolls, (newPayrolls) => {
+        newPayrolls.forEach((payroll, index) => {
+            const totalBasicPay = payroll.totalBasicPay;
+            const overtimeAmount = payroll.overtimeAmount;
+
+            if (totalBasicPay && overtimeAmount !== '') {
+                // Calculate overtimeAmount and format it with two decimal points
+                const rawGrossAmount = totalBasicPay + overtimeAmount;
+                payroll.grossAmount = parseFloat(rawGrossAmount.toFixed(2));
+            } else {
+                payroll.grossAmount = 0;
+            }
+        });
+
+        // Recalculate total gross amount and update form.total_gross_amount
+        const totalGrossAmount = newPayrolls.reduce((sum, payroll) => {
+            return sum + payroll.grossAmount;
+        }, 0);
+
+        // Assuming form.total_gross_amount is reactive, update it
+        form.total_gross_amount = totalGrossAmount;
+    }, { deep: true });
+
+
+//Cash Advancee
+    watch(form.payrolls, (newPayrolls) => {
+        newPayrolls.forEach((payroll, index) => {
+            const cashAdvance = props.cashAdvances[index]?.totalCashAdvance || 0; // Use optional chaining
+            const personalDeduction = payroll.personalDeduction;
+
+            if (cashAdvance !== null && personalDeduction !== null && personalDeduction !== '') {
+                const rawTotalDeduction = cashAdvance - parseFloat(personalDeduction);
+                payroll.totalDeductions = parseFloat(rawTotalDeduction);
+            } else {
+                payroll.totalDeductions = 0;
+            }
+        });
+
+        const totalDeductionsAmount = newPayrolls.reduce((sum, payroll) => {
+            return  payroll.totalDeductions-sum ;
+        }, 0);
+
+        form.total_deductions_amount = totalDeductionsAmount;
+    }, { deep: true });
+
+
+   //To get the  net Amountt
+
+   watch(form.payrolls, (newPayrolls) => {
+        newPayrolls.forEach((payroll, index) => {
+            const grossAmount = payroll.grossAmount;
+            const totalDeduction = payroll.totalDeductions;
+
+            if (grossAmount && totalDeduction !== '') {
+                // Calculate overtimeAmount and format it with two decimal points
+                const rawNetAmount = grossAmount - totalDeduction;
+                payroll.netAmount = parseFloat(rawNetAmount.toFixed(2));
+            } else {
+                payroll.netAmount = 0;
+            }
+        });
+
+        // Recalculate total gross amount and update form.total_gross_amount
+        const totalNetAmount = newPayrolls.reduce((sum, payroll) => {
+            return payroll.netAmount -sum;
+        }, 0);
+
+        // Assuming form.total_gross_amount is reactive, update it
+        form.total_net_amount = totalNetAmount;
+    }, { deep: true });
+
+
+
+
 
 
     function submit() {
@@ -122,20 +209,35 @@
                         </div>
                     </div>
                     <form @submit.prevent="submit">
-                        <div class="overflow-x-auto">
+                        <div class="flex mb-2">
+                            <label class="leading-loose">Date Covered From: </label>
+                            <input type="date" class="border rounded-lg h-8 w-100 mr-2 px-3 py-2   text-sm  text-gray-600" v-model="form.payrollPeriodFrom" />
+                            <label class="leading-loose">Date Covered To: </label>
+                            <input type="date" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.payrollPeriodTo" />
+
+                          </div>
+                        <div class="mb-2">
+                            <label class="leading-loose">No. of Working Days: </label>
+                            <input type="number" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.noOfDaysWorked" />
+                        </div>
+                        <div class="bg-white overflow-x-auto shadow-sm sm:rounded-lg">
+
                           <table class="w-full table-auto">
                             <thead>
-                                <tr>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal ">
+                                    <th>Id</th>
                                     <th>Employee</th>
                                     <th>Rate</th>
-                                    <th>Payroll Period</th>
                                     <th>Days Worked</th>
                                     <th>Total Basic Pay</th>
                                     <th colspan="2">Overtime</th>
+                                    <th >Gross Amount</th>
+                                    <th>Cash Advance</th>
+                                    <th>Personal Deductions</th>
                                     <th>Total Deductions</th>
                                     <th>Net Amount</th>
                                   </tr>
-                                  <tr>
+                                  <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                     <th colspan="5"></th> <!-- Placeholder for empty cells -->
                                     <th>Overtime Hours</th>
                                     <th>Overtime Amount</th>
@@ -144,14 +246,16 @@
 
                             </thead>
                             <tbody>
-                              <tr v-for="(employee, index) in employees" :key="employee.id">
+                              <tr  v-for="(employee, index) in employees" :key="employee.id">
+                                <td class="py-2 px-2 text-left whitespace-nowrap">
+
+                                  <span><input v-model="form.payrolls[index].emp_id"  type="number" step="0.01" readonly /></span>
+                                </td>
                                 <td class="py-2 px-2 text-left whitespace-nowrap">
                                   <span>{{ employee.user.firstName }} {{ employee.user.lastName }}</span>
                                 </td>
                                 <td class="py-2 px-2">{{ employee.position.rate }}</td>
-                                <td class="py-2 px-2">
-                                  <input v-model="form.payrolls[index].payrollPeriod" type="number" />
-                                </td>
+
                                 <td class="py-2 px-2">
                                   <input v-model="form.payrolls[index].daysWorked"  type="number" step="0.01" />
                                 </td>
@@ -164,10 +268,18 @@
                                 <td class="py-2 px-2">
                                   <input v-model="form.payrolls[index].overtimeAmount" type="number" step="0.01" readonly/>
                                 </td>
-                                <!-- <td class="py-2 px-2">
-                                  <input v-model="form.payrolls[index].cashAdvanceId" type="number" />
-                                  {{  employee.position.id }}
-                                </td> -->
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].grossAmount" type="number" step="0.01" readonly/>
+                                </td>
+                                <td class="py-2 px-2">
+                                  <!-- <input v-model="form.payrolls[index].cashAdvanceId" type="number" /> -->
+                                  {{ cashAdvances[index] ? cashAdvances[index].totalCashAdvance : '0' }}
+                                </td>
+
+
+                                <td class="py-2 px-2">
+                                  <input v-model="form.payrolls[index].personalDeduction" type="number" step="0.01"/>
+                                </td>
                                 <td class="py-2 px-2">
                                   <input v-model="form.payrolls[index].totalDeductions" type="number" step="0.01"/>
                                 </td>
@@ -176,6 +288,22 @@
                                 </td>
                               </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" >Total</td>
+                                    <td colspan="3">
+                                        <input v-model="form.total_gross_amount" type="number" step="0.01" readonly/>
+
+                                    </td>
+                                    <td colspan="1">
+                                        <input v-model="form.total_deductions_amount" type="number" step="0.01" readonly/>
+                                    </td>
+                                    <td>
+                                        <input v-model="form.total_net_amount" type="number" step="0.01" readonly/>
+                                    </td>
+
+                                </tr>
+                            </tfoot>
                           </table>
                         </div>
                         <div class="flex justify-between mt-3">

@@ -6,6 +6,7 @@
         emp_id: '',
         requestDate:'',
         amount:'',
+        reason:''
         // status: '',
 
     })
@@ -68,7 +69,12 @@ function submit() {
                                     <label class="font-semibold text-sm text-gray-600 block" for="amount">Amount</label>
                                     <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600"
                                       v-model="form.amount"  />
-                                    <div class="text-red-600" v-if="form.errors.amount">{{ form.errors.amount }}</div>
+
+                                    <div class="text-red-600" v-if="form.errors.reason">{{ form.errors.reason }}</div>
+                                    <label class="font-semibold text-sm text-gray-600 block" for="reason">reason</label>
+                                    <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600"
+                                      v-model="form.reason"  />
+                                    <div class="text-red-600" v-if="form.errors.reason">{{ form.errors.reason }}</div>
 
                                     <!-- <label class="font-semibold text-sm text-gray-600 block" for="status">Remarks</label>
                                     <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600"

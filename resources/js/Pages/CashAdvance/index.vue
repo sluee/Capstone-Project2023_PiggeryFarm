@@ -3,7 +3,8 @@
     import {Head, Link} from '@inertiajs/vue3'
     import moment from 'moment'
     const props = defineProps({
-        cashAdvance:Object
+        cashAdvance:Object,
+        cashAdvanceTotal:Object
     })
     function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
@@ -34,75 +35,144 @@
             </div>
         </template>
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <table class="min-w-max w-full table-auto">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Id</th>
-                                <th class="py-3 px-6 text-left">Employee</th>
-                                <th class="py-3 px-6 text-left">Requested Date</th>
-                                <th class="py-3 px-6 text-center">Amount</th>
-                                <th class="py-3 px-6 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 text-sm font-light" >
+            <div class=" shadow-sm sm:rounded-lg flex justify-between">
+                <div class="max-w-8xl mx-auto sm:px-5 lg:px-8 w-[60%]">
+                    <div class="bg-white shadow-sm sm:rounded-lg">
+                        <h4 class="text-xl font-bold">Employees Advances</h4>
+                        <table class="min-w-max w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-6 text-left">Id</th>
+                                    <th class="py-3 px-6 text-left">Employee</th>
+                                    <th class="py-3 px-6 text-left">Requested Date</th>
+                                    <th class="py-3 px-6 text-center">Amount</th>
+                                    <th class="py-3 px-6 text-center">Reason</th>
+                                    <th class="py-3 px-6 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 text-sm font-light" >
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cash  in cashAdvance" :key="cash.id">
-                                 <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
+                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cash  in cashAdvance" :key="cash.id">
+                                     <td class="py-3 px-5 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
 
-                                        <p class="font-medium">{{ cash.id }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <p class="font-medium">{{ cash.employee.user.firstName }} {{ cash.employee.user.lastName }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <p class="font-medium">{{ formattedDate(cash.requestDate) }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <p class="font-medium">₱ {{ cash.amount}}</p>
-                                    </div>
-                                </td>
-                                <!-- <td class="py-3 px-6 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{ cash.status}}</p>
-                                    </div>
-                                </td> -->
+                                            <p class="font-medium">{{ cash.id }}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-5 text-left">
+                                        <div class="flex items-center">
+                                            <p class="font-medium">{{ cash.employee.user.firstName }} {{ cash.employee.user.lastName }}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-5 text-left">
+                                        <div class="flex items-center">
+                                            <p class="font-medium">{{ formattedDate(cash.requestDate) }}</p>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">₱ {{ cash.amount}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-5 text-left">
+                                        <div class="flex items-center">
+                                            <p class="font-medium">{{ cash.reason }}</p>
+                                        </div>
+                                    </td>
 
+                                    <td class="py-3 px-4 text-center">
+                                        <div class="flex item-center justify-center">
+                                            <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                                <a :href="'/cashAdvance/' + cash.id">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+                                                </a>
 
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                            <a :href="'/cashAdvance/' + cash.id">
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
-                                            </a>
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
+                <div class="max-w-5xl mx-auto sm:px-6 lg:px-4 w-[45%]">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <h4 class="text-xl font-bold">Employee's Total Advances</h4>
+                    
+                        <table class="min-w-max w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-5 text-left">Id</th>
+                                    <th class="py-3 px-5 text-left">Employee</th>
+                                    <th class="py-3 px-5 text-left">Total Cash Advance</th>
+                                    <th class="py-3 px-5 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 text-sm font-light" >
+
+                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="csh  in cashAdvanceTotal" :key="csh.id">
+                                     <td class="py-3 px-5 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+
+                                            <p class="font-medium">{{ csh.id }}</p>
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
+                                    </td>
+                                    <td class="py-3 px-5 text-left">
+                                        <div class="flex items-center">
+                                            <p class="font-medium">{{ csh.employee.user.firstName }} {{ csh.employee.user.lastName }}</p>
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
+                                    </td>
+
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">₱ {{ csh.totalCashAdvance}}</p>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+
+
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex item-center justify-center">
+                                            <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                                <a :href="'/cashAdvance/' + csh.id">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+                                                </a>
+
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
             </div>
         </div>

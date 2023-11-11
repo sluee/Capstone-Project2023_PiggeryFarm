@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('cash_advances', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('emp_id')->unsigned();
+            $table->bigInteger('cash_id')->unsigned();
             $table->string('requestDate');
             $table->string('amount')->default(0);
-            // $table->string('repaymentDetails')->comment('')
+            $table->string('reason')->nullable();
             $table->foreign('emp_id')->references('id')->on('employees');
+            $table->foreign('cash_id')->references('id')->on('cash_advance_totals');
             $table->timestamps();
         });
     }

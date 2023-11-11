@@ -15,8 +15,8 @@ class Payroll extends Model
     {
         return $this->belongsTo(Employee::class, 'emp_id');
     }
-    // public function cash_advance()
-    // {
-    //     return $this->belongsTo(CashAdvance::class, 'cashAdvanceId');
-    // }
+    public function payrollItem()
+    {
+        return $this->hasMany(PayrollItem::class);
+    }
 }
