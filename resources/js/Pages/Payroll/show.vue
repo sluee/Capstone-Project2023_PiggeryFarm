@@ -2,14 +2,17 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import {Head, Link, router, useForm} from '@inertiajs/vue3'
     import moment from 'moment'
+    import { ref, toRef, onMounted } from 'vue';
+
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }
     const props = defineProps({
         payroll:Object,
-        payrollItem:Object
     })
-    // console.log(this.payroll.payrollItem);
+
+    const nonReactivePayroll = ref(props.payroll);
+
 </script>
 <template>
     <Head title="View Payroll" />
@@ -35,141 +38,165 @@
             </div>
         </template>
         <div class="py-10 ">
-            <div class="max-w-3xl mx-auto  ">
-                <div class="bg-[white] rounded-b-md">
-                    <div class=" mt-3 mb-3">
-                        <div class="flex justify-center mb-2">
-                            <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
-                            <div class=" text-sm">
-                                <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
-                                <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
-                                <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3>
-                                <h3 class="font-bold text-slate-700 text-center">Payroll </h3>
-                            </div>
+            <div class="px-2 mt-5">
+                <div class="mx-2">
+                    <div class="container mx-auto mt-2  ">
+                        <div class="bg-[white] rounded-b-md">
+                            <div class=" mt-3 mb-3">
+                                <div class="flex justify-center mb-2">
+                                    <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                                    <div class=" text-sm">
+                                        <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
+                                        <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
+                                        <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3>
+                                        <h3 class="font-bold text-slate-700 text-center">Payroll </h3>
+                                    </div>
 
+                                </div>
+                                <div class="flex justify-between mt-9">
+
+                                    <div class="text-sm font-light text-slate-500">
+                                        <p class="text-sm font-normal text-slate-700">
+                                            Payroll Details: <strong>  PAY00{{ payroll.id }}</strong>
+                                        </p>
+                                        <p class="text-sm font-normal text-slate-700">
+                                            Date Covered: <strong>{{ formattedDate(payroll.payrollPeriodFrom) }} -{{ formattedDate(payroll.payrollPeriodTo) }}</strong>
+                                        </p>
+                                        <p class="text-sm font-normal text-slate-700">
+                                            No of Days Worked: <strong>{{ payroll.noOfDaysWorked }}</strong>
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex justify-between mt-9">
+                        <div class="bg-white shadow-sm sm:rounded-lg0  ">
+                            <table class="min-w-full divide-y divide-slate-500">
+                                <thead>
+                                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal ">
+                                        <th scope="col" >
+                                           Employee
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                            Rate
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                            Days Worked
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                            Total Basis Pay
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                            Overtime Hours
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                           Overtime Amount
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                           Gross Amount
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                           Cash Advance
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                           Personal Deductions
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                           Total Deductions
+                                        </th>
+                                        <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
+                                           Total Net Amount
+                                        </th>
 
-                            <div class="text-sm font-light text-slate-500">
-                                <p class="text-sm font-normal text-slate-700">
-                                    Invoice Detail: <strong>  0000{{ payroll.id }}</strong>
-                                </p>
-                                <p class="text-sm font-normal text-slate-700">
-                                    Date Covered: <strong>{{ formattedDate(payroll.payrollPeriodFrom) }} -{{ formattedDate(payroll.payrollPeriodTo) }}</strong>
-                                </p>
-                                <p class="text-sm font-normal text-slate-700">
-                                    No of Days Worked: <strong>{{ payroll.noOfDaysWorked }}</strong>
-                                </p>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-slate-200" v-for="payItem in nonReactivePayroll.payrollItem" :key="payItem.id">
+                                        <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
+                                            <div class="font-medium text-slate-700 text-center">{{ payItem.employee.user.firstName }} {{ payItem.employee.user.lastName }}</div>
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                            <div class="font-medium text-slate-700 text-center">{{ payItem.employee.position.rate }}</div>
+                                         
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                            {{ payItem.daysWorked }} 
+                                       </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                             {{ payItem.totalBasicPay }} 
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                             {{ payItem.overtimeHours }} 
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                             {{ payItem.overtimeAmount }} 
+                                        </td>
+                                       
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                             {{ payItem.grossAmount }} 
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                            {{ payItem.cashAdvance }}
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                             {{ payItem.personalDeduction }} 
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                             {{ payItem.totalDeductions }} 
+                                        </td>
+                                        <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                             {{ payItem.netAmount }} 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="10.5"></td>
+                                        <td colspan="10"> ₱ {{ payroll.total_net_amount }}</td>
+                                    </tr>
+                                </tbody>
+                                <!-- <tfoot>
 
-                            </div>
-                            <!-- <div class="justify-right">
-                                <p class="text-sm font-normal ">
-                                    Mode of Payment : <strong>{{ payroll.payment }}</strong>
-                                </p>
-                                <p class="text-sm font-normal ">
-                                    Quantity of Pigs : <strong>{{ totalPigs }} pc/pcs.</strong>
-                                </p>
-                                <p class="text-sm font-normal ">
-                                    Remarks : <strong>{{ payroll.remarks }}</strong>
-                                </p>
-                            </div> -->
+                                    <tr>
+                                        <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                            Total Weight
+                                        </th>
+
+                                        <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                            <strong>{{ totalWeight }} kgs.</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                            Total Amount
+                                        </th>
+
+                                        <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                            ₱ <strong>{{ sale.total_amount }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                            Cash Amount
+                                        </th>
+
+                                        <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                            ₱ <strong>{{ sale.is_credit }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <th scope="row" colspan="3" class="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
+                                            Balance
+                                        </th>
+                                        <td class="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                            ₱ <strong>{{ sale.balance }}</strong>
+                                        </td>
+                                    </tr>
+
+                                </tfoot> -->
+                            </table>
                         </div>
                     </div>
-                </div>
-                <div class="flex flex-col mx-0  ">
-                    <table class="min-w-full divide-y divide-slate-500">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="py-3.5 pl-4 pr-3  text-sm text-center font-normal text-slate-700 sm:pl-6 md:pl-0">
-                                   Employee
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                    Rate
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                    Days Worked
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                    Total Basis Pay
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                    Overtime Hours
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                   Overtime Amount
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                   Gross Amount
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                   Cash Advance
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                   Personal Deductions
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                   Total Deductions
-                                </th>
-                                <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                   Total Net Amount
-                                </th>
-    
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-slate-200" v-for="pay in payroll" :key="pay.id">
-                                <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                                    <div class="font-medium text-slate-700 text-center"> {{pay.id}}kgs.</div>
-                                </td>
-                                <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                    ₱ {{ pay.payrollItem.id}}
-                                </td>
-                                <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                    ₱ {{ pay.daysWorked }}
-                                </td>
-                            </tr>
-                        </tbody>
-                        <!-- <tfoot>
-                        
-                            <tr>
-                                <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                                    Total Weight
-                                </th>
-                                
-                                <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                    <strong>{{ totalWeight }} kgs.</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                                    Total Amount
-                                </th>
-                                
-                                <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                    ₱ <strong>{{ sale.total_amount }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" colspan="3" class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                                    Cash Amount
-                                </th>
-
-                                <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                    ₱ <strong>{{ sale.is_credit }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <th scope="row" colspan="3" class="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0">
-                                    Balance
-                                </th>
-                                <td class="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                    ₱ <strong>{{ sale.balance }}</strong>
-                                </td>
-                            </tr>
-
-                        </tfoot> -->
-                    </table>
                 </div>
             </div>
         </div>

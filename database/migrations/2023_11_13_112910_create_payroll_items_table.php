@@ -23,6 +23,7 @@ return new class extends Migration
             $table->double('netAmount');
             $table->double('grossAmount');
             $table->double('personalDeduction');
+            $table->double('cashAdvance');
             $table->timestamps();
             $table->foreign('emp_id')->references('id')->on('employees');
             $table->foreign('payroll_id')->references('id')->on('payrolls');

@@ -40,7 +40,7 @@ class PayrollItemController extends Controller
             'payrolls.*.totalBasicPay' => 'nullable|numeric',
             'payrolls.*.grossAmount' => 'nullable|numeric',
             'payrolls.*.personalDeduction' => 'nullable|numeric',
-            // 'payrolls.*.cashAdvanceId' => 'nullable|exists:cash_advances,id',
+            'payrolls.*.cashAdvance' => 'required|nullable',
             'payrolls.*.totalDeductions' => 'nullable|numeric',
             'payrolls.*.netAmount' => 'required|numeric',
         ]);
@@ -64,7 +64,9 @@ class PayrollItemController extends Controller
                 'totalBasicPay' => $payrollData['totalBasicPay'],
                 'grossAmount' => $payrollData['grossAmount'],
                 'personalDeduction' => $payrollData['personalDeduction'],
-                'totalDeductions' => $payrollData['totalDeductions'],
+                'cashAdvance' => $payrollData['cashAdvance'],
+                'totalDeductions' => $payrollData['totalDeductions'], 
+               
                 'netAmount' => $payrollData['netAmount'], 
             ]);
         

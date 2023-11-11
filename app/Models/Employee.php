@@ -30,6 +30,7 @@ class Employee extends Model
     //     return $this->hasOne(CashAdvance::class ,'emp_id');
     // }
 
+   
     public function cashAdvances()
     {
         return $this->hasMany(CashAdvance::class, 'emp_id');

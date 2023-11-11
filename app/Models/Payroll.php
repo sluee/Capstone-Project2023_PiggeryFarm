@@ -13,7 +13,14 @@ class Payroll extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'emp_id');
+        return $this->belongsTo(Employee::class);
+    }
+    
+    // Employee.php
+    
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
     public function payrollItem()
     {

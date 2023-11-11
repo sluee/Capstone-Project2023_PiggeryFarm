@@ -19,7 +19,6 @@
         total_deductions_amount:'',
         total_net_amount:'',
         payrolls: reactive(props.employees.map(employee => ({
-
             emp_id: employee.id,
             daysWorked: '',
             totalBasicPay:0,
@@ -28,11 +27,18 @@
             grossAmount:0,
             personalDeduction:0,
             totalDeductions: 0,
+            cashAdvance: getCashAdvanceTotal(employee.id),
             netAmount: 0,
         })))
     });
 
+    function getCashAdvanceTotal(emp_id) {
+    // Assuming cashAdvances is an array with emp_id and totalCashAdvance properties
+    const cashAdvanceEntry = props.cashAdvances.find(entry => entry.emp_id === emp_id);
 
+    // Return 0 if there's no corresponding entry, otherwise return the value of totalCashAdvance
+    return cashAdvanceEntry ? cashAdvanceEntry.totalCashAdvance : 0;
+}
 
      // Watch for changes in form.payrolls
     watch(() => form.payrolls, (newPayrolls) => {
@@ -127,7 +133,7 @@
         });
 
         const totalDeductionsAmount = newPayrolls.reduce((sum, payroll) => {
-            return  payroll.totalDeductions-sum ;
+            return  payroll.totalDeductions+sum ;
         }, 0);
 
         form.total_deductions_amount = totalDeductionsAmount;
@@ -152,7 +158,7 @@
 
         // Recalculate total gross amount and update form.total_gross_amount
         const totalNetAmount = newPayrolls.reduce((sum, payroll) => {
-            return payroll.netAmount -sum;
+            return payroll.netAmount + sum;
         }, 0);
 
         // Assuming form.total_gross_amount is reactive, update it
@@ -273,7 +279,7 @@
                                 </td>
                                 <td class="py-2 px-2">
                                   <!-- <input v-model="form.payrolls[index].cashAdvanceId" type="number" /> -->
-                                  {{ cashAdvances[index] ? cashAdvances[index].totalCashAdvance : '0' }}
+                                  <input v-model="form.payrolls[index].cashAdvance" type="number" step="0.01" readonly/>
                                 </td>
 
 

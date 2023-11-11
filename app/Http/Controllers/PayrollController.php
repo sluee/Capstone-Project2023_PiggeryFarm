@@ -52,42 +52,42 @@ class PayrollController extends Controller
     public function store(Request $request)
     {
 
-        $data = $request->validate([
-            'payrolls' => 'required|array',
-            'payrolls.*.emp_id' => 'required|exists:employees,id',
-            'payrolls.*.payrollPeriod' => 'required',
-            'payrolls.*.daysWorked' => 'required|numeric',
-            'payrolls.*.overtimeHours' => 'nullable|numeric',
-            'payrolls.*.overtimeAmount' => 'nullable|numeric',
-            'payrolls.*.totalBasicPay' => 'nullable|numeric',
-            'payrolls.*.grossAmount' => 'nullable|numeric',
-            'payrolls.*.personalDeduction' => 'nullable|numeric',
-            // 'payrolls.*.cashAdvanceId' => 'nullable|exists:cash_advances,id',
-            'payrolls.*.totalDeductions' => 'nullable|numeric',
-            'payrolls.*.netAmount' => 'required|numeric',
-        ]);
-
-        foreach ($data['payrolls'] as $payrollData) {
-            Payroll::create($payrollData);
-        }
-        return redirect('/payroll')->with('success', 'Payroll data saved successfully');
+      
     }
 
     /**
      * Display the specified resource.
      */
+    // public function show(Payroll $payroll)
+    // {
+    //     $payroll->load('payrollItem.employee.user', 'employee.position', 'employee.cash_advance');
+    
+    // // Convert the Eloquent model to an array
+    //     $payrollData = $payroll->toArray();
+
+    //     return inertia('Payroll/show', [
+    //     'payroll' => $payrollData
+    //         // 'payrollItem' =>$payrollItem
+    //         // Other data...
+    //     ]);
+    // }
+
     public function show(Payroll $payroll)
     {
-        $payroll->load('payrollItem.employee.user', 'employee.position', 'employee.cash_advance');
-        // $payrollItem = PayrollItem::with('employee.user')->find($payroll->id);
-        // Pass the Payroll model and the loaded relationships to the Inertia view
+        $payroll->load('payrollItem.employee.user', 'payrollItem.employee.position', 'payrollItem.employee.advanceTotal' );
+    
+        // Convert the Eloquent model and related models to plain arrays
+        $payrollArray = $payroll->toArray();
+        $payrollArray['payrollItem'] = $payroll->payrollItem->map(function ($item) {
+            return $item->toArray();
+        });
+    
         return inertia('Payroll/show', [
-            'payroll' => $payroll,
-            // 'payrollItem' =>$payrollItem
+            'payroll' => $payrollArray,
             // Other data...
         ]);
     }
-
+    
 
     /**
      * Show the form for editing the specified resource.
