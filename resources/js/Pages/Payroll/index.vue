@@ -1,18 +1,31 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue'
-    import { Head, Link } from '@inertiajs/vue3';
+    import { Head, Link, router } from '@inertiajs/vue3';
+    import { watch, ref } from 'vue';
     import moment from'moment'
-    import Card from '@/Components/Card.vue'
-
+    import Pagination from '@/Components/Pagination.vue';
     const props= defineProps({
         payroll:Object,
-        employee:Object
+        employee:Object,
+        filters:Object
+
     })
 
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }
     
+    let search = ref(props.filters.search);
+    watch(search, (value) => {
+        router.get(
+            "/payroll",
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    });
 </script>
 
 <template>
@@ -87,7 +100,7 @@
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="pay in payroll" :key="pay.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="pay in payroll.data" :key="pay.id">
                                 <td class="py-3 px-3 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
@@ -158,6 +171,7 @@
 
                         </tbody>
                     </table>
+                    <Pagination :links="payroll.links" class="mt-6 flex justify-center"/>
                 </div>
             </div>  
           </div>

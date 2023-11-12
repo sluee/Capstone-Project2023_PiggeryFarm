@@ -83,6 +83,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => $roles,
             'positions' => $position,
+            'currentRole' => $user->roles->first()->name,
             'employee' => $employee
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,9 +16,9 @@ class Payroll extends Model
     {
         return $this->belongsTo(Employee::class);
     }
-    
+
     // Employee.php
-    
+
     public function position()
     {
         return $this->belongsTo(Position::class);
@@ -26,4 +27,14 @@ class Payroll extends Model
     {
         return $this->hasMany(PayrollItem::class);
     }
+
+    public function getFormattedCreatedAtAttribute()
+    {
+        $from = Carbon::parse($this->attributes['payrollPeriodFrom']);
+        $to = Carbon::parse($this->attributes['payrollPeriodTo']);
+
+        return $from->format('F j, Y') . ' - ' . $to->format('F j, Y');
+    }
+
+
 }

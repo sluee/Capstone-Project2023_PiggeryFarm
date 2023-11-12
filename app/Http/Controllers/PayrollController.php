@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\CashAdvance;
 use App\Models\CashAdvanceTotals;
 use App\Models\Employee;
@@ -17,18 +17,18 @@ class PayrollController extends Controller
      */
     public function index()
     {
-        // $employees = Employee::with('user', 'position', 'cash_advance')->get();
-        // $payroll = Payroll::with('employee.user', 'employee.position', 'employee.cash_advance')->get();
-        // $payroll = Payroll::orderBy('id')->get();
-        $payroll = Payroll::with('payrollItem', 'employee.user','employee.position', 'employee.cash_advance')
-        ->orderBy('created_at', 'desc')
-        ->get();
-        return inertia('Payroll/index',[
-            'payroll' => $payroll
-
+        return inertia('Payroll/index', [
+            'payroll' => Payroll::query()
+                ->when(HttpRequest::input('search'), function ($query, $search) {
+                    $query->where('payrollPeriodFrom', 'like', '%' . $search . '%')
+                          ->orWhere('payrollPeriodTo', 'like', '%' . $search . '%');
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(8)
+                ->withQueryString(),
+            'filters' => HttpRequest::only(['search'])
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -52,7 +52,7 @@ class PayrollController extends Controller
     public function store(Request $request)
     {
 
-      
+
     }
 
     /**
@@ -61,7 +61,7 @@ class PayrollController extends Controller
     // public function show(Payroll $payroll)
     // {
     //     $payroll->load('payrollItem.employee.user', 'employee.position', 'employee.cash_advance');
-    
+
     // // Convert the Eloquent model to an array
     //     $payrollData = $payroll->toArray();
 
@@ -75,19 +75,19 @@ class PayrollController extends Controller
     public function show(Payroll $payroll)
     {
         $payroll->load('payrollItem.employee.user', 'payrollItem.employee.position', 'payrollItem.employee.advanceTotal' );
-    
+
         // Convert the Eloquent model and related models to plain arrays
         $payrollArray = $payroll->toArray();
         $payrollArray['payrollItem'] = $payroll->payrollItem->map(function ($item) {
             return $item->toArray();
         });
-    
+
         return inertia('Payroll/show', [
             'payroll' => $payrollArray,
-            // Other data...
+
         ]);
     }
-    
+
 
     /**
      * Show the form for editing the specified resource.

@@ -22,7 +22,7 @@ use App\Http\Controllers\FinancialCategoryController;
 use App\Http\Controllers\FinancialTransactionController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollItemController;
-use App\Http\Controllers\CashAdvanceTotalsController;
+use App\Http\Controllers\PdfController;
 // use App\Models\Payroll;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -123,6 +123,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/histories' ,[SaleController::class, 'index'])->name('SalesHistory.index');
     Route::get('/salesChart' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.chart');
 
+    //Route for exporting the sales Receipt
+    Route::get('/sales/pdf/{sale}',[PdfController::class,'salesReceipt']);
+
     // Route for customers
     Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');
     Route::get('/customers/create',[CustomerController::class , 'create']);
@@ -179,6 +182,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/payroll', [PayrollItemController::class, 'store'])->name('payroll.create');
     Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
     // Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
+    // Route for exporting the Payroll
+    Route::get('/payroll/pdf/{payroll}',[PdfController::class,'payrollSummary']);
+
 
     Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
     Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');

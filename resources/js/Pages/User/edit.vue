@@ -1,8 +1,9 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
-    import { ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import { Link , Head, usePage} from '@inertiajs/vue3';
     import { useForm } from '@inertiajs/vue3';
+
     // import Multiselect from 'vue-multiselect'
     // const { data } = usePage().props;
     let form = useForm({
@@ -15,7 +16,7 @@
         // status:props.,
         gender:props.user.gender,
         type: props.user.type,
-        role: props.user.roles.name,
+        role:  props.currentRole,
         pos_id: "",
         address:props.user.address,
         phone: props.user.phone,
@@ -36,6 +37,15 @@
 
       }
     }
+    onMounted(() => {
+        const selectRole = document.getElementById('select-role');
+
+        if (selectRole) {
+            new TomSelect(selectRole, {
+            maxItems: 3,
+            });
+        }
+    });
 
     const submit = () =>{
         form.put('/users/'+props.user.id)
@@ -103,12 +113,13 @@
 
                          
                           <div class="m:col-span-1">
-                            <p>Current Role: {{ user.roles.map(role => role.name).join(', ') }}</p>
+                            <!-- <p>Current Role: {{ user.roles.map(role => role.name).join(', ') }}</p> -->
                             <label for="roles" class="block text-sm font-medium leading-6 text-gray-900">Roles</label>
                             <div class="mt-2">
                               <select id="role" v-model="form.role" name="role" autocomplete="role" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                <option selected disabled>Select Role</option>
+                                <option selected disabled   >Select Role</option>
                                 <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
+                                <!-- <option value="Role">Patient</option> -->
                               </select>
                               <div class="text-sm text-red-500 italic" v-if="form.errors.role">{{ form.errors.role }}</div>
                             </div>
