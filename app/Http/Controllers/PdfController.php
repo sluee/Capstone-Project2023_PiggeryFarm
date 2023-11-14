@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Consumption;
+use App\Models\FeedsPurchase;
 use App\Models\Payroll;
 use App\Models\Sale;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PdfController extends Controller
@@ -36,4 +39,58 @@ class PdfController extends Controller
 
         return $pdf->stream();
     }
+
+    // public function payrollHistory()
+    // {
+    //     $payrolls = Payroll::orderBy('id', 'desc')->get();
+    //     $pdf = Pdf::loadView('Pdf.payroll-history', [
+    //         'payroll' => $payrolls,
+
+    //     ]);
+
+    //     return $pdf->stream();
+    // }
+
+    public function payrollHistory(){
+        $payrolls = Payroll::orderBy('id', 'desc')->get();
+
+        $payrolls->each(function ($payroll) {
+            $payroll->formattedPeriod = Carbon::parse($payroll->payrollPeriodFrom)->format('F d, Y') . ' - ' . Carbon::parse($payroll->payrollPeriodTo)->format('F d, Y');
+            // Add other data as needed
+        });
+
+        $pdf = Pdf::loadView('Pdf.payroll-history', [
+            'payroll' => $payrolls,
+        ]);
+
+        return $pdf->stream();
+    }
+
+    public function feedsPurchase(){
+        $feedsPurchase = FeedsPurchase::with('feeds.categories', 'feeds.supplier')->orderBy('id', 'desc')->get();
+        $feedsPurchase->each(function ($purchase) {
+            $purchase->formattedPeriod = Carbon::parse($purchase->date)->format('F d, Y');
+            // Add other data as needed
+        });
+        $pdf = Pdf::loadView('Pdf.feeds-purchase', [
+            'feedsPurchase' => $feedsPurchase,
+        ]);
+
+        return $pdf->stream();
+    }
+
+
+    public function feedsConsumption(){
+        $consumption = Consumption::with('feeds.categories', 'feeds.supplier')->orderBy('id', 'desc')->get();
+        $consumption->each(function ($purchase) {
+            $purchase->formattedPeriod = Carbon::parse($purchase->date)->format('F d, Y');
+            // Add other data as needed
+        });
+        $pdf = Pdf::loadView('Pdf.Consumption', [
+            'consumption' => $consumption,
+        ]);
+
+        return $pdf->stream();
+    }
+
 }

@@ -39,14 +39,16 @@
                                 </select>
                                 <div class="text-red-600" v-if="form.errors.cat_id">{{ form.errors.cat_id }}</div>
 
-                                <label class="font-semibold text-sm text-gray-600  block" for="name">Name</label>
-                                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.name"/>
-                                <div class="text-red-600" v-if="form.errors.name">{{ form.errors.name }}</div>
+                                <label class="font-semibold text-sm text-gray-600  block" for="sup_id">Supplier Name</label>
+                                <select name="" id="sup_id" v-model="form.sup_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                    <option value="" disabled>Select Supplier</option>
+                                    <option v-for="sup in supplier" :value="sup.id" :key="sup.id" >{{ sup.name }}</option>
+                                </select>
+                                <div class="text-red-600" v-if="form.errors.sup_id">{{ form.errors.sup_id }}</div>
 
-                                <label class="font-semibold text-sm text-gray-600  block" for="description">Description</label>
-                                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.description"/>
-                                <div class="text-red-600" v-if="form.errors.description">{{ form.errors.description }}</div>
-
+                                <label class="font-semibold text-sm text-gray-600  block" for="qty">Initial Stocks</label>
+                                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.qty"/>
+                                <div class="text-red-600" v-if="form.errors.qty">{{ form.errors.qty }}</div>
 
                                 <button  type="submit" class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
                                     Add Feeds
@@ -63,9 +65,11 @@
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                         <th class="py-3 px-6 text-left">Id</th>
+                                        <th class="py-3 px-6 text-left">Supplier</th>
                                         <th class="py-3 px-6 text-left">Category</th>
-                                        <th class="py-3 px-6 text-left">Name</th>
-                                        <th class="py-3 px-6 text-left">Description</th>
+                                        <th class="py-3 px-6 text-left">Initial Stocks</th>
+                                        <!-- <th class="py-3 px-6 text-left">Price</th> -->
+                                        <!-- <th class="py-3 px-6 text-left">Total Amount</th> -->
                                         <th class="py-3 px-6 text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -78,6 +82,12 @@
                                                 <p class="font-medium">{{ feed.id }}</p>
                                             </div>
                                         </td>
+                                        <td class="py-3 px-5 text-left whitespace-nowrap">
+                                            <div class="flex items-center">
+
+                                                <p class="font-medium">{{ feed.supplier.name }}</p>
+                                            </div>
+                                        </td>
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
@@ -87,18 +97,24 @@
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
-                                                <p class="font-medium">{{ feed.name }}</p>
+                                                <p class="font-medium ">{{ feed.qty }} bags</p>
                                             </div>
                                         </td>
-                                        <td class="py-3 px-6 text-left">
+
+                                        <!-- <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <p class="font-medium">{{ feed.description }}</p>
+
+                                                <p class="font-medium"> ₱{{ feed.categories.price }}</p>
                                             </div>
-                                        </td>
+                                        </td> -->
+                                        <!-- <td class="py-3 px-6 text-right whitespace-nowrap">
+                                            <div class="flex items-center">
 
+                                                <p class="font-medium">₱{{ feed.totalAmount  }}</p>
+                                            </div>
+                                        </td> -->
 
-
-                                        <td class="py-3 px-6 text-center">
+                                        <td class="py-3 px-5 text-center">
                                             <div class="flex item-center justify-center">
                                                 <!-- <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
 
@@ -142,14 +158,16 @@ import moment from'moment'
 
 
 const form = useForm({
-    name:'',
-    description:'',
-    cat_id:''
+    qty:'',
+    initialStock:'',
+    cat_id:'',
+    sup_id:''
 });
 const props = defineProps({
     feeds:Array,
-    categories:Object
-})  
+    categories:Object,
+    supplier:Object
+})
 function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
 }
@@ -160,7 +178,7 @@ function formattedDate(date){
 
 function submit() {
     form.post('/feeds/');
-    form.name='',
+    form.qty='',
     form.description='',
     form.cat_id=''
 }

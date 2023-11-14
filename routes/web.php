@@ -23,6 +23,8 @@ use App\Http\Controllers\FinancialTransactionController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollItemController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\ConsumptionController;
+use App\Http\Controllers\FeedsPurchaseController;
 // use App\Models\Payroll;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -149,6 +151,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/feeds/create',[FeedController::class , 'create']);
     Route::post('/feeds',[FeedController::class, 'store']);
 
+    Route::get('/feeds-purchase' ,[FeedsPurchaseController::class, 'index'])->name('purchase.index');
+    Route::post('/feeds-purchase',[FeedsPurchaseController::class, 'store']);
+    Route::put('/feeds-purchase/{feedsPurchase}', [FeedsPurchaseController::class, 'update']);
+
+    Route::get('/feeds-purchase/pdf/',[PdfController::class,'feedsPurchase']);
+
+    Route::get('/feeds-consumption' ,[ConsumptionController::class, 'index'])->name('consumption.index');
+    Route::post('/feeds-consumption',[ConsumptionController::class, 'store']);
+    Route::get('/feeds-purchases/pdf/',[PdfController::class,'feedsConsumption'])->name('consumption.pdf');
+
     Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
     Route::post('/positions', [PositionController::class, 'store']);
 
@@ -183,8 +195,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
     // Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
     // Route for exporting the Payroll
+    // Route::get('/payroll/pdf', [PdfController::class, 'payrollHistory']);
+    Route::get('/payrolls/pdf', [PdfController::class, 'payrollHistory'])->name('payroll.pdf');
     Route::get('/payroll/pdf/{payroll}',[PdfController::class,'payrollSummary']);
-
 
     Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
     Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');

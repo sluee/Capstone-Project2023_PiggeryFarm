@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feeds', function (Blueprint $table) {
+        Schema::create('consumptions', function (Blueprint $table) {
             $table->id();
-            $table->double('qty');
-            $table->bigInteger('cat_id')->unsigned();
+            $table->bigInteger('feed_id')->unsigned();
+            $table->integer('qty');
+            // $table->double('totalAmount');
+            $table->string('date');
+            $table->foreign('feed_id')->references('id')->on('feeds');
             $table->timestamps();
-            $table->foreign('cat_id')->references('id')->on('categories');
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feeds');
+        Schema::dropIfExists('consumptions');
     }
 };

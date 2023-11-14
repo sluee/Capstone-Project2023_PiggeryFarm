@@ -24,6 +24,7 @@ class DashboardController extends Controller
         $sales = Sale::with('salesItems', 'customers')
             ->whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])
             ->orderBy('created_at', 'desc')
+            ->take(5)
             ->get();
 
         // Calculate the total weight and total pigs for each sale
@@ -50,13 +51,25 @@ class DashboardController extends Controller
         ->get();
         // return response()->json($currentMonthSales);
 
+           // Retrieve sales data for the previous month
+            $previousMonthSales = Sale::select(DB::raw('SUM(total_amount) as total_sales'))
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->whereMonth('created_at', now()->subMonth()->month)
+            ->first();
+
+        // Calculate the percentage change
+        $percentageChange = 0; // Default value if there are no previous month sales
+        if ($previousMonthSales && $previousMonthSales->total_sales != 0) {
+            $percentageChange = (($totalAmountAllSales - $previousMonthSales->total_sales) / $previousMonthSales->total_sales) * 100;
+        }
         return inertia('Dashboard',[
             'sales' => $sales,
             'totalAmountAllSales' => $totalAmountAllSales,
             'monthlySales ' => $monthlySales,
             'employeeCount' => $employeeCount,
             'pigsCount' => $pigsCount,
-            'currentMonthSales' => $currentMonthSales
+            'currentMonthSales' => $currentMonthSales,
+            'percentageChange' => $percentageChange
 
         ]);
     }

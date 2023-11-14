@@ -40,8 +40,40 @@
                     <div class=" pr-6">
                         <h4 class="text-center text-xl font-bold text-navy-700 dark:text-black">
                             Sow's Details
-                        </h4>
-                        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 ">
+                        </h4>       
+                            <div class="w-80 m-auto lg:mt-2 max-w-sm">
+                            <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" alt="" class="rounded-sm shadow-xl lg:w-full 2xl:w-full 2xl:h-44 object-cover"/>
+                                <h2 class="text-center text-gray-800 text-2xl font-bold pt-2 mb-2">Sow: {{ sows.sow_no }} </h2>
+                                <div class="w-5/6 m-auto">
+                                <p class=" text-gray-500 ">
+                                    <span class="font-bold text-gray-900">
+                                    Location :
+                                    </span> {{ sows.location }}
+                                </p>
+                                <p class=" text-gray-500">
+                                    <span class="font-bold text-gray-900">
+                                        Arrival Date:
+                                    </span> {{ formattedDate(sows.date_arrived) }} </p>
+                                </div>
+                                <!-- <div class="grid grid-cols-4 w-72 lg:w-6/6 m-auto bg-indigo-50 mt-5 p-4 lg:p-4 rounded-2xl">
+                                    <div class="col-span-1">
+                                        <img class="w-15 lg:w-12" src="https://i.pinimg.com/236x/d6/19/93/d61993f7fb1260300645192c2a0f7dc8.jpg" alt="music icon"/>
+                                    </div>
+                                    <div class="col-span-2 pt-1">
+                                        <p class="text-gray-800 font-bold lg:text-sm">Credit Limit</p>
+                                        <p class="text-gray-500 text-sm">PHP {{ client.credit_limit }}</p>
+                                    </div>
+                                </div> -->
+                                <div class="flex justify-between mt-3 ml-2 mr-4">
+                                    <DangerButton  class="mr-2">
+                                        Deactivate Sow
+                                    </DangerButton>
+                                    <PrimaryButton >Activate Sow</PrimaryButton>
+                                </div>
+
+                            </div>
+
+                        <!-- <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 ">
                             <div class="bg-blue-200  shadow-lg sm:rounded-lg">
                                 <div class="p-6 text-gray-900 flex">
 
@@ -59,7 +91,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                   </div>
                   <div class="w-3/4 ">
@@ -69,9 +101,9 @@
                                 <h3 class="text-xl flex-1 dark:text-black">Sow's History</h3>
 
                             </div>
-                            
+
                             <!-- component -->
-                    
+
                         <ul class="mx-auto grid max-w-full w-full grid-cols-3 gap-x-5 px-8">
                             <li class="">
                                 <input class="peer sr-only" type="radio" value="yes" name="answer" id="yes" checked />
@@ -80,12 +112,12 @@
                                     <div class=" bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[50vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
                                         <div class="flex">
                                             <h3 class="text-xl flex-1  dark:text-black">Sow's Breeding History</h3>
-            
+
                                         </div>
                                         <table class="min-w-max w-full table-auto">
                                             <thead>
                                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                                    
+
                                                     <th class="py-3 px-4 text-left">Boar</th>
                                                     <th class="py-3 px-4 text-left">Breeding Date</th>
                                                     <th class="py-3 px-4 text-left">Poss. Reheat</th>
@@ -95,29 +127,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="text-gray-600 text-sm font-light" >
-            
+
                                                 <!-- <tr  class="border-b border-gray-200 hover:bg-gray-100"  v-for="sale in customer.sales_items" :key="sale.id">
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ sale.id }}</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ formattedDate(sale.created_at) }}</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ sale.pen_no }}</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ sale.pig_weight }}</p>
                                                         </div>
                                                     </td>
@@ -132,9 +164,9 @@
                                                         </div>
                                                     </td>
                                                 </tr> -->
-            
+
                                             </tbody>
-                                            
+
                                         </table>
                                 </div>
                             </li>
@@ -146,12 +178,12 @@
                                     <div class="bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[50vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
                                         <div class="flex">
                                             <h3 class="text-xl flex-1  dark:text-black">Sow's Labor History</h3>
-            
+
                                         </div>
                                         <table class="min-w-max w-full table-auto">
                                             <thead>
                                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                                    
+
                                                     <th class="py-3 px-4 text-left">Parity no</th>
                                                     <th class="py-3 px-4 text-left">Act Farrowing Date</th>
                                                     <th class="py-3 px-4 text-left">No of Pigs Born</th>
@@ -161,29 +193,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="text-gray-600 text-sm font-light" >
-            
+
                                                 <!-- <tr  class="border-b border-gray-200 hover:bg-gray-100"  v-for="sale in customer.sales_items" :key="sale.id">
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ sale.id }}</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ formattedDate(sale.created_at) }}</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ sale.pen_no }}</p>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                                         <div class="flex items-center">
-            
+
                                                             <p class="font-medium">{{ sale.pig_weight }}</p>
                                                         </div>
                                                     </td>
@@ -198,9 +230,9 @@
                                                         </div>
                                                     </td>
                                                 </tr> -->
-            
+
                                             </tbody>
-                                            
+
                                         </table>
                                 </div>
                             </li>
@@ -218,8 +250,8 @@
                             </li>
                         </ul>
 
-                      
-                        
+
+
                             <!-- <Pagination :links="salesItems.links" class="mt-6 flex justify-center"/> -->
                         </div>
                     </div>
@@ -236,6 +268,8 @@ import Pagination from '@/Components/Pagination.vue';
 import moment from 'moment'
 import {Head, Link, router} from '@inertiajs/vue3'
 import { ref,watch } from 'vue';
+import DangerButton from '@/Components/DangerButton.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 
 const props = defineProps({

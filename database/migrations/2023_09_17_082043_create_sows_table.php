@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('sow_no');
             $table->string('location');
             $table->string('date_arrived');
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }

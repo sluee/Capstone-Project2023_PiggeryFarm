@@ -36,5 +36,9 @@ class Payroll extends Model
         return $from->format('F j, Y') . ' - ' . $to->format('F j, Y');
     }
 
-
+    // public function getFormattedCreatedAtAttribute()
+    // {
+    //     return Carbon::parse($this->attributes['payrollPeriodFrom'])->format('Y-m-d H:i:s');
+    //     return Carbon::parse($this->attributes['payrollPeriodTo'])->format('Y-m-d H:i:s');
+    // }
 }

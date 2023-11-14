@@ -205,8 +205,8 @@ import { computed, ref , watch} from "vue";
                                         class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
                                         >
                                         <option value="" disabled hidden>Select Payment</option>
-                                        <option value="Cash">Cash</option>
-                                        <option value="Bank Transfer">Bank Transfer</option>
+                                        <option value="Cash">Full Payment</option>
+                                        <option value="Bank Transfer">Partial Payment</option>
                                         </select>
                                         <div class="text-sm text-red-500 italic" v-if="form.errors.payment">{{ form.errors.payment }}</div>
                                     </div>

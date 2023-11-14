@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('feeds', function (Blueprint $table) {
             $table->bigInteger('sup_id')->unsigned();
+
             $table->foreign('sup_id')->references('id')->on('suppliers');
         });
     }
@@ -22,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('feeds', function (Blueprint $table) {
             $table->dropColumn('sup_id');
         });
     }

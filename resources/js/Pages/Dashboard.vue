@@ -3,7 +3,7 @@
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import moment from 'moment'
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import Chart from 'chart.js/auto';
 
 
@@ -12,7 +12,8 @@ import Chart from 'chart.js/auto';
         totalAmountAllSales: Number,
         employeeCount:Number,
         pigsCount:Number,
-        currentMonthSales :Array
+        currentMonthSales :Array,
+        percentageChange:Number
         // totalPigs: Number, // Assuming you have a totalPigs prop
         // totalWeight: Number,
     });
@@ -60,6 +61,10 @@ import Chart from 'chart.js/auto';
 
     onMounted(() => {
       createChart();
+    });
+
+    const isPositiveChange = computed(() => {
+      return props.percentageChange !== null && props.percentageChange > 0;
     });
 
 </script>
@@ -129,12 +134,19 @@ import Chart from 'chart.js/auto';
                             <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">₱ {{ totalAmountAllSales }}</span>
                             <h3 class="text-base font-normal text-gray-500">Sales this month</h3>
                          </div>
-                         <div class="flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                            12.5%
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                               <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                         </div>
+                         <div v-if="percentageChange !== null">
+                            <div :class="{ 'text-green-500': isPositiveChange, 'text-red-500': !isPositiveChange }" class="flex items-center justify-end flex-1 text-base font-bold">
+                              {{ Math.min(Math.abs(percentageChange), 100).toFixed(2) }}%
+                              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <template v-if="isPositiveChange">
+                                  <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </template>
+                                <template v-else>
+                                  <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </template>
+                              </svg>
+                            </div>
+                          </div>
                       </div>
                       <div id="main-chart">
                             <canvas id="currentMonthSalesChart"></canvas>

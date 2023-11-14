@@ -6,7 +6,7 @@
     <style>
         *{
             font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            font-size: 13pt;
+            font-size: 11pt;
         }
 
         h1{
@@ -16,6 +16,7 @@
 
         table{
             border-collapse: collapse;
+
 
         }
         table th, table td{
@@ -59,9 +60,11 @@
                     <th>Days Worked</th>
                     <th>Total Basis Pay</th>
                     <th>Overtime Hours</th>
+                    <th>Overtime Amount</th>
                     <th>Gross Amount</th>
                     <th>Cash Advance</th>
                     <th>Personal Deductions</th>
+                    <th>Total Deductions</th>
                     <th>Total Net Amount</th>
 
                 </tr>
@@ -82,6 +85,9 @@
                             {{$item->employee->position->rate}}
                         </td>
                         <td style="text-align: right">
+                            {{$item->daysWorked}}
+                        </td>
+                        <td style="text-align: right">
                             {{$item->totalBasicPay}}
                         </td>
                         <td style="text-align: right">
@@ -98,6 +104,9 @@
                         </td>
                         <td style="text-align: right">
                             {{$item->personalDeduction}}
+                        </td>
+                        <td style="text-align: right">
+                            {{$item->totalDeductions}}
                         </td>
                         <td style="text-align: right">
                             {{$item->netAmount}}

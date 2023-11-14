@@ -13,12 +13,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::orderBy('id')->get();
+
         return inertia('FeedsCategory/index',[
-            'categories' => Category::with('supplier') // Load related data
-            ->orderBy('id', 'asc')
+            'categories' => Category::orderBy('id', 'asc')
             ->get(),
-            'suppliers' =>$suppliers
+
 
         ]);
     }
@@ -38,8 +37,8 @@ class CategoryController extends Controller
     {
         $fields=$request->validate([
             'name' => 'required',
-            // 'description' => 'required',
-            'sup_id'    =>'required'
+            'description' => 'required',
+            'price'    =>'required'
 
         ]);
 

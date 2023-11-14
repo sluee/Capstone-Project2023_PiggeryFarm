@@ -21,8 +21,6 @@ class CashAdvance extends Model
         return $this->hasMany(Deductions::class, 'cashAdvanceId');
     }
 
-
-
     public function total()
     {
         return $this->belongsTo(EmployeeCashAdvanceTotal::class, 'cash_id');

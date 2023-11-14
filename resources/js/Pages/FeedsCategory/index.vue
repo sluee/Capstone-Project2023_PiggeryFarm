@@ -5,7 +5,7 @@
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Category</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Feeds Category</h2>
                 <!-- <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search sow here" @keydown.enter="search($event)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -31,14 +31,6 @@
                         </h4>
                         <form @submit.prevent="submit" >
                             <div class="px-4 py-5">
-
-                                <label class="font-semibold text-sm text-gray-600  block" for="sup_id">Supplier Name</label>
-                                <select name="" id="sup_id" v-model="form.sup_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
-                                    <option value="" disabled>Select Supplier</option>
-                                    <option v-for="sup in suppliers" :value="sup.id" :key="sup.id" >{{ sup.name }}</option>
-                                </select>
-                                <div class="text-red-600" v-if="form.errors.sup_id">{{ form.errors.sup_id }}</div>
-
                                 <label class="font-semibold text-sm text-gray-600  block" for="name">Name</label>
                                 <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.name"/>
                                 <div class="text-red-600" v-if="form.errors.name">{{ form.errors.name }}</div>
@@ -46,6 +38,10 @@
                                 <label class="font-semibold text-sm text-gray-600  block" for="description">Description</label>
                                 <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.description"/>
                                 <div class="text-red-600" v-if="form.errors.description">{{ form.errors.description }}</div>
+
+                                <label class="font-semibold text-sm text-gray-600  block" for="price">Price</label>
+                                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.price"/>
+                                <div class="text-red-600" v-if="form.errors.price">{{ form.errors.price }}</div>
 
 
                                 <button  type="submit" class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
@@ -63,9 +59,9 @@
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                         <th class="py-3 px-6 text-left">Id</th>
-                                        <th class="py-3 px-6 text-left">Supplier</th>
                                         <th class="py-3 px-6 text-left">Name</th>
                                         <th class="py-3 px-6 text-left">Description</th>
+                                        <th class="py-3 px-6 text-left">Price</th>
                                         <th class="py-3 px-6 text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -78,12 +74,7 @@
                                                 <p class="font-medium">{{ cat.id }}</p>
                                             </div>
                                         </td>
-                                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                                            <div class="flex items-center">
 
-                                                <p class="font-medium">{{ cat.supplier.name }}</p>
-                                            </div>
-                                        </td>
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
 
@@ -93,6 +84,11 @@
                                         <td class="py-3 px-6 text-left">
                                             <div class="flex items-center">
                                                 <p class="font-medium">{{ cat.description }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-6 text-left">
+                                            <div class="flex items-center">
+                                                <p class="font-medium">{{ cat.price }}</p>
                                             </div>
                                         </td>
 
@@ -144,11 +140,12 @@ import moment from'moment'
 const form = useForm({
     name:'',
     description:'',
-    sup_id:''
+    price:''
+
 });
 const props = defineProps({
     categories:Array,
-    suppliers:Object
+
 })
 function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
@@ -161,8 +158,8 @@ function formattedDate(date){
 function submit() {
     form.post('/categories/');
     form.name='',
-    form.description='',
-    form.sup_id=''
+    form.description=''
+
 }
 
 </script>

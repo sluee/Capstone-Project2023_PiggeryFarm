@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Feed;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class FeedController extends Controller
@@ -14,12 +15,20 @@ class FeedController extends Controller
     public function index()
     {
         $categories = Category::orderBy('id')->get();
-        return inertia('Feeds/index',[
-            'feeds' => Feed::with('categories')
+        $supplier = Supplier::orderBy('id')->get();
+
+        $feeds = Feed::with('categories', 'supplier')
             ->orderBy('id', 'asc')
-            ->get(),
-            'categories' =>$categories
+            ->get();
+
+        return inertia('Feeds/index', [
+            'feeds' => $feeds,
+            'supplier' => $supplier,
+            'categories' => $categories,
         ]);
+
+
+
     }
 
     /**
@@ -27,7 +36,7 @@ class FeedController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,14 +45,30 @@ class FeedController extends Controller
     public function store(Request $request)
     {
         $fields = $request->validate([
-            'cat_id'                => 'required|numeric',
-            'name'               => 'required',
+            'cat_id' => 'required|numeric|exists:categories,id',
+            'qty'    => 'required',
+            'sup_id' => 'required|numeric|exists:suppliers,id',
         ]);
 
+        // Retrieve the associated category
+        // $category = Category::find($fields['cat_id']);
+
+        // if (!$category) {
+        //     return redirect('/feeds')->with('error', 'Invalid Category');
+        // }
+
+        // // Calculate totalAmount using category price and feed quantity
+        // $totalAmount = $category->price * $fields['qty'];
+
+        // // Add totalAmount to the fields array
+        // $fields['totalAmount'] = $totalAmount;
+
+        // Create the Feed model with the calculated totalAmount
         Feed::create($fields);
 
         return redirect('/feeds')->with('success', 'Feeds Added Successfully');
     }
+
 
     /**
      * Display the specified resource.

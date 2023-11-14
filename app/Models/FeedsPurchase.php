@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Consumption extends Model
+class FeedsPurchase extends Model
 {
     use HasFactory;
 
-    protected $guarded =[];
+    protected $fillable = ['feed_id', 'qty', 'totalAmount', 'date'];
 
     public function feeds(){
         return $this->belongsTo(Feed::class ,'feed_id');
     }
-    
 }

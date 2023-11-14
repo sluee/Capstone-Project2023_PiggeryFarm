@@ -10,7 +10,14 @@ class Supplier extends Model
     use HasFactory;
     protected $fillable=['name', 'phone'];
 
-    public function category(){
-        return $this->hasMany(Category::class, 'sup_id');
+    // public function category(){
+    //     return $this->hasMany(Category::class, 'sup_id');
+    // }
+
+    public function feeds(){
+        return $this->hasMany(Feed::class, 'sup_id');
     }
 }
+
+
+
