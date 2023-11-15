@@ -103,7 +103,7 @@
                                            Personal Deductions
                                         </th>
                                         <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
-                                           Total Deductions
+                                           Cash Advance Balance
                                         </th>
                                         <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
                                            Total Net Amount

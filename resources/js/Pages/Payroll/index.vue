@@ -83,7 +83,7 @@
                 </Card>
             </div> -->
             <div class="max-w-7xl sm:px-6 lg:px-8">
-                <div class="bg-white overflow-x-auto shadow-sm sm:rounded-lg">
+                <div class="bg-white shadow-sm sm:rounded-lg">
                     <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->
                     <table class="min-w-max w-full table-auto">
                         <thead>
@@ -100,7 +100,7 @@
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="pay in payroll.data" :key="pay.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100 text-center" v-for="pay in payroll.data" :key="pay.id">
                                 <td class="py-3 px-3 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
@@ -117,19 +117,19 @@
                                     </div>
                                 </td>
 
-                                <td class="py-3 px-3 text-right whitespace-nowrap">
+                                <td class="py-3 px-3 text-center whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium">{{ pay.noOfDaysWorked }}</p>
+                                        <p class="font-medium text-center">{{ pay.noOfDaysWorked }}</p>
                                     </div>
                                 </td>
-                                <td class="py-3 px-3 text-right whitespace-nowrap">
+                                <td class="py-3 px-3 text-center whitespace-nowrap">
                                     <div class="flex items-center">
 
                                         <p class="font-medium">{{ pay.total_gross_amount }}</p>
                                     </div>
                                 </td>
-                                <td class="py-3 px-3 text-right whitespace-nowrap">
+                                <td class="py-3 px-3 text-center whitespace-nowrap">
                                     <div class="flex items-center">
 
                                         <p class="font-medium">{{ pay.total_deductions_amount }}</p>

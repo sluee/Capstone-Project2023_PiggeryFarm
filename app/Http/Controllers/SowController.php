@@ -60,6 +60,7 @@ class SowController extends Controller
      */
     public function show(Sow $sow)
     {
+        $sow->load('breedings.labors', 'breedings.weanings' , 'breedings.boar');
         return inertia('Sow/show',[
             'sows' => $sow
         ]);

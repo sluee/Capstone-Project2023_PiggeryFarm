@@ -15,7 +15,9 @@ class CashAdvanceController extends Controller
     public function index()
     {
 
-        $cashAdvance = CashAdvance::with('employee.user')->OrderBy('requestDate', 'desc' )->get();
+        $cashAdvance = CashAdvance::with('employee.user')->OrderBy('requestDate', 'desc' )
+        ->paginate(6);
+
         $cashAdvanceTotal =CashAdvanceTotals::with('employee.user')->get();
         return inertia('CashAdvance/index', [
             'cashAdvance' => $cashAdvance,

@@ -67,12 +67,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/sows/create', [SowController::class, 'create'])->name('sow.create');
     Route::post('/sows',[SowController::class, 'store'])->name('sow.store');
     Route::get('/sows/{sow}',[SowController::class,'show']);
-    // Route::get('/sows/pdf',[PdfController::class,'sowsSummary']);
-    // Route::get('/sows/pdf/{sow}',[PdfController::class,'prodSummary']);
-    // Route::get('/sows/email/{sow}', [SowController::class, 'email']);
     Route::get('/sows/edit/{sow}',[SowController::class,'edit']);
     Route::put('/sows/{sow}', [SowController::class, 'update']);
     Route::delete('/sows/{sow}', [SowController::class, 'destroy']);
+    Route::get('/sow/pdf/',[PdfController::class,'sows'])->name('sows.pdf');
 
 
     ///For Boars/////
@@ -83,6 +81,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/boars/{boar}', [BoarController::class, 'update']);
     Route::get('/boars/{boar}',[BoarController::class,'show']);
     Route::delete('/boars/{boar}', [BoarController::class, 'destroy']);
+
+    Route::get('/boar/pdf/',[PdfController::class,'boars'])->name('boars.pdf');
 
 
     //For Breeding///
@@ -96,6 +96,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/breedings/{breeding}',[BreedingController::class,'show']);
     Route::delete('/breedings/{breeding}', [BreedingController::class, 'destroy']);
 
+    Route::get('/breeding/pdf/',[PdfController::class,'breedings'])->name('breeding.pdf');
+
     //For Labor///
     Route::get('/labors',[LaborController::class, 'index'])->name('labor.index');
     Route::get('/labors/create/{breed_id}',[LaborController::class,'create']);
@@ -105,6 +107,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/labors/{labor}', [LaborController::class, 'update']);
     Route::delete('/labors/{labor}', [LaborController::class, 'destroy']);
 
+    Route::get('/labor/pdf/',[PdfController::class,'labors'])->name('labors.pdf');
+
     //for weaning///
     Route::get('/weaning' ,[WeaningController::class, 'index'])->name('weaning.index');
     Route::get('/weaning/create/{labor_id}',[WeaningController::class,'create']);
@@ -113,6 +117,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/weaning/edit/{weaning}', [WeaningController::class, 'edit']);
     Route::put('/weaning/{weaning}', [WeaningController::class, 'update']);
     Route::delete('/weaning/{weaning}', [WeaningController::class, 'destroy']);
+
+    Route::get('/weanings/pdf/',[PdfController::class,'weanings'])->name('weanings.pdf');
+
 
 
     Route::get('/sales' ,[SaleItemController::class, 'index'])->name('SalesItem.index');
@@ -193,11 +200,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.create');
     Route::post('/payroll', [PayrollItemController::class, 'store'])->name('payroll.create');
     Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
-    // Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
-    // Route for exporting the Payroll
-    // Route::get('/payroll/pdf', [PdfController::class, 'payrollHistory']);
     Route::get('/payrolls/pdf', [PdfController::class, 'payrollHistory'])->name('payroll.pdf');
     Route::get('/payroll/pdf/{payroll}',[PdfController::class,'payrollSummary']);
+    Route::get('/payslip', [PayrollItemController::class, 'showMyPayroll'])->name('payroll.payslip');
 
     Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
     Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');

@@ -2,6 +2,7 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue'
     import {Head, Link} from '@inertiajs/vue3'
     import moment from 'moment'
+    import Pagination from '@/Components/Pagination.vue'
     const props = defineProps({
         cashAdvance:Object,
         cashAdvanceTotal:Object
@@ -52,7 +53,7 @@
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light" >
 
-                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cash  in cashAdvance" :key="cash.id">
+                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cash  in cashAdvance.data" :key="cash.id">
                                      <td class="py-3 px-5 text-left whitespace-nowrap">
                                         <div class="flex items-center">
 
@@ -69,7 +70,7 @@
                                             <p class="font-medium">{{ formattedDate(cash.requestDate) }}</p>
                                         </div>
                                     </td>
-                                    
+
                                     <td class="py-3 px-5 text-center">
                                         <div class="flex items-center justify-center">
                                             <p class="font-medium">₱ {{ cash.amount}}</p>
@@ -107,13 +108,15 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <Pagination :links="cashAdvance.links" class="mt-6 flex justify-center"/>
+
                     </div>
                 </div>
 
                 <div class="max-w-5xl mx-auto sm:px-6 lg:px-4 w-[45%]">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <h4 class="text-xl font-bold">Employee's Total Advances</h4>
-                    
+
                         <table class="min-w-max w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">

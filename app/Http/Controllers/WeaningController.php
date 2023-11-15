@@ -67,7 +67,7 @@ class WeaningController extends Controller
      */
     public function show(Weaning $weaning)
     {
-       
+
     }
 
     /**
@@ -95,7 +95,7 @@ class WeaningController extends Controller
 
         $weaning->update($fields);
 
-        
+
         return redirect('/weaning')->with('success', 'Weaning Updated Successfully');
     }
 

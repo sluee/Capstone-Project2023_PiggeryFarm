@@ -14,7 +14,7 @@
     const form = useForm({
         payrollPeriodFrom:'',
         payrollPeriodTo:'',
-        noOfDaysWorked:15,
+        noOfDaysWorked:'',
         total_gross_amount:'',
         total_deductions_amount:'',
         total_net_amount:'',
@@ -145,11 +145,11 @@
    watch(form.payrolls, (newPayrolls) => {
         newPayrolls.forEach((payroll, index) => {
             const grossAmount = payroll.grossAmount;
-            const totalDeduction = payroll.totalDeductions;
+            const personalDeduction = payroll.personalDeduction;
 
-            if (grossAmount && totalDeduction !== '') {
+            if (grossAmount && personalDeduction !== '') {
                 // Calculate overtimeAmount and format it with two decimal points
-                const rawNetAmount = grossAmount - totalDeduction;
+                const rawNetAmount = grossAmount - personalDeduction;
                 payroll.netAmount = parseFloat(rawNetAmount.toFixed(2));
             } else {
                 payroll.netAmount = 0;
@@ -240,7 +240,7 @@
                                     <th >Gross Amount</th>
                                     <th>Cash Advance</th>
                                     <th>Personal Deductions</th>
-                                    <th>Total Deductions</th>
+                                    <th>Cash Advance Balance</th>
                                     <th>Net Amount</th>
                                   </tr>
                                   <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">

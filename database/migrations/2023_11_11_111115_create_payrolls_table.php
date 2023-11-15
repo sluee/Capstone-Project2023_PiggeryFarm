@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('emp_id')->unsigned();
             $table->string('payrollPeriodFrom');
             $table->string('payrollPeriodTo');
-            $table->double('noOfDaysWorked')->default(15);
+            $table->double('noOfDaysWorked');
             $table->double('total_gross_amount')->nullable();
             $table->double('total_deductions_amount')->nullable();
             $table->double('total_net_amount')->nullable();

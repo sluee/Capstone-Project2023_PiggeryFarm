@@ -190,4 +190,9 @@ const isCollapsed = ref(false);
         </div>
 
     </div>
+    <footer class="footer footer-center text-center p-4 bg-base-300 text-base-content">
+        <aside>
+            <p class="text-center">Copyright © 2023 - All right reserved by MDC White Hats</p>
+        </aside>
+    </footer>
 </template>

@@ -62,7 +62,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                 </Link>
               </li>
               <li v-if="$page.props.auth.permissions.includes('read_payslip')" >
-                <Link  href="#" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+                <Link  :href="route('payroll.payslip')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                   <span class="inline-flex justify-center items-center ml-4">
                     <hr class="text-white mt-5">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

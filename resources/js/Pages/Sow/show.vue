@@ -40,7 +40,7 @@
                     <div class=" pr-6">
                         <h4 class="text-center text-xl font-bold text-navy-700 dark:text-black">
                             Sow's Details
-                        </h4>       
+                        </h4>
                             <div class="w-80 m-auto lg:mt-2 max-w-sm">
                             <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" alt="" class="rounded-sm shadow-xl lg:w-full 2xl:w-full 2xl:h-44 object-cover"/>
                                 <h2 class="text-center text-gray-800 text-2xl font-bold pt-2 mb-2">Sow: {{ sows.sow_no }} </h2>
@@ -109,65 +109,49 @@
                                 <input class="peer sr-only" type="radio" value="yes" name="answer" id="yes" checked />
                                 <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out" for="yes">Breeding</label>
 
-                                    <div class=" bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[50vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
+                                    <div class=" bg-white shadow-lg left-0 p-6 border mt-2 overflow-x-auto  border-indigo-300 rounded-lg w-[50vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
                                         <div class="flex">
                                             <h3 class="text-xl flex-1  dark:text-black">Sow's Breeding History</h3>
 
                                         </div>
-                                        <table class="min-w-max w-full table-auto">
-                                            <thead>
-                                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                        <div class="bg-white shadow-sm sm:rounded-lg">
+                                            <table class="min-w-max w-full table-auto">
+                                                <thead>
+                                                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
 
-                                                    <th class="py-3 px-4 text-left">Boar</th>
-                                                    <th class="py-3 px-4 text-left">Breeding Date</th>
-                                                    <th class="py-3 px-4 text-left">Poss. Reheat</th>
-                                                    <th class="py-3 px-4 text-left">Change Feeds</th>
-                                                    <th class="py-3 px-4 text-left">Exp Farrowing </th>
-                                                    <th class="py-3 px-4 text-left"> Remarks </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="text-gray-600 text-sm font-light" >
+                                                        <th class="py-3 px-4 text-left">Boar</th>
+                                                        <th class="py-3 px-4 text-center">Breeding Date</th>
+                                                        <th class="py-3 px-4 text-center"> Remarks </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-gray-600 text-sm font-light" >
 
-                                                <!-- <tr  class="border-b border-gray-200 hover:bg-gray-100"  v-for="sale in customer.sales_items" :key="sale.id">
-                                                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                        <div class="flex items-center">
+                                                    <tr  class="border-b border-gray-200 hover:bg-gray-100"  v-for="breed in sows.breedings" :key="breed.id">
+                                                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                                                            <div class="flex items-center">
 
-                                                            <p class="font-medium">{{ sale.id }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                        <div class="flex items-center">
+                                                                <p class="font-medium">{{ breed.boar.breed }}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-3 px-6 text-center whitespace-nowrap">
+                                                            <div class="flex items-center justify-center">
 
-                                                            <p class="font-medium">{{ formattedDate(sale.created_at) }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                        <div class="flex items-center">
+                                                                <p class="font-medium text-center">{{ formattedDate(breed.date_of_breed) }}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-3 px-6 text-center">
+                                                            <div class="flex justify-center mb-2">
+                                                                <span v-if="breed.remarks ==='Laboring'" class="text-md font-semibold text-green-500">Labored</span>
+                                                                <span v-if="breed.remarks ==='Abort'" class="text-md font-semibold text-blue-500">Aborted</span>
+                                                                <span v-if="breed.remarks ==='Reheat'" class="text-md font-semibold text-red-500">Reheat</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
 
-                                                            <p class="font-medium">{{ sale.pen_no }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                        <div class="flex items-center">
+                                                </tbody>
 
-                                                            <p class="font-medium">{{ sale.pig_weight }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="py-3 px-6 text-left">
-                                                        <div class="flex items-center">
-                                                            <p class="font-medium">{{ sale.rate }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="py-3 px-6 text-left">
-                                                        <div class="flex items-center">
-                                                            <p class="font-medium">{{ sale.total }}</p>
-                                                        </div>
-                                                    </td>
-                                                </tr> -->
-
-                                            </tbody>
-
-                                        </table>
+                                            </table>
+                                        </div>
                                 </div>
                             </li>
 

@@ -13,4 +13,5 @@ class Sow extends Model
     public function breedings(){
         return $this->hasMany(Breeding::class , 'boar_id');
     }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CashAdvanceTotals;
+use App\Models\Employee;
 use App\Models\Payroll;
 use App\Models\PayrollItem;
 use Illuminate\Http\Request;
@@ -65,17 +66,17 @@ class PayrollItemController extends Controller
                 'grossAmount' => $payrollData['grossAmount'],
                 'personalDeduction' => $payrollData['personalDeduction'],
                 'cashAdvance' => $payrollData['cashAdvance'],
-                'totalDeductions' => $payrollData['totalDeductions'], 
-               
-                'netAmount' => $payrollData['netAmount'], 
+                'totalDeductions' => $payrollData['totalDeductions'],
+
+                'netAmount' => $payrollData['netAmount'],
             ]);
-        
+
             $employeeTotal = CashAdvanceTotals::firstOrNew(['emp_id' => $payrollData['emp_id']]);
-            $employeeTotal->totalCashAdvance -= $payrollData['totalDeductions'];
+            $employeeTotal->totalCashAdvance -= $payrollData['personalDeduction'];
             $employeeTotal->save();
-        
+
             $payroll->payrollItem()->save($payrollItem);
-        }   
+        }
 
         return redirect('/payroll')->with('success', 'Payroll data saved successfully');
     }
@@ -111,4 +112,21 @@ class PayrollItemController extends Controller
     {
         //
     }
+
+    public function showMyPayroll()
+    {
+
+        $employeeId = auth()->user()->employee->id;
+        $employee = Employee::where('id', $employeeId)->with('user', 'position')->first();
+        $payroll = PayrollItem::with(['employee.user', 'employee.position','payroll'])
+            ->where('emp_id', $employeeId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(1);
+
+        return inertia('Payroll/payslip', [
+            'payrollItem' => $payroll,
+            'employee' => $employee,
+        ]);
+    }
+
 }

@@ -21,6 +21,7 @@ import Chart from 'chart.js/auto';
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }
+
     const currentMonthSalesChart = ref(null);
 
     watch(() => props.currentMonthSales, () => {
@@ -85,7 +86,7 @@ import Chart from 'chart.js/auto';
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
                                  <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ employeeCount }}</span>
-                                 <h3 class="text-base font-normal text-gray-500">No of Employees</h3>
+                                 <h3 class="text-base font-normal text-gray-500">No. of Employees</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
                                  14.6%
@@ -99,7 +100,7 @@ import Chart from 'chart.js/auto';
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
                                  <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ pigsCount }}</span>
-                                 <h3 class="text-base font-normal text-gray-500">Total No of Pigs</h3>
+                                 <h3 class="text-base font-normal text-gray-500">Total No. of Pigs</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
                                  32.9%
@@ -126,7 +127,7 @@ import Chart from 'chart.js/auto';
                      </div>
                 </div>
             </div>
-            <div class="pt-8 px-2">
+            <div class="pt-8 px-2" >
                 <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  ">
                       <div class="flex items-center justify-between mb-4">

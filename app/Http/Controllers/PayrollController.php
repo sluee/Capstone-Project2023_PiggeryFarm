@@ -24,7 +24,7 @@ class PayrollController extends Controller
                           ->orWhere('payrollPeriodTo', 'like', '%' . $search . '%');
                 })
                 ->orderBy('created_at', 'desc')
-                ->paginate(8)
+                ->paginate(7)
                 ->withQueryString(),
             'filters' => HttpRequest::only(['search'])
         ]);
@@ -87,6 +87,8 @@ class PayrollController extends Controller
 
         ]);
     }
+
+
 
 
     /**
