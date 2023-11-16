@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
@@ -12,9 +12,18 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return inertia('FeedsSupplier/Index',[
-            'suppliers' => Supplier::orderBy('id')->get(),
+        // return inertia('FeedsSupplier/Index',[
+        //     'suppliers' => Supplier::orderBy('id')->get(),
 
+        // ]);
+
+        return inertia('FeedsSupplier/Index',[
+            'suppliers' => Supplier::query()
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })->paginate(8)
+            ->withQueryString(),
+            'filters' => HttpRequest::only(['search'])
         ]);
     }
 

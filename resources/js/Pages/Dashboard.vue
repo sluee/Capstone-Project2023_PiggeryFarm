@@ -86,7 +86,7 @@ import Chart from 'chart.js/auto';
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
                                  <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ employeeCount }}</span>
-                                 <h3 class="text-base font-normal text-gray-500">No. of Employees</h3>
+                                 <h3 class="text-base font-medium text-gray-900">No. of Employees</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
                                  14.6%
@@ -100,7 +100,7 @@ import Chart from 'chart.js/auto';
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
                                  <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ pigsCount }}</span>
-                                 <h3 class="text-base font-normal text-gray-500">Total No. of Pigs</h3>
+                                 <h3 class="text-base font-medium text-gray-900">Total No. of Pigs</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
                                  32.9%
@@ -191,18 +191,18 @@ import Chart from 'chart.js/auto';
                                      <tbody class="bg-white">
                                         <tr v-for="sale in sales" :key="sale.id">
                                            <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                                             <span class="font-semibold">{{sale.customers.name}}</span>
+                                             <span class="font-normal">{{sale.customers.name}}</span>
                                            </td>
                                            <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                               {{ formattedDate(sale.created_at) }}
                                            </td>
-                                           <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900 text-center">
+                                           <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900 text-center">
                                               {{ sale.totalPigs }}
                                            </td>
-                                           <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                                           <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
                                               {{ sale.totalWeight }} kgs
                                            </td>
-                                           <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                                           <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
                                             ₱ {{ sale.total_amount }}
                                            </td>
                                         </tr>

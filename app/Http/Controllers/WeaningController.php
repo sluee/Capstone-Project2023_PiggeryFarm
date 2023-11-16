@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Breeding;
 use App\Models\Labor;
 use App\Models\Weaning;
@@ -15,12 +15,26 @@ class WeaningController extends Controller
      */
     public function index()
     {
+        $weanings = Weaning::with('labors.breeding.sow', 'labors.breeding.boar')
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->where('remarks', 'like', '%' . $search . '%')
+                    ->orWhere('no_of_pigs_weaned', 'like', '%' . $search . '%')
+                    ->orWhereHas('labors.breeding.sow', function ($categoryQuery) use ($search) {
+                        $categoryQuery->where('sow_no', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('labors.breeding.boar', function ($supplierQuery) use ($search) {
+                        $supplierQuery->where('breed', 'like', '%' . $search . '%');
+                    });
+            })
+            ->paginate(8)
+            ->withQueryString();
+    
         return inertia('Weaning/index', [
-            'weanings' => Weaning::with(['labors.breeding.sow', 'labors.breeding.boar'])
-                ->orderBy('id', 'asc')
-                ->get(),
+            'weaning' => $weanings,
+            'filters' => HttpRequest::only(['search']),
         ]);
     }
+    
 
 
     /**

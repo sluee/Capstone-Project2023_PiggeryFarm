@@ -183,7 +183,7 @@
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create Payroll</h2>
+                <h2 class="font-semibold text-xl  leading-tight">Create Payroll</h2>
                 <!-- <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Payroll here" @keydown.enter="search($event)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -207,9 +207,9 @@
                         <div class="flex justify-center mb-2">
                             <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
                             <div class=" text-sm">
-                                <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
-                                <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
-                                <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3>
+                                <h3 class="font-semibold text-md ">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
+                                <h3 class="font-semibold text-md  text-center">San Agustin, Sagbayan, Bohol</h3>
+                                <h3 class="font-semibold text-md  text-center">Canmaya Centro, Sagbayan, Bohol</h3>
                             </div>
 
                         </div>

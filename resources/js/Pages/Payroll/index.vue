@@ -87,7 +87,7 @@
                     <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->
                     <table class="min-w-max w-full table-auto">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <tr class="bg-gray-200 uppercase text-sm leading-normal">
                                 <th class="py-3 px-3 text-left">Id</th>
                                 <th class="py-3 px-3 text-left">Date Covered</th>
                                 <th class="py-3 px-3 text-left">No of Days Worked</th>

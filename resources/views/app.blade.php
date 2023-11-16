@@ -9,13 +9,17 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        
 
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body style="font-family: 'DM Sans', sans-serif;">
         @inertia
     </body>
 </html>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&display=swap');
+  </style>

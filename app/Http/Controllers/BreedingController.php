@@ -14,7 +14,6 @@ class BreedingController extends Controller
      */
     public function index()
     {
-
         $breedings = Breeding::with('sow', 'boar')
         ->when(HttpRequest::input('search'), function ($query, $search) {
             $query->where('date_of_breed', 'like', '%' . $search . '%')
@@ -25,11 +24,10 @@ class BreedingController extends Controller
                 })
                 ->orWhereHas('boar', function ($supplierQuery) use ($search) {
                     $supplierQuery->where('breed', 'like', '%' . $search . '%');
-                })
-                ->paginate(8)
-                ->withQueryString();
-        });
-       
+                });
+        })
+        ->paginate(8)
+        ->withQueryString();
 
         return inertia('Breeding/index', [
             'breedings' => $breedings,

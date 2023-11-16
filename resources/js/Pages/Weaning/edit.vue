@@ -2,22 +2,39 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm,  } from '@inertiajs/vue3';
     import moment from 'moment';
+    import Breadcrumb from '@/Components/Breadcrumbs.vue';
 
     const props = defineProps({
         labor:Object,
         weaning:Object,
-        // labor_id: String,
         sow:Object,
         boar:Object,
         breeding:Object,
     });
 
-    // function breed({
-    //     if (props.breedings && this.breedings.id) {
-    //     return this.breedings.id;
-    //   }
-    //   return '';
-    // });
+    const crumbs = [
+        {
+            name: 'Dashboard',
+            url: '/dashboard',
+            active: false,
+        },
+        {
+            name: 'Breedings',
+            url: '/breedings',
+            active: false,
+        },
+        {
+            name: 'Labors',
+            url: '/labors/' +props.weaning.labors.id,
+            active: false,
+        },
+        {
+            name:  "Weaning no "+ props.weaning.id ,
+            url: null,
+            active: true,
+        },
+    ]
+
 
     const form = useForm({
     labor_id:props.weaning.labor_id,
@@ -40,14 +57,19 @@
     <Head title="Update Weaning" />
 
     <SideBarLayout>
-        <template #header>
+        <!-- <template #header>
             <div class="flex">
                 <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Update Weaning</h2>
                 <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" :href="'/labors/' + props.labor_id">Back</Link>
             </div>
-        </template>
+        </template> -->
 
         <div class="py-6">
+            <div class="flex justify-between">
+                <Breadcrumb :crumbs="crumbs" class="mb-4" />
+                
+                <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" :href="'/labors/' + props.labor_id">Back</Link>
+            </div>
             <div class="flex">
                 <div class="w-1/3 mt-3 px-3 ml-12">
                     <div class=" pr-5">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Boar;
+use App\Models\Breeding;
 use Illuminate\Http\Request;
 
 class BoarController extends Controller
@@ -61,10 +62,14 @@ class BoarController extends Controller
      */
     public function show(Boar $boar)
     {
-
+        $breeding = Breeding::with('labors', 'weanings', 'sow')->where('boar_id', $boar->id)->first();
+        // Assuming there's a foreign key 'sow_id' in the Breeding table that associates with the 'id' of the Sow model
+        $boar->load('breedings.sow')->orderBy('id', 'desc');
         return inertia('Boar/show', [
-            'boar' => $boar ,
+            'boar' => $boar,
+            'breeding' => $breeding,
         ]);
+      
     }
 
     /**

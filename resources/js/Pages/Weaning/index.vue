@@ -7,7 +7,7 @@
             <div class="flex justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Weaning</h2>
                 <div style="position:relative">
-                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search weaning  here" @keydown.enter="search($event)">
+                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search  Weaning here" v-model="search">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
                     style="position:absolute; top:10px; right:10px">
                     <path d="M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z" fill-rule="evenodd"/>
@@ -22,6 +22,8 @@
             </div>
         </template>
         <div class="py-12">
+
+            
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <table class="min-w-max w-full table-auto">
@@ -40,25 +42,25 @@
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="weaning in weanings" :key="weaning.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="wean in weaning.data" :key="wean.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <p class="font-medium">{{ weaning.id }}</p>
+                                    <p class="font-medium">{{ wean.id }}</p>
 
                                 </td>
-                                <td  class="py-3 px-6 text-center">{{ weaning.labors.breeding.sow.sow_no }}</td>
-                                <td  class="py-3 px-6 text-center">{{ weaning.labors.breeding.boar.breed }}</td>
-                                <td  class="py-3 px-6 text-center">{{ weaning.labor_id }}</td>
-                                <td  class="py-3 px-6 text-center">{{ weaning.labors.no_pigs_born }}</td>
-                                <td  class="py-3 px-6 text-center">{{ weaning.labors.no_pigs_alive }}</td>
-                                <td  class="py-3 px-6 text-center">{{ weaning.no_of_pigs_weaned }}</td>
+                                <td  class="py-3 px-6 text-center">{{ wean.labors.breeding.sow.sow_no }}</td>
+                                <td  class="py-3 px-6 text-center">{{ wean.labors.breeding.boar.breed }}</td>
+                                <td  class="py-3 px-6 text-center">{{ wean.labor_id }}</td>
+                                <td  class="py-3 px-6 text-center">{{ wean.labors.no_pigs_born }}</td>
+                                <td  class="py-3 px-6 text-center">{{ wean.labors.no_pigs_alive }}</td>
+                                <td  class="py-3 px-6 text-center">{{ wean.no_of_pigs_weaned }}</td>
                                 <td class="py-3 px-6 text-center">
-                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ weaning.remarks }}</span>
+                                    <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ wean.remarks }}</span>
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <Link :href="'/weaning/' + weaning.id">
+                                            <Link :href="'/weaning/' + wean.id">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -66,7 +68,7 @@
                                             </Link>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                            <a :href="'/weaning/edit/'+weaning.id">
+                                            <a :href="'/weaning/edit/'+wean.id">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
@@ -84,6 +86,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <Pagination :links="weaning.links" class="mt-6 flex justify-center"/>
                 </div>
             </div>
         </div>
@@ -92,17 +95,32 @@
 
 <script setup>
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
-
 import { Head, Link, router } from '@inertiajs/vue3';
-
+import { ref, watch } from 'vue';
+import Pagination from '@/Components/Pagination.vue';
 const props = defineProps({
-    weanings:Object
+    weaning:Object,
+    filters:Object
 
 })
 
-function search(ev){
-    router.visit('/weaning/search/'+ ev.target.value);
+// function search(ev){
+//     router.visit('/weaning/search/'+ ev.target.value);
 
-}
+// }
+console.log('props.weanings');
+
+let search = ref(props.filters.search);
+    watch(search, (value) => {
+        router.get(
+            "/weaning",
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+        console.log('props.weanings');
+    });
 
 </script>

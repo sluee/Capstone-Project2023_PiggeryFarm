@@ -2,14 +2,19 @@
     <Head title="View Labor" />
 
     <SideBarLayout>
-        <template #header>
+        <!-- <template #header>
             <div class="flex">
                 <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">View Labor</h2>
                 <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3" as="button" :href="'/labors/'">Back</Link>
             </div>
-        </template>
+        </template> -->
 
         <div class="py-12 ">
+            <div class="flex justify-between">
+                <Breadcrumb :crumbs="crumbs" class="mb-4" />
+                
+                <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3" as="button" :href="'/labors/'">Back</Link>
+            </div>
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white  shadow-lg sm:rounded-lg">
                     <div class="p-6 text-gray-900 flex">
@@ -48,8 +53,8 @@
 <script setup>
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import moment from 'moment'
-// import { ref } from 'vue';
 import {Head, Link, useForm} from '@inertiajs/vue3'
+import Breadcrumb from '@/Components/Breadcrumbs.vue';
 
 const props = defineProps({
     breeding: Object,
@@ -63,15 +68,28 @@ function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
 }
 
-// function reheatBreeding() {
-//       // Make a POST request to the Laravel route for reheat
-//      route.visit('breedings.reheat', { id: this.breeding.id }))
-//         .then(() => {
-//           // Optionally, you can reload the page or update the component data
-//           // This depends on your application's needs.
-//           // For example, you can use `this.$inertia.reload()` to refresh the page.
-//         });
-//     }
+const crumbs = [
+        {
+            name: 'Dashboard',
+            url: '/dashboard',
+            active: false,
+        },
+        {
+            name: 'Breedings',
+            url: '/breedings',
+            active: false,
+        },
+        {
+            name: 'Labors',
+            url: '/labors',
+            active: false,
+        },
+        {
+            name:  "Labor no "+ props.labor.id ,
+            url: null,
+            active: true,
+        },
+    ]
 
 
 </script>

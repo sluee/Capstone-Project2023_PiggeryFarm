@@ -2,7 +2,7 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm,  } from '@inertiajs/vue3';
     import moment from 'moment';
-
+    import Breadcrumb from '@/Components/Breadcrumbs.vue';
     const props = defineProps({
         labor:Object,
         weaning:Object,

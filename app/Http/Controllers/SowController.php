@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Breeding;
 use App\Models\Sow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as HttpRequest;
@@ -58,13 +59,17 @@ class SowController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sow $sow)
+   public function show(Sow $sow)
     {
-        $sow->load('breedings.labors', 'breedings.weanings' , 'breedings.boar');
-        return inertia('Sow/show',[
-            'sows' => $sow
+        $breeding = Breeding::with('labors', 'weanings', 'boar')->where('sow_id', $sow->id)->first();
+        // Assuming there's a foreign key 'sow_id' in the Breeding table that associates with the 'id' of the Sow model
+        $sow->load('breedings.boar')->orderBy('id', 'desc');
+        return inertia('Sow/show', [
+            'sows' => $sow,
+            'breeding' => $breeding,
         ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
