@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('emp_id')->unsigned();
+            // $table->bigInteger('emp_id')->unsigned();
             $table->string('payrollPeriodFrom');
             $table->string('payrollPeriodTo');
             $table->double('noOfDaysWorked');

@@ -31,9 +31,9 @@ class FeedsPurchaseController extends Controller
             'feeds' => Feed::with('categories', 'supplier')->orderBy('id', 'asc')->get(),
             'filters' => request()->only(['search'])
         ]);
-        
-        
-        
+
+
+
         // $feeds = Feed::with('categories', 'supplier')
         //     ->orderBy('id', 'asc')
         //     ->get();
@@ -90,7 +90,7 @@ class FeedsPurchaseController extends Controller
      */
     public function show(FeedsPurchase $feedsPurchase)
     {
-       
+
     }
 
 

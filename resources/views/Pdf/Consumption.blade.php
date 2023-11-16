@@ -80,12 +80,7 @@
                         <td style="text-align: right">
                             {{$item->qty}}
                         </td>
-                        {{-- <td style="text-align: right">
-                            {{$item->feeds->categories->price}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->totalAmount}}
-                        </td> --}}
+                       
                         
                     </tr>
 

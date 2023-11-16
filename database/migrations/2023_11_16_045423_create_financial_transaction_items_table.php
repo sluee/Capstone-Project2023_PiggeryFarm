@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('financial_transactions', function (Blueprint $table) {
+        Schema::create('financial_transaction_items', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('fin_id')->unsigned();
-            $table->string('description');
-            $table->double('amount');
-            $table->boolean('transactionType')->comment('1-credit , 0-debit');
+            $table->bigInteger('financial_transaction_id')->unsigned();
+            $table->double('debit');
+            $table->double('credit');
+            $table->double('balance');
             $table->timestamps();
-
             $table->foreign('fin_id')->references('id')->on('financial_categories');
+            $table->foreign('financial_transaction_id')->references('id')->on('financial_transactions');
+            
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('financial_transactions');
+        Schema::dropIfExists('financial_transaction_items');
     }
 };

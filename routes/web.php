@@ -18,13 +18,14 @@ use App\Http\Controllers\SowController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeaningController;
-use App\Http\Controllers\FinancialCategoryController;
 use App\Http\Controllers\FinancialTransactionController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollItemController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ConsumptionController;
 use App\Http\Controllers\FeedsPurchaseController;
+use App\Http\Controllers\FinancialTransactionItemsController;
+
 // use App\Models\Payroll;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -187,14 +188,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{user}',[UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
-
-
-    Route::get('/financial',[FinancialCategoryController::class, 'index'])->name('financial.index');
-    Route::post('/financial',[FinancialCategoryController::class, 'store'])->name('financial.store');
-
     Route::get('/transactions',[FinancialTransactionController::class, 'index'])->name('transaction.index');
-    Route::get('/transactions/create', [FinancialTransactionController::class, 'create'])->name('user.create');
-    Route::post('/transactions',[FinancialTransactionController::class, 'store'])->name('user.store');
+    Route::get('/transactions/charts',[FinancialTransactionController::class, 'chart'])->name('transactions.chart');
+    Route::get('/transactions/create', [FinancialTransactionController::class, 'create']);
+    // Route::post('/transactions',[FinancialTransactionItemsController::class, 'store']);
+    Route::post('/transactions',[FinancialTransactionController::class, 'store']);
+    Route::get('/transactions/{financialTransaction}',[FinancialTransactionController::class, 'show']);
+    Route::get('/transactions/pdf/{financialTransaction}', [PdfController::class, 'transaction'])->name('transaction.pdf');
 
     Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
     Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.create');

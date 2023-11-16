@@ -113,15 +113,22 @@
                         </td>
                     </tr>
 
+
                     @endforeach
+                    TR
+
+                    <tr>
+                        <td colspan="10">Total Payroll:</td>
+                        <td><strong>PhP{{$payroll->total_net_amount}}</strong></td>
+                    </tr>
                  </td>
 
             </tbody>
 
         </table>
-        <div style="text-align:right">
+        {{-- <div style="text-align:right">
             <p>Total Payroll: <strong>PhP{{$payroll->total_net_amount}}</strong> </p>
 
-        </div>
+        </div> --}}
     </body>
 </html>

@@ -8,7 +8,6 @@ use App\Models\Employee;
 use App\Models\Payroll;
 use App\Models\PayrollItem;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class PayrollController extends Controller
 {

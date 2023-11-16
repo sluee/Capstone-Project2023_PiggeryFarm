@@ -20,10 +20,16 @@ class BreedingController extends Controller
             $query->where('date_of_breed', 'like', '%' . $search . '%')
                 ->orWhere('exp_date_of_farrowing', 'like', '%' . $search . '%')
                 ->orWhere('remarks', 'like', '%' . $search . '%')
-                ->orWhere('possible_reheat', 'like', '%' . $search . '%');
-        })
-        ->paginate(8)
-        ->withQueryString();
+                ->orWhereHas('sow', function ($categoryQuery) use ($search) {
+                    $categoryQuery->where('sow_no', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('boar', function ($supplierQuery) use ($search) {
+                    $supplierQuery->where('breed', 'like', '%' . $search . '%');
+                })
+                ->paginate(8)
+                ->withQueryString();
+        });
+       
 
         return inertia('Breeding/index', [
             'breedings' => $breedings,

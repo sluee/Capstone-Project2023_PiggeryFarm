@@ -41,10 +41,8 @@
         </template>
 
         <div class="py-5 ">
-            <div>
-                
-            </div>
-            <div class=" flex items-center justify-center px-4 w-[100%]" v-for="payItem in payrollItem.data" :key="payItem.id">
+            <div v-if="payrollItem">
+                <div class=" flex items-center justify-center px-4 w-[100%]" >
                 <div class="relative mb-6 sm:w-1/2 rounded-lg bg-white p-6 ">
                     <img src="/images/logo.jpeg" class="h-16 rounded-full  mx-auto" alt="RQR Piggery Farm, Inc.">
                     <div class="text-center">
@@ -53,46 +51,55 @@
                         Tel. No.: 09121244888, 09505514775<br>
                         Payslip Summary
                     </div>
-                
+
                     <div class="mb-6 rounded-lg bg-white p-6">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
 
                         <div>
-                            <h3 class="text-xl font-semibold text-gray-900">{{payItem.employee.user.firstName }} {{ payItem.employee.user.lastName }}</h3>
-                            <span class="block text-md font-normal text-gray-500">{{ payItem.employee.position.position }}</span>
+                            <h3 class="text-xl font-semibold text-gray-900">{{payrollItem.employee.user.firstName }} {{ payrollItem.employee.user.lastName }}</h3>
+                            <span class="block text-md font-normal text-gray-500">{{ payrollItem.employee.position.position }}</span>
                         </div>
                         </div>
-                        <p class="text-md font-medium text-blue-700"><span class="mr-0.5">Net Amount: </span>₱{{payItem.netAmount }}</p>
+                        <p class="text-md font-medium text-blue-700"><span class="mr-0.5">Net Amount: </span>₱{{payrollItem.netAmount }}</p>
 
                     </div>
                     <div class="mt-2">
-                        <h3 class="text-base font-semibold text-gray-900">{{formattedDate(payItem.payrollPeriodFrom) }}-{{ formattedDate(payItem.payrollPeriodFrom) }}</h3>
-                        <!-- <span class="block text-md font-normal text-gray-700">Working Days: {{ payItem.payroll.noOfDaysWorked }}days</span> -->
+                        <h3 class="text-base font-semibold text-gray-900">{{formattedDate(payrollItem.payrollPeriodFrom) }}-{{ formattedDate(payrollItem.payrollPeriodFrom) }}</h3>
+                        <!-- <span class="block text-md font-normal text-gray-700">Working Days: {{ payrollItem.payroll.noOfDaysWorked }}days</span> -->
                         </div>
-                                        
+
                         <div class="mt-2">
-                            <h3 class="text-base font-semibold text-gray-900">Rate: ₱{{payItem.employee.position.rate}}</h3>
-                            <span class="block text-md font-normal text-gray-500">Days Worked: {{ payItem.daysWorked }}days</span>
-                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Total Basis Pay: </span>₱{{payItem.totalBasicPay }}</p>
+                            <h3 class="text-base font-semibold text-gray-900">Rate: ₱{{payrollItem.employee.position.rate}}</h3>
+                            <span class="block text-md font-normal text-gray-500">Days Worked: {{ payrollItem.daysWorked }}days</span>
+                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Total Basis Pay: </span>₱{{payrollItem.totalBasicPay }}</p>
                         </div>
-                        
+
                         <div class="">
                             <h3 class="text-base font-semibold text-gray-900">Overtime:</h3>
-                            <span class="block text-md font-normal text-gray-500">Overtime Hours: {{ payItem.overtimeHours }} hrs.</span>
-                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">OvertimeAmount: </span>₱{{payItem.overtimeAmount }}</p>
-                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Gross Amount Pay: </span>₱{{payItem.grossAmount }}</p>
+                            <span class="block text-md font-normal text-gray-500">Overtime Hours: {{ payrollItem.overtimeHours }} hrs.</span>
+                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">OvertimeAmount: </span>₱{{payrollItem.overtimeAmount }}</p>
+                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Gross Amount Pay: </span>₱{{payrollItem.grossAmount }}</p>
                         </div>
                         <div class="">
                             <h3 class="text-base font-semibold text-gray-900">Cash Advance:</h3>
-                            <span class="block text-md font-normal text-gray-500">Cash Advance:₱{{ payItem.cashAdvance }}</span>
-                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Personal Deduction: </span>₱{{payItem.personalDeduction}}</p>
-                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Cash Advance Balance: </span>₱{{payItem.totalDeductions }}</p>
-                        </div>  
+                            <span class="block text-md font-normal text-gray-500">Cash Advance:₱{{ payrollItem.cashAdvance }}</span>
+                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Personal Deduction: </span>₱{{payrollItem.personalDeduction}}</p>
+                            <p class="text-md font-medium text-gray-700"><span class="mr-0.5">Cash Advance Balance: </span>₱{{payrollItem.totalDeductions }}</p>
+                        </div>
                     </div>
-                </div>  
+                </div>
             </div>
-            <Pagination :links="payrollItem.links" class="mt-2 flex justify-center"/>
+            </div>
+            <div v-else>
+                <div class="text-center">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        No payslip information available
+                    </h2>
+                </div>
+            </div>
+
+            <!-- <Pagination :links="payrollItem.links" class="mt-2 flex justify-center"/> -->
         </div>
     </SideBarLayout>
 </template>

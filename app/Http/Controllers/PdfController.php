@@ -6,6 +6,7 @@ use App\Models\Boar;
 use App\Models\Breeding;
 use App\Models\Consumption;
 use App\Models\FeedsPurchase;
+use App\Models\FinancialTransaction;
 use App\Models\Labor;
 use App\Models\Payroll;
 use App\Models\Sale;
@@ -150,4 +151,15 @@ class PdfController extends Controller
         return $pdf->stream();
     }
 
+
+    public function transaction(FinancialTransaction $financialTransaction){
+        $financialTransaction->load('financialItems');
+        $financialTransaction->formattedDate = Carbon::parse($financialTransaction->created_at)->format('F Y');
+        $pdf = Pdf::loadView('Pdf.transaction-summary',[
+            'transactions'=>$financialTransaction,
+           
+        ]);
+
+        return $pdf->stream();
+    }
 }

@@ -83,8 +83,9 @@
                             PhP {{$item->total}}
                         </td>
                     </tr>
-
+                   
                     @endforeach
+                   
                  </td>
 
             </tbody>
