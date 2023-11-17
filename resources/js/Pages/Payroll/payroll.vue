@@ -27,7 +27,7 @@
             active: false,
         },
         {
-            name:  "Showing Payroll "+ props.payroll.id ,
+            name:  "Showing Payroll " ,
             url: null,
             active: true,
         },

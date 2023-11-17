@@ -76,9 +76,12 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $position = Position::all();
+        $roleNames = ['employee', 'specialEmployee'];
+        $roles = Role::whereIn('name', $roleNames)->get();        
         return Inertia('Employee/edit',[
             'position' => $position,
-            'employee' => $employee->load('user')
+            'employee' => $employee->load('user.roles'),
+            'roles' => $roles
         ]);
     }
 
@@ -97,6 +100,7 @@ class EmployeeController extends Controller
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
             'email' => $request->input('email'),
+            'status' => $request->input('status'),
         ]);
 
         // Update employee details
@@ -105,18 +109,6 @@ class EmployeeController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        $roleName = $request->input('role');
-
-        $spatieRoleNames = [
-            'Employee' => 'employee',
-            'Special Employee' => 'specialEmployee',
-        ];
-
-        $role = Role::where('name', $spatieRoleNames[$roleName])->first();
-
-        if ($role) {
-            $user->syncRoles([$role->name]);
-        }
 
         return redirect('/employees')->with('message', 'Employee information updated successfully');
     }

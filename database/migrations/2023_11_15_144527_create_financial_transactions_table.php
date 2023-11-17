@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('financial_transactions', function (Blueprint $table) {
             $table->id();
             $table->double('totalCashBalance');
+            $table->string('date');
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

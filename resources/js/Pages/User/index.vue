@@ -3,8 +3,9 @@
     import Modal from  '@/Components/Modal.vue';
     import DangerButton from '@/Components/DangerButton.vue';
     import SecondaryButton from '@/Components/SecondaryButton.vue';
-    import { ref } from 'vue';
+    import { ref,watch } from 'vue';
     import { Link, router, useForm, Head } from '@inertiajs/vue3';
+    import Pagination from '@/Components/Pagination.vue';
 
     let showConfirm = ref(false)
     let selectedUserForDelete = null
@@ -12,6 +13,7 @@
 
     let props = defineProps({
         users:Array,
+        filters:Object
 
     })
 
@@ -25,10 +27,23 @@
         // console.log(props.errors)
     }
 
+
     function deleteUser(){
         deleteForm.delete('/users/' + selectedUserForDelete.id)
         showConfirm.value = false;
     }
+
+    let search = ref(props.filters.search);
+    watch(search, (value) => {
+        router.get(
+            "/users",
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    });
 </script>
 
 <template>
@@ -39,7 +54,7 @@
             <div class="flex justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">List of All Users</h2>
                 <div style="position:relative">
-                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Labors here" v-model="search">
+                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Users here" v-model="search">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
                     style="position:absolute; top:10px; right:10px">
                     <path d="M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z" fill-rule="evenodd"/>
@@ -79,7 +94,7 @@
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light" >
 
-                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="user in users" :key="user.id">
+                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="user in users.data" :key="user.id">
                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                         <div class="flex items-center">
 
@@ -117,13 +132,16 @@
                                             <p class="font-medium">{{ role.name }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex items-center justify-center">
-                                            <p class="font-medium">
-                                                <span class=" remarks-cell bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ user.status ? 'Active' : 'Inactive' }}</span>
-                                            </p>
-                                        </div>
+                                    <td class="py-3 px-3 text-center">
+                                        <span class="remarks-cell  py-1 px-3 rounded-full text-xs"
+                                            :class="{
+                                                'bg-green-200 text-green-600':user.status == 1,
+                                                'bg-red-200 text-red-600' :user.status == 0,
+                                                
+                                            }"
+                                        >{{ user.status === 1 ? 'Active' : 'Inactive' }}</span>
                                     </td>
+                                    
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
 
@@ -183,7 +201,7 @@
                             </tbody>
 
                         </table>
-                        <!-- <Pagination :links="labors.links" class="mt-6 flex justify-center"/> -->
+                        <Pagination :links="users.links" class="mt-6 flex justify-center"/>
                     </div>
                 </div>
             </div>

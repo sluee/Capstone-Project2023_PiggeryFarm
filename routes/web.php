@@ -189,12 +189,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
     Route::get('/transactions',[FinancialTransactionController::class, 'index'])->name('transaction.index');
-    Route::get('/transactions/charts',[FinancialTransactionController::class, 'chart'])->name('transactions.chart');
+    Route::get('/transactions/charts',[FinancialTransactionItemsController::class, 'index'])->name('transactions.chart');
     Route::get('/transactions/create', [FinancialTransactionController::class, 'create']);
     // Route::post('/transactions',[FinancialTransactionItemsController::class, 'store']);
     Route::post('/transactions',[FinancialTransactionController::class, 'store']);
     Route::get('/transactions/{financialTransaction}',[FinancialTransactionController::class, 'show']);
     Route::get('/transactions/pdf/{financialTransaction}', [PdfController::class, 'transaction'])->name('transaction.pdf');
+    
+    Route::get('/financial}',[FinancialTransactionController::class, 'financial'])->name('transaction.financial');
+
 
     Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
     Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.create');
@@ -202,6 +205,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
     Route::get('/payrolls/pdf', [PdfController::class, 'payrollHistory'])->name('payroll.pdf');
     Route::get('/payroll/pdf/{payroll}',[PdfController::class,'payrollSummary']);
+    Route::get('/payrolls', [PayrollController::class, 'payroll'])->name('payroll.payroll');
+
     Route::get('/payslip', [PayrollItemController::class, 'showMyPayroll'])->name('payroll.payslip');
 
     Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');

@@ -113,4 +113,29 @@ class PayrollController extends Controller
     {
         //
     }
+
+    public function payroll(){
+        $payroll = Payroll::with('payrollItem.employee.user', 'payrollItem.employee.position', 'payrollItem.employee.advanceTotal')
+            ->orderByDesc('created_at')
+            ->first(); // Retrieve only the most recent payroll
+    
+        // Check if a payroll was found before proceeding
+        if ($payroll) {
+            // Convert the Eloquent model and related models to plain arrays
+            $payrollArray = $payroll->toArray();
+            $payrollArray['payrollItem'] = $payroll->payrollItem->map(function ($item) {
+                return $item->toArray();
+            });
+    
+            return inertia('Payroll/payroll', [
+                'payroll' => $payrollArray,
+            ]);
+        } else {
+            // Handle the case where no recent payroll is found
+            return inertia('Payroll/payroll', [
+                'payroll' => null, // or any other default value or message
+            ]);
+        }
+    }
+    
 }

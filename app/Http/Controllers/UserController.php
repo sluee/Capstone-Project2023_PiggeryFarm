@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -13,14 +15,25 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->get();
-        return inertia('User/index', [
-            'users' => $users
+        // $users = User::with('roles')->get();
+        // return inertia('User/index', [
+        //     'users' => $users
+        // ]);
+
+        return inertia('User/index',[
+            'users' => User::query()
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->where('firstName', 'like', '%' . $search . '%')
+                ->orWhere('lastName','like','%' .$search . '%');
+            })->paginate(7)
+            ->withQueryString(),
+            'filters' => HttpRequest::only(['search'])
         ]);
     }
 
     public function create(){
         $position = Position::all();
+        
         return inertia('User/create', [
             'roles' => Role::all(),
             'permissions' => Permission::all(),
@@ -72,10 +85,8 @@ class UserController extends Controller
     }
 
     public function edit(User $user){
-        $user = User::with('roles')->find($user->id);
         
-        // Fetch the associated Employee record and its related Position
-        $employee = Employee::with('position')->where('user_id', $user->id)->first();
+        $user->load('employee.position','roles')->where('user_id', $user->id);
         $position = Position::all();
         $roles = Role::all();
         
@@ -84,12 +95,12 @@ class UserController extends Controller
             'roles' => $roles,
             'positions' => $position,
             'currentRole' => $user->roles->first()->name,
-            'employee' => $employee
         ]);
     }
     
 
     public function update(Request $request, User $user){
+       
         $data = $request->validate([
             'lastName' => 'required|string',
             'firstName' => 'required|string',
@@ -102,23 +113,43 @@ class UserController extends Controller
             'phone' => 'required',
             'password' => 'nullable|string',
             'role' => 'required',
+            'status' => 'required',
         ]);
-
-        // $data['password'] = bcrypt($data['password']); // Hash the password
+    
         if (isset($data['password']) && $data['password'] !== null) {
-            $data['password'] = bcrypt($data['password']);
+            $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']); // Remove the "password" field from the data array
         }
-
-        unset($data['role']);
-
-        $role = $request->role;
-      
-        $user->update($data);
-
-        $user->assignRole($role);
-
+    
+        // Use a database transaction for data consistency
+        DB::transaction(function () use ($user, $data, $request) {
+            $user->update($data);
+    
+            // Simplify role syncing
+            $user->syncRoles([$data['role'], $data['type']]);
+    
+            if ($data['type'] === 'Employee') {
+                // If the user type is 'Employee', update or create the employee record
+                $pos_id = $request->input('pos_id');
+    
+                $employee = $user->employee;
+    
+                if ($employee) {
+                    // If the employee record already exists, update it
+                    $employee->pos_id = $pos_id;
+                    $employee->save();
+                } else {
+                    // If the employee record does not exist, create a new one
+                    $employee = new Employee(['pos_id' => $pos_id]);
+                    $user->employee()->save($employee);
+                }
+            } else {
+                // If the user type is not 'Employee', delete the employee record if it exists
+                // $user->employee()->delete();
+            }
+        });
+    
         return redirect()->route('user.index');
     }
 

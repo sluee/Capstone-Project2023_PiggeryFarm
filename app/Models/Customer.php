@@ -13,7 +13,7 @@ class Customer extends Model
 
     public function sales()
     {
-        return $this->hasMany(Sale::class,'cust_id');
+        return $this->hasMany(Sale::class,'cust_id')->onDelete('cascade');;
     }
 
     public function salesItems()

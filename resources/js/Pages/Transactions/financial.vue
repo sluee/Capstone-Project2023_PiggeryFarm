@@ -23,7 +23,7 @@
             active: false,
         },
         {
-            name:  "Showing Liquidation "+ props.transaction.id ,
+            name:  "Showing Liquidation " ,
             url: null,
             active: true,
         },

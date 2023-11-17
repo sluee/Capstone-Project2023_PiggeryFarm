@@ -21,50 +21,68 @@ import Chart from 'chart.js/auto';
     const monthlySalesChart = ref(null);
 
 // Watch for changes in the monthlySales prop
-    watch(() => props.monthlySales, () => {
-        if (monthlySalesChart.value) {
-            monthlySalesChart.value.destroy(); // Destroy the existing chart if it exists
-        }
+watch(() => props.monthlySales, () => {
+    if (monthlySalesChart.value) {
+        monthlySalesChart.value.destroy(); // Destroy the existing chart if it exists
+    }
 
-        // Create and update the chart when the data changes
-        createChart();
-    });
+    // Create and update the chart when the data changes
+    createChart();
+});
 
-    function createChart() {
-        if (!props.monthlySales) {
-            return;
-        }
+function createChart() {
+    if (!props.monthlySales) {
+        return;
+    }
 
-        const ctx = document.getElementById('monthlySalesChart').getContext('2d');
-        const { monthlySales } = props;
+    const ctx = document.getElementById('monthlySalesChart').getContext('2d');
+    const { monthlySales } = props;
 
-        // Array of month names
-        const monthNames = [
+    // Array of month names
+    const monthNames = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
-        ];
+    ];
 
-        monthlySalesChart.value = new Chart(ctx, {
+    monthlySalesChart.value = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: monthlySales.map(({ month, year }) => `${monthNames[month - 1]}-${year}`),
             datasets: [
-            {
-                label: 'Monthly Total Sales',
-                data: monthlySales.map(({ total_sales }) => total_sales),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-            },
+                {
+                    label: 'Monthly Total Sales',
+                    data: monthlySales.map(({ total_sales }) => total_sales),
+                    backgroundColor: 'rgba(39,150,248,0.68)',
+                    borderColor: 'rgba(23, 68, 88, 1)',
+                    borderWidth: 1,
+                },
             ],
         },
-        });
-
-    }
-
-    onMounted(() => {
-        createChart();
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month and Year',
+                    },
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Sales',
+                        
+                    },
+                },
+            },
+        },
     });
+}
+
+onMounted(() => {
+    createChart();
+});
+
 
     
 </script>
@@ -73,15 +91,22 @@ import Chart from 'chart.js/auto';
     <Head title="Sales Chart" />
 
     <SideBarLayout>
-        <template #header >
-            <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Sales Chart</h2>
-
-            </div>
-        </template>
+        
         <div class="py-12">
+            <div class="">
+                <div class="flex justify-center mb-2">
+                    <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                    <div class=" text-sm">
+                        <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
+                        <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
+                        <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3><br>
+                        <h3 class="font-bold text-slate-700 text-center">Sales Chart</h3>
+                    </div>
+
+                </div>
+            </div>
             <div class="w-full px-5 py-4 ">
-                <canvas id="monthlySalesChart"/>
+                <canvas id="monthlySalesChart" width="200" height="80"/>
             </div>
         </div>
         <div class="bg-white p-6 rounded shadow flex justify-center text-justify">

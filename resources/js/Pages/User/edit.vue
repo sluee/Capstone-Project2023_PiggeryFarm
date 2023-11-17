@@ -4,6 +4,14 @@
     import { Link , Head, usePage} from '@inertiajs/vue3';
     import { useForm } from '@inertiajs/vue3';
 
+    let props = defineProps({
+        roles:Object,
+        user:Object,
+        employee:Object,
+        positions: Object,
+        currentRole:String
+
+    })
     // import Multiselect from 'vue-multiselect'
     // const { data } = usePage().props;
     let form = useForm({
@@ -13,39 +21,49 @@
         suffix: props.user.suffix,
         email:props.user.email,
         password:props.user.password,
-        // status:props.,
+        status:props.user.status,
         gender:props.user.gender,
         type: props.user.type,
-        role:  props.currentRole,
-        pos_id: "",
+        role: props.user.roles.map((role) => role.name),       
         address:props.user.address,
         phone: props.user.phone,
+        pos_id: props.user.employee ? props.user.employee.position.id : null,
         
     })
 
-    let props = defineProps({
-        roles:Object,
-        user:Object,
-        employee:Object,
-        positions: Object
+    const localStorageKeyToggle = `toggleState_${props.user.id}`;
 
-    })
+    onMounted(() => {
+        const savedToggleState = JSON.parse(localStorage.getItem(localStorageKeyToggle));
+        if (savedToggleState !== null) {
+            isActive.value = savedToggleState;
+        }
+
+    });
+
+    const isActive = ref(props.user.status === 1);
+
+    const toggleActive = () => {
+        isActive.value = !isActive.value;
+        form.status = isActive.value ? 1 : 0;
+
+        localStorage.setItem(localStorageKeyToggle, JSON.stringify(isActive.value));
+    };
 
     function toggleFields(){
-        if (form.type !== 'employee') {
-        form.position = '';
-
+        if (form.type === 'employee') {
+        form.pos_id = props.user.employee.position.position;
       }
     }
     onMounted(() => {
         const selectRole = document.getElementById('select-role');
 
-        if (selectRole) {
-            new TomSelect(selectRole, {
-            maxItems: 3,
-            });
-        }
+  if (selectRole) {
+    new TomSelect(selectRole, {
+      maxItems: 3,
     });
+  }
+});
 
     const submit = () =>{
         form.put('/users/'+props.user.id)
@@ -62,10 +80,18 @@
             <div class="w-full mt-10 mx-auto px-4 ">
                 <form @submit.prevent="submit">
                     <div class="space-y-6">
-                        <div class="block pl-12 font-semibold text-xl self-start text-gray-700">
-                            <h1 class="leading-relaxed">User Details Form</h1>
-                            <hr>
-                          </div>
+                        <div class="pl-12 font-semibold text-xl self-start text-gray-700 flex -mb-4">
+                            <h1 class="leading-relaxed flex-1">Employee Details Form</h1>
+
+                            <div class="flex items-center mr-6">
+                                <h1 class="text-sm mr-2">Active status:</h1>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" v-model="isActive" class="peer hidden" @change="toggleActive">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" @click="toggleActive"></div>
+                                    <span class="ml-6 text-md font-semibold text-gray-900 dark:text-gray-300"></span>
+                                </label>
+                            </div>
+                        </div><hr>
                       <div class="border-b border-gray-900/10 pb-12">
 
                         <div class=" px-12 py-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mx-auto">
@@ -115,12 +141,24 @@
                           <div class="m:col-span-1">
                             <!-- <p>Current Role: {{ user.roles.map(role => role.name).join(', ') }}</p> -->
                             <label for="roles" class="block text-sm font-medium leading-6 text-gray-900">Roles</label>
-                            <div class="mt-2">
-                              <select id="role" v-model="form.role" name="role" autocomplete="role" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                <option selected disabled   >Select Role</option>
-                                <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
-                                <!-- <option value="Role">Patient</option> -->
-                              </select>
+                           
+                              <div class="mt-2">
+  
+                                  <select
+                                      id="select-role"
+                                      name="role[]"
+                                      multiple
+                                      placeholder="Select roles..."
+                                      autocomplete="off"
+                                      v-model="form.role"
+                                      class="block w-full rounded-sm cursor-pointer focus:outline-none"
+  
+                                      >
+                                      <option selected disabled>Select role</option>
+                                      <option  v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
+  
+                                  </select>
+                                 
                               <div class="text-sm text-red-500 italic" v-if="form.errors.role">{{ form.errors.role }}</div>
                             </div>
                           </div>
@@ -147,6 +185,7 @@
                             </div>
                           </div>
                           <div class="m:col-span-1" v-if="form.type === 'employee'">
+                            <!-- <p>Current Position: {{ user.employee.position.position}}</p>  -->
                             <label for="type" class="block text-sm font-medium leading-6 text-gray-900">Position</label>
                             <div class="mt-2">
                               <select id="pos_id" v-model="form.pos_id" name="position" autocomplete="position" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">

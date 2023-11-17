@@ -8,7 +8,8 @@
     let props = defineProps({
         employee: Object,
         position: Object,
-        user: Object
+        user: Object,
+        roles:Object
     })
 
     let form = useForm({
@@ -19,19 +20,16 @@
         suffix: props.employee.user.suffix,
         email:props.employee.user.email,
         address:props.employee.user.address,
-        role: '',
+        role: props.employee.user.roles.map((role) => role.name),
         password:'',
         password_confirmation:'',
         status:props.employee.status,
         gender:props.employee.user.gender,
         pos_id: props.employee.pos_id,
         phone: props.employee.user.phone,
-        // selectedServices: [],
-        // service_id: props.employee.service_id
+       
     })
 
-    // const selectedServices = ref([]);
-    // const services = ref([]);
 
     const localStorageKeyToggle = `toggleState_${props.employee.id}`;
 
@@ -56,6 +54,16 @@
         localStorage.setItem(localStorageKeyToggle, JSON.stringify(isActive.value));
     };
 
+    onMounted(() => {
+        const selectRole = document.getElementById('select-role');
+
+    if (selectRole) {
+        new TomSelect(selectRole, {
+        maxItems: 3,
+        });
+    }
+    });
+
     const submit = () =>{
         let roleName = form.role === 'Employee' ? 'employee' : 'specialEmployee';
 
@@ -75,7 +83,7 @@
             <div class="w-full mt-10 mx-auto px-4 ">
                 <form @submit.prevent="submit">
                     <div class="space-y-6">
-                        <div class="block pl-12 font-semibold text-xl self-start text-gray-700 flex -mb-4">
+                        <div class="pl-12 font-semibold text-xl self-start text-gray-700 flex -mb-4">
                             <h1 class="leading-relaxed flex-1">Employee Details Form</h1>
 
                             <div class="flex items-center mr-6">
@@ -160,16 +168,29 @@
                             </div>
                           </div>
 
-                          <div class="m:col-span-2">
-                            <label for="role" class="block text-sm font-medium leading-6 text-gray-900">Role</label>
-                            <div class="mt-2">
-                                <select id="role" v-model="form.role" name="role" autocomplete="role" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" >
-                                  <option selected disabled >Select Role</option>
-                                  <option value="Employee">Employee</option>
-                                  <option value="Special Employee">Special Employee</option>
-                                </select>
-                                <div class="text-sm text-red-500 italic" v-if="form.errors.role">{{ form.errors.role }}</div>
-                              </div>
+                          <div class="m:col-span-1">
+                              <!-- <p>Current Role: {{ user.roles.map(role => role.name).join(', ') }}</p> -->
+                            <label for="roles" class="block text-sm font-medium leading-6 text-gray-900">Roles</label>
+                           
+                              <div class="mt-2">
+  
+                                  <select
+                                      id="select-role"
+                                      name="role[]"
+                                      multiple
+                                      placeholder="Select roles..."
+                                      autocomplete="off"
+                                      v-model="form.role"
+                                      class="block w-full rounded-sm cursor-pointer focus:outline-none"
+  
+                                      >
+                                      <option selected disabled>Select role</option>
+                                      <option  v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
+  
+                                  </select>
+                                 
+                              <div class="text-sm text-red-500 italic" v-if="form.errors.role">{{ form.errors.role }}</div>
+                            </div>
                           </div>
 
                           <div class="sm:col-span-1 sm:col-start-1">

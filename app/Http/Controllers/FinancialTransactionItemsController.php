@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FinancialTransaction;
 use App\Models\FinancialTransactionItems;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FinancialTransactionItemsController extends Controller
 {
@@ -13,7 +14,12 @@ class FinancialTransactionItemsController extends Controller
      */
     public function index()
     {
-        //
+        $monthlyFinancial = FinancialTransaction::select('date', 'totalCashBalance') // Adjust column names as per your schema
+        ->get();
+        return inertia('Transactions/chart', [
+            'monthlyFinancial' => $monthlyFinancial
+        ]);
+    
     }
 
     /**

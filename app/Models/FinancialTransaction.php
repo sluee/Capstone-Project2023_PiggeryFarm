@@ -9,12 +9,12 @@ class FinancialTransaction extends Model
 {
     use HasFactory;
 
-    protected $fillable =['remarks', 'totalCashBalance'];
+    protected $fillable =['remarks', 'totalCashBalance' ,'date'];
 
-  
+
     public function financialItems()
     {
-        return $this->hasMany(FinancialTransactionItems::class, );
+        return $this->hasMany(FinancialTransactionItems::class);
     }
 
 }

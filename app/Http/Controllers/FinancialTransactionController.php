@@ -28,7 +28,7 @@ class FinancialTransactionController extends Controller
                 ->withQueryString(),
             'filters' => HttpRequest::only(['search'])
         ]);
-       
+
     }
 
     /**
@@ -38,8 +38,8 @@ class FinancialTransactionController extends Controller
     {
 
 
-        return inertia('Transactions/create');        
-       
+        return inertia('Transactions/create');
+
     }
 
     /**
@@ -54,14 +54,15 @@ class FinancialTransactionController extends Controller
             'particulars.*.credit' => 'nullable|numeric',
             'particulars.*.balance' => 'nullable|numeric',
         ]);
-    
+
         $transaction = FinancialTransaction::create([
+            'date' => $request->input('date'),
             'totalCashBalance' => $request->input('totalCashBalance'),
             'remarks' => $request->input('remarks'),
         ]);
-    
+
         $transactionItems = [];
-    
+
         foreach ($data['particulars'] as $particularData) {
             $transactionItems[] = new FinancialTransactionItems([
                 'fin_id' => $particularData['fin_id'],
@@ -70,36 +71,36 @@ class FinancialTransactionController extends Controller
                 'balance' => $particularData['balance'],
             ]);
         }
-    
+
         $transaction->financialItems()->saveMany($transactionItems);
-    
+
         return redirect('/transactions')->with('success', 'Financial Transaction Added Successfully');
     }
 
-   
 
-    
-    
+
+
+
     /**
      * Display the specified resource.
      */
     public function show(FinancialTransaction $financialTransaction)
     {
         $financialTransaction->load('financialItems');
-    
+
         // Convert the Eloquent model and related models to plain arrays
         $financialTransactionArray = $financialTransaction->toArray();
         $financialTransactionArray['financialItems'] = $financialTransaction->financialItems->map(function ($item) {
             return $item->toArray();
         });
-    
+
         return inertia('Transactions/show', [
             'transaction' => $financialTransactionArray,
         ]);
     }
-    
 
-    
+
+
 
 
     /**
@@ -128,5 +129,32 @@ class FinancialTransactionController extends Controller
 
     public function chart(){
         return Inertia('Transactions/chart');
+    }
+
+    public function financial(){
+
+        $financialTransaction = FinancialTransaction::with('financialItems')
+        ->orderByDesc('date')
+        ->first(); // Retrieve only the most recent transaction
+    
+    // Check if a transaction was found before proceeding
+    if ($financialTransaction) {
+        // Convert the Eloquent model and related models to plain arrays
+        $financialTransactionArray = $financialTransaction->toArray();
+        $financialTransactionArray['financialItems'] = $financialTransaction->financialItems->map(function ($item) {
+            return $item->toArray();
+        });
+    
+        return inertia('Transactions/financial', [
+            'transaction' => $financialTransactionArray,
+        ]);
+    } else {
+        // Handle the case where no recent transaction is found
+        return inertia('Transactions/financial', [
+            'transaction' => null, // or any other default value or message
+        ]);
+    }
+    
+
     }
 }

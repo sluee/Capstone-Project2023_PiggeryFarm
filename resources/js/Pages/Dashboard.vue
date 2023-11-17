@@ -51,8 +51,8 @@ import Chart from 'chart.js/auto';
                 {
                     label: `Total Sales of ${monthNames[props.currentMonthSales[0].month - 1]}`, // Display the month name
                     data: props.currentMonthSales.map(item => item.total_sales),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(39,150,248,0.68)',
+                    borderColor: 'rgba(23, 68, 88, 1)',
                     borderWidth: 1,
                 },
             ],

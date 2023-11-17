@@ -15,6 +15,9 @@ defineProps({
     status: {
         type: String,
     },
+    flash: {
+        type: Object,
+    },
 });
 
 const form = useForm({
@@ -36,10 +39,11 @@ const submit = () => {
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
-        </div>s
+        </div>
 
         <template #logo>
-            <img src="images/picc.jpg" alt="" class="object-cover h-5/6 w-full rounded-l-xl opacity-80">
+            <!-- <div v-if="$page.props.flash.error"></div> -->
+            <img src="/images/picc.jpg" alt="" class="object-cover h-5/6 w-full rounded-l-xl opacity-80">
 
             <div class="bg-gray-700 opacity-20 absolute top-0 h-full w-full"></div>
 

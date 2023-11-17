@@ -8,11 +8,12 @@
     const props = defineProps({
         particular : Object,
     })
-   
+
     const particularNames = ['Cash on Hand', 'Sales', 'Cash Received', 'Feeds Expenses', 'Miscellaneous', 'Salary'];
     const form = useForm({
         totalCashBalance: '',
         remarks: '',
+        date: '',
         particulars: particularNames.map((name) => ({ fin_id: name, debit: '', credit: '', balance: '' })),
     });
 
@@ -80,6 +81,10 @@ function submit() {
                         </div>
                     </div>
                     <form @submit.prevent="submit">
+                        <div class="flex mb-2">
+                            <Label class="smb-2 py-2 px-3rounded mr-3" >Liquidation Date:</Label>
+                            <input v-model="form.date" type="date" step="0.01" class="border rounded-md border-gray-300 p-2 w-[20]">
+                        </div>
 
                         <div class="bg-white shadow-sm sm:rounded-lg">
 
@@ -107,22 +112,22 @@ function submit() {
                                             <input v-model="part.balance" type="number" step="0.01" class="w-full border border-gray-300 p-2" readonly>
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td colspan="3">Total Cash On Bank</td>
                                         <td  class="py-2 px-2">
                                             <input v-model="form.totalCashBalance" type="number" step="0.01" class="w-full border border-gray-300 p-2" readonly>
                                         </td>
-                                            
+
                                     </tr>
                                 </tbody>
-                            </table>  
+                            </table>
                             <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Remarks</label>
                             <textarea id="message" rows="3" v-model="form.remarks" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Leave it blank if there are no remarks"></textarea>
                         </div>
                         <div class="flex justify-between mt-3">
                           <h1 class="text-3xl font-medium text-gray-700"></h1>
-                         
+
                           <button type="submit" class="bg-blue-500 flex justify-center hover:bg-blue-700 w-[180px] items-center text-dark px-5 py-2 rounded-md focus:outline-none" >Save</button>
                         </div>
                       </form>
