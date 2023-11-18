@@ -6,6 +6,7 @@ use App\Models\Boar;
 use App\Models\Breeding;
 use App\Models\Sow;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BreedingController extends Controller
 {
@@ -144,4 +145,24 @@ class BreedingController extends Controller
     {
         //
     }
+//     public function calendar($date = null)
+// {
+//     $query = Breeding::query();
+
+//     if ($date) {
+//         $query->whereDate('date_field', $date)
+//               ->orWhereDate('change_feeds', $date)
+//               ->orWhereDate('exp_date_of_farrowing', $date);
+//     }
+
+//     $breedingEvents = $query->get();
+
+//     return Inertia::render('Breeding/calendar', [
+//         'breedingEvents' => $breedingEvents,
+//         'selectedDate' => $date,
+//     ]);
+// }
+
+
+
 }

@@ -36,11 +36,10 @@ import Chart from 'chart.js/auto';
     const ctx = document.getElementById('currentMonthSalesChart').getContext('2d');
 
     // Check if there are no sales data
-    if (!props.currentMonthSales || props.currentMonthSales.length === 0) {
-        // You can handle this case by displaying a message or taking any other action
-        console.warn('No sales data available.');
-        return;
-    }
+        if (!props.currentMonthSales || props.currentMonthSales.length === 0) {
+            // You can handle this case by displaying a message or taking any other action
+            return;
+        }
 
     const monthNames = [
         'January', 'February', 'March', 'April', 'May', 'June',
@@ -155,11 +154,14 @@ import Chart from 'chart.js/auto';
                           </div>
                       </div>
                       <div id="main-chart">
-                        <canvas id="currentMonthSalesChart"></canvas>
-                        <div v-if="!currentMonthSales">
-                          No sales data available this month.
+                        <div v-if="props.currentMonthSales && props.currentMonthSales.length > 0">
+                            <canvas id="currentMonthSalesChart"></canvas>
                         </div>
-                      </div>
+                        <div v-else>
+                            No sales data available this month.
+                        </div>
+                    </div>
+
                    </div>
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
                       <div class="mb-4 flex items-center justify-between">

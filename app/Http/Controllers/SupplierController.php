@@ -12,11 +12,6 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        // return inertia('FeedsSupplier/Index',[
-        //     'suppliers' => Supplier::orderBy('id')->get(),
-
-        // ]);
-
         return inertia('FeedsSupplier/Index',[
             'suppliers' => Supplier::query()
             ->when(HttpRequest::input('search'), function ($query, $search) {

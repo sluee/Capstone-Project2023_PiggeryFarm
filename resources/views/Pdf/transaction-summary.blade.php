@@ -40,7 +40,7 @@
         </div>
 
 
-         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Financial Liquidation for {{$transactions->formattedDate}}</h2> 
+         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Financial Liquidation for {{$transactions->formattedDate}}</h2>
 
 
 
@@ -67,7 +67,7 @@
                     @foreach ($transactions->financialItems as $item )
                     <tr>
                         <td>
-                            {{$item->fin_id}} 
+                            {{$item->fin_id}}
                         </td>
                         <td style="text-align: right">
                             {{$item->debit}}
@@ -79,32 +79,32 @@
                            {{$item->balance}}
                         </td>
                     </tr>
-                    
+
 
                     @endforeach
-                    
+
                  </td>
-                
+
                     <tr>
                         <td colspan="3">Total Cash on Bank</td>
                         <td style="text-align: right">
                             {{$transactions->totalCashBalance}}
                          </td>
-                    </tr>         
-                
-                 
+                    </tr>
+
+
                     <tr>
                         <td colspan="3">Remarks:</td>
                         <td style="text-align: right">
                             {{$transactions->remarks}}
                          </td>
                     </tr>
-                   
-                
+
+
 
             </tbody>
 
         </table>
-        
+
     </body>
 </html>

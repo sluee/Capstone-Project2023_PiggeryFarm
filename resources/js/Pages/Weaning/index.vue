@@ -23,7 +23,7 @@
         </template>
         <div class="py-12">
 
-            
+
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <table class="min-w-max w-full table-auto">
@@ -103,12 +103,6 @@ const props = defineProps({
     filters:Object
 
 })
-
-// function search(ev){
-//     router.visit('/weaning/search/'+ ev.target.value);
-
-// }
-console.log('props.weanings');
 
 let search = ref(props.filters.search);
     watch(search, (value) => {

@@ -71,7 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/sows/edit/{sow}',[SowController::class,'edit']);
     Route::put('/sows/{sow}', [SowController::class, 'update']);
     Route::delete('/sows/{sow}', [SowController::class, 'destroy']);
-    Route::get('/sow/pdf/',[PdfController::class,'sows'])->name('sows.pdf');
+
 
 
     ///For Boars/////
@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/boars/{boar}',[BoarController::class,'show']);
     Route::delete('/boars/{boar}', [BoarController::class, 'destroy']);
 
-    Route::get('/boar/pdf/',[PdfController::class,'boars'])->name('boars.pdf');
+
 
 
     //For Breeding///
@@ -97,7 +97,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/breedings/{breeding}',[BreedingController::class,'show']);
     Route::delete('/breedings/{breeding}', [BreedingController::class, 'destroy']);
 
-    Route::get('/breeding/pdf/',[PdfController::class,'breedings'])->name('breeding.pdf');
 
     //For Labor///
     Route::get('/labors',[LaborController::class, 'index'])->name('labor.index');
@@ -107,8 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/labors/edit/{labor}', [LaborController::class, 'edit']);
     Route::put('/labors/{labor}', [LaborController::class, 'update']);
     Route::delete('/labors/{labor}', [LaborController::class, 'destroy']);
-
-    Route::get('/labor/pdf/',[PdfController::class,'labors'])->name('labors.pdf');
+    ;
 
     //for weaning///
     Route::get('/weaning' ,[WeaningController::class, 'index'])->name('weaning.index');
@@ -119,7 +117,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/weaning/{weaning}', [WeaningController::class, 'update']);
     Route::delete('/weaning/{weaning}', [WeaningController::class, 'destroy']);
 
-    Route::get('/weanings/pdf/',[PdfController::class,'weanings'])->name('weanings.pdf');
+
 
 
 
@@ -134,7 +132,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/salesChart' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.chart');
 
     //Route for exporting the sales Receipt
-    Route::get('/sales/pdf/{sale}',[PdfController::class,'salesReceipt']);
+
 
     // Route for customers
     Route::get('/customers' ,[CustomerController::class, 'index'])->name('customer.index');
@@ -162,12 +160,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/feeds-purchase' ,[FeedsPurchaseController::class, 'index'])->name('purchase.index');
     Route::post('/feeds-purchase',[FeedsPurchaseController::class, 'store']);
     Route::put('/feeds-purchase/{feedsPurchase}', [FeedsPurchaseController::class, 'update']);
-
+    Route::get('/sales/pdf/{sale}',[PdfController::class,'salesReceipt']);
     Route::get('/feeds-purchase/pdf/',[PdfController::class,'feedsPurchase']);
+    Route::get('/feeds-purchases/pdf/',[PdfController::class,'feedsConsumption'])->name('consumption.pdf');
 
     Route::get('/feeds-consumption' ,[ConsumptionController::class, 'index'])->name('consumption.index');
     Route::post('/feeds-consumption',[ConsumptionController::class, 'store']);
-    Route::get('/feeds-purchases/pdf/',[PdfController::class,'feedsConsumption'])->name('consumption.pdf');
+
 
     Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
     Route::post('/positions', [PositionController::class, 'store']);
@@ -194,8 +193,8 @@ Route::middleware('auth')->group(function () {
     // Route::post('/transactions',[FinancialTransactionItemsController::class, 'store']);
     Route::post('/transactions',[FinancialTransactionController::class, 'store']);
     Route::get('/transactions/{financialTransaction}',[FinancialTransactionController::class, 'show']);
-    Route::get('/transactions/pdf/{financialTransaction}', [PdfController::class, 'transaction'])->name('transaction.pdf');
-    
+
+
     Route::get('/financial}',[FinancialTransactionController::class, 'financial'])->name('transaction.financial');
 
 
@@ -203,8 +202,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.create');
     Route::post('/payroll', [PayrollItemController::class, 'store'])->name('payroll.create');
     Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
-    Route::get('/payrolls/pdf', [PdfController::class, 'payrollHistory'])->name('payroll.pdf');
-    Route::get('/payroll/pdf/{payroll}',[PdfController::class,'payrollSummary']);
+
     Route::get('/payrolls', [PayrollController::class, 'payroll'])->name('payroll.payroll');
 
     Route::get('/payslip', [PayrollItemController::class, 'showMyPayroll'])->name('payroll.payslip');
@@ -212,6 +210,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
     Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');
     Route::post('/cashAdvance',[CashAdvanceController::class, 'store'])->name('cashAdvance.store');
+
+    // Route::get('/breeding/calendar/', [BreedingController::class, 'calendar'])->name('breeding.calendar');
+    Route::get('/transactions/pdf/{financialTransaction}', [PdfController::class, 'transaction'])->name('transaction.pdf');
+    Route::get('/employee/pdf/',[PdfController::class,'employeeSummary'])->name('employee.pdf');
+    Route::get('/payrolls/pdf', [PdfController::class, 'payrollHistory'])->name('payroll.pdf');
+    Route::get('/payroll/pdf/{payroll}',[PdfController::class,'payrollSummary']);
+    Route::get('/boar/pdf/',[PdfController::class,'boars'])->name('boars.pdf');
+    Route::get('/sow/pdf/',[PdfController::class,'sows'])->name('sows.pdf');
+    Route::get('/labor/pdf/',[PdfController::class,'labors'])->name('labors.pdf');
+    Route::get('/weanings/pdf/',[PdfController::class,'weanings'])->name('weanings.pdf');
+    Route::get('/breeding/pdf/',[PdfController::class,'breedings'])->name('breeding.pdf');
+    Route::get('/cashAdvance/pdf/',[PdfController::class,'cashAdvance'])->name('cashAdvance.pdf');
+    Route::get('/transaction/pdf/',[PdfController::class,'transactionSummary'])->name('transaction.pdf');
+
 });
 
 

@@ -136,7 +136,7 @@ class FinancialTransactionController extends Controller
         $financialTransaction = FinancialTransaction::with('financialItems')
         ->orderByDesc('date')
         ->first(); // Retrieve only the most recent transaction
-    
+
     // Check if a transaction was found before proceeding
     if ($financialTransaction) {
         // Convert the Eloquent model and related models to plain arrays
@@ -144,7 +144,7 @@ class FinancialTransactionController extends Controller
         $financialTransactionArray['financialItems'] = $financialTransaction->financialItems->map(function ($item) {
             return $item->toArray();
         });
-    
+
         return inertia('Transactions/financial', [
             'transaction' => $financialTransactionArray,
         ]);
@@ -154,7 +154,7 @@ class FinancialTransactionController extends Controller
             'transaction' => null, // or any other default value or message
         ]);
     }
-    
+
 
     }
 }

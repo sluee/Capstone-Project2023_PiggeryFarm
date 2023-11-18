@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('financial_transaction_items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('fin_id')->unsigned();
+            $table->string('fin_id');
             $table->bigInteger('financial_transaction_id')->unsigned();
-            $table->double('debit');
-            $table->double('credit');
-            $table->double('balance');
+            $table->double('debit')->nullable();
+            $table->double('credit')->nullable();
+            $table->double('balance')->nullable();
             $table->timestamps();
-            $table->foreign('fin_id')->references('id')->on('financial_categories');
             $table->foreign('financial_transaction_id')->references('id')->on('financial_transactions');
-            
+
         });
     }
 

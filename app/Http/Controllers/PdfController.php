@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Boar;
 use App\Models\Breeding;
+use App\Models\CashAdvanceTotals;
 use App\Models\Consumption;
+use App\Models\Employee;
 use App\Models\FeedsPurchase;
 use App\Models\FinancialTransaction;
 use App\Models\Labor;
@@ -157,7 +159,34 @@ class PdfController extends Controller
         $financialTransaction->formattedDate = Carbon::parse($financialTransaction->created_at)->format('F Y');
         $pdf = Pdf::loadView('Pdf.transaction-summary',[
             'transactions'=>$financialTransaction,
-           
+
+        ]);
+
+        return $pdf->stream();
+    }
+
+    public function employeeSummary(){
+        $employee = Employee::with('user', 'position')->get();
+        $pdf = Pdf::loadView('Pdf.employeeSummary', [
+            'employee' => $employee,
+        ]);
+
+        return $pdf->stream();
+    }
+
+    public function cashAdvance(){
+        $cashAdvanceTotal =CashAdvanceTotals::with('employee.user')->get();
+        $pdf = Pdf::loadView('Pdf.cashAdvanceTotals', [
+            'cashAdvanceTotal' => $cashAdvanceTotal,
+        ]);
+
+        return $pdf->stream();
+    }
+
+    public function transactionSummary(){
+        $transactions = FinancialTransaction::get();
+        $pdf = Pdf::loadView('Pdf.transaction', [
+            'transaction' => $transactions,
         ]);
 
         return $pdf->stream();
