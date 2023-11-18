@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,9 +13,17 @@ class PositionController extends Controller
      */
     public function index()
     {
+        $positions = Position::orderBy('id' ,'desc')
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->where('position', 'like', '%' . $search . '%');
+            })
+            ->paginate(8)
+            ->withQueryString();
+    
+       
         return inertia('Position/index',[
-            'positions' => Position::orderBy('id')->get(),
-
+            'positions' => $positions,
+            'filters' => HttpRequest::only(['search']),
         ]);
     }
 

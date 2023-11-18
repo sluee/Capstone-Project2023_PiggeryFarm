@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Customer;
 use App\Models\Sale;
 use Illuminate\Http\Request;
@@ -17,8 +17,16 @@ class SaleController extends Controller
 
     {
         $sales = Sale::with('salesItems', 'customers')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        ->orderBy('created_at', 'desc')
+        ->when(HttpRequest::input('search'), function ($query, $search) {
+            $query->where('id', 'like', '%' . $search . '%')
+                ->orWhereHas('customers', function ($categoryQuery) use ($search) {
+                    $categoryQuery->where('name', 'like', '%' . $search . '%');
+                });
+              
+        })
+        ->paginate(8)
+        ->withQueryString();
 
         // Calculate the total weight and total pigs for each sale
         foreach ($sales as $sale) {
@@ -32,11 +40,12 @@ class SaleController extends Controller
         ->groupBy('year', 'month')
         ->get();
 
-         $customers = Customer::orderBy('id')->get();
+        //  $customers = Customer::orderBy('id')->get();
         return inertia('SalesHistory/index', [
             'sales' => $sales,
             'totalAmountAllSales' => $totalAmountAllSales,
-            'monthlySales' => $monthlySales
+            'monthlySales' => $monthlySales,
+            'filters' => HttpRequest::only(['search']),
         ]);
     }
 

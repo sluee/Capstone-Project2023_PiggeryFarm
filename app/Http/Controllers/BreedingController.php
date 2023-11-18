@@ -41,8 +41,14 @@ class BreedingController extends Controller
      */
     public function create()
     {
-        $sows = Sow::orderBy('sow_no', 'asc')->get();
-        $boars = Boar::orderBy('breed', 'asc')->get();
+        $sows = Sow::where('status', 1)
+        ->orderBy('sow_no', 'asc')
+        ->get();
+    
+        $boars = Boar::where('status', 1)
+        ->orderBy('breed', 'asc')
+        ->get();
+    
         return inertia('Breeding/create',[
             'breedings' =>Breeding::orderBy('date_of_breed','asc'),
             'sows'      =>$sows,

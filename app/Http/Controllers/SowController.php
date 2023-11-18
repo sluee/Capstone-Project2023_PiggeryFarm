@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Breeding;
+use App\Models\Labor;
 use App\Models\Sow;
+use App\Models\Weaning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as HttpRequest;
 
 class SowController extends Controller
@@ -59,16 +62,33 @@ class SowController extends Controller
     /**
      * Display the specified resource.
      */
-   public function show(Sow $sow)
+    public function show(Sow $sow)
     {
-        $breeding = Breeding::with('labors', 'weanings', 'boar')->where('sow_id', $sow->id)->first();
-        // Assuming there's a foreign key 'sow_id' in the Breeding table that associates with the 'id' of the Sow model
-        $sow->load('breedings.boar')->orderBy('id', 'desc');
+        $breedings = Breeding::with('boar')
+        ->whereHas('sow', function ($query) use ($sow) {
+            $query->where('sow_id', $sow->id);
+        })->paginate(6);
+
+        $labors = Labor::whereHas('breeding', function ($query) use ($sow) {
+            $query->where('sow_id', $sow->id);
+        })->paginate(6);
+
+        $weanings = Weaning::with('labors')
+        ->whereHas('labors.breeding', function ($query) use ($sow) {
+            $query->where('sow_id', $sow->id);
+        })
+        ->paginate(6);
+    
+        
         return inertia('Sow/show', [
             'sows' => $sow,
-            'breeding' => $breeding,
+            'breedings' => $breedings,
+            'labors' => $labors,
+            'weanings' => $weanings
+            // 'weanings' => $weanings
         ]);
     }
+    
 
 
     /**

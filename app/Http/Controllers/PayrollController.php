@@ -33,7 +33,12 @@ class PayrollController extends Controller
      */
     public function create()
     {
-        $employees = Employee::with('user', 'position' , 'advanceTotal')->get();
+        $employees = Employee::with('user', 'position', 'advanceTotal')
+        ->whereHas('user', function ($query) {
+            $query->where('status', 1); // Assuming 'status' is the field indicating the user's status
+        })
+        ->get();
+    
 
         // Assuming you have a relationship between Employee and CashAdvance
         $cashAdvances = CashAdvanceTotals::whereIn('emp_id', $employees->pluck('id'))->get();

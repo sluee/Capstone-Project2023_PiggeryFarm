@@ -2,7 +2,6 @@
 import {Head, useForm } from "@inertiajs/vue3";
 import SideBarLayout from "@/Layouts/SideBarLayout.vue";
 import { computed, ref , watch} from "vue";
-import SalesChart from "@/Components/SalesChart.vue";
     const form = useForm({
         cust_id: '',
         total_amount:'',
@@ -233,71 +232,6 @@ import SalesChart from "@/Components/SalesChart.vue";
                         </table>
                       </div>
 
-                      <!-- <div v-for="(item, index) in form.salesItems" :key="index">
-                        <div class="grid gap-6 mb-6 md:grid-cols-4 px-2">
-                          <div>
-                            <label class="leading-loose">Pen_no</label>
-                            <input
-                              type="number"
-                              v-model="item.pen_no"
-                              class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                            />
-                            <div class="text-sm text-red-500 italic" v-if="form.errors.pen_no">{{ form.errors.pen_no }}</div>
-                          </div>
-                          <div>
-                            <label class="leading-loose">Pig Weight</label>
-                            <input
-                              type="number"
-                              v-model="item.pig_weight"
-                              class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-
-                            />
-                            <div class="text-sm text-red-500 italic" v-if="form.errors.pig_weight">{{ form.errors.pig_weight }}</div>
-                          </div>
-                          <div>
-                            <label class="leading-loose">Rate</label>
-                            <input
-                              type="number"
-                              v-model="item.rate"
-                              class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-
-                            />
-                            <div class="text-sm text-red-500 italic" v-if="form.errors.rate">{{ form.errors.rate }}</div>
-                          </div>
-                          <div>
-                            <label class="leading-loose">Total</label>
-                            <input
-                              type="number"
-                              :v-model="total" readonly
-                              class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-
-                            />
-                            <div class="text-sm text-red-500 italic" v-if="form.errors.rate">{{ form.errors.rate }}</div>
-                          </div>
-
-
-                          <div class="mt-7">
-                            <button @click="removeSaleItem(index)" class="bg-red-500 flex justify-center items-center w-full text-dark px-3 py-2 rounded-md focus:outline-none">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                              </svg>
-                              Remove
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class=" grid gap-2 mb-6 md:grid-cols-2 px-2 py-2" >
-                        <button @click="addSaleItem()" class="bg-blue-500 flex justify-center items-center w-full text-dark px-3 py-2 rounded-md focus:outline-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                          </svg>
-                          Add to list
-                        </button>
-
-
-                        <br>
-
-                      </div> -->
                         <div class="flex justify-between">
                             <h1 class="text-3xl font-medium text-gray-700 "></h1>
 
@@ -307,7 +241,6 @@ import SalesChart from "@/Components/SalesChart.vue";
                 </div>
             </div>
 
-            <SalesChart></SalesChart>
 
         </div>
 

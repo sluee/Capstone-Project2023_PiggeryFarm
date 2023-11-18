@@ -19,18 +19,20 @@ import { Link } from '@inertiajs/vue3';
     let showReport = ref(false);
     const isOpenReport = () => (showReport.value = !showReport.value);
 
-    const openSections = ref([]);
+    let showfinancial = ref(false);
+    const isOpenFinancial = () => (showfinancial.value = !showfinancial.value);
+    // const openSections = ref([]);
 
-    const toggleSection = (section) => {
-    const index = openSections.value.indexOf(section);
-    if (index !== -1) {
-        openSections.value.splice(index, 1);
-    } else {
-        openSections.value.push(section);
-    }
-    };
+    // const toggleSection = (section) => {
+    // const index = openSections.value.indexOf(section);
+    // if (index !== -1) {
+    //     openSections.value.splice(index, 1);
+    // } else {
+    //     openSections.value.push(section);
+    // }
+    // };
 
-    const isOpenFinancial = (section) => openSections.value.includes(section);
+    // const isOpenFinancial = (section) => openSections.value.includes(section);
 
 </script>
 <template>
@@ -115,7 +117,7 @@ import { Link } from '@inertiajs/vue3';
                 </Link>
               </li>
               <li v-if="$page.props.auth.permissions.includes('manage_finance')">
-                <button @click="toggleSection('financial')" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+                <button  @click="isOpenFinancial" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
@@ -124,15 +126,15 @@ import { Link } from '@inertiajs/vue3';
                     </span>
                     <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Manage Financial</span>
                 </button>
-                <div v-show="isOpenFinancial('financial')" class="flex justify-start  flex-col w-full md:w-auto items-start pb-1 ml-3 ">
+                <div v-show="showfinancial" class="flex justify-start  flex-col w-full md:w-auto items-start pb-1 ml-3 ">
 
-                    <Link :href="route('transaction.index')"  @click="openSection('transaction.index')"  class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
+                    <Link :href="route('transaction.index')"    class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                     </svg>
                     <span class="text-base leading-2" v-show="!collapse">Liquidation</span>
                     </Link>
-                    <Link :href="route('transactions.chart')"   @click="openSection('transactions.chart')" class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
+                    <Link :href="route('transactions.chart')"    class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
                         </svg>

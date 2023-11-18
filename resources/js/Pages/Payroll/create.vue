@@ -79,20 +79,7 @@
         });
     }, { deep: true });
 
-    // watch(form.payrolls, (newPayrolls) => {
-    //     newPayrolls.forEach((payroll, index) => {
-
-    //         const totalBasicPay = payroll.totalBasicPay;
-    //         const overtimeAmount = payroll.overtimeAmount;
-    //         if (totalBasicPay && overtimeAmount !== '') {
-    //             // Calculate overtimeAmount and format it with two decimal points
-    //             const rawGrossAmount = totalBasicPay+overtimeAmount;
-    //             payroll.grossAmount = parseFloat(rawGrossAmount.toFixed(2));
-    //         } else {
-    //             payroll.grossAmount = 0;
-    //         }
-    //     });
-    // }, { deep: true });
+   ;
 
     watch(form.payrolls, (newPayrolls) => {
         newPayrolls.forEach((payroll, index) => {
@@ -200,8 +187,8 @@
                 </div> -->
             </div>
         </template>
-        <div class="px-2 mt-5">
-            <div class="p-4 mx-2">
+        <div class="">
+            <div class="px-2 mt-5 p-4 mx-2">
                 <div class="container mx-auto mt-2">
                     <div class="  mb-7">
                         <div class="flex justify-center mb-2">
@@ -231,7 +218,7 @@
                           <table class="w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal ">
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>Employee</th>
                                     <th>Rate</th>
                                     <th>Days Worked</th>
@@ -244,7 +231,7 @@
                                     <th>Net Amount</th>
                                   </tr>
                                   <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                    <th colspan="5"></th> <!-- Placeholder for empty cells -->
+                                    <th colspan="4"></th> <!-- Placeholder for empty cells -->
                                     <th>Overtime Hours</th>
                                     <th>Overtime Amount</th>
                                     <th colspan="5"></th> <!-- Placeholder for empty cells -->
@@ -253,10 +240,7 @@
                             </thead>
                             <tbody>
                               <tr  v-for="(employee, index) in employees" :key="employee.id">
-                                <td class="py-2 px-2 text-left whitespace-nowrap">
-
-                                  <span><input v-model="form.payrolls[index].emp_id"  type="number" step="0.01" readonly /></span>
-                                </td>
+                              
                                 <td class="py-2 px-2 text-left whitespace-nowrap">
                                   <span>{{ employee.user.firstName }} {{ employee.user.lastName }}</span>
                                 </td>
@@ -278,7 +262,6 @@
                                   <input v-model="form.payrolls[index].grossAmount" type="number" step="0.01" readonly/>
                                 </td>
                                 <td class="py-2 px-2">
-                                  <!-- <input v-model="form.payrolls[index].cashAdvanceId" type="number" /> -->
                                   <input v-model="form.payrolls[index].cashAdvance" type="number" step="0.01" readonly/>
                                 </td>
 
@@ -296,10 +279,9 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7" >Total</td>
+                                    <td colspan="6" >Total</td>
                                     <td colspan="3">
                                         <input v-model="form.total_gross_amount" type="number" step="0.01" readonly/>
-
                                     </td>
                                     <td colspan="1">
                                         <input v-model="form.total_deductions_amount" type="number" step="0.01" readonly/>
@@ -307,7 +289,6 @@
                                     <td>
                                         <input v-model="form.total_net_amount" type="number" step="0.01" readonly/>
                                     </td>
-
                                 </tr>
                             </tfoot>
                           </table>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('breed');
             $table->string('location');
             $table->string('date_arrived');
-            $table->string('status')->default('active');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

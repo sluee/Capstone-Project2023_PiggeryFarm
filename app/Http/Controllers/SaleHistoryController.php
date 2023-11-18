@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Customer;
 use App\Models\Sale;
 use App\Models\SaleHistory;
@@ -19,10 +19,22 @@ class SaleHistoryController extends Controller
         $monthlySales =DB::table('sales')
         ->select(DB::raw('MONTH(created_at) as month'), DB::raw('YEAR(created_at) as year'), DB::raw('SUM(total_amount) as total_sales'))
         ->groupBy('year', 'month')
-        ->get();
+        ->when(HttpRequest::input('search'), function ($query, $search) {
+            $query->where('remarks', 'like', '%' . $search . '%')
+                ->orWhere('no_of_pigs_weaned', 'like', '%' . $search . '%')
+                ->orWhereHas('labors.breeding.sow', function ($categoryQuery) use ($search) {
+                    $categoryQuery->where('sow_no', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('labors.breeding.boar', function ($supplierQuery) use ($search) {
+                    $supplierQuery->where('breed', 'like', '%' . $search . '%');
+                });
+        })
+        ->paginate(8)
+        ->withQueryString();
 
         return inertia('SalesHistory/chart', [
-            'monthlySales' => $monthlySales
+            'monthlySales' => $monthlySales,
+            'filters' => HttpRequest::only(['search']),
         ]);
     }
 
