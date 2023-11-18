@@ -17,7 +17,7 @@ defineProps({
 const user = usePage().props.auth.user;
 
 const form = useForm({
-    LastName: user.LastName,
+    lastName: user.lastName,
     firstName: user.firstName,
     middleName: user.middleName,
     suffix: user.suffix,
@@ -76,7 +76,7 @@ const form = useForm({
                     id="LastName"
                     type="text"
                     class="mt-1 block w-full"
-                    v-model="form.LastName"
+                    v-model="form.lastName"
                     required
                     autofocus
                     autocomplete="LastName"

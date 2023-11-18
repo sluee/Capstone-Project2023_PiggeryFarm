@@ -16,7 +16,7 @@ class SaleHistoryController extends Controller
      */
     public function index()
     {
-        $monthlySales =DB::table('sales')
+        $monthlySales = DB::table('sales')
         ->select(DB::raw('MONTH(created_at) as month'), DB::raw('YEAR(created_at) as year'), DB::raw('SUM(total_amount) as total_sales'))
         ->groupBy('year', 'month')
         ->when(HttpRequest::input('search'), function ($query, $search) {
@@ -31,11 +31,19 @@ class SaleHistoryController extends Controller
         })
         ->paginate(8)
         ->withQueryString();
-
+    
+    if ($monthlySales) {
         return inertia('SalesHistory/chart', [
             'monthlySales' => $monthlySales,
             'filters' => HttpRequest::only(['search']),
         ]);
+    } else {
+        // Handle the case where no recent transaction is found
+        return inertia('SalesHistory/chart', [
+            'monthlySales' => null, // or any other default value or message
+        ]);
+    }
+    
     }
 
     /**

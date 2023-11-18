@@ -26,8 +26,8 @@
 
                       </div>
                       <div v-else>
-                        Loading...
-                      </div>
+                        <p class="text-center text-xl font-bold text-gray-900 py-6">No Financial Chart yet.</p>
+                        </div>
 
                     <!-- <Pagination :links="transactions.links" class="mt-6 flex justify-center"/> -->
                 </div>

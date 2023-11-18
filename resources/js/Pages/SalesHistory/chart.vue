@@ -18,31 +18,100 @@ import Chart from 'chart.js/auto';
         return moment(date).format('MMMM   D, YYYY');
     }
 
-    const monthlySalesChart = ref(null);
+//     const monthlySalesChart = ref(null);
 
-// Watch for changes in the monthlySales prop
-watch(() => props.monthlySales, () => {
-    if (monthlySalesChart.value) {
-        monthlySalesChart.value.destroy(); // Destroy the existing chart if it exists
-    }
+//     // Watch for changes in the monthlySales prop
+//     watch(() => props.monthlySales, () => {
+//         if (monthlySalesChart.value) {
+//             monthlySalesChart.value.destroy(); // Destroy the existing chart if it exists
+//         }
 
-    // Create and update the chart when the data changes
-    createChart();
-});
+//         // Create and update the chart when the data changes
+//         createChart();
+//     });
+
+//     function createChart() {
+//         if (!props.monthlySales && props.monthlySales.length > 0) {
+//             return;
+//         }
+
+//     const ctx = document.getElementById('monthlySalesChart').getContext('2d');
+//     const { monthlySales } = props;
+
+//     // Array of month names
+//     const monthNames = [
+//         'January', 'February', 'March', 'April', 'May', 'June',
+//         'July', 'August', 'September', 'October', 'November', 'December'
+//     ];
+
+//     monthlySalesChart.value = new Chart(ctx, {
+//         type: 'bar',
+//         data: {
+//             labels: monthlySales.map(({ month, year }) => `${monthNames[month - 1]}-${year}`),
+//             datasets: [
+//                 {
+//                     label: 'Monthly Total Sales',
+//                     data: monthlySales.map(({ total_sales }) => total_sales),
+//                     backgroundColor: 'rgba(39,150,248,0.68)',
+//                     borderColor: 'rgba(23, 68, 88, 1)',
+//                     borderWidth: 1,
+//                 },
+//             ],
+//         },
+//         options: {
+//             scales: {
+//                 x: {
+//                     title: {
+//                         display: true,
+//                         text: 'Month and Year',
+//                     },
+//                 },
+//                 y: {
+//                     beginAtZero: true,
+//                     title: {
+//                         display: true,
+//                         text: 'Sales',
+
+//                     },
+//                 },
+//             },
+//         },
+//     });
+// }
+
+// onMounted(() => {
+//     createChart();
+// });
 
 function createChart() {
-    if (!props.monthlySales) {
-        return;
-    }
-
     const ctx = document.getElementById('monthlySalesChart').getContext('2d');
     const { monthlySales } = props;
+
+    if (!monthlySales || monthlySales.length === 0) {
+        // Handle the case when there is no data for the chart
+        if (monthlySalesChart.value) {
+            monthlySalesChart.value.destroy(); // Destroy the existing chart if it exists
+        }
+        
+        const noDataMessage = 'No data available for the chart.';
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.font = '16px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText(noDataMessage, ctx.canvas.width / 2, ctx.canvas.height / 2);
+
+        return;
+    }
 
     // Array of month names
     const monthNames = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
+
+    if (monthlySalesChart.value) {
+        monthlySalesChart.value.destroy(); // Destroy the existing chart if it exists
+    }
 
     monthlySalesChart.value = new Chart(ctx, {
         type: 'bar',
@@ -71,7 +140,6 @@ function createChart() {
                     title: {
                         display: true,
                         text: 'Sales',
-
                     },
                 },
             },
@@ -79,9 +147,6 @@ function createChart() {
     });
 }
 
-onMounted(() => {
-    createChart();
-});
 
 
 
@@ -89,30 +154,27 @@ onMounted(() => {
 
 <template>
     <Head title="Sales Chart" />
-
     <SideBarLayout>
 
         <div class="py-12">
-            <div class="">
+            <div v-if="monthlySales && monthlySales.length > 0">
+                <!-- Your existing content for displaying the chart -->
                 <div class="flex justify-center mb-2">
                     <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
-                    <div class=" text-sm">
-                        <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
-                        <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
-                        <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3><br>
-                        <h3 class="font-bold text-slate-700 text-center">Sales Chart</h3>
-                    </div>
-
+                        <div class=" text-sm">
+                            <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
+                            <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
+                            <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3><br>
+                            <h3 class="font-bold text-slate-700 text-center">Sales Chart</h3>
+                        </div>
+                </div>
+                <div class="w-full px-5 py-4">
+                    <canvas id="monthlySalesChart" width="200" height="80"></canvas>
                 </div>
             </div>
-            <div class="w-full px-5 py-4 ">
-                <canvas id="monthlySalesChart" width="200" height="80"/>
+            <div class="bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
+                <p class="text-center text-xl font-bold text-gray-900 py-6">No Sales Chart yet.</p>
             </div>
         </div>
-        <div class="bg-white p-6 rounded shadow flex justify-center text-justify">
-
-            <p>In a review of our recent sales performance, it is important to note that we experienced a decline in sales this month compared to the previous month. While last month's sales figures stood at an impressive {{ lastMonthTotalSales }}, this month's numbers show a decrease to {{ thisMonthTotalSales  }}. This dip in sales is a clear signal that we need to evaluate our sales strategies and market conditions to identify factors contributing to this decline. It is crucial to address these challenges proactively and make data-driven decisions to ensure we get back on track and maintain our growth trajectory.</p>
-        </div>
-
     </SideBarLayout>
 </template>
