@@ -35,10 +35,20 @@ class RolesPermissionsSeeder extends Seeder
         $manage_payroll   = Permission::create (['name' =>'manage_payroll']);
         $read_payroll = Permission::create (['name' => 'read_payslip']);
         $manage_report = Permission::create (['name'=> 'manage_reports']);
+        $add_employee = Permission::create (['name'=> 'add_employee']);
+        $delete_employee = Permission::create (['name'=> 'delete_employee']);
+        $edit_employee = Permission::create (['name'=> 'edit_employee']);
+        $delete_transaction = Permission::create (['name'=> 'delete_transaction']);
+        $add_customer = Permission::create (['name'=> 'add_customer']);
+        $delete_customer = Permission::create (['name'=> 'delete_customer']);
+        $edit_customer = Permission::create (['name'=> 'edit_customer']);
+        $add_sales = Permission::create (['name'=> 'add_sales']);
+        $delete_sales = Permission::create (['name'=> 'delete_sales']);
+        // $add_sales = Permission::create (['name'=> 'add_sales']);
 
-        $permission_admin = [$manage_feeds, $manage_report,$manage_financial, $manage_pig, $manage_invoice, $read_employee, $manage_users, $permission_edit, $permission_delete,$permission_read,$manage_payroll, $permission_view];
+        $permission_admin = [$manage_feeds,$manage_financial,$add_employee,$delete_employee,$add_sales, $edit_employee ,$delete_customer, $edit_customer,$delete_transaction,$add_customer,$delete_sales, $manage_pig, $manage_invoice, $read_employee, $manage_users, $permission_edit, $permission_delete,$permission_read,$manage_payroll, $permission_view];
         $permission_employee = [$read_payroll];
-        $permission_specialEmployee = [$manage_feeds, $manage_pig, $manage_invoice, $permission_create,$read_payroll, $permission_view];
+        $permission_specialEmployee = [$manage_feeds, $add_sales,$manage_pig, $manage_invoice, $permission_create,$read_payroll, $permission_view,$add_customer];
         $permission_owner =[$manage_report, $read_employee, $permission_read, $permission_view];
 
         $role_admin->syncPermissions($permission_admin);

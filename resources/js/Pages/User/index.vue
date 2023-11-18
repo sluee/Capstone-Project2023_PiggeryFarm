@@ -12,7 +12,7 @@
     let deleteForm = useForm({});
 
     let props = defineProps({
-        users:Array,
+        users:Object,
         filters:Object
 
     })
@@ -137,11 +137,11 @@
                                             :class="{
                                                 'bg-green-200 text-green-600':user.status == 1,
                                                 'bg-red-200 text-red-600' :user.status == 0,
-                                                
+
                                             }"
                                         >{{ user.status === 1 ? 'Active' : 'Inactive' }}</span>
                                     </td>
-                                    
+
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
 

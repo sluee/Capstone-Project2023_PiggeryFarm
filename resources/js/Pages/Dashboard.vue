@@ -25,44 +25,49 @@ import Chart from 'chart.js/auto';
     const currentMonthSalesChart = ref(null);
 
     watch(() => props.currentMonthSales, () => {
-      if (currentMonthSalesChart.value) {
+    if (currentMonthSalesChart.value) {
         currentMonthSalesChart.value.destroy(); // Destroy the existing chart if it exists
-      }
+    }
 
-      createChart();
+    createChart();
     });
 
     function createChart() {
-      if (!props.currentMonthSales) {
+    const ctx = document.getElementById('currentMonthSalesChart').getContext('2d');
+
+    // Check if there are no sales data
+    if (!props.currentMonthSales || props.currentMonthSales.length === 0) {
+        // You can handle this case by displaying a message or taking any other action
+        console.warn('No sales data available.');
         return;
-      }
+    }
 
-      const ctx = document.getElementById('currentMonthSalesChart').getContext('2d');
-
-      const monthNames = [
+    const monthNames = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
-        ];
-      currentMonthSalesChart.value = new Chart(ctx, {
+    ];
+
+    currentMonthSalesChart.value = new Chart(ctx, {
         type: 'bar',
         data: {
-             labels: props.currentMonthSales.map(item => `${monthNames[item.month - 1]} ${item.year}`),
-            datasets: [
-                {
-                    label: `Total Sales of ${monthNames[props.currentMonthSales[0].month - 1]}`, // Display the month name
-                    data: props.currentMonthSales.map(item => item.total_sales),
-                    backgroundColor: 'rgba(39,150,248,0.68)',
-                    borderColor: 'rgba(23, 68, 88, 1)',
-                    borderWidth: 1,
-                },
-            ],
+        labels: props.currentMonthSales.map(item => `${monthNames[item.month - 1]} ${item.year}`),
+        datasets: [
+            {
+            label: `Total Sales of ${monthNames[props.currentMonthSales[0].month - 1]}`, // Display the month name
+            data: props.currentMonthSales.map(item => item.total_sales),
+            backgroundColor: 'rgba(39,150,248,0.68)',
+            borderColor: 'rgba(23, 68, 88, 1)',
+            borderWidth: 1,
+            },
+        ],
         },
-      });
+    });
     }
 
     onMounted(() => {
-      createChart();
+    createChart();
     });
+
 
     const isPositiveChange = computed(() => {
       return props.percentageChange !== null && props.percentageChange > 0;
@@ -150,7 +155,10 @@ import Chart from 'chart.js/auto';
                           </div>
                       </div>
                       <div id="main-chart">
-                            <canvas id="currentMonthSalesChart"></canvas>
+                        <canvas id="currentMonthSalesChart"></canvas>
+                        <div v-if="!currentMonthSales">
+                          No sales data available this month.
+                        </div>
                       </div>
                    </div>
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">

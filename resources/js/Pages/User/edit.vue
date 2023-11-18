@@ -12,8 +12,6 @@
         currentRole:String
 
     })
-    // import Multiselect from 'vue-multiselect'
-    // const { data } = usePage().props;
     let form = useForm({
         lastName: props.user.lastName,
         firstName:props.user.firstName,
@@ -24,11 +22,11 @@
         status:props.user.status,
         gender:props.user.gender,
         type: props.user.type,
-        role: props.user.roles.map((role) => role.name),       
+        role: props.user.roles.map((role) => role.name),
         address:props.user.address,
         phone: props.user.phone,
         pos_id: props.user.employee ? props.user.employee.position.id : null,
-        
+
     })
 
     const localStorageKeyToggle = `toggleState_${props.user.id}`;
@@ -58,12 +56,12 @@
     onMounted(() => {
         const selectRole = document.getElementById('select-role');
 
-  if (selectRole) {
-    new TomSelect(selectRole, {
-      maxItems: 3,
+    if (selectRole) {
+        new TomSelect(selectRole, {
+        maxItems: 3,
+        });
+    }
     });
-  }
-});
 
     const submit = () =>{
         form.put('/users/'+props.user.id)
@@ -137,13 +135,13 @@
                             </div>
                           </div>
 
-                         
+
                           <div class="m:col-span-1">
                             <!-- <p>Current Role: {{ user.roles.map(role => role.name).join(', ') }}</p> -->
                             <label for="roles" class="block text-sm font-medium leading-6 text-gray-900">Roles</label>
-                           
+
                               <div class="mt-2">
-  
+
                                   <select
                                       id="select-role"
                                       name="role[]"
@@ -152,13 +150,13 @@
                                       autocomplete="off"
                                       v-model="form.role"
                                       class="block w-full rounded-sm cursor-pointer focus:outline-none"
-  
+
                                       >
                                       <option selected disabled>Select role</option>
                                       <option  v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
-  
+
                                   </select>
-                                 
+
                               <div class="text-sm text-red-500 italic" v-if="form.errors.role">{{ form.errors.role }}</div>
                             </div>
                           </div>
@@ -195,7 +193,7 @@
                               <div class="text-sm text-red-500 italic" v-if="form.errors.pos_id">{{ form.errors.pos_id }}</div>
                             </div>
                           </div>
-                          
+
                           <div class="sm:col-span-1">
                             <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div class="mt-2">

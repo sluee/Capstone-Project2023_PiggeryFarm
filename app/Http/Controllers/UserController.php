@@ -33,7 +33,7 @@ class UserController extends Controller
 
     public function create(){
         $position = Position::all();
-        
+
         return inertia('User/create', [
             'roles' => Role::all(),
             'permissions' => Permission::all(),
@@ -56,7 +56,7 @@ class UserController extends Controller
             'password' => 'required',
             'role' => 'required', // Include 'role' in validation
         ]);
-        
+
         $data['password'] = bcrypt($data['password']); // Hash the password
 
         unset($data['role']);
@@ -85,11 +85,11 @@ class UserController extends Controller
     }
 
     public function edit(User $user){
-        
+
         $user->load('employee.position','roles')->where('user_id', $user->id);
         $position = Position::all();
         $roles = Role::all();
-        
+
         return inertia('User/edit', [
             'user' => $user,
             'roles' => $roles,
@@ -97,10 +97,10 @@ class UserController extends Controller
             'currentRole' => $user->roles->first()->name,
         ]);
     }
-    
+
 
     public function update(Request $request, User $user){
-       
+
         $data = $request->validate([
             'lastName' => 'required|string',
             'firstName' => 'required|string',
@@ -115,41 +115,44 @@ class UserController extends Controller
             'role' => 'required',
             'status' => 'required',
         ]);
-    
+
         if (isset($data['password']) && $data['password'] !== null) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']); // Remove the "password" field from the data array
         }
-    
+
         // Use a database transaction for data consistency
         DB::transaction(function () use ($user, $data, $request) {
             $user->update($data);
-    
+
             // Simplify role syncing
             $user->syncRoles([$data['role'], $data['type']]);
-    
-            if ($data['type'] === 'Employee') {
-                // If the user type is 'Employee', update or create the employee record
-                $pos_id = $request->input('pos_id');
-    
-                $employee = $user->employee;
-    
-                if ($employee) {
-                    // If the employee record already exists, update it
-                    $employee->pos_id = $pos_id;
-                    $employee->save();
-                } else {
-                    // If the employee record does not exist, create a new one
-                    $employee = new Employee(['pos_id' => $pos_id]);
-                    $user->employee()->save($employee);
-                }
+
+         // ...
+        if (in_array($data['type'], ['Owner', 'employee', 'Admin'])) {
+            // If the user type is one of the specified types ('Employee', 'Owner', 'Admin'),
+            // update or create the employee record
+            $pos_id = $request->input('pos_id');
+            $employee = $user->employee;
+
+            if ($employee) {
+                // If the employee record already exists, update it
+                $employee->pos_id = $pos_id;
+                $employee->save();
             } else {
-                // If the user type is not 'Employee', delete the employee record if it exists
-                // $user->employee()->delete();
+                // If the employee record does not exist, create a new one
+                $employee = new Employee(['pos_id' => $pos_id]);
+                $user->employee()->save($employee);
             }
+        } else {
+            // If the user type is not one of the specified types, delete the employee record if it exists
+            $user->employee()->delete();
+        }
+// ...
+
         });
-    
+
         return redirect()->route('user.index');
     }
 
