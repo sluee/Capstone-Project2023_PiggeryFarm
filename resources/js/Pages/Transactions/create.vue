@@ -71,7 +71,7 @@ function submit() {
                 <div class="container mx-auto mt-2">
                     <div class="  mb-7">
                         <div class="flex justify-center mb-2">
-                            <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                            <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
                             <div class=" text-sm">
                                 <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
                                 <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>

@@ -44,7 +44,7 @@
             <div v-if="payrollItem">
                 <div class=" flex items-center justify-center px-4 w-[100%]" >
                 <div class="relative mb-6 sm:w-1/2 rounded-lg bg-white p-6 ">
-                    <img src="/images/logo.jpeg" class="h-16 rounded-full  mx-auto" alt="RQR Piggery Farm, Inc.">
+                    <img src="/images/logo.png" class="h-16 rounded-full  mx-auto" alt="RQR Piggery Farm, Inc.">
                     <div class="text-center">
                         <strong>RQR Piggey Farm Inc. | Saint Agustine Piggery Farm Inc</strong><br>
                         Pondol, San Agustin, Sagbayan, Bohol<br>

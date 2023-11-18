@@ -4,7 +4,7 @@
     import moment from 'moment'
     import { ref} from 'vue';
     import Breadcrumb from '@/Components/Breadcrumbs.vue';
- 
+
 
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
@@ -41,7 +41,7 @@
         <!-- <template #header >
             <div class="flex justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">View Payroll</h2>
-                
+
                 <div class="flex">
                     <Link class="button1 mb-2 py-2 px-3 bg-blue-300 shadow border-gray-300 border hover:bg-blue-400 rounded mr-3" as="button" href="/payroll/create">Create Payroll</Link>
                     <a :href="'/payroll/pdf/'+payroll.id" class="flex  mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3 " target="blank">
@@ -67,7 +67,7 @@
                         <div class="bg-[white] rounded-b-md">
                             <div class=" mt-3 mb-3">
                                 <div class="flex justify-center mb-2">
-                                    <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                                    <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
                                     <div class=" text-sm">
                                         <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
                                         <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
@@ -148,7 +148,7 @@
                                        </td>
                                         <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
                                              {{ payItem.totalBasicPay }}
-                                             
+
                                         </td>
                                         <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
                                              {{ payItem.overtimeHours }}
@@ -175,7 +175,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="10">Total</td>
-                                      
+
                                         <td> ₱ {{ payroll.total_net_amount }}</td>
                                     </tr>
                                 </tbody>

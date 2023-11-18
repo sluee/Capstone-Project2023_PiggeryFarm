@@ -61,14 +61,14 @@ defineProps({
         <div
           class="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center">
         </div>
-        
+
         <div class="max-w-7xl py-12 mx-auto px-6 md:px-12 xl:px-6 ">
             <div class="relative">
 
                 <div class="flex items-center justify-center -space-x-2">
                     <img loading="lazy" width="400" height="400" src="https://img.freepik.com/free-vector/pig-cartoon-character-logo-pork-products_1308-109964.jpg?w=900&t=st=1700189405~exp=1700190005~hmac=afda7a72095fc50e1b4b12a47d40908622c536cfeef2a0f65b812192ea02c641" alt="member photo" class="h-8 w-8 rounded-full object-cover">
                     <img loading="lazy" width="200" height="200" src="https://img.freepik.com/free-vector/cute-pig-sitting-cartoon-vector-icon-illustration-animal-nature-icon-concept-isolated-premium-flat_138676-7818.jpg?w=740&t=st=1700189502~exp=1700190102~hmac=e6dca052a0df6ff99a014e989d436f891565623c086659072a8f99006a183c21" alt="member photo" class="h-12 w-12 rounded-full object-cover">
-                    <img loading="lazy" width="200" height="200" src="/images/logo.jpeg" alt="member photo" class="z-10 h-20 w-20 rounded-full object-cover">
+                    <img loading="lazy" width="200" height="200" src="/images/logo.png" alt="member photo" class="z-10 h-20 w-20 rounded-full object-cover">
                     <img loading="lazy" width="200" height="200" src="https://img.freepik.com/free-vector/cute-pig-standing-cartoon-vector-icon-illustration-animal-nature-icon-concept-isolated-premium-flat_138676-7292.jpg?w=740&t=st=1700189448~exp=1700190048~hmac=09f645ca630c87e9ea2174eb9dec2f6f494154860c44441e6f512e4787523953" alt="member photo" class="relative h-12 w-12 rounded-full object-cover">
                     <img loading="lazy" width="200" height="200" src="https://img.freepik.com/free-vector/cute-pig-summer-waving-hand-cartoon-vector-icon-illustration-animal-holiday-icon-concept-isolated_138676-7161.jpg?w=740&t=st=1700189473~exp=1700190073~hmac=80f292dcdb5ef481f85cdf4c8ded007bc3f8e4ab5b1aaca6b5d9fa021c8bb086" alt="member photo" class="h-8 w-8 rounded-full object-cover">
                 </div>
@@ -84,16 +84,16 @@ defineProps({
                         :href="route('login')"
                         class="relative flex h-12 w-full items-center justify-center px-10 before:absolute before:inset-0 before:rounded-full before:bg-white before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max">
                         <span class="relative text-base font-semibold text-blue-700 dark:text-dark">Login</span>
-                        
+
                         </Link>
                         <!-- <Link
                         :href="route('login')"
                         class="relative flex h-12 w-full items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:bg-teal-500 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max">
                         <span class="relative text-base font-semibold text-white dark:text-dark">Login</span>
-                        
+
                         </Link> -->
-                     
-                      
+
+
                     </div>
                 </div>
             </div>

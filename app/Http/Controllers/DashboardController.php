@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boar;
+use App\Models\Breeding;
 use App\Models\Employee;
+use App\Models\Labor;
 use App\Models\Sale;
 use App\Models\Sow;
+use App\Models\Weaning;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,6 +65,40 @@ class DashboardController extends Controller
         if ($previousMonthSales && $previousMonthSales->total_sales != 0) {
             $percentageChange = (($totalAmountAllSales - $previousMonthSales->total_sales) / $previousMonthSales->total_sales) * 100;
         }
+
+        $now = Carbon::now();
+        $month = $now->month;
+        $year = $now->year;
+
+        // Count breeding records for the current month
+        $breedingCounts = Breeding::whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->whereIn('remarks', ['Reheat', 'Abort', 'Laboring'])
+        ->selectRaw('remarks, count(*) as count')
+        ->groupBy('remarks')
+        ->get();
+
+    // Extract counts for each remark
+        $breedingCountReheat = $breedingCounts->firstWhere('remarks', 'Reheat')->count ?? 0;
+        $breedingCountAbort = $breedingCounts->firstWhere('remarks', 'Abort')->count ?? 0;
+        $breedingCountLabor = $breedingCounts->firstWhere('remarks', 'Laboring')->count ?? 0;
+
+        // Count all breeding records for the current month
+        $breedingCountTotal = Breeding::whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->count();
+        // Count labor records for the current month
+        $laborCount = Labor::whereMonth('created_at', $month)->whereYear('created_at', $year)->count() ?? 0;
+        $totalNoPigsAlive = Labor::whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->sum('no_pigs_alive');
+
+        // Count weaning records for the current month
+        $weaningCount = Weaning::whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
+        $totalNoPigsWeaned = Weaning::whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->sum('no_of_pigs_weaned');
+
         return inertia('Dashboard',[
             'sales' => $sales,
             'totalAmountAllSales' => $totalAmountAllSales,
@@ -69,7 +106,15 @@ class DashboardController extends Controller
             'employeeCount' => $employeeCount,
             'pigsCount' => $pigsCount,
             'currentMonthSales' => $currentMonthSales,
-            'percentageChange' => $percentageChange
+            'percentageChange' => $percentageChange,
+            'breedingCountReheat' =>$breedingCountReheat,
+            'breedingCountAbort' =>$breedingCountAbort,
+            'breedingCountLabor' =>$breedingCountLabor,
+            'breedingCountTotal'=>$breedingCountTotal,
+            'laborCount' => $laborCount,
+            'totalNoPigsAlive'=> $totalNoPigsAlive,
+            'weaningCount' => $weaningCount,
+            'totalNoPigsWeaned' => $totalNoPigsWeaned
 
         ]);
     }

@@ -145,6 +145,7 @@ function formattedDate(date){
 function submit() {
     form.post('/positions/');
     form.position=''
+    form.rate=''
 
 }
 

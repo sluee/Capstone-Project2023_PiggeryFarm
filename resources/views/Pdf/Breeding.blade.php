@@ -28,7 +28,7 @@
     <body>
         <div style="text-align: center; padding-bottom: 12pt; border-bottom: 2px solid #333">
 
-            <img src="{{ public_path('images/logo.jpeg') }}" style="height: 70px; border-radius: 50px; float: left; margin-right: 10px;" alt="RQR Piggery Farm, Inc.">
+            <img src="{{ public_path('/images/logo.png') }}" style="height: 70px; border-radius: 50px; float: left; margin-right: 10px;" alt="RQR Piggery Farm, Inc.">
             <div style="text-align: left;">
                 <strong>RQR Piggey Farm Inc. | Saint Agustine Piggery Farm Inc </strong> <br>
                 Pondol, San Agustin, Sagbayan, Bohol <br>

@@ -3,14 +3,14 @@
     <Head title="Financial Liquidation Charts" />
 
     <SideBarLayout>
-       
+
         <div class="w-full px-5 py-4">
             <div class="h-12">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                   
+
                     <div class="  mb-7">
                         <div class="flex justify-center mb-2">
-                            <div><img src="/images/logo.jpeg" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                            <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
                             <div class=" text-sm">
                                 <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
                                 <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
@@ -23,7 +23,7 @@
                     <div v-if="monthlyFinancial">
                         <canvas ref="chartRef" width="200" height="80"></canvas>
 
-                        
+
                       </div>
                       <div v-else>
                         Loading...
@@ -53,13 +53,13 @@ function formattedDate(date){
  const props = defineProps({
     monthlyFinancial:Object
  })
- 
+
     const chartRef = ref(null);
 
     onMounted(() => {
   if (chartRef.value) {
     const ctx = chartRef.value.getContext('2d');
-    
+
     if (!props.monthlyFinancial || !Array.isArray(props.monthlyFinancial)) {
       console.error('Invalid monthlyFinancial data format');
       return;
@@ -76,7 +76,7 @@ function formattedDate(date){
             year: 'numeric',
             month: 'long', // You can use 'short' or 'numeric' depending on your preference
           });
-          
+
           return formattedDate;
         }),
         datasets: [{

@@ -139,7 +139,7 @@
                                                 'bg-red-200 text-red-600' :user.status == 0,
 
                                             }"
-                                        >{{ user.status === 1 ? 'Active' : 'Inactive' }}</span>
+                                        >{{ user.status === 0 ? 'Inactive' : 'Active' }}</span>
                                     </td>
 
                                     <td class="py-3 px-6 text-center">

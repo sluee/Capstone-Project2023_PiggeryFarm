@@ -13,7 +13,15 @@ import Chart from 'chart.js/auto';
         employeeCount:Number,
         pigsCount:Number,
         currentMonthSales :Array,
-        percentageChange:Number
+        percentageChange:Number,
+        breedingCountReheat:Number,
+        breedingCountAbort:Number,
+        breedingCountLabor:Number,
+        breedingCountTotal:Number,
+        laborCount:Number,
+        weaningCount:Number,
+        totalNoPigsAlive:Number,
+        totalNoPigsWeaned:Number
         // totalPigs: Number, // Assuming you have a totalPigs prop
         // totalWeight: Number,
     });
@@ -226,6 +234,151 @@ import Chart from 'chart.js/auto';
                    </div>
                 </div>
             </div>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        
+                        <div class="bg-blue-100 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                            <a :href="route('breeding.index')">
+                                <div
+                                  class="flex items-center space-x-4 p-3.5 rounded-full "
+                                >
+                                  <span
+                                    class="flex items-center justify-center w-10 h-10 shrink-0 rounded-full bg-white text-gray-900"
+                                  >
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                                    </svg>
+
+                                  </span>
+                                  <div class="flex flex-col flex-1">
+                                    <h3 class="text-xl font-medium">Breeding <span class="inline-block px-3 text-sm leading-none text-gray-600 font-normal  first:pl-0"> | Sow Breed: {{breedingCountTotal }}</span></h3>
+                                    <div class="divide-x divide-blue-900 mt-auto">
+                                      <span
+                                        class="inline-block px-3 text-xs leading-none text-gray-600 font-normal first:pl-0"
+                                        >{{breedingCountReheat}} Reheat</span
+                                      >
+                                      <span
+                                        class="inline-block px-3 text-xs leading-none text-gray-600 font-normal first:pl-0"
+                                        >{{breedingCountLabor}} Labor</span
+                                      >
+                                      <span
+                                        class="inline-block px-3 text-xs leading-none text-gray-600 font-normal first:pl-0"
+                                        >{{breedingCountLabor}} Abort</span
+                                      >
+                                    </div>
+                                  </div>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5 shrink-0"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  >
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M9 6l6 6l-6 6"></path>
+                                  </svg>
+                                </div>
+                              </a>
+                        </div>
+                        <div class="bg-blue-100 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                            <a :href="route('labor.index')">
+                                <div
+                                  class="flex items-center space-x-4 p-3.5 rounded-full"
+                                >
+                                  <span
+                                    class="flex items-center justify-center w-10 h-10 shrink-0 rounded-full bg-white text-gray-900"
+                                  >
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+                                    </svg>
+      
+                                  </span>
+                                  <div class="flex flex-col flex-1">
+                                    <h3 class="text-xl font-medium">Labor</h3>
+                                    <div class="divide-x divide-blue-900 mt-auto">
+                                      <span
+                                        class="inline-block px-3 text- leading-none text-gray-600 font-normal first:pl-0"
+                                        >{{ laborCount }} Labored</span
+                                      >
+                                      <span
+                                        class="inline-block px-3 text-xs leading-none text-gray-600 font-normal first:pl-0"
+                                        >Piglet Alive: {{ totalNoPigsAlive }}</span
+                                      >
+                                    </div>
+                                  </div>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5 shrink-0"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  >
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M9 6l6 6l-6 6"></path>
+                                  </svg>
+                                </div>
+                              </a>
+                        </div>
+                        <div class="bg-blue-100 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                            <a :href="route('weaning.index')">
+                                <div
+                                  class="flex items-center space-x-4 p-3.5 rounded-full"
+                                >
+                                  <span
+                                    class="flex items-center justify-center w-10 h-10 shrink-0 rounded-full bg-white text-gray-900"
+                                  >
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                                    </svg>
+      
+                                  </span>
+                                  <div class="flex flex-col flex-1">
+                                    <h3 class="text-xl font-medium">Weaning</h3>
+                                    <div class="divide-x divide-blue-900 mt-auto">
+                                      <span
+                                        class="inline-block px-3 text-xs leading-none text-gray-600 font-normal first:pl-0"
+                                        >{{ weaningCount }} Weaned</span
+                                      >
+                                      <span
+                                        class="inline-block px-3 text-xs leading-none text-gray-600 font-normal first:pl-0"
+                                        >Piglet Weaned: {{ totalNoPigsWeaned }}</span
+                                      >
+                                    </div>
+                                  </div>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5 shrink-0"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  >
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M9 6l6 6l-6 6"></path>
+                                  </svg>
+                                </div>
+                              </a>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            
+
 
         </div>
 
