@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
@@ -67,7 +68,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return Inertia('Employee/show');
     }
 
     /**
