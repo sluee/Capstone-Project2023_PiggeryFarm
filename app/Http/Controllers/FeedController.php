@@ -27,8 +27,6 @@ class FeedController extends Controller
             'categories' => $categories,
         ]);
 
-
-
     }
 
     /**
@@ -46,8 +44,8 @@ class FeedController extends Controller
     {
         $fields = $request->validate([
             'cat_id' => 'required|numeric|exists:categories,id',
-            'qty'    => 'required',
-            'sup_id' => 'required|numeric|exists:suppliers,id',
+            'sup_id'    => 'required|numeric|exists:suppliers,id',
+            
         ]);
 
         // Retrieve the associated category

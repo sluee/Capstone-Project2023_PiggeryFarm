@@ -15,7 +15,7 @@
                                 <h3 class="font-bold text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
                                 <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
                                 <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3><br>
-                                <h3 class="font-bold text-slate-700 text-center">Financial Liquidation Chart</h3>
+                                <h3 class="font-bold text-slate-700 text-center">Financial Liquidation Chart for {{ currentYear }}</h3>
                             </div>
 
                         </div>
@@ -51,7 +51,8 @@ function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
 }
  const props = defineProps({
-    monthlyFinancial:Object
+    monthlyFinancial:Object,
+    currentYear:Number
  })
 
     const chartRef = ref(null);

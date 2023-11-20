@@ -26,6 +26,7 @@ class RolesPermissionsSeeder extends Seeder
         $manage_users = Permission::create(['name' =>'manage_users']);
         $read_employee = Permission::create(['name' =>'read_users']);
         $manage_financial = Permission::create (['name' =>'manage_finance']);
+        // $read_financial = Permission::create (['name' =>'read_finance']);
         $permission_read = Permission::create(['name' => 'read_invoice']);
         $manage_invoice = Permission::create(['name' =>'manage_invoice']);
         $permission_create = Permission::create(['name' => 'create_invoice']);
@@ -39,17 +40,18 @@ class RolesPermissionsSeeder extends Seeder
         $delete_employee = Permission::create (['name'=> 'delete_employee']);
         $edit_employee = Permission::create (['name'=> 'edit_employee']);
         $delete_transaction = Permission::create (['name'=> 'delete_transaction']);
+        $manage_sales = Permission::create (['name'=> 'manage_sales']);
         $add_customer = Permission::create (['name'=> 'add_customer']);
         $delete_customer = Permission::create (['name'=> 'delete_customer']);
         $edit_customer = Permission::create (['name'=> 'edit_customer']);
         $add_sales = Permission::create (['name'=> 'add_sales']);
         $delete_sales = Permission::create (['name'=> 'delete_sales']);
-        // $add_sales = Permission::create (['name'=> 'add_sales']);
+        $view_sales = Permission::create (['name'=> 'view_sales']);
 
-        $permission_admin = [$manage_feeds,$manage_financial,$add_employee,$delete_employee,$add_sales, $edit_employee ,$delete_customer, $edit_customer,$delete_transaction,$add_customer,$delete_sales, $manage_pig, $manage_invoice, $read_employee, $manage_users, $permission_edit, $permission_delete,$permission_read,$manage_payroll, $permission_view];
+        $permission_admin = [$manage_sales,$manage_feeds,$manage_financial,$add_employee,$delete_employee,$add_sales, $edit_employee ,$delete_customer, $edit_customer,$delete_transaction, $view_sales ,$add_customer,$delete_sales, $manage_pig, $manage_invoice, $read_employee, $manage_users, $permission_edit, $permission_delete,$permission_read,$manage_payroll, $permission_view];
         $permission_employee = [$read_payroll];
-        $permission_specialEmployee = [$manage_feeds, $add_sales,$manage_pig, $manage_invoice, $permission_create,$read_payroll, $permission_view,$add_customer];
-        $permission_owner =[$manage_report, $read_employee, $permission_read, $permission_view];
+        $permission_specialEmployee = [$manage_feeds, $manage_sales,$add_sales,$manage_pig, $manage_invoice, $permission_create,$read_payroll, $permission_view,$add_customer ];
+        $permission_owner =[$manage_sales,$manage_report, $read_employee, $permission_read, $permission_view, $manage_financial, $view_sales ];
 
         $role_admin->syncPermissions($permission_admin);
         $role_employee->syncPermissions($permission_employee);

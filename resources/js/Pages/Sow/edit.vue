@@ -1,14 +1,15 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm  } from '@inertiajs/vue3';
+
+    const props = defineProps({
+        sows:Object
+    })
     const form = useForm({
         sow_no: props.sows.sow_no,
         location: props.sows.location,
         date_arrived: props.sows.date_arrived,
 
-    })
-    const props = defineProps({
-        sows:Object
     })
     function submit() {
         form.put('/sows/' +props.sows.id)

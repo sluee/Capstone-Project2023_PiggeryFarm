@@ -9,7 +9,7 @@ class Feed extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cat_id', 'qty', 'sup_id',];
+    protected $fillable = ['cat_id', 'qty','sup_id',];
 
     public function categories(){
         return $this->belongsTo(Category::class ,'cat_id');

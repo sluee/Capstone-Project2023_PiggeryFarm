@@ -13,8 +13,6 @@
 
     });
 
-
-
     const form = useForm({
     breed_id:props.labors.breed_id,
     parity_no:props.labors.parity_no,

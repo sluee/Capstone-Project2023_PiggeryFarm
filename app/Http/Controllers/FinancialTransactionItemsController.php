@@ -12,14 +12,17 @@ class FinancialTransactionItemsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $monthlyFinancial = FinancialTransaction::select('date', 'totalCashBalance') // Adjust column names as per your schema
-        ->get();
+    public function index(){
+        $currentYear = now()->year; // Get the current year
+
+        $monthlyFinancial = FinancialTransaction::whereYear('date', $currentYear)
+            ->select('date', 'totalCashBalance') // Adjust column names as per your schema
+            ->get();
+
         return inertia('Transactions/chart', [
-            'monthlyFinancial' => $monthlyFinancial
+            'monthlyFinancial' => $monthlyFinancial,
+            'currentYear' => $currentYear,
         ]);
-    
     }
 
     /**
@@ -42,14 +45,14 @@ class FinancialTransactionItemsController extends Controller
             'particulars.*.credit' => 'nullable|numeric',
             'particulars.*.balance' => 'nullable|numeric',
         ]);
-    
+
         $transaction = FinancialTransaction::create([
             'totalCashBalance' => $request->input('totalCashBalance'),
             'remarks' => $request->input('remarks'),
         ]);
-    
+
         $transactionItems = [];
-    
+
         foreach ($data['particulars'] as $particularData) {
             $transactionItems[] = new FinancialTransactionItems([
                 'fin_id' => $particularData['fin_id'],
@@ -58,14 +61,14 @@ class FinancialTransactionItemsController extends Controller
                 'balance' => $particularData['balance'],
             ]);
         }
-    
+
         $transaction->financialItems()->saveMany($transactionItems);
-    
+
         return redirect('/transactions')->with('success', 'Financial Transaction Added Successfully');
     }
-    
 
-    
+
+
 
 
     /**

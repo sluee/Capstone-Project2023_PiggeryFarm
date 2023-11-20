@@ -1,6 +1,9 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm  } from '@inertiajs/vue3';
+    const props = defineProps({
+        boars:Object
+    })
     const form = useForm({
         boar_no: props.boars.boar_no,
         breed: props.boars.breed,
@@ -8,9 +11,7 @@
         date_arrived: props.boars.date_arrived,
 
     })
-    const props = defineProps({
-        boars:Object
-    })
+
     function submit() {
         form.put('/boars/' +props.boars.id)
     }

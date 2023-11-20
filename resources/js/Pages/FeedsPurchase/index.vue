@@ -237,7 +237,7 @@ const closeAddItemModal = () => {
 };
 
 const addItem = () => {
-    form.post('/feeds-consumption/');
+    form.post('/feeds-purchase/');
     form.reset();
     closeAddItemModal();
 };

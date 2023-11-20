@@ -16,19 +16,27 @@ class SaleHistoryController extends Controller
      */
     public function index()
     {
-        $monthlySales = DB::table('sales')
-        ->select(DB::raw('MONTH(created_at) as month'), DB::raw('YEAR(created_at) as year'), DB::raw('SUM(total_amount) as total_sales'))
-        ->groupBy('year', 'month')
-        ->get();
+        $yearlySales = DB::table('sales')
+            ->select(DB::raw('YEAR(created_at) as year'), DB::raw('SUM(total_amount) as total_sales'))
+            ->groupBy('year')
+            ->get();
 
+        $currentYear = now()->year; // Get the current year
+
+        $monthlySales = DB::table('sales')
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('YEAR(created_at) as year'), DB::raw('SUM(total_amount) as total_sales'))
+            ->whereYear('created_at', $currentYear) // Filter by the current year
+            ->groupBy('year', 'month')
+            ->get();
 
         // Handle the case where no recent transaction is found
         return inertia('SalesHistory/chart', [
-            'monthlySales' => $monthlySales, // or any other default value or message
+            'yearlySales' => $yearlySales,
+            'monthlySales' => $monthlySales,
+            'currentYear' =>$currentYear
         ]);
-
-
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -50,12 +50,18 @@ class ConsumptionController extends Controller
     {
         $fields = $request->validate([
             'feed_id' => 'required|numeric|exists:feeds,id',
-            'qty'    => 'required',
+            'qty'    => 'required|numeric|min:1',
             'date' =>'required'
         ]);
 
         // Retrieve the associated feed with the category loaded
+       // Retrieve the associated feed with the category loaded
         $feed = Feed::with('categories')->findOrFail($fields['feed_id']);
+
+        // Check if the consumption quantity is greater than the available feed quantity
+        if ($fields['qty'] > $feed->qty) {
+            return redirect('/feeds-consumption')->with('error', 'Error: Consumption quantity exceeds available feed quantity');
+        }
 
         // Create the FeedPurchase model with the calculated totalAmount
         Consumption::create($fields);

@@ -225,11 +225,11 @@ const crumbs = [
         url: '/boars',
         active: false,
     },
-    // {
-    //     name:  "Showing Boar #"+ props.boar.id ,
-    //     url: null,
-    //     active: true,
-    // },
+    {
+        name:  "Showing Boar #"+ props.boar.id ,
+        url: null,
+        active: true,
+    },
     ]
 function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');

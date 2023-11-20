@@ -33,22 +33,18 @@
                             <div class="px-4 py-5">
 
                                 <label class="font-semibold text-sm text-gray-600  block" for="cat_id">Category Name</label>
-                                <select name="" id="cat_id" v-model="form.cat_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                <select name="category" id="cat_id" v-model="form.cat_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
                                     <option value="" disabled>Select Category</option>
                                     <option v-for="cat in categories" :value="cat.id" :key="cat.id" >{{ cat.name }}</option>
                                 </select>
                                 <div class="text-red-600" v-if="form.errors.cat_id">{{ form.errors.cat_id }}</div>
 
                                 <label class="font-semibold text-sm text-gray-600  block" for="sup_id">Supplier Name</label>
-                                <select name="" id="sup_id" v-model="form.sup_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                <select name="supplier" id="sup_id" v-model="form.sup_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
                                     <option value="" disabled>Select Supplier</option>
                                     <option v-for="sup in supplier" :value="sup.id" :key="sup.id" >{{ sup.name }}</option>
                                 </select>
                                 <div class="text-red-600" v-if="form.errors.sup_id">{{ form.errors.sup_id }}</div>
-
-                                <label class="font-semibold text-sm text-gray-600  block" for="qty">Initial Stocks</label>
-                                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.qty"/>
-                                <div class="text-red-600" v-if="form.errors.qty">{{ form.errors.qty }}</div>
 
                                 <button  type="submit" class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
                                     Add Feeds
@@ -158,8 +154,6 @@ import moment from'moment'
 
 
 const form = useForm({
-    qty:'',
-    initialStock:'',
     cat_id:'',
     sup_id:''
 });
@@ -171,15 +165,9 @@ const props = defineProps({
 function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
 }
-// function search(ev){
-//     router.visit('/sales/search/'+ ev.target.value);
-
-// }
-
 function submit() {
     form.post('/feeds/');
-    form.qty='',
-    form.description='',
+    form.sup_id='',
     form.cat_id=''
 }
 

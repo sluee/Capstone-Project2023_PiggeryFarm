@@ -9,8 +9,6 @@
     const props = defineProps({
         transaction : Object,
     })
-   console.log(props.transaction);
-
    const crumbs = [
         {
             name: 'Dashboard',

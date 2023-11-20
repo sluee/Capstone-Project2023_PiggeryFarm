@@ -40,8 +40,8 @@ class DashboardController extends Controller
         $totalAmountAllSales = $sales->sum('total_amount');
 
         // Optionally, you can get the year and month for reference
-        $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->month;
+        // $currentYear = Carbon::now()->year;
+        // $currentMonth = Carbon::now()->month;
 
         $employeeCount = Employee::count();
         $pigsCount = Sow::count() + Boar::count();
@@ -51,6 +51,7 @@ class DashboardController extends Controller
             ->select(DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'), DB::raw('SUM(total_amount) as total_sales'))
             ->groupBy('year', 'month')
             ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
             ->get();
         // return response()->json($currentMonthSales);
 
@@ -80,8 +81,8 @@ class DashboardController extends Controller
 
     // Extract counts for each remark
         $breedingCountReheat = $breedingCounts->firstWhere('remarks', 'Reheat')->count ?? 0;
-        $breedingCountAbort = $breedingCounts->firstWhere('remarks', 'Abort')->count ?? 0;
         $breedingCountLabor = $breedingCounts->firstWhere('remarks', 'Laboring')->count ?? 0;
+        $breedingCountAbort = $breedingCounts->firstWhere('remarks', 'Abort')->count ?? 0;
 
         // Count all breeding records for the current month
         $breedingCountTotal = Breeding::whereMonth('created_at', $month)

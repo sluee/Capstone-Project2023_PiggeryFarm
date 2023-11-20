@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('feeds', function (Blueprint $table) {
             $table->id();
-            $table->double('qty');
+            $table->double('qty')->default(0);
             $table->bigInteger('cat_id')->unsigned();
             $table->timestamps();
             $table->foreign('cat_id')->references('id')->on('categories');

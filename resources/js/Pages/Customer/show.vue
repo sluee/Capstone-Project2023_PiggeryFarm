@@ -1,12 +1,11 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
-    import Pagination from '@/Components/Pagination.vue';
     import moment from 'moment'
     import {Head, Link, router, useForm} from '@inertiajs/vue3'
     import { ref,watch } from 'vue';
     import DangerButton from '@/Components/DangerButton.vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
-    import SaleItemForm from '@/Components/SaleItemForm.vue';
+    import Breadcrumb from '@/Components/Breadcrumbs.vue';
 
     let deleteForm = useForm({ })
     const props = defineProps({
@@ -44,6 +43,24 @@
         router.visit('/customers/edit/' + props.customer.id)
     }
 
+    const crumbs = [
+    {
+        name: 'Dashboard',
+        url: '/dashboard',
+        active: false,
+    },
+    {
+        name: 'List of Customers',
+        url: '/customers',
+        active: false,
+    },
+    {
+        name:  "Showing customer #"+ props.customer.id ,
+        url: null,
+        active: true,
+    },
+    ]
+
 </script>
 <template>
     <Head title="View Customer" {{ customer.name }}/>
@@ -51,7 +68,7 @@
     <SideBarLayout>
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">View Customer</h2>
+                <Breadcrumb :crumbs="crumbs" class="mb-4" />
             </div>
 
         </template>

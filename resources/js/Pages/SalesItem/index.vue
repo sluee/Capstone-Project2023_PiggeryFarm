@@ -125,7 +125,7 @@ import { computed, ref , watch} from "vue";
       </template>
 
       <div class="px-2 mt-5">
-          <div class="p-4 mx-2">
+          <div class=" w-full p-4 mx-2">
               <div class="flex justify-start ">
                   <form @submit.prevent="submit">
                       <div>
