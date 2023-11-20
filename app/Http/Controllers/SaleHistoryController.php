@@ -19,31 +19,15 @@ class SaleHistoryController extends Controller
         $monthlySales = DB::table('sales')
         ->select(DB::raw('MONTH(created_at) as month'), DB::raw('YEAR(created_at) as year'), DB::raw('SUM(total_amount) as total_sales'))
         ->groupBy('year', 'month')
-        ->when(HttpRequest::input('search'), function ($query, $search) {
-            $query->where('remarks', 'like', '%' . $search . '%')
-                ->orWhere('no_of_pigs_weaned', 'like', '%' . $search . '%')
-                ->orWhereHas('labors.breeding.sow', function ($categoryQuery) use ($search) {
-                    $categoryQuery->where('sow_no', 'like', '%' . $search . '%');
-                })
-                ->orWhereHas('labors.breeding.boar', function ($supplierQuery) use ($search) {
-                    $supplierQuery->where('breed', 'like', '%' . $search . '%');
-                });
-        })
-        ->paginate(8)
-        ->withQueryString();
-    
-    if ($monthlySales) {
-        return inertia('SalesHistory/chart', [
-            'monthlySales' => $monthlySales,
-            'filters' => HttpRequest::only(['search']),
-        ]);
-    } else {
+        ->get();
+
+
         // Handle the case where no recent transaction is found
         return inertia('SalesHistory/chart', [
-            'monthlySales' => null, // or any other default value or message
+            'monthlySales' => $monthlySales, // or any other default value or message
         ]);
-    }
-    
+
+
     }
 
     /**

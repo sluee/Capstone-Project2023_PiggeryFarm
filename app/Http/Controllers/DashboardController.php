@@ -48,10 +48,10 @@ class DashboardController extends Controller
 
         // $currentMonth = now()->month;
         $currentMonthSales = DB::table('sales')
-        ->select(DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'), DB::raw('SUM(total_amount) as total_sales'))
-        ->groupBy('year', 'month')
-        ->whereMonth('created_at', now()->month)
-        ->get();
+            ->select(DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'), DB::raw('SUM(total_amount) as total_sales'))
+            ->groupBy('year', 'month')
+            ->whereMonth('created_at', now()->month)
+            ->get();
         // return response()->json($currentMonthSales);
 
            // Retrieve sales data for the previous month

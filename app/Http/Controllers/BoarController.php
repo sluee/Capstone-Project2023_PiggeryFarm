@@ -78,17 +78,17 @@ class BoarController extends Controller
             $query->where('boar_id', $boar->id);
         })
         ->paginate(6);
-        
-        
+
+
         return inertia('Boar/show', [
             'boar' => $boar,
             'breedings' => $breedings,
             'labors' => $labors,
             'weanings' => $weanings
-            
+
         ]);
-       
-      
+
+
     }
 
     /**

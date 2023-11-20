@@ -57,50 +57,50 @@ function formattedDate(date){
     const chartRef = ref(null);
 
     onMounted(() => {
-  if (chartRef.value) {
-    const ctx = chartRef.value.getContext('2d');
+        if (chartRef.value) {
+            const ctx = chartRef.value.getContext('2d');
 
-    if (!props.monthlyFinancial || !Array.isArray(props.monthlyFinancial)) {
-      console.error('Invalid monthlyFinancial data format');
-      return;
-    }
+            if (!props.monthlyFinancial || !Array.isArray(props.monthlyFinancial)) {
+                console.error('Invalid monthlyFinancial data format');
+                return;
+            }
 
-    const chartData = props.monthlyFinancial;
+            const chartData = props.monthlyFinancial;
 
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: chartData.map(entry => {
-          // Format the date
-          const formattedDate = new Date(entry.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long', // You can use 'short' or 'numeric' depending on your preference
-          });
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.map(entry => {
+                    // Format the date
+                    const formattedDate = new Date(entry.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long', // You can use 'short' or 'numeric' depending on your preference
+                    });
 
-          return formattedDate;
-        }),
-        datasets: [{
-          label: 'Total Cash Balance',
-          data: chartData.map(entry => entry.totalCashBalance),
-          backgroundColor: 'rgba(39,150,248,0.68)',
-          borderColor: 'rgba(23, 68, 88, 1)',
-          borderWidth: 1,
-        }],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Money on Bank', // Your desired label for the y-axis
-            },
-          },
-        },
-      },
+                    return formattedDate;
+                    }),
+                    datasets: [{
+                    label: 'Total Cash Balance',
+                    data: chartData.map(entry => entry.totalCashBalance),
+                    backgroundColor: 'rgba(39,150,248,0.68)',
+                    borderColor: 'rgba(23, 68, 88, 1)',
+                    borderWidth: 1,
+                    }],
+                },
+                options: {
+                    scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                        display: true,
+                        text: 'Money on Bank', // Your desired label for the y-axis
+                        },
+                    },
+                    },
+                },
+            });
+        }
     });
-  }
-});
 
 
 
