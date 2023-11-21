@@ -14,9 +14,15 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        
         return inertia('Customer/index',[
-            'customers' => Customer::orderBy('id')->get(),
-
+            'customers' => Customer::query()
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('address','like','%' .$search . '%');
+            })->paginate(8)
+            ->withQueryString(),
+            'filters' => HttpRequest::only(['search'])
         ]);
     }
 
@@ -56,96 +62,53 @@ class CustomerController extends Controller
      * Display the specified resource.
      */
 
-
     // public function show(Customer $customer)
     // {
-    //     $customer->load('sales')
-    //     // Load all sale items for this customer
-    //     ->when(HttpRequest::input('search'), function ($query, $search) {
-    //         $query->where('created_at', 'like', '%' . $search . '%')
-    //             ->orWhere('pen_no', 'like', '%' . $search . '%')
-    //             ->orWhere('pig_weight', 'like', '%' . $search . '%')
-    //             ->orWhere('rate', 'like', '%' . $search . '%');
-    //     })
+    //         $customer->load(['sales.salesItems'])->paginate(6);
 
-    //     ->paginate(8)
-    //     ->withQueryString();
-    //     // Access the 'total' attribute on the 'customer' object
+    //         // Calculate the total weight for each sale
+    //         $customer->sales->each(function ($sale) {
+    //             $totalWeight = $sale->salesItems->sum('pig_weight');
+    //             $sale->total = number_format($totalWeight);
+    //             $totalPigs = $sale->salesItems->count(); // Count the number of salesItems
+    //             $sale->totalPig = $totalPigs;
+    //         });
 
-    //     // $totalAmount = $total->sum('total');
+    //         $customer->sales->each(function ($sale) {
+    //             // Store the count in the 'totalPig' attribute
+    //         });
 
-    //     return inertia('Customer/show', [
-    //         'customer' => $customer,
-    //          // Pass the total to the view if needed
-    //         // 'totalAmount'=> $totalAmount,
-    //         'filters' => HttpRequest::only(['search']),
-    //     ]);
-    // }
+        
+
+    //         return inertia('Customer/show', [
+    //             'customer' => $customer,
+    //             // 'sales' => $sales,
+    //             'filters' => request()->only(['search']),
+    //         ]);
+
+    //     }
     public function show(Customer $customer)
-    {
-        $customer->load(['sales.salesItems']);
+{
+    // Paginate the sales relationship and load related items
+    $customer->sales()->with('salesItems');
+   
 
-        // Calculate the total weight for each sale
-        $customer->sales->each(function ($sale) {
-            $totalWeight = $sale->salesItems->sum('pig_weight');
-            $sale->total = number_format($totalWeight);
-        });
-
-        $customer->sales->each(function ($sale) {
-            $totalPigs = $sale->salesItems->count(); // Count the number of salesItems
-            $sale->totalPig = $totalPigs; // Store the count in the 'totalPig' attribute
-        });
-
-        $sales = Sale::query() // Or any query builder conditions you need
-        ->when(request('search'), function ($query) {
-            $search = request('search');
-            $query->where('created_at', 'like', '%' . $search . '%')
-                ->orWhere('pen_no', 'like', '%' . $search . '%')
-                ->orWhere('pig_weight', 'like', '%' . $search . '%')
-                ->orWhere('rate', 'like', '%' . $search . '%');
-        })
-        ->paginate(8)
-        ->withQueryString();
-
-        return inertia('Customer/show', [
-            'customer' => $customer,
-            'sales' => $sales,
-            'filters' => request()->only(['search']),
-        ]);
-
-    }
+    // Calculate the total weight for each sale
+    $customer->sales->each(function ($sale) {
+        $totalWeight = $sale->salesItems->sum('pig_weight');
+        $sale->total = number_format($totalWeight);
+        $totalPigs = $sale->salesItems->count(); // Count the number of salesItems
+        $sale->totalPig = $totalPigs;
+    });
+    return inertia('Customer/show', [
+        'customer' => $customer,
+        'filters' => request()->only(['search']),
+    ]);
+}
 
 
-//      public function show(Customer $customer)
-// {
-//     $query = $customer->salesItems();
 
-//     if (request()->input('search')) {
-//         $search = request()->input('search');
-//         $query->where('created_at', 'like', '%' . $search . '%')
-//             ->orWhere('pen_no', 'like', '%' . $search . '%')
-//             ->orWhere('pig_weight', 'like', '%' . $search . '%')
-//             ->orWhere('rate', 'like', '%' . $search . '%');
-//     }
 
-//     $salesItems = $query->paginate(8)
-//         ->withQueryString();
-
-//     // Calculate the total amount of salesItems
-//     $totalAmount = $salesItems->sum('total');
-
-//     // Calculate the total for each sale item
-//     foreach ($salesItems as $saleItem) {
-//         $saleItem->individualTotal = $saleItem->getTotalAttribute();
-//     }
-
-//     return inertia('Customer/show', [
-//         'customer' => $customer,
-//         'salesItems' => $salesItems,
-//         'totalAmount' => $totalAmount,
-//         'filters' => request()->only(['search']),
-//     ]);
-// }
 
 
     /**

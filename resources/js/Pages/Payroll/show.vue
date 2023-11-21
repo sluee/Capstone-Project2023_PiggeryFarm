@@ -64,7 +64,7 @@
             <div class="px-2 mt-5">
                 <div class="mx-2">
                     <div class="container mx-auto mt-2  ">
-                        <div class="bg-[white] rounded-b-md">
+                        <div class=" rounded-b-md">
                             <div class=" mt-3 mb-3">
                                 <div class="flex justify-center mb-2">
                                     <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
@@ -98,7 +98,7 @@
                             <table class="min-w-full divide-y divide-slate-500">
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal ">
-                                        <th scope="col" >
+                                        <th scope="col">
                                            Employee
                                         </th>
                                         <th scope="col" class="hidden py-2 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">
@@ -136,7 +136,7 @@
                                 </thead>
                                 <tbody>
                                     <tr class="border-b border-slate-200" v-for="payItem in nonReactivePayroll.payrollItem" :key="payItem.id">
-                                        <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
+                                        <td  class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
                                             <div class="font-medium text-slate-700 text-center">{{ payItem.employee.user.firstName }} {{ payItem.employee.user.lastName }}</div>
                                         </td>
                                         <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">

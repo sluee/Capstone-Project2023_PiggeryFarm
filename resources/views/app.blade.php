@@ -34,10 +34,16 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body style="font-family: 'DM Sans', sans-serif; background-color:#f2f4f7a4">
+    {{-- <body style="font-family: 'DM Sans', sans-serif; background-color:#f2f4f7a4">
+        @inertia
+    </body> --}}
+    <body style="font-family: 'Poppins', sans-serif; background-color:#f2f4f7a4">
         @inertia
     </body>
 </html>
-<style>
+{{-- <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&display=swap');
+  </style> --}}
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
   </style>

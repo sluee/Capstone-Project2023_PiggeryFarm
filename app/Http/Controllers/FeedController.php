@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Category;
 use App\Models\Feed;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FeedController extends Controller
 {
@@ -14,17 +15,31 @@ class FeedController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id')->get();
-        $supplier = Supplier::orderBy('id')->get();
+        $categories = Category::all();
+        $suppliers = Supplier::all();
 
-        $feeds = Feed::with('categories', 'supplier')
-            ->orderBy('id', 'asc')
-            ->get();
+
+        // $feeds = Feed::with('categories', 'supplier')
+        //     ->orderBy('id', 'asc')
+        //     ->get();
 
         return inertia('Feeds/index', [
-            'feeds' => $feeds,
-            'supplier' => $supplier,
+            
+            'supplier' => $suppliers,
             'categories' => $categories,
+            'feeds' => Feed::query()
+            ->with('categories', 'supplier')
+            ->when(HttpRequest::input('search'), function ($query, $search) {
+                $query->orWhereHas('categories', function ($categoryQuery) use ($search) {
+                    $categoryQuery->where('name', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('supplier', function ($supplierQuery) use ($search) {
+                    $supplierQuery->where('name', 'like', '%' . $search . '%');
+                });
+            })->paginate(8)
+            ->withQueryString(),
+            'filters' => HttpRequest::only(['search'])
+           
         ]);
 
     }
@@ -40,32 +55,34 @@ class FeedController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $fields = $request->validate([
-            'cat_id' => 'required|numeric|exists:categories,id',
-            'sup_id'    => 'required|numeric|exists:suppliers,id',
+    // public function store(Request $request)
+    // {
+    //     $fields = $request->validate([
+    //         'cat_id' => 'required|numeric|exists:categories,id',
+    //         'sup_id'    => 'required|numeric|exists:suppliers,id',
             
-        ]);
+    //     ]);
 
-        // Retrieve the associated category
-        // $category = Category::find($fields['cat_id']);
+    //     Feed::create($fields);
 
-        // if (!$category) {
-        //     return redirect('/feeds')->with('error', 'Invalid Category');
-        // }
+    //     return redirect('/feeds')->with('success', 'Feeds Added Successfully');
+    // }
+    public function store(Request $request)
+{
+    $fields = $request->validate([
+        'cat_id' => 'required|numeric|exists:categories,id',
+        'sup_id' => 'required|numeric|exists:suppliers,id',
+        // Add a unique rule for the combination of cat_id and sup_id
+        'cat_id' => Rule::unique('feeds')->where(function ($query) use ($request) {
+            return $query->where('sup_id', $request->sup_id);
+        }),
+    ]);
 
-        // // Calculate totalAmount using category price and feed quantity
-        // $totalAmount = $category->price * $fields['qty'];
+    Feed::create($fields);
 
-        // // Add totalAmount to the fields array
-        // $fields['totalAmount'] = $totalAmount;
+    return redirect('/feeds')->with('success', 'Feeds Added Successfully');
+}
 
-        // Create the Feed model with the calculated totalAmount
-        Feed::create($fields);
-
-        return redirect('/feeds')->with('success', 'Feeds Added Successfully');
-    }
 
 
     /**

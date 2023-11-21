@@ -36,11 +36,12 @@
                                     </span> {{ formattedDate(boar.date_arrived) }} </p>
                                 </div>
                             
-                                <div class="flex justify-between mt-3 ml-2 mr-4">
-                                    <DangerButton  class="mr-2">
-                                        Deactivate Boar
-                                    </DangerButton>
-                                    <PrimaryButton >Activate Boar</PrimaryButton>
+                                <div class="flex justify-center mt-3 ml-2 mr-4" v-if="boar.status===1">
+                                    <Link class="border border-red-500 bg-red-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" as="button" method="POST"  :href="'/boars/deactivate/'+ boar.id" >Deactivate Boar</Link>
+                                   
+                                </div>
+                                <div class="flex justify-center mt-3 ml-2 mr-4" v-if="boar.status===0">
+                                    <Link class="border border-green-500 bg-green-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline" as="button" method="POST" :href="'/boars/activate/'+ boar.id" >Activate Boar</Link> 
                                 </div>
 
                             </div>
@@ -66,8 +67,8 @@
                         </div>
                 
                         <div v-show="openTab === 1" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
-                            <h2 class="text-2xl font-semibold mb-2 text-blue-600">Breedings</h2>
-                            <template v-if="labors.data && labors.data.length > 0">  
+                            <h2 class="text-xl font-semibold mb-2 text-blue-600">Breedings</h2>
+                           
                             <table class="w-full table-auto">
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -80,16 +81,16 @@
                                 <tbody>
                                     <tr v-for="bred in breedings.data" :key="bred.id">
                                         <td class="py-2 px-2 text-center whitespace-nowrap">
-                                            <p class="font-medium">{{ bred.sow.sow_no }}</p>
+                                            <p class="font-sm  text-sm">{{ bred.sow.sow_no }}</p>
                                         </td>
                                         <td class="py-2 px-2">
-                                            <p class="font-medium text-center">{{ formattedDate(bred.date_of_breed) }}</p >
+                                            <p class="font-sm text-sm text-center">{{ formattedDate(bred.date_of_breed) }}</p >
                                         </td>
                                         <td class="py-2 px-2">
-                                            <p class="font-medium text-center">{{ formattedDate(bred.exp_date_of_farrowing) }}</p >
+                                            <p class="font-medium text-center  text-sm">{{ formattedDate(bred.exp_date_of_farrowing) }}</p >
                                         </td>
                                         <td class="py-3 px-6 text-center">
-                                            <div class="flex justify-center mb-2">
+                                            <div class="flex justify-center mb-2  text-sm">
                                                 <span v-if="bred.remarks ==='Waiting for results'" class="text-md font-semibold text-green-500">Waiting for result</span>
                                                 <span v-if="bred.remarks ==='Laboring'" class="text-md font-semibold text-green-500">Labored</span>
                                                 <span v-if="bred.remarks ==='Abort'" class="text-md font-semibold text-blue-500">Aborted</span>
@@ -100,16 +101,11 @@
                                 </tbody>
                             </table>      
                             <Pagination :links="breedings.links" class="mt-6 flex justify-center"/>
-                            </template>
-                            <template v-else>
-                                <p class="text-center font-bold text-gray-900 py-6">No breedings found</p>
-                            </template>                      
+                                               
                         </div>
                 
                         <div v-show="openTab === 2" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
-                            <h2 class="text-2xl font-semibold mb-2 text-blue-600">Labors</h2>
-                            <template v-if="labors.data && labors.data.length > 0">
-                                
+                            <h2 class="text-xl font-semibold mb-2 text-blue-600">Labors</h2>
                                 <table class="w-full table-auto">
                                     <thead>
                                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -123,19 +119,19 @@
                                     <tbody>
                                         <tr v-for="lab in labors.data" :key="lab.id">
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center">{{ lab.id }}</p >
+                                                <p class="font-medium text-center  text-sm">{{ lab.id }}</p >
                                             </td>
                                             <td class="py-2 px-2">
-                                                <p class="font-medium text-center">{{ formattedDate(lab.actual_date_farrowing) }}</p >
+                                                <p class="font-medium text-center  text-sm">{{ formattedDate(lab.actual_date_farrowing) }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center">{{ lab.no_pigs_born }}</p >
+                                                <p class="font-medium text-center  text-sm">{{ lab.no_pigs_born }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center">{{ lab.no_pigs_alive }}</p >
+                                                <p class="font-medium text-center  text-sm">{{ lab.no_pigs_alive }}</p >
                                             </td>
                                             <td class="py-3 px-6 text-center">
-                                                <div class="flex justify-center mb-2">
+                                                <div class="flex justify-center mb-2  text-sm">
                                                     <span v-if="lab.remarks ==='Weaned'" class="text-md font-semibold text-green-500">Weaned</span>
                                                     <span v-if="lab.remarks ==='Waiting for results'" class="text-md font-semibold text-blue-500">Waiting for results</span>
                                                     <span v-if="lab.remarks ===''" class="text-md font-semibold text-red-500">N/A</span>
@@ -145,15 +141,12 @@
                                     </tbody>
                                 </table>  
                                 <Pagination :links="labors.links" class="mt-6 flex justify-center"/>
-                            </template>
-                            <template v-else>
-                                <p class="text-center font-bold text-gray-900 py-6">No labors found</p>
-                            </template> 
+                           
                         </div>
                 
                         <div v-show="openTab === 3" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
-                            <h2 class="text-2xl font-semibold mb-2 text-blue-600">Weanings</h2>
-                            <template v-if="weanings.data&& weanings.data.length > 0">
+                            <h2 class="text-xl font-semibold mb-2 text-blue-600">Weanings</h2>
+                            
                                 <table class="w-full table-auto">
                                     <thead>
                                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -167,28 +160,25 @@
                                     <tbody>
                                         <tr v-for="wean in weanings.data" :key="wean.id">
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center">{{ wean.labors.id }}</p >
+                                                <p class="font-medium text-center  text-sm">{{ wean.labors.id }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center">{{ wean.labors.no_pigs_born }}</p >
+                                                <p class="font-medium text-center  text-sm">{{ wean.labors.no_pigs_born }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center">{{ wean.labors.no_pigs_alive }}</p >
+                                                <p class="font-medium text-center  text-sm">{{ wean.labors.no_pigs_alive }}</p >
                                             </td>
                                             <td class="py-2 px-2">
-                                                <p class="font-medium text-center">{{ wean.no_of_pigs_weaned}}</p >
+                                                <p class="font-medium text-center  text-sm">{{ wean.no_of_pigs_weaned}}</p >
                                             </td>
                                             <td class="py-2 px-2 text-center whitespace-nowrap">
-                                                <p class="text-md font-semibold text-green-500">{{ wean.remarks }}</p >
+                                                <p class="text-md font-semibold text-green-500  text-sm">{{ wean.remarks }}</p >
                                             </td>                                       
                                         </tr>
                                     </tbody>
                                 </table>  
                                 <Pagination :links="weanings.links" class="mt-6 flex justify-center"/>
-                                </template>
-                                <template v-else>
-                                    <p class="text-center font-bold text-gray-900 py-6">No weanings found</p>
-                                </template>                            
+                                                        
                             </div>
                         </div>
                     </div>
@@ -204,15 +194,14 @@ import Pagination from '@/Components/Pagination.vue';
 import moment from 'moment'
 import {Head, Link, router} from '@inertiajs/vue3'
 import { ref,watch } from 'vue';
-import DangerButton from '@/Components/DangerButton.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+
 import Breadcrumb from '@/Components/Breadcrumbs.vue'
 
 const props = defineProps({
     boar: Object,
-    breedings:Array,
+    breedings:Object,
     labors:Object,
-    weanings:Array
+    weanings:Object
 })
 const crumbs = [
     {

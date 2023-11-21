@@ -9,7 +9,7 @@ class Boar extends Model
 {
     use HasFactory;
 
-    protected $fillable =['boar_no','breed', 'location', 'date_arrived'];
+    protected $fillable =['boar_no','breed', 'location', 'date_arrived', 'status'];
 
     public function breedings(){
         return $this->hasMany(Breeding::class , 'boar_id');

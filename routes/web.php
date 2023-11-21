@@ -72,6 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/sows/edit/{sow}',[SowController::class,'edit']);
     Route::put('/sows/{sow}', [SowController::class, 'update']);
     Route::delete('/sows/{sow}', [SowController::class, 'destroy']);
+    Route::post('/sows/deactivate/{sow}', [SowController::class, 'deactivateSow']);
+    Route::post('/sows/activate/{sow}', [SowController::class, 'activateSow']);
 
     ///For Boars/////
     Route::get('/boars' ,[BoarController::class, 'index'])->name('boar.index');
@@ -81,6 +83,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/boars/{boar}', [BoarController::class, 'update']);
     Route::get('/boars/{boar}',[BoarController::class,'show']);
     Route::delete('/boars/{boar}', [BoarController::class, 'destroy']);
+    Route::post('/boars/deactivate/{boar}', [BoarController::class, 'deactivateBoar']);
+    Route::post('/boars/activate/{boar}', [BoarController::class, 'activateBoar']);
 
     //For Breeding///
     Route::get('/breedings' ,[BreedingController::class, 'index'])->name('breeding.index');

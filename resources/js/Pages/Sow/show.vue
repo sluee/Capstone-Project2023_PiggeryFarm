@@ -31,12 +31,14 @@
                                     </span> {{ formattedDate(sows.date_arrived) }} </p>
                                 </div>
                                
-                                <div class="flex justify-between mt-3 ml-2 mr-4">
-                                    <DangerButton  class="mr-2">
-                                        Deactivate Sow
-                                    </DangerButton>
-                                    <PrimaryButton >Activate Sow</PrimaryButton>
+                                <div class="flex justify-center mt-3 ml-2 mr-4" v-if="sows.status===1">
+                                    <Link class="border border-red-500 bg-red-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" as="button" method="POST"  :href="'/sows/deactivate/'+ sows.id" >Deactivate Sow</Link>
+                                   
                                 </div>
+                                <div class="flex justify-center mt-3 ml-2 mr-4" v-if="sows.status===0">
+                                    <Link class="border border-green-500 bg-green-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline" as="button" method="POST" :href="'/sows/activate/'+ sows.id" >Activate Sow</Link> 
+                                </div>
+                               
 
                             </div>
                     </div>
@@ -61,7 +63,7 @@
                 
                         <div v-show="openTab === 1" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
                             <h2 class="text-2xl font-semibold mb-2 text-blue-600">Breedings</h2>
-                            <template v-if="labors.data && labors.data.length > 0">  
+                            
                             <table class="w-full table-auto">
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -72,6 +74,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="breedings.data.length === 0">
+                                        <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No breedings record available</td>
+                                    </tr>
                                     <tr v-for="bred in breedings.data" :key="bred.id">
                                         <td class="py-2 px-2 text-left whitespace-nowrap">
                                             <p class="font-medium">{{ bred.boar.breed }}</p>
@@ -94,15 +99,13 @@
                                 </tbody>
                             </table>      
                             <Pagination :links="breedings.links" class="mt-6 flex justify-center"/>
-                            </template>
-                            <template v-else>
-                                <p class="text-center font-bold text-gray-900 py-6">No breedings found</p>
-                            </template>                      
+                                                
+                          
                         </div>
                 
                         <div v-show="openTab === 2" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
                             <h2 class="text-2xl font-semibold mb-2 text-blue-600">Labors</h2>
-                            <template v-if="labors.data && labors.data.length > 0">
+                            
                                
                                 <table class="w-full table-auto">
                                     <thead>
@@ -115,6 +118,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <tr v-if="labors.data.length === 0">
+                                            <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No labors record available</td>
+                                        </tr>
                                         <tr v-for="lab in labors.data" :key="lab.id">
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
                                                 <p class="font-medium text-center">{{ lab.id }}</p >
@@ -139,15 +145,12 @@
                                     </tbody>
                                 </table>  
                                 <Pagination :links="labors.links" class="mt-6 flex justify-center"/>
-                            </template>
-                            <template v-else>
-                                <p class="text-center font-bold text-gray-900 py-6">No labors found</p>
-                            </template> 
+                           
                         </div>
                 
                         <div v-show="openTab === 3" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
                             <h2 class="text-2xl font-semibold mb-2 text-blue-600">Weanings</h2>
-                            <template v-if="weanings.data&& weanings.data.length > 0">
+                            
                                 <table class="w-full table-auto">
                                     <thead>
                                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -159,6 +162,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <tr v-if="weanings.data.length === 0">
+                                            <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No weanings record available</td>
+                                        </tr>
                                         <tr v-for="wean in weanings.data" :key="wean.id">
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
                                                 <p class="font-medium text-center">{{ wean.labors.id }}</p >
@@ -179,10 +185,7 @@
                                     </tbody>
                                 </table>  
                                 <Pagination :links="weanings.links" class="mt-6 flex justify-center"/>
-                                </template>
-                                <template v-else>
-                                    <p class="text-center font-bold text-gray-900 py-6">No weanings found</p>
-                                </template> 
+                               
                             
                             </div>
                         </div>
@@ -208,9 +211,9 @@ import Breadcrumb from '@/Components/Breadcrumbs.vue'
 
 const props = defineProps({
     sows: Object,
-    breedings:Array,
-    labors:Array,
-    weanings:Array
+    breedings:Object,
+    labors:Object,
+    weanings:Object
 })
     const crumbs = [
         {

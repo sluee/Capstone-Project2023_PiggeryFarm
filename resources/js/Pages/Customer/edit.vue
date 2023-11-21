@@ -1,6 +1,9 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm  } from '@inertiajs/vue3';
+    const props = defineProps({
+        customer:Object
+    })
     const form = useForm({
         name: props.customer.name,
         address: props.customer.address,
@@ -8,9 +11,7 @@
 
 
     })
-    const props = defineProps({
-        customer:Object
-    })
+ 
     function submit() {
         form.put('/customers/'+props.customer.id);
     }
@@ -20,12 +21,12 @@
 
 <template>
 
-    <Head title="Create Customer" />
+    <Head title="Edit Customer" />
 
 <SideBarLayout>
         <template #header>
             <div class="flex">
-                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Create Customer</h2>
+                <h2 class="flex-1 font-semibold text-xl text-gray-800 leading-tight">Edit Customer</h2>
                 <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded" as="button" href="/customers">Back</Link>
             </div>
         </template>
@@ -51,7 +52,7 @@
                                     <div class="text-red-600" v-if="form.errors.phone">{{ form.errors.phone }}</div>
 
                                     <button class="px-4 py-2 mt-2 bg-blue-400 w-full rounded border border-blue-600 shadow hover:bg-blue-500">
-                                        Create Customer
+                                        Edit Customer
                                     </button>
                                   </div>
                             </div>

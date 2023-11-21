@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sow extends Model
 {
     use HasFactory;
-    protected $fillable =['sow_no', 'location', 'date_arrived'];
+    protected $fillable =['sow_no', 'location', 'date_arrived','status'];
 
     public function breedings(){
         return $this->hasMany(Breeding::class , 'boar_id');

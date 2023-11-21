@@ -105,7 +105,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td colspan="3">Total Cash On Bank</td>
+                                    <td colspan="3" class="px-2">Total Cash On Bank</td>
                                     <td  class="py-2 px-2">
                                         <input v-model="transaction.totalCashBalance" type="number" step="0.01" class="w-full border border-gray-300 p-2" readonly>
                                     </td>
@@ -114,8 +114,8 @@
 
                             </tbody>
                         </table>
-                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Remarks</label>
-                        <textarea id="message" rows="3" v-model="transaction.remarks" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Leave it blank if there are no remarks" readonly></textarea>
+                        <label for="message" class="block mb-2 text-m font-medium text-gray-900 ml-2 ">Remarks</label>
+                        <textarea id="message" rows="3" v-model="transaction.remarks" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="No remarks" readonly></textarea>
 
                     </div>
                 </div>

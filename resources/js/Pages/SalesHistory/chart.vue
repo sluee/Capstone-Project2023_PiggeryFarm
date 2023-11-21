@@ -156,15 +156,22 @@ import Chart from 'chart.js/auto';
 
 <template>
     <Head title="Sales Chart" />
+    
     <SideBarLayout>
-        <div class="py-10">
-            <div class=" flex justify-end items-center">
-                <label for="chartType" class="mr-2 font-bold text-slate-700">Select Chart Type:</label>
-                <select v-model="selectedChartType" id="chartType" class="rounded-full">
-                    <option value="monthly">Current Year</option>
-                    <option value="yearly">All Year</option>
-                </select>
+        <template #header >
+            <div class="flex justify-between">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Sales Chart</h2>
+                <div class=" flex justify-end items-center">
+                    <label for="chartType" class="mr-2 font-bold text-slate-700">Select Chart Type:</label>
+                    <select v-model="selectedChartType" id="chartType" class="rounded-full">
+                        <option value="monthly">Current Year</option>
+                        <option value="yearly">All Year</option>
+                    </select>
+                </div>
             </div>
+        </template>
+        <div class="py-10">
+            
             <div class="flex justify-center mb-2">
                 <div>
                     <img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover">

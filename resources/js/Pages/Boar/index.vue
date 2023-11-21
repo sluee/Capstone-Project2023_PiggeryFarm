@@ -38,7 +38,9 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
-
+                            <tr v-if="boars.data.length === 0">
+                                <td colspan="7" class="text-center text-lg  text-gray-400 py-6">No boar record available</td>
+                            </tr>
                             <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="boar in boars.data" :key="boar.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
@@ -62,9 +64,10 @@
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                    <span class=" py-1 px-3 rounded-full text-xs">{{ formattedDate(boar.date_arrived) }}</span>
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{ formattedDate(boar.date_arrived) }}</p>
+                                    </div>
                                 </td>
-
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
@@ -94,8 +97,9 @@
                             </tr>
                         </tbody>
                     </table>
-                    <Pagination :links="boars.links" class="mt-6 flex justify-center"/>
+                    
                 </div>
+                <Pagination :links="boars.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
 

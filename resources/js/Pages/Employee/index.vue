@@ -6,13 +6,13 @@
         <template #header >
             <div class="flex justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Employee</h2>
-                <!-- <div style="position:relative">
+                <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search employee here" v-model="search">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
                     style="position:absolute; top:10px; right:10px">
                     <path d="M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z" fill-rule="evenodd"/>
                     </svg>
-                </div> -->
+                </div>
                 <div class="flex">
                     <Link class="button1 mb-2 py-2 px-3 bg-blue-300 shadow border-gray-300 border hover:bg-blue-400 rounded mr-3" as="button" href="/employees/create">Create Employee</Link>
                     <a :href="route('employee.pdf')" class="flex  mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3 " target="blank">
@@ -25,7 +25,6 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -38,9 +37,11 @@
                                 <th class="py-3 px-6 text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="text-gray-600 text-sm font-light" >
-
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="emp in employees" :key="emp.id">
+                        <tbody class="text-gray-600 text-sm font-light " >
+                            <tr v-if="employees.data.length === 0">
+                                <td colspan="7" class="text-center text-lg  text-gray-400 py-6">No employee record found</td>
+                            </tr>
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="emp in employees.data" :key="emp.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
@@ -67,12 +68,6 @@
                                         <p class="font-medium">{{ emp.user.email}}</p>
                                     </div>
                                 </td>
-                                <!-- <td class="py-3 px-6 text-center">
-                                    <div class="flex items-center justify-center mb-2">
-                                        <span v-if="emp.user.status == 1" class="text-md font-semibold text-green-500">Active</span>
-                                        <span v-else class="text-md font-semibold text-yellow-500">Inactive</span>
-                                    </div>
-                                </td> -->
                                 <td class="py-3 px-3 text-center">
                                     <span class="remarks-cell py-1 px-3 rounded-full text-xs"
                                         :class="{
@@ -82,11 +77,10 @@
                                     >{{ emp.user.status === 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
 
-
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <!-- <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                             <svg xmlns="http://www.w3.org/2000/svg" fill="#6666" viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="#6666" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
@@ -110,8 +104,11 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <Pagination :links="sows.links" class="mt-6 flex justify-center"/> -->
                 </div>
+                
+                    <Pagination :links="employees.links" class="mt-6 flex justify-center"/>
+                
+               
             </div>
         </div>
 
@@ -122,7 +119,7 @@
 <script setup>
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { watch, ref } from 'vue';
+import { watch, ref, computed } from 'vue';
 import moment from'moment'
 import Pagination from '@/Components/Pagination.vue';
 const props = defineProps({
@@ -131,26 +128,17 @@ const props = defineProps({
     filters:Object
 
 })
-
-// function formattedDate(date){
-//     return moment(date).format('MMMM   D, YYYY');
-// }
-// function search(ev){
-//     router.visit('/sows/search/'+ ev.target.value);
-
-// }
-
-// let search = ref(props.filters.search);
-//     watch(search, (value) => {
-//         router.get(
-//             "/employees",
-//             { search: value },
-//             {
-//                 preserveState: true,
-//                 replace: true,
-//             }
-//         );
-//     });
+let search = ref(props.filters.search);
+    watch(search, (value) => {
+        router.get(
+            "/employees",
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    });
 
 function updateEmployee(empId) {
     router.visit('/employees/edit/' + empId);
@@ -167,4 +155,5 @@ function deleteEmployee(empId) {
     }
   }
 }
+
 </script>

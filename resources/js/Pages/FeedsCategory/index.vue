@@ -45,7 +45,9 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 text-sm font-light" >
-
+                                    <tr v-if="categories.data.length === 0">
+                                        <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No  feeds category record available</td>
+                                    </tr>
                                     <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cat in categories.data" :key="cat.id">
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <div class="flex items-center">
@@ -99,7 +101,7 @@
 
                                 </tbody>
                             </table>
-                            <Pagination :links="categories.links" class="mt-6 flex justify-center"/>
+                            
                             <Modal :show="showAddItemModal" @close="closeAddItemModal">
                                 <div class="p-4 sm:p-10 text-center ">
                                     <div class=" pr-6">
@@ -133,7 +135,9 @@
                                 </div>
                             </Modal>
                         </div>
+                        <Pagination :links="categories.links" class="mt-6 flex justify-center"/>
                     </div>
+                    
                   </div>
             </div>
         </div>

@@ -3,18 +3,20 @@
     import {Head, Link} from '@inertiajs/vue3'
     import moment from 'moment'
     import Pagination from '@/Components/Pagination.vue'
+    import { ref } from 'vue'
     const props = defineProps({
         cashAdvance:Object,
         cashAdvanceTotal:Object
     })
+    const openTab = ref(1);
     function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
+    
 }
 </script>
 
 <template>
     <Head title="Cash Advance" />
-
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
@@ -35,11 +37,21 @@
                 </div>
             </div>
         </template>
-        <div class="py-12">
-            <div class=" shadow-sm sm:rounded-lg flex justify-between">
-                <div class="max-w-8xl mx-auto sm:px-5 lg:px-8 w-[60%]">
-                    <div class="bg-white shadow-sm sm:rounded-lg">
-                        <h4 class="text-xl font-semibold">Employees Advances</h4>
+        <div >
+            <div ref="tabs" class="p-8">
+                <div class="max-w-full mx-auto">
+                    <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md">
+                        <button @click="openTab = 1" :class="{ 'bg-blue-600 text-white': openTab === 1 }" class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
+                        Cash Advance History
+                        </button>
+                        <button @click="openTab = 2" :class="{ 'bg-blue-600 text-white': openTab === 2 }" class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
+                        Total Cash Advance
+                        </button>
+                    
+                    </div>
+        
+                    <div v-show="openTab === 1" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-900">
+                        <h2 class="text-xl font-semibold mb-2 text-blue-600">Employees Total Cash History</h2>
                         <table class="min-w-max w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -54,7 +66,7 @@
                             <tbody class="text-gray-600 text-sm font-light" >
 
                                 <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cash  in cashAdvance.data" :key="cash.id">
-                                     <td class="py-3 px-5 text-left whitespace-nowrap">
+                                    <td class="py-3 px-5 text-left whitespace-nowrap">
                                         <div class="flex items-center">
 
                                             <p class="font-medium">{{ cash.id }}</p>
@@ -108,15 +120,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <Pagination :links="cashAdvance.links" class="mt-6 flex justify-center"/>
-
+                        <Pagination :links="cashAdvance.links" class="mt-6 flex justify-center"/>                   
                     </div>
-                </div>
-
-                <div class="max-w-5xl mx-auto sm:px-6 lg:px-4 w-[45%]">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <h4 class="text-xl font-bold">Employee's Total Advances</h4>
-
+            
+                    <div v-show="openTab === 2" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
+                        <h2 class="text-xl font-semibold mb-2 text-blue-600">Employee's Total Cash Advance</h2>
                         <table class="min-w-max w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -128,8 +136,8 @@
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light" >
 
-                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="csh  in cashAdvanceTotal" :key="csh.id">
-                                     <td class="py-3 px-5 text-left whitespace-nowrap">
+                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="csh  in cashAdvanceTotal.data" :key="csh.id">
+                                    <td class="py-3 px-5 text-left whitespace-nowrap">
                                         <div class="flex items-center">
 
                                             <p class="font-medium">{{ csh.id }}</p>
@@ -146,8 +154,6 @@
                                             <p class="font-medium">₱ {{ csh.totalCashAdvance}}</p>
                                         </div>
                                     </td>
-
-
                                     <td class="py-3 px-5 text-center">
                                         <div class="flex item-center justify-center">
                                             <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
@@ -173,11 +179,14 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
-
+                        </table> 
+                        <Pagination :links="cashAdvanceTotal.links" class="mt-6 flex justify-center"/>
                     </div>
+
                 </div>
             </div>
         </div>
+                 
+ 
     </SideBarLayout>
 </template>

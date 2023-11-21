@@ -6,6 +6,7 @@
     import DangerButton from '@/Components/DangerButton.vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
     import Breadcrumb from '@/Components/Breadcrumbs.vue';
+    import Pagination from '@/Components/Pagination.vue'
 
     let deleteForm = useForm({ })
     const props = defineProps({
@@ -75,7 +76,7 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-between">
-                <div class="bg-white p-4 rounded shadow w-[30%]">
+                <div class="bg-white p-4 rounded shadow mr-5">
                     <h4 class="text-2xl">Client Info</h4>
                     <hr>
                     <div>
@@ -112,10 +113,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded shadow w-[68%]">
+                <div class="bg-white p-4 rounded shadow ">
                     <h4 class="text-2xl mb-3">Transaction Log</h4>
                     <table class="w-full text-sm text-left text-black-500 dark:text-gray-400">
-                        <thead class="text-xs text-white uppercase text-center bg-gray-50 dark:bg-blue-500 dark:text-white-400" >
+                        <thead class="text-s text-white  text-center bg-gray-50 dark:bg-blue-500 dark:text-white-400" >
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     Invoice Id
@@ -148,7 +149,7 @@
                         </thead>
                         <tbody v-for="sale in customer.sales" :key="sale.id">
 
-                            <tr class="bg-blue-200 hover:bg-s-50 text-center font-medium text-black  whitespace-nowrap ">
+                            <tr class="bg-blue-200 hover:bg-blue-300 text-center font-medium text-black  whitespace-nowrap ">
 
                                 <td class="px-3 py-4 text-center">
                                     <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue;">
@@ -159,39 +160,32 @@
                                     {{ formattedDate(sale.created_at)}}
                                 </td>
                                 <td class="px-3 py-4">
-                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                      {{ sale.payment }}
                                 </td>
                                 <td class="px-3 py-4">
-                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                     {{ sale.totalPig }}
                                 </td>
                                 <td class="px-3 py-4">
-                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                      {{ sale.total }} kgs.
                                 </td>
                                 <td class="px-3 py-4">
-                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                     ₱ {{ sale.total_amount }}
                                 </td>
 
                                 <td class="px-3 py-4">
-                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                     ₱ {{ sale.is_credit }}
                                 </td>
                                 <td class="px-3 py-4">
-                                    <!-- {{ cl.is_credit ? 'Credit' : 'Cash' }} -->
                                     ₱ {{ sale.balance }}
                                 </td>
-                                <!-- <td class="px-3 py-4">
-                                   {{ sale.remarks }}
-                                </td> -->
+                                
                             </tr>
                         </tbody>
 
                     </table>
-                    <!-- <Pagination :links="sales.links" class="mt-6 flex justify-center"/> -->
+                    
                 </div>
+                <!-- <Pagination :links="customer.sales.links" class="mt-6 flex justify-center"/> -->
             </div>
         </div>
     </SideBarLayout>

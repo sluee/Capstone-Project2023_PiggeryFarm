@@ -23,8 +23,8 @@
             </div>
         </template>
         <div class="py-12">
-            <div class="flex -mx-2">
-                <div class="w-1/3 ml-2 ">
+            <div class="flex-mx-2">
+                <div class=" ">
                     <div class=" pr-6">
                         <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
                             Sales Details
@@ -59,7 +59,7 @@
                         </form>
                     </div>
                   </div>
-                  <div class="w-3/4 ">
+                  <div >
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-7">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->

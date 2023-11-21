@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index(){
-        $monthlySales = Sale::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw('SUM(total_amount) as total_sales'))
-        ->groupBy('month')
-        ->get();
+        // $monthlySales = Sale::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw('SUM(total_amount) as total_sales'))
+        // ->groupBy('month')
+        // ->get();
 
         $firstDayOfMonth = Carbon::now()->startOfMonth();
         $lastDayOfMonth = Carbon::now()->endOfMonth();
@@ -57,7 +57,7 @@ class DashboardController extends Controller
 
            // Retrieve sales data for the previous month
             $previousMonthSales = Sale::select(DB::raw('SUM(total_amount) as total_sales'))
-            ->whereYear('created_at', now()->subMonth()->year)
+            ->whereYear('created_at', now()->subYear()->year)
             ->whereMonth('created_at', now()->subMonth()->month)
             ->first();
 
@@ -103,7 +103,7 @@ class DashboardController extends Controller
         return inertia('Dashboard',[
             'sales' => $sales,
             'totalAmountAllSales' => $totalAmountAllSales,
-            'monthlySales ' => $monthlySales,
+             // 'monthlySales ' => $monthlySales,
             'employeeCount' => $employeeCount,
             'pigsCount' => $pigsCount,
             'currentMonthSales' => $currentMonthSales,

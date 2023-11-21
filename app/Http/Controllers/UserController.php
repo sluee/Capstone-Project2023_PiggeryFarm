@@ -15,20 +15,18 @@ class UserController extends Controller
 {
     public function index()
     {
-        // $users = User::with('roles')->get();
-        // return inertia('User/index', [
-        //     'users' => $users
-        // ]);
-
-        return inertia('User/index',[
+        return inertia('User/index', [
             'users' => User::query()
-            ->when(HttpRequest::input('search'), function ($query, $search) {
-                $query->where('firstName', 'like', '%' . $search . '%')
-                ->orWhere('lastName','like','%' .$search . '%');
-            })->paginate(7)
-            ->withQueryString(),
-            'filters' => HttpRequest::only(['search'])
+                ->with('roles')
+                ->when(request()->input('search'), function ($query, $search) {
+                    $query->where('firstName', 'like', '%' . $search . '%')
+                        ->orWhere('lastName', 'like', '%' . $search . '%');
+                })
+                ->paginate(7)
+                ->withQueryString(),
+            'filters' => request()->only(['search']),
         ]);
+
     }
 
     public function create(){

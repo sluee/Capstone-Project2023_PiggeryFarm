@@ -25,9 +25,9 @@
             </div>
         </template>
         <div class="py-12">
+            
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -44,7 +44,9 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
-
+                            <tr v-if="labors.data.length === 0">
+                                <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No labor record available</td>
+                            </tr>
                             <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="labor in labors.data" :key="labor.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
@@ -76,13 +78,21 @@
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
-                                    <p class="font-medium">{{ labor.no_pigs_born}}</p>
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{ labor.no_pigs_born}}</p>
+                                    </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                    <p class="font-medium">{{ labor.no_pigs_alive}}</p>
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{ labor.no_pigs_alive}}</p>
+                                    </div>
                                 </td>
+                               
                                 <td class="py-3 px-6 text-center">
-                                    <p class="font-medium">{{ formattedDate(labor.date_of_weaning)}}</p>
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{formattedDate (labor.date_of_weaning) }}</p>
+                                    </div>
+                                    
                                 </td>
                                 <!-- <td class="py-3 px-6 text-center">
                                     <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ labor.remarks }}</span>
@@ -92,7 +102,7 @@
                                         :class="{
                                             'bg-green-200 text-green-600': labor.remarks == 'Waiting for results',
                                             'bg-red-200 text-blue-600':labor.remarks == 'Weaned',
-                                           // 'bg-blue-200 text-red-600': labor.remarks =='Miscarriage'
+                                            // 'bg-blue-200 text-red-600': labor.remarks =='Miscarriage'
                                         }"
                                     >{{ labor.remarks }}</span>
                                 </td>
@@ -127,8 +137,8 @@
                         </tbody>
 
                     </table>
-                    <Pagination :links="labors.links" class="mt-6 flex justify-center"/>
                 </div>
+                <Pagination :links="labors.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
 

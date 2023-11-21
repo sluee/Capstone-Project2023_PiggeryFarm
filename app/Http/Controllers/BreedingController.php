@@ -56,11 +56,7 @@ class BreedingController extends Controller
         ]);
     }
 
-    public function search($searchKey){
-        return inertia('Labor/index', [
-            'labors' => Breeding::where('date_of_breed', 'like' , "%$searchKey%")->orWhere('possible_reheat', 'like' , "%$searchKey%")->get()
-        ]);
-    }
+  
 
     /**
      * Store a newly created resource in storage.

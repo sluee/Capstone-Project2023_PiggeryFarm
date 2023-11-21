@@ -4,6 +4,14 @@
     import { Link , Head} from '@inertiajs/vue3';
     import { useForm } from '@inertiajs/vue3';
 
+
+    let props = defineProps({
+        employees: Array,
+        position:Object,
+        roles:Array
+    })
+
+
     let form = useForm({
         // doc_id: '',
         lastName: '',
@@ -18,20 +26,16 @@
         gender:'',
         pos_id: '',
         phone: '',
-        // selectedServices: [],
-        service_id: ''
+        role: '',
+
     })
 
-    let props = defineProps({
-        employees: Array,
-        position:Object
-    })
 
-    // const selectedServices = ref([]);
-    // const services = ref([]);
+
 
     const submit = () =>{
         form.post('/employees')
+        console.log(form)
     }
 
 </script>
@@ -96,7 +100,17 @@
                               <div class="text-sm text-red-500 italic" v-if="form.errors.gender">{{ form.errors.gender }}</div>
                             </div>
                           </div>
-
+                          <div class="m:col-span-1">
+                            <label for="roles" class="block text-sm font-medium leading-6 text-gray-900">Roles</label>
+                            <div class="mt-2">
+                                <select id="role" v-model="form.role" name="role" autocomplete="role" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                    <option selected disabled   >Select Role</option>
+                                    <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
+                                    <!-- <option value="Role">Patient</option> -->
+                                  </select>
+                              <div class="text-sm text-red-500 italic" v-if="form.errors.role">{{ form.errors.role }}</div>
+                            </div>
+                          </div>
                           <div class="m:col-span-2">
                             <label for="pos_id" class="block text-sm font-medium leading-6 text-gray-900">Position</label>
                             <div class="mt-2">

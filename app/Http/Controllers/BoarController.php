@@ -125,4 +125,16 @@ class BoarController extends Controller
     {
         //
     }
+
+    public function deactivateBoar(Boar $boar){
+        $boar->update(['status' => 0]);
+    
+        return redirect('/boars/' . $boar->id);
+    }
+    
+    public function activateBoar(Boar $boar){
+        $boar->update(['status' => 1]);
+    
+        return redirect('/boars/' . $boar->id);
+    }
 }

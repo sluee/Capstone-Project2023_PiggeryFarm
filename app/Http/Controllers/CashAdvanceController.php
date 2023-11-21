@@ -14,17 +14,19 @@ class CashAdvanceController extends Controller
      */
     public function index()
     {
-
-        $cashAdvance = CashAdvance::with('employee.user')->OrderBy('id', 'desc' )
-        ->paginate(6);
-
-        $cashAdvanceTotal =CashAdvanceTotals::with('employee.user')->get();
+        $cashAdvance = CashAdvance::with('employee.user')
+            ->orderBy('id', 'desc')
+            ->paginate(6);
+    
+        $cashAdvanceTotal = CashAdvanceTotals::with('employee.user')
+            ->paginate(6);
+    
         return inertia('CashAdvance/index', [
             'cashAdvance' => $cashAdvance,
-            'cashAdvanceTotal'  =>$cashAdvanceTotal
+            'cashAdvanceTotal' => $cashAdvanceTotal,
         ]);
-
     }
+    
 
     /**
      * Show the form for creating a new resource.

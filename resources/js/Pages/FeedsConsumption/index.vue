@@ -44,6 +44,9 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light" >
+                                <tr v-if="consumption.data.length === 0">
+                                    <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No feeds consumption record available</td>
+                                </tr>
                                 <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cons in consumption.data" :key="cons.id">
                                     <td class="py-3 px-6 text-left whitespace-nowrap">
                                         <div class="flex items-center">
@@ -73,7 +76,7 @@
                                     </td>
                                     <td class="py-3 px-5 text-center">
                                         <div class="flex item-center justify-center">
-                                            <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                            <!-- <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                                 <button class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="#6666" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -81,7 +84,7 @@
                                                     </svg>
                                                 </button>
                                                 
-                                            </div>
+                                            </div> -->
                                             <button class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110"   @click="openUpdateItemModal(purchase)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -100,7 +103,7 @@
                                 
                             </tbody>
                         </table>
-                        <Pagination :links="consumption.links" class="mt-6 flex justify-center"/>
+                        
 
                         <Modal :show="showAddItemModal" @close="closeAddItemModal">
                             <div class="p-4 sm:p-10 text-center ">
@@ -137,6 +140,7 @@
                             </div>
                         </Modal>
                     </div>
+                    <Pagination :links="consumption.links" class="mt-6 flex justify-center"/>
                 </div>
             </div>
         </div>

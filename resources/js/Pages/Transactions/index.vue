@@ -25,62 +25,54 @@
         <div class="w-full px-5 py-4">
             <div class="h-12">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <template v-if="transactions.data&& transactions.data.length > 0">
-                        <table class="min-w-max w-full table-auto">
-                            <thead>
-                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                    <!-- <th class="py-3 px-6 text-center">Customer</th> -->
-                                    <th class="py-3 px-6 text-center">Transaction ID</th>
-                                    <th class="py-3 px-6 text-center">Date</th>
-                                    <th class="py-3 px-6 text-center">Total Cash</th>
-                                    <th class="py-3 px-6 text-center">Remarks</th>
-    
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-600 text-sm font-light" >
-    
-                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="trans in transactions.data" :key="trans.id">
-                                    <td class="px-3 py-4 text-center">
-                                        <Link :href="'/transactions/'+trans.id" style="text-decoration: underline; color: blue; ">
-                                           Trans00{{ trans.id }}
-                                        </Link>
-                                        <!-- Inv00{{ trans.id }} -->
-                                    </td>
-    
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{ formattedDate(trans.created_at) }}</p>
-    
-                                        </div>
-                                    </td>
-    
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{trans.totalCashBalance}}</p>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{trans.remarks}} s</p>
-                                        </div>
-                                    </td>
-    
-                                </tr>
-                            </tbody>
-    
-                        </table>
-                        <Pagination :links="transactions.links" class="mt-6 flex justify-center"/>
-                    </template>
-                    <template v-else>
-                        <p class="text-center font-bold text-gray-900 py-6">No financial transaction available</p>
-                    </template> 
-                    
+                    <table class="min-w-max w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <!-- <th class="py-3 px-6 text-center">Customer</th> -->
+                                <th class="py-3 px-6 text-center">Transaction ID</th>
+                                <th class="py-3 px-6 text-center">Date</th>
+                                <th class="py-3 px-6 text-center">Total Cash</th>
+                                <th class="py-3 px-6 text-center">Remarks</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light" >
+                            <tr v-if="transactions.data.length === 0">
+                                <td colspan="7" class="text-center text-lg  text-gray-400 py-6">No financial liquidation record available</td>
+                            </tr>
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="trans in transactions.data" :key="trans.id">
+                                <td class="px-3 py-4 text-center">
+                                    <Link :href="'/transactions/'+trans.id" style="text-decoration: underline; color: blue; ">
+                                        Trans00{{ trans.id }}
+                                    </Link>
+                                    <!-- Inv00{{ trans.id }} -->
+                                </td>
+
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{ formattedDate(trans.created_at) }}</p>
+
+                                    </div>
+                                </td>
+
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{trans.totalCashBalance}}</p>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium">{{trans.remarks}} s</p>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>                    
                 </div>
+                <Pagination :links="transactions.links" class="mt-6 flex justify-center"/>
             </div>
-
-
         </div>
-
     </SideBarLayout>
 
 </template>

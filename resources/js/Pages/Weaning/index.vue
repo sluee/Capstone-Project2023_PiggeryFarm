@@ -22,8 +22,6 @@
             </div>
         </template>
         <div class="py-12">
-
-
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <table class="min-w-max w-full table-auto">
@@ -41,7 +39,9 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
-
+                            <tr v-if="weaning.data.length === 0">
+                                <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No weaning record available</td>
+                            </tr>
                             <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="wean in weaning.data" :key="wean.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <p class="font-medium">{{ wean.id }}</p>
@@ -86,8 +86,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <Pagination :links="weaning.links" class="mt-6 flex justify-center"/>
                 </div>
+                <Pagination :links="weaning.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
     </SideBarLayout>

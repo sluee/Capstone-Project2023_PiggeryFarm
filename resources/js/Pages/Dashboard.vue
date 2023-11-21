@@ -100,7 +100,7 @@ import Chart from 'chart.js/auto';
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
                                  <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ employeeCount }}</span>
-                                 <h3 class="text-base font-medium text-gray-900">No. of Employees</h3>
+                                 <h3 class="text-base font-normal text-gray-500">No. of Employees</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
@@ -114,7 +114,7 @@ import Chart from 'chart.js/auto';
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
                                  <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ pigsCount }}</span>
-                                 <h3 class="text-base font-medium text-gray-900">Total No. of Pigs</h3>
+                                 <h3 class="text-base font-normal text-gray-500">Total No. of Pigs</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-blue-900 text-base font-bold">
                                 <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
@@ -150,7 +150,7 @@ import Chart from 'chart.js/auto';
                         <div class="bg-blue-100 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
-                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">385 pc/s</span>
+                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">85 bag/s</span>
                                  <h3 class="text-base font-normal text-gray-500">Total Feeds</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
@@ -431,6 +431,13 @@ import Chart from 'chart.js/auto';
 
 
         </div>
+         <!-- <template #footer>
+            <footer class=" bg-white footer footer-center text-center p-4 bg-base-300 text-base-content">
+                <aside>
+                    <p class="text-center">Copyright © 2023 - All right reserved by MDC White Hats</p>
+                </aside>
+            </footer>
+        </template> -->
 
     </SideBarLayout>
 </template>

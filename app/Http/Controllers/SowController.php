@@ -124,4 +124,17 @@ class SowController extends Controller
     {
         //
     }
+
+    public function deactivateSow(Sow $sow){
+        $sow->update(['status' => 0]);
+    
+        return redirect('/sows/' . $sow->id);
+    }
+    
+    public function activateSow(Sow $sow){
+        $sow->update(['status' => 1]);
+    
+        return redirect('/sows/' . $sow->id);
+    }
+    
 }

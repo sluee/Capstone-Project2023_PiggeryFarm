@@ -27,107 +27,113 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-7">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <!-- <div class="p-6 text-gray-900">You're logged in!</div> -->
-                    <table class="min-w-max w-full table-auto">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-3 text-left">Id</th>
-                                <th class="py-3 px-3 text-left">Sow name</th>
-                                <th class="py-3 px-3 text-center">Boar Breed</th>
-                                <th class="py-3 px-3 text-center">Date of Breeding</th>
-                                <th class="py-3 px-3 text-center">Possible Reheat</th>
-                                <th class="py-3 px-3 text-center">Date For Lactating</th>
-                                <th class="py-3 px-3 text-center">Exp Date of Farrowing</th>
-                                <th class="py-3 px-3 text-center">Remarks</th>
-                                <th class="py-3 px-3 text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 text-sm font-light" >
+                    
+                        <table class="min-w-max w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-3 text-left">Id</th>
+                                    <th class="py-3 px-3 text-left">Sow name</th>
+                                    <th class="py-3 px-3 text-center">Boar Breed</th>
+                                    <th class="py-3 px-3 text-center">Date of Breeding</th>
+                                    <th class="py-3 px-3 text-center">Possible Reheat</th>
+                                    <th class="py-3 px-3 text-center">Date For Lactating</th>
+                                    <th class="py-3 px-3 text-center">Exp Date of Farrowing</th>
+                                    <th class="py-3 px-3 text-center">Remarks</th>
+                                    <th class="py-3 px-3 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 text-sm font-light" >
+                                <tr v-if="breedings.data.length === 0">
+                                    <td colspan="8" class="text-center text-lg  text-gray-400 py-6">No breeding record available</td>
+                                </tr>
+                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="breeding in breedings.data" :key="breeding.id">
+                                    <td class="py-3 px-3 text-center whitespace-nowrap">
+                                        <div class="flex items-center">
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="breeding in breedings.data" :key="breeding.id">
-                                <td class="py-3 px-3 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
+                                            <p class="font-medium">{{ breeding.id }}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-center">
+                                        <div class="flex items-center">
+                                            <p class="font-medium text-center">Sow {{ breeding.sow.sow_no }}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">{{breeding.boar.breed}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">{{formattedDate (breeding.date_of_breed)}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">{{formattedDate (breeding.possible_reheat)}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">{{ formattedDate(breeding.changeFeeds)}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">{{ formattedDate(breeding.exp_date_of_farrowing)}}</p>
+                                        </div>
+                                    </td>
+                                   
+                                    <td class="py-3 px-3 text-center">
+                                        <span class="remarks-cell  py-1 px-3 rounded-full text-xs"
+                                            :class="{
+                                                'bg-green-200 text-green-600': breeding.remarks == 'Waiting for results',
+                                                'bg-red-200 text-red-600':breeding.remarks == 'Reheat',
+                                                'bg-blue-200 text-blue-600': breeding.remarks =='Laboring',
+                                                'bg-pink-200 text-pink-600': breeding.remarks =='Abort'
+                                            }"
+                                        >{{ breeding.remarks }}</span>
+                                    </td>
 
-                                        <p class="font-medium">{{ breeding.id }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-3 text-left">
-                                    <div class="flex items-center">
-                                        <p class="font-medium">{{ breeding.sow.sow_no }}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-3 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{breeding.boar.breed}}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-3 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <p class="font-medium">{{formattedDate (breeding.date_of_breed)}}</p>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-3 text-center">
-                                    <p class="font-medium">{{formattedDate (breeding.possible_reheat)}}</p>
-                                </td>
-                                <td class="py-3 px-3 text-center">
-                                    <p class="font-medium">{{ formattedDate(breeding.changeFeeds)}}</p>
-                                </td>
-                                <td class="py-3 px-3 text-center">
-                                    <p class="font-medium">{{ formattedDate(breeding.exp_date_of_farrowing)}}</p>
-                                </td>
-                                <!-- <td class="py-3 px-3 text-center">
-                                    <span class=" remarks-cell bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ breeding.remarks }}</span>
-                                </td> -->
-                                <td class="py-3 px-3 text-center">
-                                    <span class="remarks-cell  py-1 px-3 rounded-full text-xs"
-                                        :class="{
-                                            'bg-green-200 text-green-600': breeding.remarks == 'Waiting for results',
-                                            'bg-red-200 text-red-600':breeding.remarks == 'Reheat',
-                                            'bg-blue-200 text-blue-600': breeding.remarks =='Laboring',
-                                            'bg-pink-200 text-pink-600': breeding.remarks =='Abort'
-                                        }"
-                                    >{{ breeding.remarks }}</span>
-                                </td>
 
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex item-center justify-center">
+                                            <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                                <Link :href="'/breedings/' + breeding.id">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+                                                </Link>
 
-                                <td class="py-3 px-5 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                            <Link :href="'/breedings/' + breeding.id">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                            </Link>
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                                <a :href="'/breedings/edit/'+breeding.id">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                    </svg>
+                                                </a>
+
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                                <a href="/delete">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </a>
+
+                                            </div>
 
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                            <a :href="'/breedings/edit/'+breeding.id">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                </svg>
-                                            </a>
+                                    </td>
 
-                                        </div>
-                                        <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                            <a href="/delete">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </a>
+                                </tr>
+                            </tbody>
 
-                                        </div>
-
-                                    </div>
-                                </td>
-
-                            </tr>
-                        </tbody>
-
-                    </table>
-                    <Pagination :links="breedings.links" class="mt-6 flex justify-center"/>
+                        </table>
+                    </div>
                 </div>
-            </div>
+                <Pagination :links="breedings.links" class="mt-6 flex justify-center"/>
         </div>
 
     </SideBarLayout>
