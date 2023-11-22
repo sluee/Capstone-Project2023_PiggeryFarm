@@ -44,11 +44,11 @@ class BreedingController extends Controller
         $sows = Sow::where('status', 1)
         ->orderBy('sow_no', 'asc')
         ->get();
-    
+
         $boars = Boar::where('status', 1)
         ->orderBy('breed', 'asc')
         ->get();
-    
+
         return inertia('Breeding/create',[
             'breedings' =>Breeding::orderBy('date_of_breed','asc'),
             'sows'      =>$sows,
@@ -56,7 +56,7 @@ class BreedingController extends Controller
         ]);
     }
 
-  
+
 
     /**
      * Store a newly created resource in storage.
@@ -94,14 +94,14 @@ class BreedingController extends Controller
         $breeding->update(['remarks' => 'Reheat']);
         $breeding->save();
 
-        return redirect('/breedings');
+        return redirect('/breedings')->with('error' ,'The sow reheats');
     }
 
     public function abortRemarks(Breeding $breeding) {
         $breeding->update(['remarks' => 'Abort']);
         $breeding->save();
 
-        return redirect('/breedings');
+        return redirect('/breedings')->with('error', 'The sow underwent a miscarriage.');
     }
 
     /**

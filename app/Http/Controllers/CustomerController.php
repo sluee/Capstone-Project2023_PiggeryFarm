@@ -55,7 +55,7 @@ class CustomerController extends Controller
 
         Customer::create($fields);
 
-        return redirect('/customers')->with('message','Customer Added Successfully');
+        return redirect('/customers')->with('success','Customer Added Successfully');
     }
 
     /**
@@ -135,7 +135,7 @@ class CustomerController extends Controller
 
         $customer->update($fields);
 
-        return redirect('/customers')->with('message','Customer Updated Successfully');
+        return redirect('/customers')->with('success','Customer Updated Successfully');
     }
 
     /**

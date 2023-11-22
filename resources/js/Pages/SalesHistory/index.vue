@@ -3,13 +3,14 @@ import {Head, Link, router, useForm} from '@inertiajs/vue3'
 import SideBarLayout from "@/Layouts/SideBarLayout.vue";
 import moment from 'moment'
 import Pagination from '@/Components/Pagination.vue';
-import {ref, watch} from 'vue'
+import {ref, watch, onMounted} from 'vue'
 
 
     const props = defineProps({
         sales:Object,
         totalAmountAllSales: Number,
-        filters:Object
+        filters:Object,
+        flash:Object
     });
 
     function formattedDate(date){
@@ -27,8 +28,71 @@ import {ref, watch} from 'vue'
             }
         );
     });
+    onMounted(() => {
+    // Set a timeout to hide the success flash message after 3 seconds
+        const successFlashMessage = document.getElementById('flash-success-message');
+            if (successFlashMessage) {
+                setTimeout(() => {
+                successFlashMessage.style.display = 'none';
+                }, 3000);
+        }
+
+        // Set a timeout to hide the error flash message after 3 seconds
+        const errorFlashMessage = document.getElementById('flash-error-message');
+            if (errorFlashMessage) {
+                setTimeout(() => {
+                errorFlashMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
 
 </script>
+
+<style scoped>
+
+#flash-success-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 100%;
+    background-color: #4CAF50; /* Green color */
+    animation: progressBar 3s linear;
+}
+#flash-error-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.success .progress-bar {
+   
+    animation: progressBar 5s linear;
+}
+.error .progress-bar {
+    background-color: #FF5733; /* Red color */
+    animation: progressBar 5s linear;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes progressBar {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+</style>
+
 
 <template>
     <Head title="Sales History" />
@@ -44,6 +108,15 @@ import {ref, watch} from 'vue'
                     <path d="M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z" fill-rule="evenodd"/>
                     </svg>
                 </div>
+            </div>
+            <div v-if="$page.props.flash.success" id="flash-success-message" class="absolute top-20 right-1 p-4 bg-green-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.success }}
+                <div class="progress-bar success"></div>
+            </div>
+
+            <div v-if="$page.props.flash.error" id="flash-error-message" class=" absolute top-20 right-1 p-4 bg-red-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.error }}
+                <div class="progress-bar error"></div>
             </div>
         </template>
             <div class="w-full px-5 py-4">

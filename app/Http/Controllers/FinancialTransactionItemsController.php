@@ -6,24 +6,31 @@ use App\Models\FinancialTransaction;
 use App\Models\FinancialTransactionItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FinancialTransactionItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(){
+    public function index()
+    {
         $currentYear = now()->year; // Get the current year
-
+    
         $monthlyFinancial = FinancialTransaction::whereYear('date', $currentYear)
-            ->select('date', 'totalCashBalance') // Adjust column names as per your schema
+            ->selectRaw('MONTH(date) as month, SUM(totalCashBalance) as totalCashBalance')
+            ->groupByRaw('MONTH(date)')
             ->get();
-
+    
+        // Log the results for debugging
+        Log::info($monthlyFinancial);
+    
         return inertia('Transactions/chart', [
             'monthlyFinancial' => $monthlyFinancial,
             'currentYear' => $currentYear,
         ]);
     }
+    
 
     /**
      * Show the form for creating a new resource.

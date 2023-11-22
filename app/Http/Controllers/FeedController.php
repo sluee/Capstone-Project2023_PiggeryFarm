@@ -24,7 +24,7 @@ class FeedController extends Controller
         //     ->get();
 
         return inertia('Feeds/index', [
-            
+
             'supplier' => $suppliers,
             'categories' => $categories,
             'feeds' => Feed::query()
@@ -39,7 +39,7 @@ class FeedController extends Controller
             })->paginate(8)
             ->withQueryString(),
             'filters' => HttpRequest::only(['search'])
-           
+
         ]);
 
     }
@@ -60,7 +60,7 @@ class FeedController extends Controller
     //     $fields = $request->validate([
     //         'cat_id' => 'required|numeric|exists:categories,id',
     //         'sup_id'    => 'required|numeric|exists:suppliers,id',
-            
+
     //     ]);
 
     //     Feed::create($fields);
@@ -75,7 +75,7 @@ class FeedController extends Controller
         // Add a unique rule for the combination of cat_id and sup_id
         'cat_id' => Rule::unique('feeds')->where(function ($query) use ($request) {
             return $query->where('sup_id', $request->sup_id);
-        }),
+        })->ignore($request->id), // Add this line if you're updating a record
     ]);
 
     Feed::create($fields);

@@ -56,7 +56,7 @@ class BoarController extends Controller
 
         Boar::create($fields);
 
-        return redirect('/boars')->with('message','Boar Added Successfully');
+        return redirect('/boars')->with('success','Boar Added Successfully');
     }
 
     /**
@@ -115,7 +115,7 @@ class BoarController extends Controller
 
         $boar->update($fields);
 
-        return redirect('/boars')->with('message','Boar Updated Successfully');
+        return redirect('/boars')->with('success','Boar Updated Successfully');
     }
 
     /**
@@ -128,13 +128,13 @@ class BoarController extends Controller
 
     public function deactivateBoar(Boar $boar){
         $boar->update(['status' => 0]);
-    
-        return redirect('/boars/' . $boar->id);
+
+        return redirect('/boars/' . $boar->id)->with('success','Boar deactivated successfully');
     }
-    
+
     public function activateBoar(Boar $boar){
         $boar->update(['status' => 1]);
-    
-        return redirect('/boars/' . $boar->id);
+
+        return redirect('/boars/' . $boar->id)->with('success','Boar activated successfully');
     }
 }

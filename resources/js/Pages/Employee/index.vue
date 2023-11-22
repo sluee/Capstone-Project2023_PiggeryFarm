@@ -28,7 +28,7 @@
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Id</th>
+                                <!-- <th class="py-3 px-6 text-left">Id</th> -->
                                 <th class="py-3 px-6 text-left">Name</th>
                                 <th class="py-3 px-6 text-center">Position</th>
                                 <th class="py-3 px-6 text-center">Phone</th>
@@ -42,12 +42,12 @@
                                 <td colspan="7" class="text-center text-lg  text-gray-400 py-6">No employee record found</td>
                             </tr>
                             <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="emp in employees.data" :key="emp.id">
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                <!-- <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
                                         <p class="font-medium">{{ emp.id }}</p>
                                     </div>
-                                </td>
+                                </td> -->
                                 <td class="py-3 px-6 text-left">
                                     <div class="flex items-center">
                                         <p class="font-medium">{{ emp.user.firstName }} {{ emp.user.middleName }}  {{ emp.user.lastName }} {{ emp.user.suffix }}</p>

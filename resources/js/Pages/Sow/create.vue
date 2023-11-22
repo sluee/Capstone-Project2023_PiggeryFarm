@@ -38,7 +38,7 @@
                                 </h4>
                                 <div class="px-5 py-5">
                                     <label class="font-semibold text-sm text-gray-600  block" for="sow_no">Sow No</label>
-                                    <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.sow_no"/>
+                                    <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " v-model="form.sow_no"/>
                                     <div class="text-red-600" v-if="form.errors.sow_no">{{ form.errors.sow_no }}</div>
 
                                     <label class="font-semibold text-sm text-gray-600  block" for="location">Location</label>

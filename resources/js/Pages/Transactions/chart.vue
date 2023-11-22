@@ -6,7 +6,7 @@
 
         <div class="w-full px-5 py-4">
             <div class="h-12">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class=" overflow-hidden shadow-sm sm:rounded-lg">
 
                     <div class="  mb-7">
                         <div class="flex justify-center mb-2">
@@ -56,52 +56,55 @@ function formattedDate(date){
  })
 
     const chartRef = ref(null);
-
     onMounted(() => {
-        if (chartRef.value) {
-            const ctx = chartRef.value.getContext('2d');
+    if (chartRef.value) {
+        const ctx = chartRef.value.getContext('2d');
 
-            if (!props.monthlyFinancial || !Array.isArray(props.monthlyFinancial)) {
-                console.error('Invalid monthlyFinancial data format');
-                return;
-            }
+        if (!props.monthlyFinancial || !Array.isArray(props.monthlyFinancial)) {
+            console.error('Invalid monthlyFinancial data format');
+            return;
+        }
 
-            const chartData = props.monthlyFinancial;
+        const chartData = props.monthlyFinancial;
 
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: chartData.map(entry => {
-                    // Format the date
-                    const formattedDate = new Date(entry.date).toLocaleDateString('en-US', {
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.map(entry => {
+                    // Format the date using the month and current year
+                    const formattedDate = new Date(`${entry.month}-01 ${new Date().getFullYear()}`).toLocaleDateString('en-US', {
                         year: 'numeric',
-                        month: 'long', // You can use 'short' or 'numeric' depending on your preference
+                        month: 'long',
                     });
 
                     return formattedDate;
-                    }),
-                    datasets: [{
+                }),
+                datasets: [{
                     label: 'Total Cash Balance',
                     data: chartData.map(entry => entry.totalCashBalance),
                     backgroundColor: 'rgba(39,150,248,0.68)',
                     borderColor: 'rgba(23, 68, 88, 1)',
                     borderWidth: 1,
-                    }],
-                },
-                options: {
-                    scales: {
+                }],
+            },
+            options: {
+                scales: {
                     y: {
                         beginAtZero: true,
                         title: {
-                        display: true,
-                        text: 'Money on Bank', // Your desired label for the y-axis
+                            display: true,
+                            text: 'Money on Bank', // Your desired label for the y-axis
                         },
                     },
-                    },
                 },
-            });
-        }
-    });
+            },
+        });
+    }
+});
+
+
+
+    
 
 
 

@@ -3,7 +3,7 @@
     import Modal from  '@/Components/Modal.vue';
     import DangerButton from '@/Components/DangerButton.vue';
     import SecondaryButton from '@/Components/SecondaryButton.vue';
-    import { ref,watch } from 'vue';
+    import { ref,watch, onMounted } from 'vue';
     import { Link, router, useForm, Head } from '@inertiajs/vue3';
     import Pagination from '@/Components/Pagination.vue';
 
@@ -13,7 +13,8 @@
 
     let props = defineProps({
         users:Object,
-        filters:Object
+        filters:Object,
+        flash:Object
 
     })
 
@@ -44,7 +45,70 @@
             }
         );
     });
+    onMounted(() => {
+    // Set a timeout to hide the success flash message after 3 seconds
+        const successFlashMessage = document.getElementById('flash-success-message');
+            if (successFlashMessage) {
+                setTimeout(() => {
+                successFlashMessage.style.display = 'none';
+                }, 3000);
+        }
+
+        // Set a timeout to hide the error flash message after 3 seconds
+        const errorFlashMessage = document.getElementById('flash-error-message');
+            if (errorFlashMessage) {
+                setTimeout(() => {
+                errorFlashMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
+
 </script>
+
+<style scoped>
+
+#flash-success-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 100%;
+    background-color: #4CAF50; /* Green color */
+    animation: progressBar 3s linear;
+}
+#flash-error-message {
+    animation: fadeOut 6s ease-in-out forwards;
+}
+
+.success .progress-bar {
+   
+    animation: progressBar 5s linear;
+}
+.error .progress-bar {
+    background-color: #FF5733; /* Red color */
+    animation: progressBar 5s linear;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes progressBar {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+</style>
 
 <template>
     <Head title="List of Users" />
@@ -70,6 +134,15 @@
                     </a> -->
                 </div>
             </div>
+            <div v-if="$page.props.flash.success" id="flash-success-message" class="absolute top-20 right-1 p-4 bg-green-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.success }}
+                <div class="progress-bar success"></div>
+            </div>
+
+            <div v-if="$page.props.flash.error" id="flash-error-message" class=" absolute top-20 right-1 p-4 bg-red-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.error }}
+                <div class="progress-bar error"></div>
+            </div>
         </template>
 
         <div class="py-12">
@@ -81,7 +154,7 @@
                         <table class="min-w-max w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                    <th class="py-3 px-3 text-left">Id</th>
+                                    <!-- <th class="py-3 px-3 text-left">Id</th> -->
                                     <th class="py-3 px-3 text-left">Name </th>
                                     <th class="py-3 px-3 text-center">Gender</th>
                                     <th class="py-3 px-3 text-center">Type</th>
@@ -97,12 +170,12 @@
                                     <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No user record available</td>
                                 </tr>
                                 <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="user in users.data" :key="user.id">
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    <!-- <td class="py-3 px-6 text-left whitespace-nowrap">
                                         <div class="flex items-center">
 
                                             <p class="font-medium">{{ user.id }}</p>
                                         </div>
-                                    </td>
+                                    </td> -->
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex items-center justify-center">
                                             <p class="font-medium">{{user.firstName }} {{user.middleName}} {{ user.lastName}} {{ user.suffix }}</p>
@@ -161,14 +234,14 @@
                                             </div>
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                                <Link :href=" '/users/edit/' + user.id" class="btn" title="Edit Doctor">
+                                                <Link :href=" '/users/edit/' + user.id" class="btn" title="Edit User">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                     </svg>
                                                 </Link>
                                             </div>
                                             <div class="w-4  ml-2 mr-2 transform hover:text-red-500 hover:scale-110">
-                                                <a href="#" @click="remove(user)" class="btn" title="Delete Category">
+                                                <a href="#" @click="remove(user)" class="btn" title="Delete User">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>

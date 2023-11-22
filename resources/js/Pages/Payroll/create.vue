@@ -152,11 +152,6 @@
         form.total_net_amount = totalNetAmount;
     }, { deep: true });
 
-
-
-
-
-
     function submit() {
         form.post('/payroll');
 
@@ -240,7 +235,7 @@
                             </thead>
                             <tbody>
                               <tr  v-for="(employee, index) in employees" :key="employee.id">
-                              
+
                                 <td class="py-2 px-2 text-left whitespace-nowrap">
                                   <span>{{ employee.user.firstName }} {{ employee.user.lastName }}</span>
                                 </td>

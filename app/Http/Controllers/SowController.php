@@ -56,7 +56,7 @@ class SowController extends Controller
 
         Sow::create($fields);
 
-        return redirect('/sows')->with('message','Sow Added Successfully');
+        return redirect('/sows')->with('success','Sow Added Successfully');
     }
 
     /**
@@ -78,8 +78,8 @@ class SowController extends Controller
             $query->where('sow_id', $sow->id);
         })
         ->paginate(6);
-    
-        
+
+
         return inertia('Sow/show', [
             'sows' => $sow,
             'breedings' => $breedings,
@@ -88,7 +88,6 @@ class SowController extends Controller
             // 'weanings' => $weanings
         ]);
     }
-    
 
 
     /**
@@ -114,7 +113,7 @@ class SowController extends Controller
 
         $sow->update($fields);
 
-        return redirect('/sows')->with('message','Sow Updated Successfully');
+        return redirect('/sows')->with('success','Sow Updated Successfully');
     }
 
     /**
@@ -127,14 +126,14 @@ class SowController extends Controller
 
     public function deactivateSow(Sow $sow){
         $sow->update(['status' => 0]);
-    
+
         return redirect('/sows/' . $sow->id);
     }
-    
+
     public function activateSow(Sow $sow){
         $sow->update(['status' => 1]);
-    
+
         return redirect('/sows/' . $sow->id);
     }
-    
+
 }

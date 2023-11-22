@@ -22,12 +22,21 @@
                             Export
                     </a>
                 </div>
+                <div v-if="$page.props.flash.success" id="flash-success-message" class="absolute top-20 right-1 p-4 bg-green-300 border border-gray-300 rounded-md shadow-md">
+                    {{ $page.props.flash.success }}
+                    <div class="progress-bar success"></div>
+                </div>
+
+                <div v-if="$page.props.flash.error" id="flash-error-message" class=" absolute top-20 right-1 p-4 bg-red-300 border border-gray-300 rounded-md shadow-md">
+                    {{ $page.props.flash.error }}
+                    <div class="progress-bar error"></div>
+                </div>
             </div>
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-7">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    
+
                         <table class="min-w-max w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -83,7 +92,7 @@
                                             <p class="font-medium">{{ formattedDate(breeding.exp_date_of_farrowing)}}</p>
                                         </div>
                                     </td>
-                                   
+
                                     <td class="py-3 px-3 text-center">
                                         <span class="remarks-cell  py-1 px-3 rounded-full text-xs"
                                             :class="{
@@ -144,7 +153,7 @@
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { watch, ref } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 import  moment from 'moment'
 
 const props = defineProps({
@@ -173,4 +182,67 @@ let search = ref(props.filters.search);
             }
         );
     });
+    onMounted(() => {
+    // Set a timeout to hide the success flash message after 3 seconds
+        const successFlashMessage = document.getElementById('flash-success-message');
+            if (successFlashMessage) {
+                setTimeout(() => {
+                successFlashMessage.style.display = 'none';
+                }, 3000);
+        }
+
+        // Set a timeout to hide the error flash message after 3 seconds
+        const errorFlashMessage = document.getElementById('flash-error-message');
+            if (errorFlashMessage) {
+                setTimeout(() => {
+                errorFlashMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
+
 </script>
+
+<style scoped>
+
+#flash-success-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 100%;
+    background-color: #4CAF50; /* Green color */
+    animation: progressBar 3s linear;
+}
+#flash-error-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.success .progress-bar {
+   
+    animation: progressBar 5s linear;
+}
+.error .progress-bar {
+    background-color: #FF5733; /* Red color */
+    animation: progressBar 5s linear;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes progressBar {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+</style>

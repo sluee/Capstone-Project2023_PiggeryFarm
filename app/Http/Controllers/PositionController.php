@@ -48,7 +48,7 @@ class PositionController extends Controller
 
         Position::create($fields);
 
-        return redirect('/positions')->with('message','Position Added Successfully');
+        return redirect('/positions')->with('success','Position Added Successfully');
     }
 
     /**

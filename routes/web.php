@@ -45,15 +45,12 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        // 'canRegister' => Route::has('register'),
+        // 'laravelVersion' => Application::VERSION,
+        // 'phpVersion' => PHP_VERSION,
     ]);
-});
+})->middleware('checkUserStatus')->name('login');
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -117,7 +114,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/weaning/{weaning}', [WeaningController::class, 'update']);
     Route::delete('/weaning/{weaning}', [WeaningController::class, 'destroy']);
     });
-   
+
 
     Route::middleware('can:manage_sales')->group(function(){
         Route::get('/sales' ,[SaleItemController::class, 'index'])->name('SalesItem.index');
@@ -132,15 +129,15 @@ Route::middleware('auth')->group(function () {
         Route::put('/customers/{customer}', [CustomerController::class, 'update']);
         Route::get('/customers/{customer}',[CustomerController::class,'show']);
         Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
-    
+
     });
-  
+
     Route::middleware('can:view_sales')->group(function(){
-       
+
         Route::get('/histories' ,[SaleController::class, 'index'])->name('SalesHistory.index');
         Route::get('/salesChart' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.chart');
-    
-    });   
+
+    });
 
     Route::middleware('can:manage_feeds')->group(function(){
          //Route for suppliers
@@ -151,33 +148,33 @@ Route::middleware('auth')->group(function () {
         Route::get('/categories' ,[CategoryController::class, 'index'])->name('categories.index');
         Route::get('/categories/create',[CategoryController::class , 'create']);
         Route::post('/categories',[CategoryController::class, 'store']);
-    
+
         Route::get('/feeds' ,[FeedController::class, 'index'])->name('feeds.index');
         Route::get('/feeds/create',[FeedController::class , 'create']);
         Route::post('/feeds',[FeedController::class, 'store']);
-    
+
         Route::get('/feeds-purchase' ,[FeedsPurchaseController::class, 'index'])->name('purchase.index');
         Route::post('/feeds-purchase',[FeedsPurchaseController::class, 'store']);
         Route::put('/feeds-purchase/{feedsPurchase}', [FeedsPurchaseController::class, 'update']);
         Route::get('/sales/pdf/{sale}',[PdfController::class,'salesReceipt']);
         Route::get('/feeds-purchase/pdf/',[PdfController::class,'feedsPurchase']);
         Route::get('/feeds-purchases/pdf/',[PdfController::class,'feedsConsumption'])->name('consumption.pdf');
-    
+
         Route::get('/feeds-consumption' ,[ConsumptionController::class, 'index'])->name('consumption.index');
         Route::post('/feeds-consumption',[ConsumptionController::class, 'store']);
-    }); 
-      
+    });
+
     Route::middleware('can:manage_users')->group(function(){
         Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
         Route::post('/positions', [PositionController::class, 'store']);
-    
+
         Route::get('/employees/create',[EmployeeController::class , 'create']);
         Route::post('/employees', [EmployeeController::class, 'store']);
         Route::get('/employees/edit/{employee}',[EmployeeController::class , 'edit']);
         Route::post('/employees/toggle/{employee}', [EmployeeController::class, 'toggleActive'])->name('employees.toggle');
         Route::put('/employees/{employee}', [EmployeeController::class, 'update']);
         Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy']);
-    
+
     });
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index')->middleware('can:read_users');
 
@@ -193,34 +190,33 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:manage_finance' )->group(function(){
     Route::get('/transactions',[FinancialTransactionController::class, 'index'])->name('transaction.index');
     Route::get('/transactions-charts',[FinancialTransactionItemsController::class, 'index'])->name('transactions.chart');
-    Route::get('/transactions-charts',[FinancialTransactionItemsController::class, 'index'])->name('transactions.chart');
     Route::get('/transactions/create', [FinancialTransactionController::class, 'create']);
     // Route::post('/transactions',[FinancialTransactionItemsController::class, 'store']);
     Route::post('/transactions',[FinancialTransactionController::class, 'store']);
     Route::get('/transactions/{financialTransaction}',[FinancialTransactionController::class, 'show']);
-   
+
     });
-    
+
     Route::get('/financial}',[FinancialTransactionController::class, 'financial'])->name('transaction.financial')->middleware('can:manage_reports');
-    
+
     Route::middleware('can:manage_payroll')->group(function(){
         Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
         Route::get('/payroll/create', [PayrollController::class, 'create'])->name('payroll.create');
         Route::post('/payroll', [PayrollItemController::class, 'store'])->name('payroll.create');
         Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
-        
+
         Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
         Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');
         Route::post('/cashAdvance',[CashAdvanceController::class, 'store'])->name('cashAdvance.store');
 
     });
-   
+
 
     Route::get('/payrolls', [PayrollController::class, 'payroll'])->name('payroll.payroll')->middleware('can:manage_reports');
 
     Route::get('/payslip', [PayrollItemController::class, 'showMyPayroll'])->name('payroll.payslip')->middleware('can:read_payslip');
 
-   
+
     Route::middleware('can:view_invoice')->group(function(){
         Route::get('/transactions/pdf/{financialTransaction}', [PdfController::class, 'transaction'])->name('transaction.pdf');
         Route::get('/employee/pdf/',[PdfController::class,'employeeSummary'])->name('employee.pdf');
@@ -234,7 +230,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/cashAdvance/pdf/',[PdfController::class,'cashAdvance'])->name('cashAdvance.pdf');
         Route::get('/transaction/pdf/',[PdfController::class,'transactionSummary'])->name('transaction.pdf');
     });
-   
+
 
 });
 

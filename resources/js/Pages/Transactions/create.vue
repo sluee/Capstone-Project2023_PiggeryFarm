@@ -2,7 +2,7 @@
     import SideBarLayout from '@/Layouts/SideBarLayout.vue'
     import { Head, Link, router, useForm } from '@inertiajs/vue3';
     import moment from'moment'
-    import { ref, computed, watch, onMounted, reactive } from 'vue';
+    import { ref, watch } from 'vue';
 
 
     const props = defineProps({
@@ -17,24 +17,24 @@
         particulars: particularNames.map((name) => ({ fin_id: name, debit: '', credit: '', balance: '' })),
     });
 
-const updateBalances = () => {
-    form.particulars[0].balance = form.particulars[0].credit;
+    const updateBalances = () => {
+        form.particulars[0].balance = form.particulars[0].credit;
 
-    for (let i = 1; i < form.particulars.length; i++) {
-        form.particulars[i].balance =
-            form.particulars[i - 1].balance + form.particulars[i].credit - form.particulars[i].debit;
-    }
+        for (let i = 1; i < form.particulars.length; i++) {
+            form.particulars[i].balance =
+                form.particulars[i - 1].balance + form.particulars[i].credit - form.particulars[i].debit;
+        }
 
-    form.totalCashBalance = form.particulars[form.particulars.length - 1].balance;
-};
+        form.totalCashBalance = form.particulars[form.particulars.length - 1].balance;
+    };
 
-const totalCash = ref(0);
-watch(form.particulars, updateBalances, { deep: true });
+    const totalCash = ref(0);
+    watch(form.particulars, updateBalances, { deep: true });
 
-totalCash.value = form.particulars.reduce((sum, item) => sum + item.balance, 0);
+    totalCash.value = form.particulars.reduce((sum, item) => sum + item.balance, 0);
 
-const isDebitFieldDisabled = (index) => index >= 1 && index <= 2;
-const isCreditFieldDisabled = (index) => index >= 3 && index <= 6;
+    const isDebitFieldDisabled = (index) => index >= 1 && index <= 2;
+    const isCreditFieldDisabled = (index) => index >= 3 && index <= 6;
 
 function submit() {
     form.post('/transactions/');
@@ -120,19 +120,15 @@ function submit() {
                                         </td>
 
                                     </tr>
-                                    <!-- <tr>
-                                        <td class="py-2 px-2">Remarks</td>
-                                        <td colspan="3"><textarea id="message" rows="3" v-model="form.remarks" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Leave it blank if there are no remarks"></textarea></td>
-                                    </tr> -->
+                                   
                                 </tbody>
                             </table>
-                            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Remarks</label>
+                            <label for="message" class="block mb-2 ml-2 text-normal font-medium text-gray-900 ">Remarks</label>
                             <textarea id="message" rows="3" v-model="form.remarks" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Leave it blank if there are no remarks"></textarea>
                         </div>
                         <div class="flex justify-between mt-3">
                           <h1 class="text-3xl font-medium text-gray-700"></h1>
-
-                          <button type="submit" class="bg-blue-500 flex justify-center hover:bg-blue-700 w-[180px] items-center text-dark px-5 py-2 rounded-md focus:outline-none" >Save</button>
+                          <button type="submit" class="bg-blue-500 flex justify-center hover:bg-blue-700 w-[180px] items-center text-dark px-5 py-2 rounded-md focus:outline-none"> Save </button>
                         </div>
                       </form>
 

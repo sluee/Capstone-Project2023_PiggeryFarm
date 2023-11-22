@@ -20,6 +20,16 @@
                             Export
                     </a>
                 </div>
+
+                <div v-if="$page.props.flash.success" id="flash-success-message" class="absolute top-20 right-1 p-4 bg-green-300 border border-gray-300 rounded-md shadow-md">
+                    {{ $page.props.flash.success }}
+                    <div class="progress-bar"></div>
+                </div>
+
+                <div v-if="$page.props.flash.error" id="flash-error-message" class=" absolute top-20 right-1 p-4 bg-red-300 border border-gray-300 rounded-md shadow-md">
+                    {{ $page.props.flash.error }}
+                    <div class="progress-bar error"></div>
+                </div>
             </div>
         </template>
         <div class="py-12">
@@ -60,13 +70,13 @@
                                     <div class="flex items-center justify-center">
                                         <p class="font-medium">{{formattedDate (sow.date_arrived) }}</p>
                                     </div>
-                                    
+
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <Link :href="'/sows/' + sow.id">
+                                            <Link :href="'/sows/' + sow.id" title="Show Sow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -74,14 +84,14 @@
                                             </Link>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                            <a :href="'/sows/edit/'+sow.id">
+                                            <a :href="'/sows/edit/'+sow.id" title="Edit Sow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
                                             </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                            <a href="/delete">
+                                            <a href="/delete" title="Delete Sow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
@@ -91,7 +101,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>                               
+                    </table>
                 </div>
                 <Pagination :links="sows.links" class="mt-6 flex justify-center"/>
             </div>
@@ -104,12 +114,13 @@
 <script setup>
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { watch, ref } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 import moment from'moment'
 import Pagination from '@/Components/Pagination.vue';
 const props = defineProps({
     sows: Object,
-    filters:Object
+    filters:Object,
+    flash:Object
 
 })
 
@@ -133,4 +144,63 @@ let search = ref(props.filters.search);
         );
     });
 
+    onMounted(() => {
+    // Set a timeout to hide the success flash message after 3 seconds
+        const successFlashMessage = document.getElementById('flash-success-message');
+            if (successFlashMessage) {
+                setTimeout(() => {
+                successFlashMessage.style.display = 'none';
+                }, 3000);
+        }
+
+        // Set a timeout to hide the error flash message after 3 seconds
+        const errorFlashMessage = document.getElementById('flash-error-message');
+            if (errorFlashMessage) {
+                setTimeout(() => {
+                errorFlashMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
+
 </script>
+
+<style scoped>
+
+#flash-success-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 100%;
+    background-color: #4CAF50; /* Green color */
+    animation: progressBar 3s linear;
+}
+#flash-error-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.error .progress-bar {
+    background-color: #FF5733; /* Red color */
+    animation: progressBar 5s linear;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes progressBar {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+</style>

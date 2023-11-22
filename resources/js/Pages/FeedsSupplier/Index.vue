@@ -27,6 +27,15 @@
                     </a>
                 </div>
             </div>
+            <div v-if="$page.props.flash.success" id="flash-success-message" class="absolute top-20 right-1 p-4 bg-green-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.success }}
+                <div class="progress-bar success"></div>
+            </div>
+
+            <div v-if="$page.props.flash.error" id="flash-error-message" class=" absolute top-20 right-1 p-4 bg-red-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.error }}
+                <div class="progress-bar error"></div>
+            </div>
         </template>
         <div class="py-12">
             <div class="">
@@ -117,7 +126,7 @@
                                         </div>
                                         <div class="mt-6 flex justify-center gap-x-4">
                                             <SecondaryButton @click="closeAddItemModal">Cancel</SecondaryButton>
-                                            <PrimaryButton  @click="addItem()">Add Item</PrimaryButton>
+                                            <PrimaryButton  @click="addItem()">Add Supplier</PrimaryButton>
                                         </div>
                                     </form>
                                     </div>
@@ -138,64 +147,123 @@
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import moment from'moment'
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Pagination from '@/Components/Pagination.vue';
 
-
-const form = useForm({
-    name:'',
-    phone:''
-});
-const props = defineProps({
-    suppliers:Object,
-    filters:Object
-})
-function formattedDate(date){
-    return moment(date).format('MMMM   D, YYYY');
-}
-// function search(ev){
-//     router.visit('/sales/search/'+ ev.target.value);
-
-// }
-
-const showAddItemModal = ref(false);
-
-const openAddItemModal = () => {
-  showAddItemModal.value = true;
-};
-
-const closeAddItemModal = () => {
-  showAddItemModal.value = false;
-};
-
-const addItem = () => {
-    form.post('/suppliers/');
-    form.reset();
-    closeAddItemModal();
-};
+    const form = useForm({
+        name:'',
+        phone:''
+    });
+    const props = defineProps({
+        suppliers:Object,
+        filters:Object,
+        flash:Object
+    })
+    function formattedDate(date){
+        return moment(date).format('MMMM   D, YYYY');
+    }
 
 
-let search = ref(props.filters.search);
-    watch(search, (value) => {
-        router.get(
-            "/suppliers",
-            { search: value },
-            {
-                preserveState: true,
-                replace: true,
-            }
-        );
-        console.log('props.weanings');
+    const showAddItemModal = ref(false);
+
+    const openAddItemModal = () => {
+    showAddItemModal.value = true;
+    };
+
+    const closeAddItemModal = () => {
+    showAddItemModal.value = false;
+    };
+
+    const addItem = () => {
+        form.post('/suppliers/');
+        form.reset();
+        closeAddItemModal();
+    };
+
+
+    let search = ref(props.filters.search);
+        watch(search, (value) => {
+            router.get(
+                "/suppliers",
+                { search: value },
+                {
+                    preserveState: true,
+                    replace: true,
+                }
+            );
+          
     });
 
 
-function submit() {
-    form.post('/suppliers/');
-    form.name='',
-    form.phone=''
-}
+    function submit() {
+        form.post('/suppliers/');
+        form.name='',
+        form.phone=''
+    }
+    onMounted(() => {
+    // Set a timeout to hide the success flash message after 3 seconds
+        const successFlashMessage = document.getElementById('flash-success-message');
+            if (successFlashMessage) {
+                setTimeout(() => {
+                successFlashMessage.style.display = 'none';
+                }, 3000);
+        }
+
+        // Set a timeout to hide the error flash message after 3 seconds
+        const errorFlashMessage = document.getElementById('flash-error-message');
+            if (errorFlashMessage) {
+                setTimeout(() => {
+                errorFlashMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
 
 </script>
+
+<style scoped>
+
+#flash-success-message {
+    animation: fadeOut 6s ease-in-out forwards;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 100%;
+    background-color: #4CAF50; /* Green color */
+    animation: progressBar 3s linear;
+}
+#flash-error-message {
+    animation: fadeOut 7s ease-in-out forwards;
+}
+
+.success .progress-bar {
+   
+    animation: progressBar 5s linear;
+}
+.error .progress-bar {
+    background-color: #FF5733; /* Red color */
+    animation: progressBar 5s linear;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes progressBar {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+</style>

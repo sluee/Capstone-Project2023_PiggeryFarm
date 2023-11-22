@@ -38,7 +38,7 @@ class PayrollController extends Controller
             $query->where('status', 1); // Assuming 'status' is the field indicating the user's status
         })
         ->get();
-    
+
 
         // Assuming you have a relationship between Employee and CashAdvance
         $cashAdvances = CashAdvanceTotals::whereIn('emp_id', $employees->pluck('id'))->get();
@@ -123,7 +123,7 @@ class PayrollController extends Controller
         $payroll = Payroll::with('payrollItem.employee.user', 'payrollItem.employee.position', 'payrollItem.employee.advanceTotal')
             ->orderByDesc('created_at')
             ->first(); // Retrieve only the most recent payroll
-    
+
         // Check if a payroll was found before proceeding
         if ($payroll) {
             // Convert the Eloquent model and related models to plain arrays
@@ -131,7 +131,7 @@ class PayrollController extends Controller
             $payrollArray['payrollItem'] = $payroll->payrollItem->map(function ($item) {
                 return $item->toArray();
             });
-    
+
             return inertia('Payroll/payroll', [
                 'payroll' => $payrollArray,
             ]);
@@ -142,5 +142,5 @@ class PayrollController extends Controller
             ]);
         }
     }
-    
+
 }

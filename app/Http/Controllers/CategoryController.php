@@ -54,7 +54,7 @@ class CategoryController extends Controller
 
         Category::create($fields);
 
-        return redirect('/categories')->with('message','Suppliers Added Successfully');
+        return redirect('/categories')->with('success','Feeds Category Added Successfully');
     }
 
     /**

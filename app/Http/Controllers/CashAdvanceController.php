@@ -33,7 +33,11 @@ class CashAdvanceController extends Controller
      */
     public function create()
     {
-        $employee = Employee::with('user')->get();
+        $employee = Employee::with('user')
+        ->whereHas('user', function ($query) {
+            $query->where('status', 1); // Assuming 'status' is the field indicating the user's status
+        })
+        ->get();
 
         return inertia('CashAdvance/create', [
             'cashAdvance' => CashAdvance::orderBy('id', 'asc')->get(),

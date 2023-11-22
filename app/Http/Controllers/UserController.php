@@ -79,7 +79,7 @@ class UserController extends Controller
             $user->employee()->save($employee);
 
         }
-        return redirect()->route('user.index');
+        return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
 
     public function edit(User $user){
@@ -151,7 +151,7 @@ class UserController extends Controller
 
         });
 
-        return redirect()->route('user.index');
+        return redirect()->route('user.index')->with('success', 'User updated Successfully.');
     }
 
     public function destroy(User $user) {

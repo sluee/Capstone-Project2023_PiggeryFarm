@@ -87,7 +87,7 @@
                                             <p class="font-sm text-sm text-center">{{ formattedDate(bred.date_of_breed) }}</p >
                                         </td>
                                         <td class="py-2 px-2">
-                                            <p class="font-medium text-center  text-sm">{{ formattedDate(bred.exp_date_of_farrowing) }}</p >
+                                            <p class="font-sm text-center  text-sm">{{ formattedDate(bred.exp_date_of_farrowing) }}</p >
                                         </td>
                                         <td class="py-3 px-6 text-center">
                                             <div class="flex justify-center mb-2  text-sm">
@@ -119,16 +119,16 @@
                                     <tbody>
                                         <tr v-for="lab in labors.data" :key="lab.id">
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center  text-sm">{{ lab.id }}</p >
+                                                <p class="font-sm text-center  text-sm">{{ lab.id }}</p >
                                             </td>
                                             <td class="py-2 px-2">
-                                                <p class="font-medium text-center  text-sm">{{ formattedDate(lab.actual_date_farrowing) }}</p >
+                                                <p class="font-sm text-center  text-sm">{{ formattedDate(lab.actual_date_farrowing) }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center  text-sm">{{ lab.no_pigs_born }}</p >
+                                                <p class="font-sm text-center  text-sm">{{ lab.no_pigs_born }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center  text-sm">{{ lab.no_pigs_alive }}</p >
+                                                <p class="font-sm text-center  text-sm">{{ lab.no_pigs_alive }}</p >
                                             </td>
                                             <td class="py-3 px-6 text-center">
                                                 <div class="flex justify-center mb-2  text-sm">
@@ -160,16 +160,16 @@
                                     <tbody>
                                         <tr v-for="wean in weanings.data" :key="wean.id">
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center  text-sm">{{ wean.labors.id }}</p >
+                                                <p class="font-sm text-center  text-sm">{{ wean.labors.id }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center  text-sm">{{ wean.labors.no_pigs_born }}</p >
+                                                <p class="font-sm text-center  text-sm">{{ wean.labors.no_pigs_born }}</p >
                                             </td>
                                             <td class="py-2 px-2 text-left whitespace-nowrap">
-                                                <p class="font-medium text-center  text-sm">{{ wean.labors.no_pigs_alive }}</p >
+                                                <p class="font-sm text-center  text-sm">{{ wean.labors.no_pigs_alive }}</p >
                                             </td>
                                             <td class="py-2 px-2">
-                                                <p class="font-medium text-center  text-sm">{{ wean.no_of_pigs_weaned}}</p >
+                                                <p class="font-sm text-center  text-sm">{{ wean.no_of_pigs_weaned}}</p >
                                             </td>
                                             <td class="py-2 px-2 text-center whitespace-nowrap">
                                                 <p class="text-md font-semibold text-green-500  text-sm">{{ wean.remarks }}</p >

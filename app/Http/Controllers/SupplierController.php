@@ -41,11 +41,9 @@ class SupplierController extends Controller
 
         ]);
 
-
-
         Supplier::create($fields);
 
-        return redirect('/suppliers')->with('message','Suppliers Added Successfully');
+        return redirect('/suppliers')->with('success','Suppliers Added Successfully');
     }
 
     /**

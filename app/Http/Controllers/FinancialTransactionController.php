@@ -74,7 +74,7 @@ class FinancialTransactionController extends Controller
 
         $transaction->financialItems()->saveMany($transactionItems);
 
-        return redirect('/transactions')->with('success', 'Financial Transaction Added Successfully');
+        return redirect('/transactions/' . $transaction->id)->with('success', 'Financial Transaction Added Successfully');
     }
 
 

@@ -1,8 +1,12 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm,  } from '@inertiajs/vue3';
-    import { ref, computed, watch } from 'vue';
-
+    import { ref, watch } from 'vue';
+    const props = defineProps({
+        breeding: Object,
+        sows:Object,
+        boars:Object
+    });
     const form = useForm({
         sow_id: props.breeding.sow_id,
         boar_id: props.breeding.boar_id,
@@ -39,15 +43,11 @@
         return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     }
 
-    const props = defineProps({
-        breeding: Object,
-        sows:Object,
-        boars:Object
-    });
+  
 
     function submit() {
         form.put('/breedings/'+props.breeding.id);
-        console.log('Possible Reheat:', calculateFutureDate.value);
+      
     }
 
 
