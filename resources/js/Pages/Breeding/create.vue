@@ -83,10 +83,10 @@ function submit() {
                                     </select>
                                     <div class="text-red-600" v-if="form.errors.sow_id">{{ form.errors.sow_id }}</div>
 
-                                    <label class="font-semibold text-sm text-gray-600  block" for="sow_id">Sow Boar</label>
+                                    <label class="font-semibold text-sm text-gray-600  block" for="sow_id">Boar's Breed</label>
                                     <select name="" id="boar_id" v-model="form.boar_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
                                         <option value="" disabled>Select a Boar</option>
-                                        <option v-for="boar in boars" :value="boar.id" :key="boar.id" >{{ boar.breed }}</option>
+                                        <option v-for="boar in boars" :value="boar.id" :key="boar.id" >{{ boar.boar_no }} | {{ boar.breed }}</option>
                                     </select>
                                     <div class="text-red-600" v-if="form.errors.boar_id">{{ form.errors.boar_id }}</div>
 

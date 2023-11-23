@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Category;
 use App\Models\Feed;
+use App\Models\Inventory;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -67,6 +68,33 @@ class FeedController extends Controller
 
     //     return redirect('/feeds')->with('success', 'Feeds Added Successfully');
     // }
+    // public function store(Request $request)
+    // {
+    //     $fields = $request->validate([
+    //         'cat_id' => 'required|numeric|exists:categories,id',
+    //         'sup_id' => 'required|numeric|exists:suppliers,id',
+    //         // Add a unique rule for the combination of cat_id and sup_id
+    //         'cat_id' => Rule::unique('feeds')->where(function ($query) use ($request) {
+    //             return $query->where('sup_id', $request->sup_id);
+    //         })->ignore($request->id), // Add this line if you're updating a record
+    //     ]);
+
+    //     $feed = Feed::create($fields);
+        
+    //     $inventory = Inventory::where('feed_id' ,$feed->id)->first();
+    //     if($inventory){
+    //         $inventory->stock_in += $feed->qty;
+    //         $inventory->save();
+    //     }else{
+    //         $inventory = new Inventory([
+    //             'feed_id'  => $feed->id,
+    //             'stock_in'  => $feed->qty
+    //         ]);
+    //         $inventory->save();
+    //     }
+
+    //     return redirect('/feeds')->with('success', 'Feeds Added Successfully');
+    // }
     public function store(Request $request)
 {
     $fields = $request->validate([
@@ -78,7 +106,19 @@ class FeedController extends Controller
         })->ignore($request->id), // Add this line if you're updating a record
     ]);
 
-    Feed::create($fields);
+    $feed = Feed::create($fields);
+    
+    $inventory = Inventory::where('feed_id' ,$feed->id)->first();
+    if($inventory){
+        $inventory->stock_in += $feed->qty;
+        $inventory->save();
+    } else {
+        $inventory = new Inventory([
+            'feed_id'  => $feed->id,
+            'stock_in'  => $feed->qty
+        ]);
+        $inventory->save();
+    }
 
     return redirect('/feeds')->with('success', 'Feeds Added Successfully');
 }

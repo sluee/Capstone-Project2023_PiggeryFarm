@@ -5,7 +5,7 @@
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Weaning</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">List of Weaning</h2>
                 <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search  Weaning here" v-model="search">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -36,10 +36,10 @@
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-3 text-left">Id</th>
-                                <th class="py-3 px-3 text-left">Sow </th>
+                                <th class="py-3 px-3 text-center">Id</th>
+                                <th class="py-3 px-3 text-center">Sow </th>
                                 <th class="py-3 px-3 text-center">Boar</th>
-                                <th class="py-3 px-3 text-center">Labor</th>
+
                                 <th class="py-3 px-3 text-center">No of Pigs Born</th>
                                 <th class="py-3 px-3 text-center">No of Pigs Alive</th>
                                 <th class="py-3 px-3 text-center">No of Pigs Weaned</th>
@@ -52,10 +52,10 @@
                                 <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No weaning record available</td>
                             </tr>
                             <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="wean in weaning.data" :key="wean.id">
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                <!-- <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <p class="font-medium">{{ wean.id }}</p>
 
-                                </td>
+                                </td> -->
                                 <td  class="py-3 px-6 text-center">{{ wean.labors.breeding.sow.sow_no }}</td>
                                 <td  class="py-3 px-6 text-center">{{ wean.labors.breeding.boar.breed }}</td>
                                 <td  class="py-3 px-6 text-center">{{ wean.labor_id }}</td>
@@ -123,7 +123,7 @@ let search = ref(props.filters.search);
                 replace: true,
             }
         );
-       
+
     });
 
     onMounted(() => {
@@ -163,7 +163,7 @@ let search = ref(props.filters.search);
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {

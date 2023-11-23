@@ -20,6 +20,7 @@
     "dependencies": {
         "chart.js": "^4.4.0",
         "moment": "^2.29.4",
+        "tom-select": "^2.3.1",
         "vuex": "^4.1.0"
     }
 }

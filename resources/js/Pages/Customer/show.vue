@@ -12,7 +12,6 @@
     const props = defineProps({
         customer: Object,
         sales:Object,
-
         filters:Object,
 
     })
@@ -147,9 +146,9 @@
                                 </th> -->
                             </tr>
                         </thead>
-                        <tbody v-for="sale in customer.sales" :key="sale.id">
+                        <tbody >
 
-                            <tr class="bg-blue-200 hover:bg-blue-300 text-center font-medium text-black  whitespace-nowrap ">
+                            <tr class="bg-blue-200 hover:bg-blue-300 text-center font-medium text-black  whitespace-nowrap " v-for="sale in customer.sales" :key="sale.id">
 
                                 <td class="px-3 py-4 text-center">
                                     <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue;">

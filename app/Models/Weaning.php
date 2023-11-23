@@ -42,4 +42,13 @@ class Weaning extends Model
             'boar_id'  // Local key on breedings table
         );
     }
+
+    public function updateBreedingRemarks()
+    {
+        $breeding = $this->labors->breeding;
+
+        if ($breeding) {
+            $breeding->update(['remarks' => 'Done']);
+        }
+    }
 }

@@ -27,6 +27,7 @@ class BreedingController extends Controller
                     $supplierQuery->where('breed', 'like', '%' . $search . '%');
                 });
         })
+        ->orderBy('id', 'desc')
         ->paginate(8)
         ->withQueryString();
 

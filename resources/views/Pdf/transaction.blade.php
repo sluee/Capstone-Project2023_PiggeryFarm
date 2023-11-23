@@ -39,7 +39,6 @@
 
         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Financial Transaction Summary</h2>
 
-        <hr>
 
         <table style=" width: 100%">
             <thead>
@@ -54,29 +53,25 @@
 
             <tbody>
 
+                @foreach ($transaction as $item )
+                <tr>
+                    <td style="text-align: center">
+                        {{$item->id}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->date}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->totalCashBalance}}
+                    </td>
+                    <td style="text-align: center;">
+                        {{$item->remarks}}
+                    </td>
 
-                <td style="text-align:right">
+                </tr>
 
-
-                    @foreach ($transaction as $item )
-                    <tr>
-                        <td style="text-align: center">
-                            {{$item->id}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->date}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->totalCashBalance}}
-                        </td>
-                        <td style="text-align: center;">
-                            {{$item->remarks}}
-                        </td>
-
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach
+                 
 
             </tbody>
 

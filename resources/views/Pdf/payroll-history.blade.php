@@ -52,9 +52,6 @@
         </div> --}}
 
 
-
-        <hr>
-
         <table style=" width: 100%">
             <thead>
                 <tr>
@@ -70,34 +67,30 @@
 
             <tbody>
 
+                @foreach ($payroll as $item )
+                <tr>
+                    <td>
+                        PAY00{{$item->id}}
+                    </td>
+                    <td style="text-align: cemter">
+                        {{ $item->formattedPeriod }}
+                    </td>
+                    <td style="text-align: right">
+                            {{$item->noOfDaysWorked}}
+                    </td>
+                    <td style="text-align: right">
+                            {{$item->total_gross_amount}}
+                    </td>
+                    <td style="text-align: right">
+                            {{$item->total_deductions_amount}}
+                    </td>
+                    <td style="text-align: right">
+                            {{$item->total_net_amount}}
+                    </td>
+                </tr>
 
-                <td style="text-align:right">
-
-
-                    @foreach ($payroll as $item )
-                    <tr>
-                        <td>
-                           PAY00{{$item->id}}
-                        </td>
-                        <td style="text-align: cemter">
-                           {{ $item->formattedPeriod }}
-                        </td>
-                        <td style="text-align: right">
-                             {{$item->noOfDaysWorked}}
-                        </td>
-                        <td style="text-align: right">
-                             {{$item->total_gross_amount}}
-                        </td>
-                        <td style="text-align: right">
-                             {{$item->total_deductions_amount}}
-                        </td>
-                        <td style="text-align: right">
-                             {{$item->total_net_amount}}
-                        </td>
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach
+                
 
             </tbody>
 

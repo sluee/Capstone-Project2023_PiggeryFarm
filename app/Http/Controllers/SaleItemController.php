@@ -110,13 +110,6 @@ class SaleItemController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(SaleItem $saleItem)
-    // {
-    //     $saleItem->load('sale'); // Load the parent Sale model for the SaleItem
-    //     return inertia('SalesItem/show', [
-    //         'saleItem' => $saleItem,
-    //     ]);
-    // }
 
 //     public function show(SaleItem $saleItem)
 // {

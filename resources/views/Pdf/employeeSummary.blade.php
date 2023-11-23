@@ -41,7 +41,7 @@
 
         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Employee Summary</h2>
 
-        <hr>
+       
 
         <table style=" width: 100%">
             <thead>
@@ -60,41 +60,37 @@
 
             <tbody>
 
+                @foreach ($employee as $item )
+                <tr>
+                    <td style="text-align: center">
+                        {{$item->id}}
+                    </td>
+                    <td style="text-align: center;">
+                        {{$item->user->firstName}} {{$item->user->lastName}}
+                    </td>
+                    <td style="text-align: center;">
+                        {{$item->user->address}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->user->gender}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->user->phone}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->user->email}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->position->position}}
+                    </td>
+                    <td style="text-align: center;">
+                        {{$item->position->rate}}
+                    </td>
 
-                <td style="text-align:right">
+                </tr>
 
-
-                    @foreach ($employee as $item )
-                    <tr>
-                        <td style="text-align: center">
-                            {{$item->id}}
-                        </td>
-                        <td style="text-align: center;">
-                            {{$item->user->firstName}} {{$item->user->lastName}}
-                        </td>
-                        <td style="text-align: center;">
-                            {{$item->user->address}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->user->gender}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->user->phone}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->user->email}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->position->position}}
-                        </td>
-                        <td style="text-align: center;">
-                            {{$item->position->rate}}
-                        </td>
-
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach
+                 
 
             </tbody>
 

@@ -63,9 +63,19 @@
     }
     });
 
-    const submit = () =>{
+    // const submit = () =>{
+    //     form.put('/users/'+props.user.id)
+    // }
+
+    const isLoading = ref(false);
+
+    const submit = async () => {
+        isLoading.value = true;
         form.put('/users/'+props.user.id)
-    }
+        setTimeout(() => {
+            isLoading.value = false;
+        }, 5000);
+    };
 </script>
 
 <template>
@@ -232,12 +242,66 @@
                     </div>
 
                     <div class="mt-6 flex items-center justify-end gap-x-6 mb-3">
-                      <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+                      <Link as="button" href="/users" class="rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Cancel</Link>
                       <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
                     </div>
                   </form>
+            </div>
+            <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
+                <div class="spinner">
+                  <div class="dot1"></div>
+                  <div class="dot2"></div>
+                  <div class="dot3"></div>
+                </div>
             </div>
         </div>
     </SideBarLayout>
 
 </template>
+
+<style scoped>
+.spinner {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   .dot1, .dot2, .dot3 {
+    width: 15px;
+    height: 15px;
+    border: double;
+    border-color: white;
+    border-radius: 50%;
+    margin: 10px;
+   }
+   
+   .dot1 {
+    animation: jump765 1.6s -0.32s linear infinite;
+    background: #2495ff;
+   }
+   
+   .dot2 {
+    animation: jump765 1.6s -0.16s linear infinite;
+    background: #2495ff;
+   }
+   
+   .dot3 {
+    animation: jump765 1.6s linear infinite;
+    background: #2495ff;
+   }
+   
+   @keyframes jump765 {
+    0%, 80%, 100% {
+     -webkit-transform: scale(0);
+     transform: scale(0);
+    }
+   
+    40% {
+     -webkit-transform: scale(2.0);
+     transform: scale(2.0);
+    }
+   }
+   
+   
+</style>

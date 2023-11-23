@@ -27,4 +27,8 @@ class Feed extends Model
         return $this->hasMany(Consumption::class, 'feed_id');
     }
 
+    public function inventory(){
+        return $this->hasOne(Inventory::class, 'feed_id');
+    }
+
 }

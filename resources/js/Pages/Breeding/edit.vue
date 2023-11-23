@@ -77,14 +77,14 @@
                                 </h4>
                                 <div class="px-5 py-5">
                                     <label class="font-semibold text-sm text-gray-600  block" for="sow_id">Sow Name</label>
-                                    <select name="" id="sow_id" v-model="form.sow_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                    <select name="" id="sow_id" v-model="form.sow_id"  class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " disabled>
                                         <option value="" disabled>Select a Sow</option>
-                                        <option v-for="sow in sows" :value="sow.id" :key="sow.id" >{{ sow.sow_no }}</option>
+                                        <option v-for="sow in sows" :value="sow.id" :key="sow.id" readonly>{{ sow.sow_no }}</option>
                                     </select>
                                     <div class="text-red-600" v-if="form.errors.sow_id">{{ form.errors.sow_id }}</div>
 
-                                    <label class="font-semibold text-sm text-gray-600  block" for="sow_id">Sow Boar</label>
-                                    <select name="" id="boar_id" v-model="form.boar_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                    <label class="font-semibold text-sm text-gray-600  block" for="sow_id">Boar's Breed</label>
+                                    <select name="" id="boar_id" v-model="form.boar_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 " disabled>
                                         <option value="" disabled>Select a Boar</option>
                                         <option v-for="boar in boars" :value="boar.id" :key="boar.id" >{{ boar.breed }}</option>
                                     </select>

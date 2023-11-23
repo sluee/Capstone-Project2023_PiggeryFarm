@@ -41,7 +41,7 @@
 
         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Labors Summary</h2>
 
-        <hr>
+       
 
         <table style=" width: 100%">
             <thead>
@@ -61,46 +61,42 @@
 
             <tbody>
 
+                @foreach ($labor as $item )
+                <tr>
+                    <td style="text-align: center">
+                        {{$item->id}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->breeding->sow->sow_no}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->breeding->boar->breed}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->breeding->date_of_breed}}
+                    </td>
+                    <td>
+                        {{$item->parity_no}}
+                    </td>
+                    <td>
+                        {{$item->formattedFarrow}}
+                    </td>
+                    <td>
+                        {{$item->no_pigs_born}}
+                    </td>
+                    <td>
+                        {{$item->no_pigs_alive}}
+                    </td>
+                    <td>
+                        {{$item->formattedWeaning}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->remarks}}
+                    </td>
+                </tr>
 
-                <td style="text-align:right">
-
-
-                    @foreach ($labor as $item )
-                    <tr>
-                        <td style="text-align: center">
-                            {{$item->id}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->breeding->sow->sow_no}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->breeding->boar->breed}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->breeding->date_of_breed}}
-                        </td>
-                        <td>
-                            {{$item->parity_no}}
-                        </td>
-                        <td>
-                            {{$item->formattedFarrow}}
-                        </td>
-                        <td>
-                            {{$item->no_pigs_born}}
-                        </td>
-                        <td>
-                            {{$item->no_pigs_alive}}
-                        </td>
-                        <td>
-                            {{$item->formattedWeaning}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->remarks}}
-                        </td>
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach
+               
 
             </tbody>
 

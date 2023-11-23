@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Feed;
 use App\Models\FeedsPurchase;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 
 class FeedsPurchaseController extends Controller
@@ -76,10 +77,24 @@ class FeedsPurchaseController extends Controller
         $fields['totalAmount'] = $totalAmount;
 
         // Create the FeedPurchase model with the calculated totalAmount
-        FeedsPurchase::create($fields);
+         FeedsPurchase::create($fields);
 
-        $newStock = $feed->qty + $fields['qty'];
-        $feed->update(['qty' => $newStock]);
+        // $newStock = $feed->qty + $fields['qty'];
+        // $feed->update(['qty' => $newStock]);
+        $feed->increment('qty', $fields['qty']);
+
+        $inventory = Inventory::where('feed_id' ,$feed->feed_id)->first();
+        if($inventory){
+            $inventory->stock_in += $feed->qty;
+            $inventory->save();
+        } else {
+            $inventory = new Inventory([
+                'feed_id'  => $feed->id,
+                'stock_in'  => $feed->qty
+            ]);
+            $inventory->save();
+        }
+
 
         return redirect('/feeds-purchase')->with('success', 'Feeds Purchase Added Successfully');
 

@@ -42,7 +42,7 @@
 
         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Feeds Consumption</h2>
 
-        <hr>
+        
 
         <table style=" width: 100%">
             <thead>
@@ -58,34 +58,29 @@
 
             <tbody>
 
+                @foreach ($consumption as $item )
+                <tr>
+                    <td style="text-align: center">
+                        {{$item->id}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->formattedPeriod}}
+                    </td>
+                    <td>
+                        {{$item->feeds->categories->name}}
+                        <span>
+                            {{$item->feeds->supplier->name}}
+                        </span>
 
-                <td style="text-align:right">
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->qty}}
+                    </td>
 
+                </tr>
 
-                    @foreach ($consumption as $item )
-                    <tr>
-                        <td style="text-align: center">
-                            {{$item->id}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->formattedPeriod}}
-                        </td>
-                        <td>
-                            {{$item->feeds->categories->name}}
-                            <span>
-                                {{$item->feeds->supplier->name}}
-                            </span>
-
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->qty}}
-                        </td>
-
-
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach
+                
 
             </tbody>
 

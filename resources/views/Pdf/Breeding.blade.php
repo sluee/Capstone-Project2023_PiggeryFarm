@@ -41,7 +41,7 @@
 
         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Breedings Summary</h2>
 
-        <hr>
+     
 
         <table style=" width: 100%">
             <thead>
@@ -59,40 +59,36 @@
 
             <tbody>
 
+                @foreach ($breeding as $item )
+                <tr>
+                    <td style="text-align: center">
+                        {{$item->id}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->sow->sow_no}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->boar->breed}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->formattedBreed}}
+                    </td>
+                    <td>
+                        {{$item->formattedReheat}}
+                    </td>
+                    <td>
+                        {{$item->formattedFeeds}}
+                    </td>
+                    <td>
+                        {{$item->formattedFarrowing}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->remarks}}
+                    </td>
+                </tr>
 
-                <td style="text-align:right">
-
-
-                    @foreach ($breeding as $item )
-                    <tr>
-                        <td style="text-align: center">
-                            {{$item->id}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->sow->sow_no}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->boar->breed}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->formattedBreed}}
-                        </td>
-                        <td>
-                            {{$item->formattedReheat}}
-                        </td>
-                        <td>
-                            {{$item->formattedFeeds}}
-                        </td>
-                        <td>
-                            {{$item->formattedFarrowing}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->remarks}}
-                        </td>
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach
+                
 
             </tbody>
 

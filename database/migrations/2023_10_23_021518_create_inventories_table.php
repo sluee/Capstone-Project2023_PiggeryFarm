@@ -13,20 +13,12 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->integer('qty');
-            $table->string('date_received');
-            $table->string('status');
-            $table->double('costPerSocks');
-            // $table->string('status');
-            $table->string('discountedPrice');
-            $table->string('totalAmountAfterDiscount');
             $table->bigInteger('feed_id')->unsigned();
-            $table->bigInteger('cat_id')->unsigned();
-
+            $table->integer('stock_in')->nullable();
+            $table->integer('stock_out')->nullable()->default(0);
             $table->timestamps();
-
             $table->foreign('feed_id')->references('id')->on('feeds');
-            $table->foreign('cat_id')->references('id')->on('categories');
+
         });
     }
 

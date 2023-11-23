@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Request as HttpRequest;
+
 use App\Models\Breeding;
+use Illuminate\Support\Facades\Request as HttpRequest;
+
 use App\Models\Labor;
 use App\Models\Weaning;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+
 
 class WeaningController extends Controller
 {
@@ -28,13 +32,13 @@ class WeaningController extends Controller
             })
             ->paginate(8)
             ->withQueryString();
-    
+
         return inertia('Weaning/index', [
             'weaning' => $weanings,
             'filters' => HttpRequest::only(['search']),
         ]);
     }
-    
+
 
 
     /**
@@ -57,22 +61,45 @@ class WeaningController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $fields = $request->validate([
+    //         'labor_id' => 'required|exists:labors,id',
+    //         'no_of_pigs_weaned' => 'required|numeric',
+    //         'remarks' => 'required',
+    //     ]);
+
+
+    //     Weaning::create($fields);
+
+    //     $labor = Labor::findOrFail($request->input('labor_id'));
+       
+    //     // Update the remarks field to "Laboring"
+    //     $labor->update(['remarks' => 'Weaned']);
+    //     $fields->updateBreedingRemarks();
+    //     return redirect('/weaning')->with('success', 'Weaning Added Successfully');
+    // }
+
     public function store(Request $request)
-    {
-        $fields = $request->validate([
-            'labor_id'  =>'required',
-            'no_of_pigs_weaned' =>'required|numeric',
-            'remarks'   =>'required'
-        ]);
+{
+    $fields = $request->validate([
+        'labor_id' => 'required|exists:labors,id',
+        'no_of_pigs_weaned' => 'required|numeric',
+        'remarks' => 'required',
+    ]);
 
-        Weaning::create($fields);
+    $weaning = Weaning::create($fields);
 
-        $labor = Labor::findOrFail($request->input('labor_id'));
+    $labor = Labor::findOrFail($request->input('labor_id'));
 
-        // Update the remarks field to "Laboring"
-        $labor->update(['remarks' => 'Weaned']);
-        return redirect('/weaning')->with('success', 'Weaning Added Successfully');
-    }
+    // Update the remarks field to "Laboring"
+    $labor->update(['remarks' => 'Weaned']);
+
+    // Update the Breeding remarks
+    $weaning->updateBreedingRemarks();
+
+    return redirect('/weaning')->with('success', 'Weaning Added Successfully');
+}
 
 
 
@@ -81,7 +108,10 @@ class WeaningController extends Controller
      */
     public function show(Weaning $weaning)
     {
-
+        $weaning->load('labors.breeding.boar' , 'labors.breeding.sow');
+        return inertia('Weaning/show', [
+            'weaning' => $weaning ,
+        ]);
     }
 
     /**

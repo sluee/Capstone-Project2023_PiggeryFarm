@@ -39,8 +39,6 @@
 
         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Cash Advance Summary</h2>
 
-        <hr>
-
         <table style=" width: 100%">
             <thead>
                 <tr>
@@ -52,27 +50,21 @@
             </thead>
 
             <tbody>
+                @foreach ($cashAdvanceTotal as $item )
+                <tr>
+                    <td style="text-align: center">
+                        {{$item->id}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->employee->user->firstName}}   {{$item->employee->user->lastName}}
+                    </td>
+                    <td style="text-align: center;">
+                        {{$item->totalCashAdvance}}
+                    </td>
 
+                </tr>
 
-                <td style="text-align:right">
-
-
-                    @foreach ($cashAdvanceTotal as $item )
-                    <tr>
-                        <td style="text-align: center">
-                            {{$item->id}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->employee->user->firstName}}   {{$item->employee->user->lastName}}
-                        </td>
-                        <td style="text-align: center;">
-                            {{$item->totalCashAdvance}}
-                        </td>
-
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach
 
             </tbody>
 

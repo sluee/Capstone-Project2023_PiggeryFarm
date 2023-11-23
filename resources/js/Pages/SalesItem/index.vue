@@ -124,9 +124,20 @@ import { computed, ref , watch} from "vue";
           </div>
       </template>
 
-      <div class="px-8 mt-5">
-          <div class=" w-full p-4 mx-2">
+      <div class="px-8 py-12">
+          <div class=" w-full h-screen ">
+            <div class="flex justify-center mb-5 ">
+                <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
+                <div class=" ">
+                    <h3 class="font-bold text-sm text-slate-700">RQR Piggery Farm || Saint Agustin Piggery Farm</h3>
+                    <h3 class="font-bold text-sm text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
+                    <h3 class="font-bold text-sm text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3><br>
+                    <h2 class="font-bold text-m text-slate-700 text-center">Sales Invoice</h2>
+                </div>
+
+            </div>
               <div class="flex justify-start ">
+
                   <form @submit.prevent="submit">
                       <div>
                         <label class="leading-loose">Customer: </label>
@@ -153,14 +164,14 @@ import { computed, ref , watch} from "vue";
                             </button>
                         </div>
 
-                        <table class="min-w-full">
+                        <table class="w-fullborder-gray-300">
 
-                          <thead>
-                            <tr>
-                              <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Pig Weight</th>
-                              <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Rate</th>
-                              <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Total</th>
-                              <th class="px-6 py-3 bg-gray-100 border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Action</th>
+                          <thead >
+                            <tr class="bg-blue-300">
+                              <th class="px-6 py-3  border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Pig Weight</th>
+                              <th class="px-6 py-3  border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Rate</th>
+                              <th class="px-6 py-3  border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Total</th>
+                              <th class="px-6 py-3  border-b border-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -176,7 +187,9 @@ import { computed, ref , watch} from "vue";
                                 <!-- <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly> -->
                                 <input type="number" class="w-full border rounded-md p-2" placeholder="Total" v-model="item.total" readonly>
                               </td>
+
                               <td class="py-3 px-6 text-center">
+
                                     <button @click="removeSaleItem(index)" class="bg-red-500 flex hover:bg-red-600 justify-center items-center w-full text-dark px-1 py-2 rounded-md focus:outline-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -230,6 +243,7 @@ import { computed, ref , watch} from "vue";
                             </tr>
                           </tbody>
                         </table>
+
                       </div>
 
                         <div class="flex justify-between">

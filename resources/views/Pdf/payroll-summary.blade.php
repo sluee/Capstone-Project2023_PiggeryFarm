@@ -48,10 +48,6 @@
             <p>No of Days Worked: <strong>{{$payroll->noOfDaysWorked}}</strong></p>
         </div>
 
-
-
-        <hr>
-
         <table style=" width: 100%">
             <thead>
                 <tr>
@@ -72,56 +68,52 @@
 
             <tbody>
 
-
-                <td style="text-align:right">
-
-
-                    @foreach ($payroll->payrollItem as $item )
-                    <tr>
-                        <td>
-                            {{$item->employee->user->firstName}}  {{$item->employee->user->lastName}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->employee->position->rate}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->daysWorked}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->totalBasicPay}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->overtimeHours}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->overtimeAmount}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->grossAmount}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->cashAdvance}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->personalDeduction}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->totalDeductions}}
-                        </td>
-                        <td style="text-align: right">
-                            {{$item->netAmount}}
-                        </td>
-                    </tr>
+                @foreach ($payroll->payrollItem as $item )
+                <tr>
+                    <td>
+                        {{$item->employee->user->firstName}}  {{$item->employee->user->lastName}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->employee->position->rate}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->daysWorked}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->totalBasicPay}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->overtimeHours}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->overtimeAmount}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->grossAmount}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->cashAdvance}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->personalDeduction}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->totalDeductions}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->netAmount}}
+                    </td>
+                </tr>
 
 
-                    @endforeach
-                    TR
+                @endforeach
+                TR
 
-                    <tr>
-                        <td colspan="10">Total Payroll:</td>
-                        <td><strong>PhP{{$payroll->total_net_amount}}</strong></td>
-                    </tr>
-                 </td>
+                <tr>
+                    <td colspan="10">Total Payroll:</td>
+                    <td><strong>PhP{{$payroll->total_net_amount}}</strong></td>
+                </tr>
+                 
 
             </tbody>
 

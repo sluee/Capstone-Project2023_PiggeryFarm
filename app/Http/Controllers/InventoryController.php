@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class InventoryController extends Controller
 {
@@ -12,7 +13,20 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        $inventories = Inventory::with('feeds.categories')->get();
+        
+        $inventories->each(function ($inventory){
+            $inventory->Available = $inventory->stock_out ? ($inventory->stock_in - $inventory->stock_out): $inventory->stock_in;
+            if($inventory->feeds){
+                $inventory->feeds_name = $inventory->feeds->categories->name;
+            }else {
+                $inventory->feeds_name = null;
+            }
+        });
+
+        return Inertia('FeedsInventory/index',[
+            'inventory' => $inventories
+        ]);
     }
 
     /**

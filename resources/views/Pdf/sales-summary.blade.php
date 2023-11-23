@@ -53,8 +53,6 @@
 
 
 
-        <hr>
-
         <table style=" width: 100%">
             <thead>
                 <tr>
@@ -67,26 +65,20 @@
 
             <tbody>
 
+                @foreach ($sale->salesItems as $item )
+                <tr>
+                    <td>
+                        {{$item->pig_weight}} kgs.
+                    </td>
+                    <td style="text-align: right">
+                        PhP {{$item->rate}}
+                    </td>
+                    <td style="text-align: right">
+                        PhP {{$item->total}}
+                    </td>
+                </tr>
 
-                <td style="text-align:right">
-
-
-                    @foreach ($sale->salesItems as $item )
-                    <tr>
-                        <td>
-                            {{$item->pig_weight}} kgs.
-                        </td>
-                        <td style="text-align: right">
-                            PhP {{$item->rate}}
-                        </td>
-                        <td style="text-align: right">
-                            PhP {{$item->total}}
-                        </td>
-                    </tr>
-
-                    @endforeach
-
-                 </td>
+                @endforeach       
 
             </tbody>
 

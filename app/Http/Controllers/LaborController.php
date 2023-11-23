@@ -113,7 +113,7 @@ class LaborController extends Controller
             'parity_no' => 'required|numeric',
             'actual_date_farrowing' => 'required|date',
             'no_pigs_born' =>'required|numeric',
-            'no_pigs_alive' =>'required|numeric',
+            'no_pigs_alive' => 'required|numeric|lte:no_pigs_born',
             'date_of_weaning' => 'required|date|after:actual_date_farrowing',
         ]);
 

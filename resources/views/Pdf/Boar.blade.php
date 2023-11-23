@@ -41,7 +41,7 @@
 
         <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Boars Summary</h2>
 
-        <hr>
+        
 
         <table style=" width: 100%">
             <thead>
@@ -55,29 +55,24 @@
 
             <tbody>
 
+                @foreach ($boar as $item )
+                <tr>
+                    <td style="text-align: center">
+                        {{$item->id}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->breed}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->location}}
+                    </td>
+                    <td style="text-align: left;">
+                        {{$item->formattedDate}}
+                    </td>
 
-                <td style="text-align:right">
+                </tr>
 
-
-                    @foreach ($boar as $item )
-                    <tr>
-                        <td style="text-align: center">
-                            {{$item->id}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->breed}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->location}}
-                        </td>
-                        <td style="text-align: left;">
-                            {{$item->formattedDate}}
-                        </td>
-
-                    </tr>
-
-                    @endforeach
-                 </td>
+                @endforeach        
 
             </tbody>
 

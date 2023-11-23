@@ -79,7 +79,6 @@ class SowController extends Controller
         })
         ->paginate(6);
 
-
         return inertia('Sow/show', [
             'sows' => $sow,
             'breedings' => $breedings,

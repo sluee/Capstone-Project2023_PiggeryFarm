@@ -1,6 +1,8 @@
 <script setup>
     import SideBarLayout from '@/Layouts/SideBarLayout.vue';
     import { Head, Link, useForm  } from '@inertiajs/vue3';
+    import { ref } from 'vue';
+
     const form = useForm({
         sow_no: null,
         location: null,
@@ -10,9 +12,19 @@
     const props = defineProps({
         sows:Object
     })
-    function submit() {
-        form.post('/sows/')
-    }
+    // function submit() {
+    //     form.post('/sows/')
+    // }
+
+    const isLoading = ref(false);
+
+    const submit = async () => {
+        isLoading.value = true;
+        form.post('/sows/');
+        setTimeout(() => {
+            isLoading.value = false;
+        }, 5000);
+    };
 </script>
 
 <template>
@@ -59,9 +71,63 @@
                         </form>
 
                     </div>
+                    <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
+                        <div class="spinner">
+                          <div class="dot1"></div>
+                          <div class="dot2"></div>
+                          <div class="dot3"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </SideBarLayout>
 </template>
+
+<style scoped>
+.spinner {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   .dot1, .dot2, .dot3 {
+    width: 15px;
+    height: 15px;
+    border: double;
+    border-color: white;
+    border-radius: 50%;
+    margin: 10px;
+   }
+   
+   .dot1 {
+    animation: jump765 1.6s -0.32s linear infinite;
+    background: #2495ff;
+   }
+   
+   .dot2 {
+    animation: jump765 1.6s -0.16s linear infinite;
+    background: #2495ff;
+   }
+   
+   .dot3 {
+    animation: jump765 1.6s linear infinite;
+    background: #2495ff;
+   }
+   
+   @keyframes jump765 {
+    0%, 80%, 100% {
+     -webkit-transform: scale(0);
+     transform: scale(0);
+    }
+   
+    40% {
+     -webkit-transform: scale(2.0);
+     transform: scale(2.0);
+    }
+   }
+   
+   
+</style>
 

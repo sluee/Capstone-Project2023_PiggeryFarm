@@ -43,10 +43,6 @@
          <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Financial Liquidation for {{$transactions->formattedDate}}</h2>
 
 
-
-
-        <hr>
-
         <table style=" width: 100%">
             <thead>
                 <tr>
@@ -60,47 +56,39 @@
 
             <tbody>
 
+                @foreach ($transactions->financialItems as $item )
+                <tr>
+                    <td>
+                        {{$item->fin_id}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->debit}}
+                    </td>
+                    <td style="text-align: right">
+                            {{$item->credit}}
+                    </td>
+                    <td style="text-align: right">
+                        {{$item->balance}}
+                    </td>
+                </tr>
 
-                <td style="text-align:right">
 
+                @endforeach
 
-                    @foreach ($transactions->financialItems as $item )
-                    <tr>
-                        <td>
-                            {{$item->fin_id}}
+                <tr>
+                    <td colspan="3">Total Cash on Bank</td>
+                    <td style="text-align: right">
+                        {{$transactions->totalCashBalance}}
                         </td>
-                        <td style="text-align: right">
-                            {{$item->debit}}
+                </tr>
+
+
+                <tr>
+                    <td colspan="3">Remarks:</td>
+                    <td style="text-align: right">
+                        {{$transactions->remarks}}
                         </td>
-                        <td style="text-align: right">
-                             {{$item->credit}}
-                        </td>
-                        <td style="text-align: right">
-                           {{$item->balance}}
-                        </td>
-                    </tr>
-
-
-                    @endforeach
-
-                 </td>
-
-                    <tr>
-                        <td colspan="3">Total Cash on Bank</td>
-                        <td style="text-align: right">
-                            {{$transactions->totalCashBalance}}
-                         </td>
-                    </tr>
-
-
-                    <tr>
-                        <td colspan="3">Remarks:</td>
-                        <td style="text-align: right">
-                            {{$transactions->remarks}}
-                         </td>
-                    </tr>
-
-
+                </tr>
 
             </tbody>
 

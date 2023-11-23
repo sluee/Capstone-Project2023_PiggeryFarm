@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Consumption;
 use App\Models\Feed;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 
 class ConsumptionController extends Controller
@@ -54,8 +55,7 @@ class ConsumptionController extends Controller
             'date' =>'required'
         ]);
 
-        // Retrieve the associated feed with the category loaded
-       // Retrieve the associated feed with the category loaded
+       
         $feed = Feed::with('categories')->findOrFail($fields['feed_id']);
 
         // Check if the consumption quantity is greater than the available feed quantity
@@ -64,10 +64,18 @@ class ConsumptionController extends Controller
         }
 
         // Create the FeedPurchase model with the calculated totalAmount
-        Consumption::create($fields);
+        $cons = Consumption::create($fields);
 
-        $newStock = $feed->qty - $fields['qty'];
-        $feed->update(['qty' => $newStock]);
+        // $newStock = $feed->qty - $fields['qty'];
+        // $feed->update(['qty' => $newStock]);
+        $feed->decrement('qty', $fields['qty']);
+
+        $inventory = Inventory::where('feed_id' ,$cons->feed_id)->first();
+        if($inventory){
+            $inventory->stock_out += $cons->qty;
+            $inventory->save();
+        } 
+           
 
         return redirect('/feeds-consumption')->with('success', 'Feeds Purchase Added Successfully');
     }

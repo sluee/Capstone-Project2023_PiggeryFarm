@@ -25,6 +25,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ConsumptionController;
 use App\Http\Controllers\FeedsPurchaseController;
 use App\Http\Controllers\FinancialTransactionItemsController;
+use App\Http\Controllers\InventoryController;
 
 // use App\Models\Payroll;
 use Illuminate\Foundation\Application;
@@ -162,6 +163,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/feeds-consumption' ,[ConsumptionController::class, 'index'])->name('consumption.index');
         Route::post('/feeds-consumption',[ConsumptionController::class, 'store']);
+
+        Route::get('/feeds-inventory',[InventoryController::class, 'index' ])->name('feedsInventory.index');
     });
 
     Route::middleware('can:manage_users')->group(function(){
@@ -171,6 +174,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/employees/create',[EmployeeController::class , 'create']);
         Route::post('/employees', [EmployeeController::class, 'store']);
         Route::get('/employees/edit/{employee}',[EmployeeController::class , 'edit']);
+        Route::get('/employees/{employee}',[EmployeeController::class,'show'])->name('employee.show');
         Route::post('/employees/toggle/{employee}', [EmployeeController::class, 'toggleActive'])->name('employees.toggle');
         Route::put('/employees/{employee}', [EmployeeController::class, 'update']);
         Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy']);
