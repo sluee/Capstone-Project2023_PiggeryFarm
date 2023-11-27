@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('credit')->nullable();
             $table->double('balance')->nullable();
             $table->timestamps();
-            $table->foreign('financial_transaction_id')->references('id')->on('financial_transactions');
+            $table->foreign('financial_transaction_id')->references('id')->on('financial_transactions')->onDelete('cascade');
 
         });
     }

@@ -80,7 +80,7 @@ class FeedController extends Controller
     //     ]);
 
     //     $feed = Feed::create($fields);
-        
+
     //     $inventory = Inventory::where('feed_id' ,$feed->id)->first();
     //     if($inventory){
     //         $inventory->stock_in += $feed->qty;
@@ -107,7 +107,7 @@ class FeedController extends Controller
     ]);
 
     $feed = Feed::create($fields);
-    
+
     $inventory = Inventory::where('feed_id' ,$feed->id)->first();
     if($inventory){
         $inventory->stock_in += $feed->qty;
@@ -154,6 +154,8 @@ class FeedController extends Controller
      */
     public function destroy(Feed $feed)
     {
-        //
+        $feed->delete();
+
+        return redirect('/feeds')->with('success', 'Feeds has been deleted successfully!');
     }
 }

@@ -133,7 +133,7 @@ onMounted(() => {
                                     <th class="py-3 px-6 text-left">Requested Date</th>
                                     <th class="py-3 px-6 text-center">Amount</th>
                                     <th class="py-3 px-6 text-center">Reason</th>
-                                    <th class="py-3 px-6 text-center">Actions</th>
+                                    <!-- <th class="py-3 px-6 text-center">Actions</th> -->
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light" >
@@ -145,12 +145,12 @@ onMounted(() => {
                                             <p class="font-medium">{{ cash.id }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-5 text-left">
+                                    <td class="py-3 px-5 text-center">
                                         <div class="flex items-center">
                                             <p class="font-medium">{{ cash.employee.user.firstName }} {{ cash.employee.user.lastName }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-5 text-left">
+                                    <td class="py-3 px-5 text-center">
                                         <div class="flex items-center">
                                             <p class="font-medium">{{ formattedDate(cash.requestDate) }}</p>
                                         </div>
@@ -161,15 +161,15 @@ onMounted(() => {
                                             <p class="font-medium">₱ {{ cash.amount}}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-5 text-left">
-                                        <div class="flex items-center">
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex items-center justify-center">
                                             <p class="font-medium">{{ cash.reason }}</p>
                                         </div>
                                     </td>
 
-                                    <td class="py-3 px-4 text-center">
+                                    <!-- <td class="py-3 px-4 text-center">
                                         <div class="flex item-center justify-center">
-                                            <!-- <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                            <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                                 <a :href="'/cashAdvance/' + cash.id">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -177,7 +177,7 @@ onMounted(() => {
                                                     </svg>
                                                 </a>
 
-                                            </div> -->
+                                            </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -189,7 +189,7 @@ onMounted(() => {
                                                 </svg>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             </tbody>
                         </table>
@@ -201,23 +201,23 @@ onMounted(() => {
                         <table class="min-w-max w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                    <th class="py-3 px-5 text-left">Id</th>
-                                    <th class="py-3 px-5 text-left">Employee</th>
-                                    <th class="py-3 px-5 text-left">Total Cash Advance</th>
-                                    <th class="py-3 px-5 text-center">Actions</th>
+                                    <th class="py-3 px-5 text-center">Id</th>
+                                    <th class="py-3 px-5 text-center">Employee</th>
+                                    <th class="py-3 px-5 text-center">Total Cash Advance</th>
+                                    <!-- <th class="py-3 px-5 text-center">Actions</th> -->
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light" >
 
                                 <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="csh  in cashAdvanceTotal.data" :key="csh.id">
-                                    <td class="py-3 px-5 text-left whitespace-nowrap">
-                                        <div class="flex items-center">
+                                    <td class="py-3 px-5 text-center whitespace-nowrap">
+                                        <div class="flex items-center justify-center">
 
                                             <p class="font-medium">{{ csh.id }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-5 text-left">
-                                        <div class="flex items-center">
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex items-center justify-center">
                                             <p class="font-medium">{{ csh.employee.user.firstName }} {{ csh.employee.user.lastName }}</p>
                                         </div>
                                     </td>
@@ -227,7 +227,7 @@ onMounted(() => {
                                             <p class="font-medium">₱ {{ csh.totalCashAdvance}}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-5 text-center">
+                                    <!-- <td class="py-3 px-5 text-center">
                                         <div class="flex item-center justify-center">
                                             <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                                 <a :href="'/cashAdvance/' + csh.id">
@@ -249,7 +249,7 @@ onMounted(() => {
                                                 </svg>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             </tbody>
                         </table> 

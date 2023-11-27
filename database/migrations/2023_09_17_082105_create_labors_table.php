@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('remarks')->default('Waiting for results');
             $table->timestamps();
 
-            $table->foreign('breed_id')->references('id')->on('breedings');
+            $table->foreign('breed_id')->references('id')->on('breedings')->onDelete('cascade');
         });
     }
 

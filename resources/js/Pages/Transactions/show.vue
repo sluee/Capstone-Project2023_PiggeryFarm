@@ -75,7 +75,7 @@
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {
@@ -133,7 +133,7 @@
         <div class="px-2 mt-5">
             <div class="p-4 mx-2">
                 <div class="container mx-auto mt-2">
-                   
+
                     <div class="  mb-7">
                         <div class="flex justify-center mb-2">
                             <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>

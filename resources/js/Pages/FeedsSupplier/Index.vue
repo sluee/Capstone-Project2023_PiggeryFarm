@@ -19,7 +19,7 @@
                         class="button1 mb-2 py-2 px-3 bg-blue-300 shadow border-gray-300 border hover:bg-blue-400 rounded mr-3"
                         @click="openAddItemModal"
                     >
-                        Add Supplier 
+                        Add Supplier
                     </button>
                     <a href="" class="flex  mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3 " target="blank">
                         <svg viewBox="0 0 512 512" version="1.1" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#6666"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>pdf-document</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="add" fill="#000000" transform="translate(85.333333, 42.666667)"> <path d="M75.9466667,285.653333 C63.8764997,278.292415 49.6246897,275.351565 35.6266667,277.333333 L1.42108547e-14,277.333333 L1.42108547e-14,405.333333 L28.3733333,405.333333 L28.3733333,356.48 L40.5333333,356.48 C53.1304778,357.774244 65.7885986,354.68506 76.3733333,347.733333 C85.3576891,340.027178 90.3112817,328.626053 89.8133333,316.8 C90.4784904,304.790173 85.3164923,293.195531 75.9466667,285.653333 L75.9466667,285.653333 Z M53.12,332.373333 C47.7608867,334.732281 41.8687051,335.616108 36.0533333,334.933333 L27.7333333,334.933333 L27.7333333,298.666667 L36.0533333,298.666667 C42.094796,298.02451 48.1897668,299.213772 53.5466667,302.08 C58.5355805,305.554646 61.3626692,311.370371 61.0133333,317.44 C61.6596233,323.558965 58.5400493,329.460862 53.12,332.373333 L53.12,332.373333 Z M150.826667,277.333333 L115.413333,277.333333 L115.413333,405.333333 L149.333333,405.333333 C166.620091,407.02483 184.027709,403.691457 199.466667,395.733333 C216.454713,383.072462 225.530463,362.408923 223.36,341.333333 C224.631644,323.277677 218.198313,305.527884 205.653333,292.48 C190.157107,280.265923 170.395302,274.806436 150.826667,277.333333 L150.826667,277.333333 Z M178.986667,376.32 C170.098963,381.315719 159.922142,383.54422 149.76,382.72 L144.213333,382.72 L144.213333,299.946667 L149.333333,299.946667 C167.253333,299.946667 174.293333,301.653333 181.333333,308.053333 C189.877212,316.948755 194.28973,329.025119 193.493333,341.333333 C194.590843,354.653818 189.18793,367.684372 178.986667,376.32 L178.986667,376.32 Z M254.506667,405.333333 L283.306667,405.333333 L283.306667,351.786667 L341.333333,351.786667 L341.333333,329.173333 L283.306667,329.173333 L283.306667,299.946667 L341.333333,299.946667 L341.333333,277.333333 L254.506667,277.333333 L254.506667,405.333333 L254.506667,405.333333 Z M234.666667,7.10542736e-15 L9.52127266e-13,7.10542736e-15 L9.52127266e-13,234.666667 L42.6666667,234.666667 L42.6666667,192 L42.6666667,169.6 L42.6666667,42.6666667 L216.96,42.6666667 L298.666667,124.373333 L298.666667,169.6 L298.666667,192 L298.666667,234.666667 L341.333333,234.666667 L341.333333,106.666667 L234.666667,7.10542736e-15 L234.666667,7.10542736e-15 Z" id="document-pdf"> </path> </g> </g> </g></svg>
@@ -39,7 +39,7 @@
         </template>
         <div class="py-12">
             <div class="">
-               
+
                   <div >
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-7">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -87,15 +87,19 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                     </svg>
                                                 </div> -->
-                                                <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                    </svg>
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="#" @click="edit(sup)" class="btn" title="Edit Supplier">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                        </svg>
+                                                    </a>
                                                 </div>
                                                 <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
+                                                    <a href="#" @click="remove(sup)" class="btn" title="Delete Supplier">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </td>
@@ -104,7 +108,7 @@
 
                                 </tbody>
                             </table>
-                            
+
                             <Modal :show="showAddItemModal" @close="closeAddItemModal">
                                 <div class="p-4 sm:p-10 text-center ">
                                     <div class=" pr-6">
@@ -132,6 +136,58 @@
                                     </div>
                                 </div>
                             </Modal>
+                            <Modal :show="showUpdateItemModal" @close="closeUpdateItemModal">
+                                <div class="p-4 sm:p-10 text-center ">
+                                    <div class=" pr-6">
+                                    <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
+                                        Feeds Details
+                                    </h4>
+                                    <hr>
+                                    <form @submit.prevent="update" >
+                                        <div class="px-4 py-5">
+
+                                            <label class="font-semibold text-sm text-gray-600 block text-left" for="name">Name of Supplier</label>
+                                            <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.name"/>
+                                            <div class="text-red-600" v-if="form.errors.name">{{ form.errors.name }}</div>
+
+                                            <label class="font-semibold text-sm text-gray-600 block text-left" for="phone">Phone Number</label>
+                                            <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.phone"/>
+                                            <div class="text-red-600" v-if="form.errors.phone">{{ form.errors.phone }}</div>
+
+                                        </div>
+                                        <div class="mt-6 flex justify-center gap-x-4">
+                                            <SecondaryButton @click="closeUpdateItemModal">Cancel</SecondaryButton>
+                                            <PrimaryButton  @click="update()">Edit Supplier</PrimaryButton>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                </div>
+                            </Modal>
+                            <Modal :show="showConfirm" @close="closeModal">
+                                <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                                    <!-- Icon -->
+                                    <span class="mb-4 inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-red-50 bg-red-100 text-red-500">
+                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                        </svg>
+                                    </span>
+                                    <!-- End Icon -->
+
+                                    <h3 class="mb-2 text-2xl font-bold text-gray-800">
+                                        Delete Supplier
+                                    </h3>
+                                    <p class="text-gray-500">
+                                        Are you sure you want like to delete this Supplier?
+                                    </p>
+
+                                    <div class="mt-6 flex justify-center gap-x-4">
+                                        <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
+                                        <DangerButton @click="deletePos()">Delete</DangerButton>
+                                    </div>
+                                </div>
+                            </Modal>
                         </div>
                         <Pagination :links="suppliers.links" class="mt-6 flex justify-center"/>
                     </div>
@@ -152,6 +208,7 @@ import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Pagination from '@/Components/Pagination.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 
     const form = useForm({
         name:'',
@@ -184,25 +241,66 @@ import Pagination from '@/Components/Pagination.vue';
     };
 
 
-    let search = ref(props.filters.search);
-        watch(search, (value) => {
-            router.get(
-                "/suppliers",
-                { search: value },
-                {
-                    preserveState: true,
-                    replace: true,
-                }
-            );
-          
-    });
+let showConfirm = ref(false)
+let selectedSupplierForDelete = null
+let selectedSupplier = null
+let deleteForm = useForm({});
 
 
-    function submit() {
-        form.post('/suppliers/');
-        form.name='',
-        form.phone=''
-    }
+const showUpdateItemModal = ref(false);
+const closeUpdateItemModal = () => {
+    showUpdateItemModal.value = false;
+};
+function closeModal(){
+    showConfirm.value = false;
+}
+
+function edit(sup) {
+    selectedSupplier = sup
+    showUpdateItemModal.value = true;
+    form.name = sup.name,
+    form.phone = sup.phone
+}
+
+
+function remove(sup) {
+    selectedSupplierForDelete = sup
+    showConfirm.value = true;
+}
+
+function deletePos(){
+    deleteForm.delete('/suppliers/' + selectedSupplierForDelete.id)
+    showConfirm.value = false;
+}
+
+
+const update = () =>{
+    form.put('/suppliers/' + selectedSupplier.id)
+    form.name = "";
+    form.phone = "";
+    closeUpdateItemModal();
+}
+
+
+let search = ref(props.filters.search);
+    watch(search, (value) => {
+        router.get(
+            "/suppliers",
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+
+});
+
+
+// function submit() {
+//     form.post('/suppliers/');
+//     form.name='',
+//     form.phone=''
+// }
     onMounted(() => {
     // Set a timeout to hide the success flash message after 3 seconds
         const successFlashMessage = document.getElementById('flash-success-message');
@@ -240,7 +338,7 @@ import Pagination from '@/Components/Pagination.vue';
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {

@@ -18,10 +18,11 @@ return new class extends Migration
             $table->double('total_amount');
             $table->double('is_credit');
             $table->double('balance');
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->timestamps();
 
-            $table->foreign('cust_id')->references('id')->on('customers');
+            $table->foreign('cust_id')->references('id')->on('customers')->onDelete('cascade');
+
         });
     }
 

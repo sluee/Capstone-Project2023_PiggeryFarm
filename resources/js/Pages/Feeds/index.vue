@@ -94,15 +94,17 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
                                         </div> -->
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                        <!-- <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                             </svg>
-                                        </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
+                                        </div> -->
+                                        <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                            <a href="#" @click="remove(feed)" class="btn" title="Delete feeds">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -145,6 +147,29 @@
 
                         </div>
                     </Modal>
+                    <Modal :show="showConfirm" @close="closeModal">
+                        <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                            <!-- Icon -->
+                            <span class="mb-4 inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-red-50 bg-red-100 text-red-500">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                </svg>
+                            </span>
+                            <!-- End Icon -->
+
+                            <h3 class="mb-2 text-2xl font-bold text-gray-800">
+                                Delete Feeds
+                            </h3>
+                            <p class="text-gray-500">
+                                Are you sure you want like to delete this feeds?
+                            </p>
+
+                            <div class="mt-6 flex justify-center gap-x-4">
+                                <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
+                                <DangerButton @click="deleteCat()">Delete</DangerButton>
+                            </div>
+                        </div>
+                    </Modal>
                 </div>
                 <Pagination :links="feeds.links" class="mt-6 flex justify-center"/>
             </div>
@@ -163,6 +188,7 @@ import Modal from '@/Components/Modal.vue'
 import Pagination from '@/Components/Pagination.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 
 const form = useForm({
     cat_id:'',
@@ -210,6 +236,20 @@ let search = ref(props.filters.search);
             }
         );
     });
+let showConfirm = ref(false)
+let selectedFeedForDelete = null
+let selectedFeed = null
+let deleteForm = useForm({});
+
+    function remove(feed) {
+    selectedFeedForDelete = feed
+    showConfirm.value = true;
+}
+
+function deleteCat(){
+    deleteForm.delete('/feeds/' + selectedFeedForDelete.id)
+    showConfirm.value = false;
+}
 
     onMounted(() => {
     // Set a timeout to hide the success flash message after 3 seconds
@@ -248,7 +288,7 @@ let search = ref(props.filters.search);
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {

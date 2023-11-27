@@ -74,35 +74,50 @@
         </template>
         <div class="py-6">
             <div class="flex">
-                <div class="w-1/3 mt-3 px-3 ml-12">
-                    <div class=" pr-5">
-                        <h4 class="text-center text-xl font-bold text-navy-700 dark:text-black">
-                            Breeding's Details
-                        </h4>
-                        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 mt-5">
-                            <div class="bg-blue-300  shadow-lg sm:rounded-lg">
-                                <div class="p-6 text-gray-900 flex">
-
-                                    <div class="flex-1 ml-4 bg-">
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Sow</label>
-                                            <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ breedings.sow.sow_no }}</p>
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Boar</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{breedings.boar.boar_no}} | {{ breedings.boar.breed }}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Date of Breed</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(breedings.date_of_breed) }}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Date of Changing Feeds</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(breedings.changeFeeds) }}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Expected Date of Farrowing </label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(breedings.exp_date_of_farrowing) }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+                    <div
+                       class="
+                       bg-white
+                       rounded-xl
+                       relative
+                       z-10
+                       overflow-hidden
+                       border border-primary border-opacity-20
+                       shadow-pricing
+                       py-10
+                       px-8
+                       sm:p-12
+                       lg:py-10 lg:px-6
+                       xl:p-12
+                       mb-10
+                       "
+                       >
+                       <span class="text-primary font-semibold text-xl block mb-4">
+                       Breeding Details
+                       </span>
+                       <p class="text-body-color text-base ">
+                          Sow:  <strong>{{ breedings.sow.sow_no }}</strong>
+                          
+                       </p>
+                       <p
+                          class="
+                          text-base text-body-color"
+                          >
+                         Boar:  <strong>{{breedings.boar.boar_no}} | {{ breedings.boar.breed }}</strong>
+                       </p>
+                       <div class="mb-7">
+                          <p class="text-base text-body-color ">
+                            Date of Breed:  <strong>{{ formattedDate(breedings.date_of_breed) }}</strong>
+                          </p>
+                          <p class="text-base text-body-color ">
+                             Change Feeds Date:  <strong>{{ formattedDate(breedings.changeFeeds) }}</strong>
+                          </p>
+                          <p class="text-base text-body-color ">
+                            Expected Date of Farrowing: <strong>{{ formattedDate(breedings.exp_date_of_farrowing) }}</strong>
+                          </p>
+                       </div>     
                     </div>
-                </div>
+                 </div>
                 <div >
                 <div class="flex flex-col justify-center items-center">
                     <div class="relative flex flex-col items-center rounded-[20px] w-[500px] max-w-[95%] mx-auto bg-white bg-clip-border shadow-3xl shadow-shadow-500 dark:!bg-navy-800 dark:text-white dark:!shadow-none p-3">
@@ -161,6 +176,7 @@
                 </div>
             </div>
         </div>
+        
     </SideBarLayout>
 </template>
 

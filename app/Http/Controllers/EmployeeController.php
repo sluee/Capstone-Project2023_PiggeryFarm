@@ -97,7 +97,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        
+
         return Inertia('Employee/show');
     }
 
@@ -141,7 +141,7 @@ class EmployeeController extends Controller
         ]);
 
 
-        return redirect('/employees')->with('message', 'Employee information updated successfully');
+        return redirect('/employees')->with('success', 'Employee information updated successfully');
     }
 
     /**
@@ -151,6 +151,6 @@ class EmployeeController extends Controller
     {
         $employee->delete();
 
-        return redirect('/employees')->with('message', 'Employee has been deleted successfully!');
+        return redirect('/employees')->with('success', 'Employee has been deleted successfully!');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Boar;
 use App\Models\Breeding;
 use App\Models\Employee;
+use App\Models\Inventory;
 use App\Models\Labor;
 use App\Models\Sale;
 use App\Models\Sow;
@@ -16,9 +17,6 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index(){
-        // $monthlySales = Sale::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw('SUM(total_amount) as total_sales'))
-        // ->groupBy('month')
-        // ->get();
 
         $firstDayOfMonth = Carbon::now()->startOfMonth();
         $lastDayOfMonth = Carbon::now()->endOfMonth();
@@ -39,9 +37,6 @@ class DashboardController extends Controller
         // Calculate the total sales for the current month
         $totalAmountAllSales = $sales->sum('total_amount');
 
-        // Optionally, you can get the year and month for reference
-        // $currentYear = Carbon::now()->year;
-        // $currentMonth = Carbon::now()->month;
 
         $employeeCount = Employee::count();
         $pigsCount = Sow::count() + Boar::count();
@@ -100,6 +95,12 @@ class DashboardController extends Controller
         ->whereYear('created_at', $year)
         ->sum('no_of_pigs_weaned');
 
+        $stockInSum = Inventory::whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+       
+        ->sum('stock_in') ??0;
+      
+
         return inertia('Dashboard',[
             'sales' => $sales,
             'totalAmountAllSales' => $totalAmountAllSales,
@@ -115,7 +116,8 @@ class DashboardController extends Controller
             'laborCount' => $laborCount,
             'totalNoPigsAlive'=> $totalNoPigsAlive,
             'weaningCount' => $weaningCount,
-            'totalNoPigsWeaned' => $totalNoPigsWeaned
+            'totalNoPigsWeaned' => $totalNoPigsWeaned,
+            'stockInSum' => $stockInSum
 
         ]);
     }

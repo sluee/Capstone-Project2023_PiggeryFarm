@@ -69,7 +69,7 @@ onMounted(() => {
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {
@@ -101,87 +101,84 @@ onMounted(() => {
 <template>
     <GuestLayout>
         <Head title="Log in" />
-        
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-        <div v-if="$page.props.flash.success" id="flash-success-message" class="absolute top-20 right-1 p-4 bg-green-300 border border-gray-300 rounded-md shadow-md">
-            {{ $page.props.flash.success }}
-            <div class="progress-bar success"></div>
-        </div>
+        <template #log>
 
-        <div v-if="$page.props.flash.error" id="flash-error-message" class=" absolute top-20 right-1 p-4 bg-red-300 border border-gray-300 rounded-md shadow-md">
-            {{ $page.props.flash.error }}
-            <div class="progress-bar error"></div>
-        </div>
-        <template #logo>
-            <!-- <div v-if="$page.props.flash.error"></div> -->
-            <img src="/images/picc.jpg" alt="" class="object-cover w-full rounded-l-xl opacity-80">
-
-            <div class="bg-gray-700 opacity-20 absolute top-0 h-full w-full"></div>
-
-            <!-- <div class="absolute top-0 flex-col w-full pt-36">
-                <img src="images/mdc.png" alt="mdc-logo" class="w-32 h-32 mx-auto mb-3">
-                <h1 class="text-4xl font-extrabold text-white text-center" style="font-family: 'Poppins', sans-serif;">Mater Dei College's <br> Clinic Management <br> System</h1>
-            </div> -->
-        </template>
-
-        <template #form>
-            <div class="px-10 py-5">
-
-                <h1 class="text-2xl font-extrabold text-gray-700 text-center mb-2">RQR Piggery Farm</h1>
-                <hr>
-
-                <h4 class="text-lg font-light text-gray-700 text-center mb-3">Log in</h4>
-                <form @submit.prevent="submit">
-                    <div>
-                        <InputLabel for="email" value="Email" />
-                        <TextInput
-                            id="email"
-                            v-model="form.email"
-                            type="email"
-                            class="mt-1 block w-full"
-                            required
-                            autofocus
-                            autocomplete="username"
-                        />
-                        <InputError class="mt-2" :message="form.errors.email" />
-                    </div>
-
-                    <div class="mt-4">
-                        <InputLabel for="password" value="Password" />
-                        <TextInput
-                            id="password"
-                            v-model="form.password"
-                            type="password"
-                            class="mt-1 block w-full"
-                            required
-                            autocomplete="current-password"
-                        />
-                        <InputError class="mt-2" :message="form.errors.password" />
-                    </div>
-
-                    <!-- <div class="block mt-4">
-                        <label class="flex items-center">
-                            <Checkbox v-model:checked="form.remember" name="remember" />
-                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                        </label>
-                    </div> -->
-
-                    <div class="flex justify-end mt-4">
-                        <!-- <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Forgot your password?
-                        </Link> -->
-
-                        <PrimaryButton class="w-1/4 justify-center px-6 ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            <span class="text-white">Login</span>
-                        </PrimaryButton>
-                    </div>
-                </form>
+            <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+                {{ status }}
             </div>
+            <div v-if="$page.props.flash.success" id="flash-success-message" class="absolute top-20 right-1 p-4 bg-green-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.success }}
+                <div class="progress-bar success"></div>
+            </div>
+
+            <div v-if="$page.props.flash.error" id="flash-error-message" class=" absolute top-20 right-1 p-4 bg-red-300 border border-gray-300 rounded-md shadow-md">
+                {{ $page.props.flash.error }}
+                <div class="progress-bar error"></div>
+            </div>
+            <div
+	            class="bg-blue-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-blue-800 bottom-0 leading-5 h-full w-full overflow-hidden">
+            </div>
+            <div
+                class="relative   min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
+                <div class="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
+                    <div class="self-start hidden lg:flex flex-col  text-white">
+
+                        <h1 class="my-3 font-semibold text-4xl">RQR PIGGERY FARM</h1>
+                        <p class="pr-3 text-m opacity-75">Welcome to RQR Piggery Farm, proudly located in San Agustin and Canmaya Centro, Sagbayan, Bohol.
+                            We're dedicated to quality pig farming, serving our community with passion and responsibility. </p>
+                    </div>
+                </div>
+                <div class="flex justify-center self-center  z-10">
+                    <div class="p-12 bg-white mx-auto rounded-3xl w-96 ">
+                        <div class="mb-7">
+                            <h3 class="font-semibold text-2xl text-gray-800">Log in to your account </h3>
+
+                        </div>
+                        <div class="space-y-6">
+                            <form @submit.prevent="submit">
+                                <div>
+                                    <InputLabel for="email" value="Email" />
+                                    <TextInput
+                                        id="email"
+                                        v-model="form.email"
+                                        type="email"
+                                        class="mt-1 block w-full"
+                                        required
+                                        autofocus
+                                        autocomplete="username"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.email" />
+                                </div>
+
+                                <div class="mt-4">
+                                    <InputLabel for="password" value="Password" />
+                                    <TextInput
+                                        id="password"
+                                        v-model="form.password"
+                                        type="password"
+                                        class="mt-1 block w-full"
+                                        required
+                                        autocomplete="current-password"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.password" />
+                                </div>
+
+                                <div class="mt-4">
+                                    <button type="submit" class="w-full flex justify-center bg-blue-800  hover:bg-blue-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500">
+                                Log in
+                                </button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </template>
 
-        <!-- component -->
+
 
     </GuestLayout>
 </template>

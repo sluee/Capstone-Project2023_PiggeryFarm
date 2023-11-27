@@ -146,8 +146,13 @@ class BreedingController extends Controller
      */
     public function destroy(Breeding $breeding)
     {
-        //
+        // Delete the instance
+        $breeding->delete();
+
+        // Optionally, you can redirect to a specific route or perform other actions after deletion
+        return redirect()->route('breeding.index')->with('success', 'Breeding record deleted successfully');
     }
+
 //     public function calendar($date = null)
 // {
 //     $query = Breeding::query();

@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('remarks')->default("Waiting for results");
             $table->timestamps();
 
-            $table->foreign('sow_id')->references('id')->on('sows');
-            $table->foreign('boar_id')->references('id')->on('boars');
+            $table->foreign('sow_id')->references('id')->on('sows')->onDelete('cascade');
+            $table->foreign('boar_id')->references('id')->on('boars')->onDelete('cascade');
         });
     }
 

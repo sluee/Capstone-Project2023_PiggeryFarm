@@ -57,9 +57,9 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supplier $supplier)
+    public function edit( Supplier $supplier)
     {
-        //
+
     }
 
     /**
@@ -67,7 +67,15 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $fields= $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+
+        ]);
+
+        $supplier->update($fields);
+
+        return redirect('/suppliers')->with('success','Suppliers Updated Successfully');
     }
 
     /**
@@ -75,6 +83,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->delete();
+
+        return redirect('/suppliers')->with('success', 'Supplier has been deleted successfully!');
     }
 }

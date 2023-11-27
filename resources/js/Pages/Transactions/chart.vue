@@ -8,7 +8,7 @@
             <div class="h-12">
                 <div class=" overflow-hidden shadow-sm sm:rounded-lg">
 
-                    <div class="  mb-7">
+                    <div class="mb-3">
                         <div class="flex justify-center mb-2">
                             <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
                             <div class=" text-sm">
@@ -24,16 +24,13 @@
                         <canvas ref="chartRef" width="200" height="80"></canvas>
 
 
-                      </div>
+                    </div>
                       <div v-else>
                         <p class="text-center text-xl font-bold text-gray-900 py-6">No Financial Chart yet.</p>
-                        </div>
+                    </div>
 
-                    <!-- <Pagination :links="transactions.links" class="mt-6 flex justify-center"/> -->
                 </div>
             </div>
-
-
         </div>
 
     </SideBarLayout>
@@ -57,55 +54,49 @@ function formattedDate(date){
 
     const chartRef = ref(null);
     onMounted(() => {
-    if (chartRef.value) {
-        const ctx = chartRef.value.getContext('2d');
+        if (chartRef.value) {
+            const ctx = chartRef.value.getContext('2d');
 
-        if (!props.monthlyFinancial || !Array.isArray(props.monthlyFinancial)) {
-            console.error('Invalid monthlyFinancial data format');
-            return;
-        }
+            if (!props.monthlyFinancial || !Array.isArray(props.monthlyFinancial)) {
+                console.error('Invalid monthlyFinancial data format');
+                return;
+            }
 
-        const chartData = props.monthlyFinancial;
+            const chartData = props.monthlyFinancial;
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: chartData.map(entry => {
-                    // Format the date using the month and current year
-                    const formattedDate = new Date(`${entry.month}-01 ${new Date().getFullYear()}`).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                    });
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.map(entry => {
+                        // Format the date using the month and current year
+                        const formattedDate = new Date(`${entry.month}-01 ${new Date().getFullYear()}`).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                        });
 
-                    return formattedDate;
-                }),
-                datasets: [{
-                    label: 'Total Cash Balance',
-                    data: chartData.map(entry => entry.totalCashBalance),
-                    backgroundColor: 'rgba(39,150,248,0.68)',
-                    borderColor: 'rgba(23, 68, 88, 1)',
-                    borderWidth: 1,
-                }],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Money on Bank', // Your desired label for the y-axis
+                        return formattedDate;
+                    }),
+                    datasets: [{
+                        label: 'Total Cash Balance',
+                        data: chartData.map(entry => entry.totalCashBalance),
+                        backgroundColor: 'rgba(39,150,248,0.68)',
+                        borderColor: 'rgba(23, 68, 88, 1)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Money on Bank', // Your desired label for the y-axis
+                            },
                         },
                     },
                 },
-            },
-        });
-    }
-});
-
-
-
-    
-
-
+            });
+        }
+    });
 
 </script>

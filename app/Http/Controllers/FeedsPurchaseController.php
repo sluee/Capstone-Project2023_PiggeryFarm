@@ -157,6 +157,8 @@ class FeedsPurchaseController extends Controller
      */
     public function destroy(FeedsPurchase $feedsPurchase)
     {
-        //
+        $feedsPurchase->delete();
+
+        return redirect('/feeds-purchase')->with('success', 'Feeds Purchase has been deleted successfully!');
     }
 }

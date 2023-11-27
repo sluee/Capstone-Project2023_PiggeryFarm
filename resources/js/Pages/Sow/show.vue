@@ -2,13 +2,15 @@
     <Head title="View Sow" />
 
     <SideBarLayout>
-     
-        <div class="px-2 py-3" >
-            <div class="flex justify-between">
-                <Breadcrumb :crumbs="crumbs" class="mb-4" />
-                <Link class="button1 mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3" as="button" :href="'/sows/'">Back</Link>
+        <template #header>
+            <div>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-1">View Sow</h2>
+                <Breadcrumb :crumbs="crumbs"  />
             </div>
-        </div>
+
+        </template>
+
+
         <div class="py-6">
             <div class="flex ">
                 <div class="w-1/3 ml-2 ">
@@ -30,20 +32,20 @@
                                         Arrival Date:
                                     </span> {{ formattedDate(sows.date_arrived) }} </p>
                                 </div>
-                               
+
                                 <div class="flex justify-center mt-3 ml-2 mr-4" v-if="sows.status===1">
                                     <Link class="border border-red-500 bg-red-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" as="button" method="POST"  :href="'/sows/deactivate/'+ sows.id" >Deactivate Sow</Link>
-                                   
+
                                 </div>
                                 <div class="flex justify-center mt-3 ml-2 mr-4" v-if="sows.status===0">
-                                    <Link class="border border-green-500 bg-green-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline" as="button" method="POST" :href="'/sows/activate/'+ sows.id" >Activate Sow</Link> 
+                                    <Link class="border border-green-500 bg-green-500 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline" as="button" method="POST" :href="'/sows/activate/'+ sows.id" >Activate Sow</Link>
                                 </div>
-                               
+
 
                             </div>
                     </div>
                   </div>
-                  <div class="w-3/4 "> 
+                  <div class="w-3/4 ">
                     <h4 class="text-center text-xl font-bold text-navy-700 dark:text-black">
                         Sow's Breeding History
                     </h4>
@@ -60,10 +62,10 @@
                             Weanings
                             </button>
                         </div>
-                
+
                         <div v-show="openTab === 1" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
                             <h2 class="text-xl font-semibold mb-2 text-blue-600">Breedings</h2>
-                            
+
                             <table class="w-full table-auto">
                                 <thead>
                                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -97,23 +99,23 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>      
+                            </table>
                             <Pagination :links="breedings.links" class="mt-6 flex justify-center"/>
-                                                
-                          
+
+
                         </div>
-                
+
                         <div v-show="openTab === 2" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
                             <h2 class="text-xl font-semibold mb-2 text-blue-600">Labors</h2>
-                            
-                               
+
+
                                 <table class="w-full table-auto">
                                     <thead>
                                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                             <th class="py-2 px-2">Breeding ID</th>
                                             <th class="py-2 px-2">Actual Farrowing Date</th>
                                             <th class="py-2 px-2">Pigs Born</th>
-                                            <th class="py-2 px-2">Pigs Alive</th>            
+                                            <th class="py-2 px-2">Pigs Alive</th>
                                             <th class="py-2 px-2">Remarks</th>
                                         </tr>
                                     </thead>
@@ -143,21 +145,21 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>  
+                                </table>
                                 <Pagination :links="labors.links" class="mt-6 flex justify-center"/>
-                           
+
                         </div>
-                
+
                         <div v-show="openTab === 3" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
                             <h2 class="text-xl font-semibold mb-2 text-blue-600">Weanings</h2>
-                            
+
                                 <table class="w-full table-auto">
                                     <thead>
                                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                             <th class="py-2 px-2">Labor ID</th>
-                                            <th class="py-2 px-2">No of Pigs Born</th>          
-                                            <th class="py-2 px-2">No of Pigs Alive</th>          
-                                            <th class="py-2 px-2">No of Pigs Weaned</th>          
+                                            <th class="py-2 px-2">No of Pigs Born</th>
+                                            <th class="py-2 px-2">No of Pigs Alive</th>
+                                            <th class="py-2 px-2">No of Pigs Weaned</th>
                                             <th class="py-2 px-2">Remarks</th>
                                         </tr>
                                     </thead>
@@ -180,18 +182,18 @@
                                             </td>
                                             <td class="py-2 px-2 text-center whitespace-nowrap">
                                                 <p class="text-md font-semibold text-green-500">{{ wean.remarks }}</p >
-                                            </td>                                       
+                                            </td>
                                         </tr>
                                     </tbody>
-                                </table>  
+                                </table>
                                 <Pagination :links="weanings.links" class="mt-6 flex justify-center"/>
-                               
-                            
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-                         
+
             </div>
         </div>
 

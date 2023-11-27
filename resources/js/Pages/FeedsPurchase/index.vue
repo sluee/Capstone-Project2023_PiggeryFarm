@@ -16,11 +16,11 @@
                 <div class="flex">
                     <button
                         type="button"
-                        class="button1 mb-2 py-2 px-3 bg-blue-300 shadow border-gray-300 border hover:bg-blue-400 rounded mr-3"
+                        class="button1 py-2 px-3 bg-blue-300 shadow border-gray-300 border hover:bg-blue-400 rounded mr-3"
                         @click="openAddItemModal"
                     >
                     Create Purchase </button>
-                    <a href="/feeds-purchase/pdf" class="flex  mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3 " target="blank">
+                    <a href="/feeds-purchase/pdf" class="flex   py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3 " target="blank">
                         <svg viewBox="0 0 512 512" version="1.1" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#6666"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>pdf-document</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="add" fill="#000000" transform="translate(85.333333, 42.666667)"> <path d="M75.9466667,285.653333 C63.8764997,278.292415 49.6246897,275.351565 35.6266667,277.333333 L1.42108547e-14,277.333333 L1.42108547e-14,405.333333 L28.3733333,405.333333 L28.3733333,356.48 L40.5333333,356.48 C53.1304778,357.774244 65.7885986,354.68506 76.3733333,347.733333 C85.3576891,340.027178 90.3112817,328.626053 89.8133333,316.8 C90.4784904,304.790173 85.3164923,293.195531 75.9466667,285.653333 L75.9466667,285.653333 Z M53.12,332.373333 C47.7608867,334.732281 41.8687051,335.616108 36.0533333,334.933333 L27.7333333,334.933333 L27.7333333,298.666667 L36.0533333,298.666667 C42.094796,298.02451 48.1897668,299.213772 53.5466667,302.08 C58.5355805,305.554646 61.3626692,311.370371 61.0133333,317.44 C61.6596233,323.558965 58.5400493,329.460862 53.12,332.373333 L53.12,332.373333 Z M150.826667,277.333333 L115.413333,277.333333 L115.413333,405.333333 L149.333333,405.333333 C166.620091,407.02483 184.027709,403.691457 199.466667,395.733333 C216.454713,383.072462 225.530463,362.408923 223.36,341.333333 C224.631644,323.277677 218.198313,305.527884 205.653333,292.48 C190.157107,280.265923 170.395302,274.806436 150.826667,277.333333 L150.826667,277.333333 Z M178.986667,376.32 C170.098963,381.315719 159.922142,383.54422 149.76,382.72 L144.213333,382.72 L144.213333,299.946667 L149.333333,299.946667 C167.253333,299.946667 174.293333,301.653333 181.333333,308.053333 C189.877212,316.948755 194.28973,329.025119 193.493333,341.333333 C194.590843,354.653818 189.18793,367.684372 178.986667,376.32 L178.986667,376.32 Z M254.506667,405.333333 L283.306667,405.333333 L283.306667,351.786667 L341.333333,351.786667 L341.333333,329.173333 L283.306667,329.173333 L283.306667,299.946667 L341.333333,299.946667 L341.333333,277.333333 L254.506667,277.333333 L254.506667,405.333333 L254.506667,405.333333 Z M234.666667,7.10542736e-15 L9.52127266e-13,7.10542736e-15 L9.52127266e-13,234.666667 L42.6666667,234.666667 L42.6666667,192 L42.6666667,169.6 L42.6666667,42.6666667 L216.96,42.6666667 L298.666667,124.373333 L298.666667,169.6 L298.666667,192 L298.666667,234.666667 L341.333333,234.666667 L341.333333,106.666667 L234.666667,7.10542736e-15 L234.666667,7.10542736e-15 Z" id="document-pdf"> </path> </g> </g> </g></svg>
                             Export Purchase
                     </a>
@@ -99,7 +99,7 @@
 
                                 <td class="py-3 px-5 text-center">
                                     <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                        <!-- <div class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                             <button class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="#6666" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -107,18 +107,21 @@
                                                 </svg>
                                             </button>
 
+                                        </div> -->
+                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                            <a href="#" @click="edit(purchase)" class="btn" title="Edit purchase">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </a>
                                         </div>
-                                        <button class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110"   @click="openUpdateItemModal(purchase)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
-                                        </button>
-
-                                        <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </div>
+                                        <!-- <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                            <a href="#" @click="remove(purchase)" class="btn" title="Delete purchase">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </a>
+                                        </div> -->
                                     </div>
                                 </td>
 
@@ -195,6 +198,65 @@
                             </div>
                         </div>
                     </Modal>
+                    <Modal :show="showUpdateItemModal" @close="closeUpdateItemModal">
+                        <div class="p-4 sm:p-10 text-center ">
+                            <div class=" pr-6">
+                            <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
+                                Feeds Details
+                            </h4>
+                            <hr>
+                            <form @submit.prevent="update" >
+                                <div class="px-4 py-5">
+
+                                    <label class="font-semibold text-sm text-gray-600 block text-left" for="date">Date</label>
+                                    <input type="date" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.date"/>
+                                    <div class="text-red-600" v-if="form.errors.date">{{ form.errors.date }}</div>
+
+                                    <label class="font-semibold text-sm text-gray-600 block text-left" for="feed_id">Feeds Name</label>
+                                    <select name="" id="feed_id" v-model="form.feed_id" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 ">
+                                        <option value="" disabled>Select Feeds</option>
+                                        <option v-for="cat in feeds" :value="cat.id" :key="cat.id" >{{ cat.categories.name }}| {{ cat.supplier.name }}</option>
+                                    </select>
+                                    <div class="text-red-600" v-if="form.errors.feed_id">{{ form.errors.feed_id }}</div>
+
+                                    <label class="font-semibold text-sm text-gray-600 block text-left" for="qty">Quantity</label>
+                                    <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.qty"/>
+                                    <div class="text-red-600" v-if="form.errors.qty">{{ form.errors.qty }}</div>
+
+                                </div>
+                                <div class="mt-6 flex justify-center gap-x-4">
+                                    <SecondaryButton @click="closeUpdateItemModal">Cancel</SecondaryButton>
+                                    <PrimaryButton  @click="update()">Edit Purchase</PrimaryButton>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        </div>
+                    </Modal>
+                    <Modal :show="showConfirm" @close="closeModal">
+                        <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                            <!-- Icon -->
+                            <span class="mb-4 inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-red-50 bg-red-100 text-red-500">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                </svg>
+                            </span>
+                            <!-- End Icon -->
+
+                            <h3 class="mb-2 text-2xl font-bold text-gray-800">
+                                Delete Feeds Feed Purchase
+                            </h3>
+                            <p class="text-gray-500">
+                                Are you sure you want like to delete this Feed PurchaseS?
+                            </p>
+
+                            <div class="mt-6 flex justify-center gap-x-4">
+                                <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
+                                <DangerButton @click="deleteCat()">Delete</DangerButton>
+                            </div>
+                        </div>
+                    </Modal>
 
                 </div>
                 <Pagination :links="feedsPurchase.links" class="mt-6 flex justify-center"/>
@@ -213,7 +275,7 @@ import { ref, watch, onMounted } from 'vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Pagination from '@/Components/Pagination.vue';
-
+import DangerButton from '@/Components/DangerButton.vue';
 
 const form = useForm({
     qty:'',
@@ -250,23 +312,50 @@ const addItem = () => {
     closeAddItemModal();
 };
 
-const showUpdateItemModal = ref(false);
 
+
+let showConfirm = ref(false)
+let selectedPurchaseForDelete = null
+let selectedPurchase = null
+let deleteForm = useForm({});
+
+
+const showUpdateItemModal = ref(false);
 const closeUpdateItemModal = () => {
     showUpdateItemModal.value = false;
 };
-const openUpdateItemModal = (purchase) => {
-    showUpdateItemModal.value = true;
-    // form.feed_id =props.feeds.id,
-    form.date =props.feedsPurchase.date
-    form.qty= props.feedsPurchase.qty
-};
-
-const updateItem = (purchase)=>{
-    form.feed_id =props.feedsPurchase.feed.id,
-    form.date =props.feedsPurchase.date
-    form.qty= props.feedsPurchase.qty
+function closeModal(){
+    showConfirm.value = false;
 }
+
+function edit(purchase) {
+    selectedPurchase = purchase
+    showUpdateItemModal.value = true;
+    form.date = purchase.date,
+    form.feed_id = purchase.feed_id,
+    form.qty = purchase.qty
+}
+
+
+// function remove(purchase) {
+//     selectedPurchaseForDelete = purchase
+//     showConfirm.value = true;
+// }
+
+// function deleteCat(){
+//     deleteForm.delete('/feeds-purchase/' + selectedPurchaseForDelete.id)
+//     showConfirm.value = false;
+// }
+
+
+const update = () =>{
+    form.put('/feeds-purchase/' + selectedPurchase.id)
+    form.date = "";
+    form.feed_id = "";
+    form.qty="";
+    closeUpdateItemModal();
+}
+
 
 let search = ref(props.filters.search);
     watch(search, (value) => {
@@ -316,7 +405,7 @@ let search = ref(props.filters.search);
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {

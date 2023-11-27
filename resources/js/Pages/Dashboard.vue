@@ -21,7 +21,8 @@ import Chart from 'chart.js/auto';
         laborCount:Number,
         weaningCount:Number,
         totalNoPigsAlive:String,
-        totalNoPigsWeaned:Number
+        totalNoPigsWeaned:Number,
+        stockInSum:Number
         // totalPigs: Number, // Assuming you have a totalPigs prop
         // totalWeight: Number,
     });
@@ -150,7 +151,7 @@ import Chart from 'chart.js/auto';
                         <div class="bg-blue-100 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                            <div class="flex items-center">
                               <div class="flex-shrink-0">
-                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">85 bag/s</span>
+                                 <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ stockInSum }} bag/s</span>
                                  <h3 class="text-base font-normal text-gray-500">Total Feeds</h3>
                               </div>
                               <div class="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">

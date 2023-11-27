@@ -66,8 +66,7 @@ class ConsumptionController extends Controller
         // Create the FeedPurchase model with the calculated totalAmount
         $cons = Consumption::create($fields);
 
-        // $newStock = $feed->qty - $fields['qty'];
-        // $feed->update(['qty' => $newStock]);
+        
         $feed->decrement('qty', $fields['qty']);
 
         $inventory = Inventory::where('feed_id' ,$cons->feed_id)->first();
@@ -77,7 +76,7 @@ class ConsumptionController extends Controller
         } 
            
 
-        return redirect('/feeds-consumption')->with('success', 'Feeds Purchase Added Successfully');
+        return redirect('/feeds-consumption')->with('success', 'Feeds Consumption Added Successfully');
     }
 
     /**
@@ -93,7 +92,7 @@ class ConsumptionController extends Controller
      */
     public function edit(Consumption $consumption)
     {
-        //
+        
     }
 
     /**
@@ -101,7 +100,34 @@ class ConsumptionController extends Controller
      */
     public function update(Request $request, Consumption $consumption)
     {
-        //
+        $fields = $request->validate([
+            'feed_id' => 'required|numeric|exists:feeds,id',
+            'qty'     => 'required|numeric',
+            'date'    => 'required',
+        ]);
+
+        // Check existence of the $feedsPurchase model
+        if (!$consumption) {
+            return abort(404); // Or handle the case appropriately
+        }
+
+        // Retrieve the associated feed with the category loaded
+        $feed = Feed::with('categories')->findOrFail($fields['feed_id']);
+
+        // Calculate totalAmount using category price and feed quantity
+        // $totalAmount = $feed->categories->price * $fields['qty'];
+
+        // // Add totalAmount to the fields array
+        // $fields['totalAmount'] = $totalAmount;
+
+        // Update the FeedPurchase model with the calculated totalAmount
+        $consumption->update($fields);
+
+        // Update the feed quantity
+        $newStock = $feed->qty - $fields['qty'];
+        $feed->update(['qty' => $newStock]);
+
+        return redirect('/feeds-consumption')->with('success', 'Feeds Consumption Updated Successfully');
     }
 
     /**

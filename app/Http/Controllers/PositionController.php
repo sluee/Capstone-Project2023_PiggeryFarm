@@ -19,8 +19,8 @@ class PositionController extends Controller
             })
             ->paginate(8)
             ->withQueryString();
-    
-       
+
+
         return inertia('Position/index',[
             'positions' => $positions,
             'filters' => HttpRequest::only(['search']),
@@ -72,7 +72,15 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+        $fields=$request->validate([
+            'position' => 'required',
+            'rate' => 'required',
+
+        ]);
+
+       $position->update($fields);
+
+        return redirect('/positions')->with('success','Position Updated Successfully');
     }
 
     /**
@@ -80,6 +88,8 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        //
+        $position->delete();
+
+        return redirect('/positions')->with('success', 'Position has been deleted successfully!');
     }
 }

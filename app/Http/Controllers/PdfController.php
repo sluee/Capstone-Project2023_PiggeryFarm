@@ -9,6 +9,7 @@ use App\Models\Consumption;
 use App\Models\Employee;
 use App\Models\FeedsPurchase;
 use App\Models\FinancialTransaction;
+use App\Models\Inventory;
 use App\Models\Labor;
 use App\Models\Payroll;
 use App\Models\Sale;
@@ -191,4 +192,59 @@ class PdfController extends Controller
 
         return $pdf->stream();
     }
+
+    public function inventorySummary(){
+        $inventory = Inventory::get();
+        
+        $inventory->each(function ($item) {
+            $item->Available = $item->stock_out ? ($item->stock_in - $item->stock_out) : $item->stock_in;
+    
+            if ($item->feeds) {
+                $item->feeds_name = $item->feeds->categories->name;
+            } else {
+                $item->feeds_name = null;
+            }
+        });
+    
+        $pdf = Pdf::loadView('Pdf.inventory', [
+            'inventory' => $inventory,
+        ]);
+
+        return $pdf->stream();
+
+    }
+
+    public function financialLatest()
+    {
+        $financialTransaction = FinancialTransaction::with('financialItems')
+        ->orderByDesc('date')
+        ->first(); // Retrieve only the most recent transaction
+
+    // Check if a transaction was found before proceeding
+    if ($financialTransaction) {
+        // Convert the Eloquent model and related models to plain arrays
+        $financialTransactionArray = $financialTransaction->toArray();
+        $financialTransactionArray['financialItems'] = $financialTransaction->financialItems->map(function ($item) {
+            return $item->toArray();
+        });
+
+        $pdf = Pdf::loadView('Pdf.LatestFinancial', [
+            'transactions' => $financialTransaction,
+        ]);
+    
+        return $pdf->stream();
+    } else {
+        // Handle the case where no recent transaction is found
+        // return inertia('Transactions/financial', [
+        //     'transaction' => null, // or any other default value or message
+        // ]);
+    }
+    
+        // $pdf = Pdf::loadView('Pdf.LatestFinancial', [
+        //     'transactions' => $financialTransaction,
+        // ]);
+    
+        // return $pdf->stream();
+    }
+    
 }

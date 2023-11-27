@@ -156,14 +156,34 @@
     //     form.post('/payroll');
 
     // }
-    const isLoading = ref(false);
+    // watch([form.payrollPeriodFrom, form.payrollPeriodTo], () => {
+    //   calculateDays();
+    // });
+
+    // Calculate the number of days
+    const calculateDays = () => {
+      const from = new Date(form.payrollPeriodFrom);
+      const to = new Date(form.payrollPeriodTo);
+
+      // Check if both dates are valid
+      if (!isNaN(from.getTime()) && !isNaN(to.getTime())) {
+        const timeDiff = Math.abs(to.getTime() - from.getTime());
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        // Update the noOfDaysWorked
+        form.noOfDaysWorked = diffDays;
+      } else {
+        // Handle invalid dates if needed
+       form.noOfDaysWorked = 0;
+      }
+    };
 
 const submit = async () => {
-    isLoading.value = true;
+    // isLoading.value = true;
     form.post('/payroll');
-    setTimeout(() => {
-        isLoading.value = false;
-    }, 5000);
+    // setTimeout(() => {
+    //     isLoading.value = false;
+    // }, 5000);
 };
 
 </script>
@@ -208,9 +228,9 @@ const submit = async () => {
                     <form @submit.prevent="submit">
                         <div class="flex mb-2">
                             <label class="leading-loose">Date Covered From: </label>
-                            <input type="date" class="border rounded-lg h-8 w-100 mr-2 px-3 py-2   text-sm  text-gray-600" v-model="form.payrollPeriodFrom" />
+                            <input type="date" class="border rounded-lg h-8 w-100 mr-2 px-3 py-2   text-sm  text-gray-600" v-model="form.payrollPeriodFrom" @change="calculateDays"/>
                             <label class="leading-loose">Date Covered To: </label>
-                            <input type="date" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.payrollPeriodTo" />
+                            <input type="date" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.payrollPeriodTo"  @change="calculateDays"/>
 
                           </div>
                         <div class="mb-2">
@@ -304,13 +324,13 @@ const submit = async () => {
                       </form>
 
                 </div>
-                <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
+                <!-- <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
                     <div class="spinner">
                       <div class="dot1"></div>
                       <div class="dot2"></div>
                       <div class="dot3"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </SideBarLayout>

@@ -34,13 +34,13 @@
                 <strong>RQR Piggey Farm Inc. | Saint Agustine Piggery Farm Inc </strong> <br>
                 Pondol, San Agustin, Sagbayan, Bohol <br>
                 Tel. No.: 09121244888, 09505514775 <br>
-                Feeds Purchase Summary
+                Feeds Inventory Summary
             </div>
 
         </div>
 
 
-        <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Feeds Purchase</h2>
+        <h2 style="padding-bottom: 10pt; border-bottom: 1px solid #333; margin-top:10">Feeds Inventory</h2>
 
       
 
@@ -48,39 +48,39 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Date</th>
                     <th>Feeds</th>
-                    <th>Quantity</th>
-                    <th>Feeds Rate</th>
-                    <th>Total Amount</th>
+                    <th>Stock In</th>
+                    <th>Stock Out</th>
+                    <th>Available</th>
                     </tr>
             </thead>
 
             <tbody>
 
-                @foreach ($feedsPurchase as $item )
+                @foreach ($inventory as $item )
                 <tr>
                     <td style="text-align: center">
                         {{$item->id}}
                     </td>
-                    <td style="text-align: left;">
-                        {{$item->formattedPeriod}}
-                    </td>
+                    {{-- <td style="text-align: left;">
+                        {{$item->feed_id}}
+                    </td> --}}
                     <td>
-                        {{$item->feeds->categories->name}}
+                        {{$item->feeds->categories->name}} |
                         <span>
                             {{$item->feeds->supplier->name}}
                         </span>
 
                     </td>
                     <td style="text-align: right">
-                        {{$item->qty}}
+                        {{$item->stock_in}}
+                    </td>
+                   
+                    <td style="text-align: right">
+                        {{$item->stock_out}}
                     </td>
                     <td style="text-align: right">
-                        {{$item->feeds->categories->price}}
-                    </td>
-                    <td style="text-align: right">
-                        {{$item->totalAmount}}
+                        {{$item->Available }}
                     </td>
 
                 </tr>

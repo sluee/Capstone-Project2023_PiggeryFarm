@@ -186,7 +186,7 @@ const isCollapsed = ref(false);
                 <!-- Footer -->
                 <footer class="bg-white footer footer-center text-center p-4 bg-base-300 text-base-content">
                     <aside>
-                      <p class="text-center">Copyright © 2023 - All rights reserved by MDC White Hats</p>
+                      <p class="text-center">© 2023 MDC White Hats. All rights reserved.</p>
                     </aside>
                   </footer>
               </div>

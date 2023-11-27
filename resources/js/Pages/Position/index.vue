@@ -36,9 +36,9 @@
                 <div class="progress-bar error"></div>
             </div>
         </template>
-        <div class="py-12">      
+        <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-7">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">     
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -70,7 +70,7 @@
 
                                         <p class="font-medium">{{ pos.rate }}</p>
                                     </div>
-                                </td>    
+                                </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <!-- <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
@@ -81,14 +81,18 @@
                                             </svg>
                                         </div> -->
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
+                                            <a href="#" @click="edit(pos)" class="btn" title="Edit Position">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
+                                            <a href="#" @click="remove(pos)" class="btn" title="Delete Position">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -96,7 +100,7 @@
                             </tr>
 
                         </tbody>
-                    </table>                    
+                    </table>
                     <Modal :show="showAddItemModal" @close="closeAddItemModal">
                         <div class="p-4 sm:p-10 text-center ">
                             <div class=" pr-6">
@@ -106,7 +110,7 @@
                             <hr>
                             <form @submit.prevent="submit" >
                                 <div class="px-4 py-5">
-    
+
                                     <label class="font-semibold text-sm text-gray-600  text-left block" for="position">Position</label>
                                     <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.position"/>
                                     <div class="text-red-600" v-if="form.errors.position">{{ form.errors.position }}</div>
@@ -114,16 +118,68 @@
                                     <label class="font-semibold text-sm text-gray-600 text-left block" for="rate">Rate Per Day</label>
                                     <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.rate"/>
                                     <div class="text-red-600" v-if="form.errors.rate">{{ form.errors.rate }}</div>
-    
+
                                     <div class="mt-6 flex justify-center gap-x-4">
                                         <SecondaryButton @click="closeAddItemModal">Cancel</SecondaryButton>
                                         <PrimaryButton  @click="addItem()">Add Postion</PrimaryButton>
                                     </div>
                                 </div>
                             </form>
-                            
+
                         </div>
-                        
+
+                        </div>
+                    </Modal>
+                    <Modal :show="showUpdateItemModal" @close="closeUpdateItemModal">
+                        <div class="p-4 sm:p-10 text-center ">
+                            <div class=" pr-6">
+                            <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
+                                Feeds Details
+                            </h4>
+                            <hr>
+                            <form @submit.prevent="update" >
+                                <div class="px-4 py-5">
+
+                                    <label class="font-semibold text-sm text-gray-600  text-left block" for="position">Position</label>
+                                    <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.position"/>
+                                    <div class="text-red-600" v-if="form.errors.position">{{ form.errors.position }}</div>
+
+                                    <label class="font-semibold text-sm text-gray-600 text-left block" for="rate">Rate Per Day</label>
+                                    <input type="number" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600 "  v-model="form.rate"/>
+                                    <div class="text-red-600" v-if="form.errors.rate">{{ form.errors.rate }}</div>
+
+                                    <div class="mt-6 flex justify-center gap-x-4">
+                                        <SecondaryButton @click="closeUpdateItemModal">Cancel</SecondaryButton>
+                                        <PrimaryButton  @click="update()">Edit Postion</PrimaryButton>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        </div>
+                    </Modal>
+                    <Modal :show="showConfirm" @close="closeModal">
+                        <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                            <!-- Icon -->
+                            <span class="mb-4 inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-red-50 bg-red-100 text-red-500">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                </svg>
+                            </span>
+                            <!-- End Icon -->
+
+                            <h3 class="mb-2 text-2xl font-bold text-gray-800">
+                                Delete Position
+                            </h3>
+                            <p class="text-gray-500">
+                                Are you sure you want like to delete this Position?
+                            </p>
+
+                            <div class="mt-6 flex justify-center gap-x-4">
+                                <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
+                                <DangerButton @click="deletePos()">Delete</DangerButton>
+                            </div>
                         </div>
                     </Modal>
                 </div>
@@ -144,6 +200,7 @@ import Pagination from '@/Components/Pagination.vue';
 import Modal from '@/Components/Modal.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import DangerButton from '@/Components/DangerButton.vue';
 
 
 const form = useForm({
@@ -173,9 +230,11 @@ function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
 }
 
-
-
 const showAddItemModal = ref(false);
+
+function closeModal(){
+    showConfirm.value = false;
+}
 
 const openAddItemModal = () => {
   showAddItemModal.value = true;
@@ -184,12 +243,49 @@ const openAddItemModal = () => {
 const closeAddItemModal = () => {
   showAddItemModal.value = false;
 };
-
 const addItem = () => {
     form.post('/positions/');
     form.reset();
     closeAddItemModal();
 };
+
+let showConfirm = ref(false)
+let selectedPositionForDelete = null
+let selectedPosition = null
+let deleteForm = useForm({});
+
+const showUpdateItemModal = ref(false);
+const closeUpdateItemModal = () => {
+    showUpdateItemModal.value = false;
+};
+
+
+
+function edit(pos) {
+    selectedPosition = pos
+    showUpdateItemModal.value = true;
+    form.position = pos.position,
+    form.rate = pos.rate
+}
+
+
+function remove(pos) {
+    selectedPositionForDelete = pos
+    showConfirm.value = true;
+}
+
+function deletePos(){
+    deleteForm.delete('/positions/' + selectedPositionForDelete.id)
+    showConfirm.value = false;
+}
+
+
+const update = () =>{
+    form.put('/positions/' + selectedPosition.id)
+    form.position = "";
+    form.rate = "";
+    closeUpdateItemModal();
+}
 
 onMounted(() => {
     // Set a timeout to hide the success flash message after 3 seconds
@@ -228,7 +324,7 @@ onMounted(() => {
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {

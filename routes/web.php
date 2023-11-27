@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/breedings/edit/{breeding}', [BreedingController::class, 'edit']);
     Route::put('/breedings/{breeding}', [BreedingController::class, 'update']);
     Route::get('/breedings/{breeding}',[BreedingController::class,'show']);
-    Route::delete('/breedings/{breeding}', [BreedingController::class, 'destroy']);
+    Route::delete('/breedings/delete/{breeding}', [BreedingController::class, 'destroy']);
 
 
     //For Labor///
@@ -145,24 +145,32 @@ Route::middleware('auth')->group(function () {
         Route::get('/suppliers' ,[SupplierController::class, 'index'])->name('suppliers.index');
         Route::get('/suppliers/create',[SupplierController::class , 'create']);
         Route::post('/suppliers',[SupplierController::class, 'store']);
+        Route::put('/suppliers/{supplier}', [SupplierController::class, 'update']);
+        Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy']);
 
         Route::get('/categories' ,[CategoryController::class, 'index'])->name('categories.index');
         Route::get('/categories/create',[CategoryController::class , 'create']);
         Route::post('/categories',[CategoryController::class, 'store']);
+        Route::put('/categories/{category}', [CategoryController::class, 'update']);
+        Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
         Route::get('/feeds' ,[FeedController::class, 'index'])->name('feeds.index');
         Route::get('/feeds/create',[FeedController::class , 'create']);
         Route::post('/feeds',[FeedController::class, 'store']);
+        Route::delete('/feeds/{feed}', [FeedController::class, 'destroy']);
+
 
         Route::get('/feeds-purchase' ,[FeedsPurchaseController::class, 'index'])->name('purchase.index');
         Route::post('/feeds-purchase',[FeedsPurchaseController::class, 'store']);
         Route::put('/feeds-purchase/{feedsPurchase}', [FeedsPurchaseController::class, 'update']);
         Route::get('/sales/pdf/{sale}',[PdfController::class,'salesReceipt']);
         Route::get('/feeds-purchase/pdf/',[PdfController::class,'feedsPurchase']);
+        // Route::delete('/feeds-purchase/{feedsPurchase}', [FeedsPurchaseController::class, 'destroy']);
         Route::get('/feeds-purchases/pdf/',[PdfController::class,'feedsConsumption'])->name('consumption.pdf');
 
         Route::get('/feeds-consumption' ,[ConsumptionController::class, 'index'])->name('consumption.index');
         Route::post('/feeds-consumption',[ConsumptionController::class, 'store']);
+        Route::put('/feeds-consumption/{consumption}', [ConsumptionController::class, 'update']);
 
         Route::get('/feeds-inventory',[InventoryController::class, 'index' ])->name('feedsInventory.index');
     });
@@ -170,6 +178,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:manage_users')->group(function(){
         Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
         Route::post('/positions', [PositionController::class, 'store']);
+        Route::put('/positions/{position}', [PositionController::class, 'update']);
+        Route::delete('/positions/{position}', [PositionController::class, 'destroy']);
+
 
         Route::get('/employees/create',[EmployeeController::class , 'create']);
         Route::post('/employees', [EmployeeController::class, 'store']);
@@ -201,7 +212,7 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::get('/financial}',[FinancialTransactionController::class, 'financial'])->name('transaction.financial')->middleware('can:manage_reports');
+    Route::get('/financial',[FinancialTransactionController::class, 'financial'])->name('transaction.financial')->middleware('can:manage_reports');
 
     Route::middleware('can:manage_payroll')->group(function(){
         Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
@@ -233,6 +244,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/breeding/pdf/',[PdfController::class,'breedings'])->name('breeding.pdf');
         Route::get('/cashAdvance/pdf/',[PdfController::class,'cashAdvance'])->name('cashAdvance.pdf');
         Route::get('/transaction/pdf/',[PdfController::class,'transactionSummary'])->name('transaction.pdf');
+        Route::get('/feeds-inventory/pdf/',[PdfController::class,'inventorySummary'])->name('inventory.pdf');
+        Route::get('/transactions/pdf/', [PdfController::class, 'financialLatest'])->name('latestFinancial');
+
+
+
     });
 
 

@@ -78,7 +78,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $fields=$request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'price'    =>'required'
+
+        ]);
+
+        $category->update($fields);
+
+        return redirect('/categories')->with('success','Feeds Category Updated Successfully');
     }
 
     /**
@@ -86,6 +95,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect('/categories')->with('success', 'Category has been deleted successfully!');
     }
 }

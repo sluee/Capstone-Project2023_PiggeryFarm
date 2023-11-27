@@ -49,43 +49,61 @@
 
         <div class="py-6">
             <div class="flex">
-                <div class="w-1/3 mt-3 px-3 ml-12">
-                    <div class=" pr-5">
-                        <h4 class="text-center text-xl font-bold text-navy-700 dark:text-black">
-                            Labor's Details
-                        </h4>
-                        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 mt-2">
-                            <div class="bg-blue-300  shadow-lg sm:rounded-lg">
-                                <div class="p-6 text-gray-900 flex">
-
-                                    <div class="flex-1 ml-4 ">
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Sow</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ labor.sow.sow_no}}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Boar</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ labor.boar.breed}}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Parity No</label>
-                                            <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ labor.parity_no}}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Actual Date of farrowing</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(labor.actual_date_farrowing) }}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">No of pigs born</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ labor.no_pigs_born}}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">No of pigs alive</label>
-                                            <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ labor.no_pigs_alive}}</p>
-
-                                        <label class="font-semibold text-sm text-gray-600 block" for="">Date of Weaning</label>
-                                        <p class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600">{{ formattedDate(labor.date_of_weaning) }}</p>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+                    <div
+                       class="
+                       bg-white
+                       rounded-xl
+                       relative
+                       z-10
+                       overflow-hidden
+                       border border-primary border-opacity-20
+                       shadow-pricing
+                       py-10
+                       px-8
+                       sm:p-12
+                       lg:py-10 lg:px-6
+                       xl:p-12
+                       mb-10
+                       "
+                       >
+                       <span class="text-primary font-semibold text-xl block mb-4">
+                       Labor Details
+                       </span>
+                       <p class="text-body-color  text-base ">
+                          Sow:<strong>{{ labor.sow.sow_no }}</strong>
+                          
+                       </p>
+                       <p
+                          class="
+                          text-base text-body-color"
+                          >
+                         Boar: <strong>{{labor.boar.boar_no}} | {{ labor.boar.breed }}</strong>
+                       </p>
+                       <div class="">
+                          <p class="text-base  ">
+                            Parity no: <strong>{{ labor.parity_no}}</strong>
+                          </p>
+                          <p class="text-base  ">
+                            Expected Date of Farrowing: <strong>{{ formattedDate(labor.exp_date_of_farrowing) }}</strong>
+                          </p>
+                          <p class="text-base  ">
+                            Actual Date of Farrowing: <strong>{{ formattedDate(labor.actual_date_farrowing) }}</strong>
+                          </p>
+                          <p class="text-base  ">
+                            No of Pigs Born: <strong>{{ labor.no_pigs_born}}</strong>
+                          </p>
+                          <p class="text-base  ">
+                            No of Pigs Alive: <strong>{{ labor.no_pigs_born}}</strong>
+                          </p>
+                          <p class="text-base  ">
+                            Date of Weaning: <strong>{{ formattedDate(labor.date_of_weaning) }}</strong>
+                          </p>
+                       </div>     
                     </div>
+                 </div>
+                <div >
+                
                 </div>
                 <div >
                     <div class="flex flex-col justify-center items-center">
@@ -101,7 +119,7 @@
                                             <label class="font-semibold text-sm text-gray-600 block" for="">Labor No.</label>
                                             <input
                                               type="text"
-                                              class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-gray-600"
+                                              class="border rounded-lg px-3 py-2 mt-1 text-sm w-full text-gray-600"
                                              v-model="labor_id "
                                               readonly
                                             />

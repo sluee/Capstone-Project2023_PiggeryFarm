@@ -16,21 +16,21 @@ class FinancialTransactionItemsController extends Controller
     public function index()
     {
         $currentYear = now()->year; // Get the current year
-    
+
         $monthlyFinancial = FinancialTransaction::whereYear('date', $currentYear)
             ->selectRaw('MONTH(date) as month, SUM(totalCashBalance) as totalCashBalance')
             ->groupByRaw('MONTH(date)')
             ->get();
-    
+
         // Log the results for debugging
         Log::info($monthlyFinancial);
-    
+
         return inertia('Transactions/chart', [
             'monthlyFinancial' => $monthlyFinancial,
             'currentYear' => $currentYear,
         ]);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.

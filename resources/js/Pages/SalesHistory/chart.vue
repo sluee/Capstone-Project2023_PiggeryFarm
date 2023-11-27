@@ -156,22 +156,22 @@ import Chart from 'chart.js/auto';
 
 <template>
     <Head title="Sales Chart" />
-    
+
     <SideBarLayout>
-        <template #header >
+        <!-- <template #header >
             <div class="flex justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Sales Chart</h2>
-                <div class=" flex justify-end items-center">
-                    <label for="chartType" class="mr-2 font-bold text-slate-700">Select Chart Type:</label>
-                    <select v-model="selectedChartType" id="chartType" class="rounded-full">
-                        <option value="monthly">Current Year</option>
-                        <option value="yearly">All Year</option>
-                    </select>
-                </div>
+
             </div>
-        </template>
-        <div class="py-10">
-            
+        </template> -->
+        <div class="py-5">
+            <div class=" flex justify-end items-center">
+                <label for="chartType" class="mr-2 font-bold text-slate-700">Select Chart Type:</label>
+                <select v-model="selectedChartType" id="chartType" class="rounded-full">
+                    <option value="monthly">Current Year</option>
+                    <option value="yearly">All Year</option>
+                </select>
+            </div>
             <div class="flex justify-center mb-2">
                 <div>
                     <img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover">
@@ -181,20 +181,20 @@ import Chart from 'chart.js/auto';
                     <h3 class="font-bold text-slate-700 text-center">San Agustin, Sagbayan, Bohol</h3>
                     <h3 class="font-bold text-slate-700 text-center">Canmaya Centro, Sagbayan, Bohol</h3>
                     <br>
-                   
-                </div>           
-            </div>    
+
+                </div>
+            </div>
             <div v-show="selectedChartType === 'monthly'">
                 <div v-if="monthlySales && monthlySales.length > 0">
-                   
+
                     <h3 class="font-bold text-slate-700 text-center">Sales Chart for {{ currentYear }}</h3>
                     <div class="w-full px-5 py-4">
-                        
+
                         <canvas id="monthlySalesChart" width="200" height="80"></canvas>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
-                <p class="text-center text-xl font-bold text-gray-900 py-6">Sales Chart information for the entire year is unavailable for now</p>
+                <div class=" bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
+                    <p class="text-center text-lg font-bold text-gray-900 py-6">Sales Chart information is unavailable for now</p>
                 </div>
             </div>
             <div v-show="selectedChartType === 'yearly'">
@@ -206,8 +206,9 @@ import Chart from 'chart.js/auto';
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
-                <p class="text-center text-xl font-bold text-gray-900 py-6">Sales Chart information is unavailable for now</p>
-                </div>
+                    <p class="text-center text-lg font-bold text-gray-900 py-6">Sales Chart information for the entire year is unavailable for now</p>
+                    </div>
+                
             </div>
         </div>
     </SideBarLayout>
