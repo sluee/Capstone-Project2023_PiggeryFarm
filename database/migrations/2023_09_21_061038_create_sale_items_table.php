@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('total');
             $table->timestamps();
 
-            $table->foreign('sale_id')->references('id')->on('sales');
+            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
         });
     }
 

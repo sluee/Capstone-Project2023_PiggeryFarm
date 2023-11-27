@@ -97,8 +97,10 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-
-        return Inertia('Employee/show');
+        $employee->load('cashAdvances', 'advanceTotal' , 'user', 'position');
+        return Inertia('Employee/show', [
+            'employee' => $employee
+        ]);
     }
 
     /**

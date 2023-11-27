@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('requestDate');
             $table->string('amount')->default(0);
             $table->string('reason')->nullable();
-            $table->foreign('emp_id')->references('id')->on('employees');
-            $table->foreign('cash_id')->references('id')->on('cash_advance_totals');
+            $table->foreign('emp_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('cash_id')->references('id')->on('cash_advance_totals')->onDelete('cascade');
             $table->timestamps();
         });
     }

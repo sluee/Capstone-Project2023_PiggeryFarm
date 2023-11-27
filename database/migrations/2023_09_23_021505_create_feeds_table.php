@@ -16,7 +16,7 @@ return new class extends Migration
             $table->double('qty')->default(0);
             $table->bigInteger('cat_id')->unsigned();
             $table->timestamps();
-            $table->foreign('cat_id')->references('id')->on('categories');
+            $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

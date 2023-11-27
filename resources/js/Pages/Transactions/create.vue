@@ -82,7 +82,7 @@ function submit() {
                     </div>
                     <form @submit.prevent="submit">
                         <div class="flex mb-2">
-                            <Label class="smb-2 py-2 px-3rounded mr-3" >Liquidation Date:</Label>
+                            <Label class="sm-2 py-2 px-3rounded mr-3" >Liquidation Date:</Label>
                             <input v-model="form.date" type="date" step="0.01" class="border rounded-md border-gray-300 p-2 w-[20]">
                         </div>
 
@@ -120,7 +120,7 @@ function submit() {
                                         </td>
 
                                     </tr>
-                                   
+
                                 </tbody>
                             </table>
                             <label for="message" class="block mb-2 ml-2 text-normal font-medium text-gray-900 ">Remarks</label>

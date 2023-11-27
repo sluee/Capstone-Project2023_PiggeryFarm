@@ -1,121 +1,115 @@
 <template>
     <Head title="View Employee" />
-
     <SideBarLayout>
         <template #header>
             <div class="flex justify-between">
-                <!-- <Breadcrumb :crumbs="crumbs" class="mb-4" /> -->
+                
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">View Employee</h2>
+                <!-- <div style="position:relative">
+                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search employee here" v-model="search">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
+                    style="position:absolute; top:10px; right:10px">
+                    <path d="M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z" fill-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="flex">
+                    <Link class="button1 mb-2 py-2 px-3 bg-blue-300 shadow border-gray-300 border hover:bg-blue-400 rounded mr-3" as="button" href="/employees/create">Create Employee</Link>
+                    <a :href="route('employee.pdf')" class="flex  mb-2 py-2 px-3 bg-gray-300 shadow border-gray-300 border hover:bg-gray-400 rounded mr-3 " target="blank">
+                        <svg viewBox="0 0 512 512" version="1.1" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#6666"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>pdf-document</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="add" fill="#000000" transform="translate(85.333333, 42.666667)"> <path d="M75.9466667,285.653333 C63.8764997,278.292415 49.6246897,275.351565 35.6266667,277.333333 L1.42108547e-14,277.333333 L1.42108547e-14,405.333333 L28.3733333,405.333333 L28.3733333,356.48 L40.5333333,356.48 C53.1304778,357.774244 65.7885986,354.68506 76.3733333,347.733333 C85.3576891,340.027178 90.3112817,328.626053 89.8133333,316.8 C90.4784904,304.790173 85.3164923,293.195531 75.9466667,285.653333 L75.9466667,285.653333 Z M53.12,332.373333 C47.7608867,334.732281 41.8687051,335.616108 36.0533333,334.933333 L27.7333333,334.933333 L27.7333333,298.666667 L36.0533333,298.666667 C42.094796,298.02451 48.1897668,299.213772 53.5466667,302.08 C58.5355805,305.554646 61.3626692,311.370371 61.0133333,317.44 C61.6596233,323.558965 58.5400493,329.460862 53.12,332.373333 L53.12,332.373333 Z M150.826667,277.333333 L115.413333,277.333333 L115.413333,405.333333 L149.333333,405.333333 C166.620091,407.02483 184.027709,403.691457 199.466667,395.733333 C216.454713,383.072462 225.530463,362.408923 223.36,341.333333 C224.631644,323.277677 218.198313,305.527884 205.653333,292.48 C190.157107,280.265923 170.395302,274.806436 150.826667,277.333333 L150.826667,277.333333 Z M178.986667,376.32 C170.098963,381.315719 159.922142,383.54422 149.76,382.72 L144.213333,382.72 L144.213333,299.946667 L149.333333,299.946667 C167.253333,299.946667 174.293333,301.653333 181.333333,308.053333 C189.877212,316.948755 194.28973,329.025119 193.493333,341.333333 C194.590843,354.653818 189.18793,367.684372 178.986667,376.32 L178.986667,376.32 Z M254.506667,405.333333 L283.306667,405.333333 L283.306667,351.786667 L341.333333,351.786667 L341.333333,329.173333 L283.306667,329.173333 L283.306667,299.946667 L341.333333,299.946667 L341.333333,277.333333 L254.506667,277.333333 L254.506667,405.333333 L254.506667,405.333333 Z M234.666667,7.10542736e-15 L9.52127266e-13,7.10542736e-15 L9.52127266e-13,234.666667 L42.6666667,234.666667 L42.6666667,192 L42.6666667,169.6 L42.6666667,42.6666667 L216.96,42.6666667 L298.666667,124.373333 L298.666667,169.6 L298.666667,192 L298.666667,234.666667 L341.333333,234.666667 L341.333333,106.666667 L234.666667,7.10542736e-15 L234.666667,7.10542736e-15 Z" id="document-pdf"> </path> </g> </g> </g></svg>
+                            Export
+                    </a>
+                </div> -->
+              
             </div>
 
-        </template>
+        </template>        
+      
+        <div class="pt-8 px-2" >
+            <div class="w-full grid grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4">
+               <div class=" bg-blue-200 shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-1">   
+                      <div class="relative mx-auto w-36 rounded-full">
+                        
+                        <img class="mx-auto h-auto w-full rounded-full" src="https://i.pinimg.com/564x/95/6a/70/956a70720346ddfe6b9f6e8db71f46ff.jpg" alt="" />
+                      </div>
+                      <h1 class="my-1 text-center text-xl font-bold leading-8 text-gray-900">{{ employee.user.firstName }} {{ employee.user.lastName }}</h1>
+                      <h3 class="font-lg text-semibold text-center leading-6 text-gray-600">{{ employee.position.position }}</h3>
+                      <!-- <p class="text-center text-sm leading-6 text-gray-500 hover:text-gray-600">Total Cash Advance: {{ employee.advanceTotal.totalCashAdvance }}</p> -->
+                      <ul class="mt-3 divide-y rounded bg-gray-100 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+                        <li class="flex items-center py-3 text-sm">
+                          <span>Status</span>
+                          <span class="ml-auto"><span class="remarks-cell py-1 px-3 rounded-full text-xs"
+                            :class="{
+                                'bg-green-200 text-green-600': employee.user.status == 1,
+                                'bg-red-200 text-red-600': employee.user.status == 0,
+                            }"
+                        > {{ employee.user.status === 0 ? 'Inactive' : 'Active' }}</span></span>
+                        </li>
+                        <li class="flex items-center py-3 text-sm">
+                          <span>Rate </span>
+                          <span class="ml-auto">  ₱ {{ employee.position.rate }}</span>
+                        </li>
+                        <li class="flex items-center py-3 text-sm">
+                          <span>Cash Advance Total </span>
+                          <span class="ml-auto">  ₱ {{ employee.advance_total.totalCashAdvance }}</span>
+                        </li>
+                      </ul>
+                            
+                  </div>
+             
+               <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-4">
+                <h2 class="text-xl font-semibold mb-2 text-blue-600">{{ employee.user.firstName }} {{ employee.user.lastName }}'s Cash Advance</h2>
+                        <table class="min-w-max w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">                                    
+                                    <th class="py-3 px-6 text-left">Requested Date</th>
+                                    <th class="py-3 px-6 text-center">Amount</th>
+                                    <th class="py-3 px-6 text-center">Reason</th>
+                               
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 text-sm font-light" >
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-between">
-                <div class="bg-white p-4 rounded shadow mr-5">
-                    <h4 class="text-2xl font-semibold">Employee Info</h4>
-                    <hr>
-                    <div>
-                        <div class="w-80 m-auto lg:mt-2 max-w-sm">
-                        <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" alt="" class="rounded-sm shadow-xl lg:w-full 2xl:w-full 2xl:h-44 object-cover"/>
-                            <h2 class="text-center text-gray-800 text-2xl font-bold pt-6">s </h2>
-                            <div class="w-5/6 m-auto">
-                            <p class="text-center text-gray-500 pt-5">
-                                <span class="font-bold text-gray-900">
-                                Address:
-                                </span> 
-                            </p>
-                            <p class="text-center text-gray-500 pt-5">
-                                <span class="font-bold text-gray-900">
-                                    Phone No:
-                                </span>  </p>
-                            </div>
-                            <!-- <div class="grid grid-cols-4 w-72 lg:w-6/6 m-auto bg-indigo-50 mt-5 p-4 lg:p-4 rounded-2xl">
-                                <div class="col-span-1">
-                                    <img class="w-15 lg:w-12" src="https://i.pinimg.com/236x/d6/19/93/d61993f7fb1260300645192c2a0f7dc8.jpg" alt="music icon"/>
-                                </div>
-                                <div class="col-span-2 pt-1">
-                                    <p class="text-gray-800 font-bold lg:text-sm">Credit Limit</p>
-                                    <p class="text-gray-500 text-sm">PHP {{ client.credit_limit }}</p>
-                                </div>
-                            </div> -->
-                            <div class="flex justify-between mt-3 ml-2 mr-4">
-                                <!-- <DangerButton @click="remove(customer)" class="mr-2">
-                                    Delete Customer
-                                </DangerButton>
-                                <PrimaryButton @click="edit()">Edit Customer</PrimaryButton> -->
-                            </div>
+                                <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="cash in employee.cash_advances" :key="cash.id">
+                                    
+                                 
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex items-center">
+                                            <p class="font-medium">{{ formattedDate(cash.requestDate) }}</p>
+                                        </div>
+                                    </td>
 
-                        </div>
-                    </div>
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">₱ {{ cash.amount}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-5 text-center">
+                                        <div class="flex items-center justify-center">
+                                            <p class="font-medium">{{ cash.reason }}</p>
+                                        </div>
+                                    </td>
+
+                                   
+                                </tr>
+                            </tbody>
+                        </table>
                 </div>
-                <div class="bg-white p-4 rounded shadow ">
-                    <h4 class="text-2xl mb-3">Transaction Log</h4>
-                    <table class="w-full text-sm text-left text-black-500 dark:text-gray-400">
-                        <thead class=" text-white  text-center bg-gray-50 dark:bg-blue-500 dark:text-white-400" >
-                            <tr>
-                                <th class="px-6 py-3">
-                                    PayId
-                                </th>
-                                <th  class="px-6 py-3">
-                                    Date
-                                </th>
-                                <th  class="px-6 py-3">
-                                    Payment
-                                </th>
-                                <th  class="px-6 py-3">
-                                    Balance
-                                </th>
-                                <!-- <th scope="col" class="px-6 py-3">
-                                    Remarks
-                                </th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr class="bg-blue-200 hover:bg-blue-300 text-center font-medium text-black  whitespace-nowrap ">
-
-                                <!-- <td class="px-3 py-4 text-center">
-                                    <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue;">
-                                        00{{ sale.id }}
-                                    </Link>
-                                </td>
-                                <td class="px-3 py-4">
-                                    {{ formattedDate(sale.created_at)}}
-                                </td>
-                                <td class="px-3 py-4">
-                                     {{ sale.payment }}
-                                </td>
-                                <td class="px-3 py-4">
-                                    {{ sale.totalPig }}
-                                </td>
-                                <td class="px-3 py-4">
-                                     {{ sale.total }} kgs.
-                                </td>
-                                <td class="px-3 py-4">
-                                    ₱ {{ sale.total_amount }}
-                                </td>
-
-                                <td class="px-3 py-4">
-                                    ₱ {{ sale.is_credit }}
-                                </td>
-                                <td class="px-3 py-4">
-                                    ₱ {{ sale.balance }}
-                                </td>
-                                 -->
-                            </tr>
-                        </tbody>
-
-                    </table>
-                    
-                </div>
-                <!-- <Pagination :links="customer.sales.links" class="mt-6 flex justify-center"/> -->
             </div>
         </div>
+        
     </SideBarLayout>
 </template>
 
 <script setup>
 import SideBarLayout from '@/Layouts/SideBarLayout.vue'; 
 import {Link, Head} from '@inertiajs/vue3';
+import moment from 'moment';
+
+const props = defineProps({
+    employee:Object
+})
+    function formattedDate(date){
+        return moment(date).format('MMMM   D, YYYY');
+    }
 
 </script>

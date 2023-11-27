@@ -212,9 +212,9 @@ const submit = async () => {
             </div>
         </template>
         <div class="">
-            <div class="px-2 mt-5 p-4 mx-2">
+            <div class="mt-5">
                 <div class="container mx-auto mt-2">
-                    <div class="  mb-7">
+                    <div class="mb-7">
                         <div class="flex justify-center mb-2">
                             <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
                             <div class=" text-sm">
@@ -227,17 +227,17 @@ const submit = async () => {
                     </div>
                     <form @submit.prevent="submit">
                         <div class="flex mb-2">
-                            <label class="leading-loose">Date Covered From: </label>
+                            <label class="leading-loose px-3">Date Covered From: </label>
                             <input type="date" class="border rounded-lg h-8 w-100 mr-2 px-3 py-2   text-sm  text-gray-600" v-model="form.payrollPeriodFrom" @change="calculateDays"/>
-                            <label class="leading-loose">Date Covered To: </label>
+                            <label class="leading-loose px-3">Date Covered To: </label>
                             <input type="date" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.payrollPeriodTo"  @change="calculateDays"/>
 
                           </div>
                         <div class="mb-2">
-                            <label class="leading-loose">No. of Working Days: </label>
-                            <input type="number" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.noOfDaysWorked" />
+                            <label class="leading-loose px-3">No. of Working Days: </label>
+                            <input type="number" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.noOfDaysWorked" readonly />
                         </div>
-                        <div class="bg-white overflow-x-auto shadow-sm sm:rounded-lg">
+                        <div class="bg-white overflow-x-auto shadow-sm sm:rounded-lg px-3">
 
                           <table class="w-full table-auto">
                             <thead>
@@ -265,56 +265,55 @@ const submit = async () => {
                             <tbody>
                               <tr  v-for="(employee, index) in employees" :key="employee.id">
 
-                                <td class="py-2 px-2 text-left whitespace-nowrap">
+                                <td class="py-2 px-1 text-left whitespace-nowrap">
                                   <span>{{ employee.user.firstName }} {{ employee.user.lastName }}</span>
                                 </td>
-                                <td class="py-2 px-2">{{ employee.position.rate }}</td>
+                                <td class="py-2 px-1">{{ employee.position.rate }}</td>
 
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].daysWorked"  type="number" step="0.01" />
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].totalBasicPay" type="number" step="0.01" readonly />
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].overtimeHours"  type="number" step="0.01"/>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].overtimeAmount" type="number" step="0.01" readonly/>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].grossAmount" type="number" step="0.01" readonly/>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].cashAdvance" type="number" step="0.01" readonly/>
                                 </td>
 
 
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].personalDeduction" type="number" step="0.01"/>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].totalDeductions" type="number" step="0.01"/>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="py-2 px-1">
                                   <input v-model="form.payrolls[index].netAmount" type="number" step="0.01" />
                                 </td>
                               </tr>
+                              <tr >
+                                <td colspan="6" class="px-7">Total</td>
+                                <td colspan="3" class="px-1">
+                                    <input v-model="form.total_gross_amount" type="number" step="0.01" readonly/>
+                                </td>
+                                <td colspan="1" class="px-1">
+                                    <input v-model="form.total_deductions_amount" type="number" step="0.01" readonly/>
+                                </td>
+                                <td  class="px-1">
+                                    <input v-model="form.total_net_amount" type="number" step="0.01" readonly/>
+                                </td>
+                            </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="6" >Total</td>
-                                    <td colspan="3">
-                                        <input v-model="form.total_gross_amount" type="number" step="0.01" readonly/>
-                                    </td>
-                                    <td colspan="1">
-                                        <input v-model="form.total_deductions_amount" type="number" step="0.01" readonly/>
-                                    </td>
-                                    <td>
-                                        <input v-model="form.total_net_amount" type="number" step="0.01" readonly/>
-                                    </td>
-                                </tr>
-                            </tfoot>
+
                           </table>
                         </div>
                         <div class="flex justify-between mt-3">
@@ -344,7 +343,7 @@ const submit = async () => {
     align-items: center;
     justify-content: center;
    }
-   
+
    .dot1, .dot2, .dot3 {
     width: 15px;
     height: 15px;
@@ -353,33 +352,33 @@ const submit = async () => {
     border-radius: 50%;
     margin: 10px;
    }
-   
+
    .dot1 {
     animation: jump765 1.6s -0.32s linear infinite;
     background: #2495ff;
    }
-   
+
    .dot2 {
     animation: jump765 1.6s -0.16s linear infinite;
     background: #2495ff;
    }
-   
+
    .dot3 {
     animation: jump765 1.6s linear infinite;
     background: #2495ff;
    }
-   
+
    @keyframes jump765 {
     0%, 80%, 100% {
      -webkit-transform: scale(0);
      transform: scale(0);
     }
-   
+
     40% {
      -webkit-transform: scale(2.0);
      transform: scale(2.0);
     }
    }
-   
-   
+
+
 </style>

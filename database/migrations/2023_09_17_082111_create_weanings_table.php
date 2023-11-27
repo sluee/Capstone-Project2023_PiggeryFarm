@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('remarks')->nullable();
             $table->timestamps();
 
-            $table->foreign('labor_id')->references('id')->on('labors');
+            $table->foreign('labor_id')->references('id')->on('labors')->onDelete('cascade');
 
         });
     }

@@ -25,8 +25,8 @@ return new class extends Migration
             $table->double('personalDeduction');
             $table->double('cashAdvance');
             $table->timestamps();
-            $table->foreign('emp_id')->references('id')->on('employees');
-            $table->foreign('payroll_id')->references('id')->on('payrolls');
+            $table->foreign('emp_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('payroll_id')->references('id')->on('payrolls')->onDelete('cascade');
             
         });
     }

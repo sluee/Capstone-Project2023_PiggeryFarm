@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('stock_in')->nullable();
             $table->integer('stock_out')->nullable()->default(0);
             $table->timestamps();
-            $table->foreign('feed_id')->references('id')->on('feeds');
+            $table->foreign('feed_id')->references('id')->on('feeds')->onDelete('cascade');
 
         });
     }

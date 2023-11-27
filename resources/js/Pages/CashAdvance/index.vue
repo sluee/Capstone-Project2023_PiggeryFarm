@@ -10,10 +10,10 @@
         flash:Object
     })
     const openTab = ref(1);
+
     function formattedDate(date){
-    return moment(date).format('MMMM   D, YYYY');
-    
-}
+        return moment(date).format('MMMM   D, YYYY');
+    }
 onMounted(() => {
     // Set a timeout to hide the success flash message after 3 seconds
         const successFlashMessage = document.getElementById('flash-success-message');

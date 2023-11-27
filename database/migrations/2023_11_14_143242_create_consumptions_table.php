@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('qty');
             // $table->double('totalAmount');
             $table->string('date');
-            $table->foreign('feed_id')->references('id')->on('feeds');
+            $table->foreign('feed_id')->references('id')->on('feeds')->onDelete('cascade');
             $table->timestamps();
         });
     }

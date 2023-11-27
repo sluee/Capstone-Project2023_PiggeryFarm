@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('emp_id')->unsigned();
             $table->double('totalCashAdvance');
             $table->timestamps();
-            $table->foreign('emp_id')->references('id')->on('employees');
+            $table->foreign('emp_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
