@@ -41,7 +41,7 @@
         </template>
 
         <div class="py-5 ">
-           
+
             <div v-if="payrollItem">
                 <div class="max-w-xl mx-auto bg-white p-8 shadow-md">
                     <img src="/images/logo.png" class="h-16 rounded-full  mx-auto" alt="RQR Piggery Farm, Inc.">
@@ -52,7 +52,7 @@
                         </div>
                     <h2 class="text-xl text-center font-semibold mt-4 mb-4">Salary Payslip</h2>
                     <!-- <span class="block text-sm text-center font-normal text-gray-500 mb-4">{{formattedDate(payrollItem.payrollPeriodFrom) }}-{{ formattedDate(payrollItem.payrollPeriodFrom) }}</span> -->
-    
+
                     <div class="mb-4">
                         <h3 class=" font-semibold text-gray-900"> Employee: {{payrollItem.employee.user.firstName }} {{ payrollItem.employee.user.lastName }}</h3>
                                 <span class="block text-md font-normal text-gray-500">Position: {{ payrollItem.employee.position.position }}</span>
@@ -60,18 +60,18 @@
                         <!-- <p class="text-gray-800">Employee Name: {{payrollItem.employee.user.firstName }} {{ payrollItem.employee.user.lastName }}</p>
                         <p class="text-gray-800">Employee Position: {{ payrollItem.employee.position.position }}</p> -->
                     </div>
-    
+
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold mb-2">Earnings</h3>
                         <ul class="list-disc list-inside">
                             <li>Days Worked: {{ payrollItem.daysWorked }} days </li>
                             <li>Rate: ₱ {{payrollItem.employee.position.rate}}</li>
                             <hr>
-                            
+
                             <li class="mt-2 font-semibold">Basic Pay: ₱ {{payrollItem.totalBasicPay }}</li>
                         </ul>
                     </div>
-    
+
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold mb-2">Deductions</h3>
                         <ul class="list-disc list-inside">
@@ -82,16 +82,16 @@
                             <!-- Add more deductions as needed -->
                         </ul>
                     </div>
-    
+
                     <hr class="my-4">
-    
+
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold mb-2">Net Salary</h3>
                         <p class="text-xl font-bold">₱{{payrollItem.netAmount }}</p>
                     </div>
-    
-                    <p class="text-sm text-gray-500">This payslip is for {{formattedDate(payrollItem.payrollPeriodFrom) }}-{{ formattedDate(payrollItem.payrollPeriodFrom)}}. </p>
-    
+
+                    <p class="text-sm text-gray-500">This payslip is for {{formattedDate(payrollItem.payroll.payrollPeriodFrom) }}-{{ formattedDate(payrollItem.payroll.payrollPeriodTo)}}. </p>
+
                 </div>
             </div>
             <div v-else>
@@ -101,7 +101,7 @@
                     </h2>
                 </div>
             </div>
-            
+
         </div>
     </SideBarLayout>
 </template>

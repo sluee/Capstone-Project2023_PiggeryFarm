@@ -13,9 +13,9 @@ class PayrollItem extends Model
 
     public function payroll()
     {
-        return $this->belongsTo(Sale::class, 'payroll_id');
+        return $this->belongsTo(Payroll::class, 'payroll_id');
     }
-    
+
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'emp_id');

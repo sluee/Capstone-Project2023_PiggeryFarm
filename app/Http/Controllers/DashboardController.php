@@ -48,7 +48,7 @@ class DashboardController extends Controller
             ->whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
             ->get();
-        // return response()->json($currentMonthSales);
+
 
            // Retrieve sales data for the previous month
             $previousMonthSales = Sale::select(DB::raw('SUM(total_amount) as total_sales'))
@@ -56,11 +56,14 @@ class DashboardController extends Controller
             ->whereMonth('created_at', now()->subMonth()->month)
             ->first();
 
-        // Calculate the percentage change
+
+
+    // Calculate the percentage change
         $percentageChange = 0; // Default value if there are no previous month sales
         if ($previousMonthSales && $previousMonthSales->total_sales != 0) {
-            $percentageChange = (($totalAmountAllSales - $previousMonthSales->total_sales) / $previousMonthSales->total_sales) * 100;
+            $percentageChange = (($currentMonthSales->total_sales - $previousMonthSales->total_sales) / $previousMonthSales->total_sales) * 100;
         }
+
 
         $now = Carbon::now();
         $month = $now->month;
@@ -97,9 +100,9 @@ class DashboardController extends Controller
 
         $stockInSum = Inventory::whereMonth('created_at', $month)
         ->whereYear('created_at', $year)
-       
+
         ->sum('stock_in') ??0;
-      
+
 
         return inertia('Dashboard',[
             'sales' => $sales,

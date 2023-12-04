@@ -5,7 +5,7 @@
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Boars</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">List of Boars</h2>
                 <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search boar here" v-model="search">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -95,7 +95,7 @@
                                             </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
-                                            <a href="/delete">
+                                            <a href="#" @click="remove(boar)" class="btn" title="Delete Position">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
@@ -108,6 +108,29 @@
                     </table>
 
                 </div>
+                <Modal :show="showConfirm" @close="closeModal">
+                    <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                        <!-- Icon -->
+                        <span class="mb-4 inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-red-50 bg-red-100 text-red-500">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                            </svg>
+                        </span>
+                        <!-- End Icon -->
+
+                        <h3 class="mb-2 text-2xl font-bold text-gray-800">
+                            Delete Boar
+                        </h3>
+                        <p class="text-gray-500">
+                            Are you sure you want like to delete this Boar?
+                        </p>
+
+                        <div class="mt-6 flex justify-center gap-x-4">
+                            <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
+                            <DangerButton @click="deletePos()">Delete</DangerButton>
+                        </div>
+                    </div>
+                </Modal>
                 <Pagination :links="boars.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
@@ -119,9 +142,12 @@
 <script setup>
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import Pagination from '@/Components/Pagination.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import moment from 'moment'
 import { watch,ref, onMounted } from 'vue';
+import DangerButton from '@/Components/DangerButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import Modal from '@/Components/Modal.vue';
 const props = defineProps({
     boars: Object,
     filters:Object,
@@ -168,6 +194,24 @@ let search = ref(props.filters.search);
         }
     });
 
+    let showConfirm = ref(false)
+    let selectedBoarForDelete = null
+    let deleteForm = useForm({});
+
+
+    function remove(boar) {
+        selectedBoarForDelete = boar
+        showConfirm.value = true;
+    }
+
+    function deletePos(){
+        deleteForm.delete('/boars/' + selectedBoarForDelete.id)
+        showConfirm.value = false;
+    }
+
+    function closeModal(){
+        showConfirm.value = false;
+    }
 </script>
 
 <style scoped>

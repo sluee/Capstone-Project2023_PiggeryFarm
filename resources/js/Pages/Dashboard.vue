@@ -3,7 +3,7 @@
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import moment from 'moment'
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed, getCurrentInstance  } from 'vue';
 import Chart from 'chart.js/auto';
 
 
@@ -13,7 +13,6 @@ import Chart from 'chart.js/auto';
         employeeCount:Number,
         pigsCount:Number,
         currentMonthSales :Array,
-        percentageChange:Number,
         breedingCountReheat:Number,
         breedingCountAbort:Number,
         breedingCountLabor:Number,
@@ -22,61 +21,65 @@ import Chart from 'chart.js/auto';
         weaningCount:Number,
         totalNoPigsAlive:String,
         totalNoPigsWeaned:Number,
-        stockInSum:Number
-        // totalPigs: Number, // Assuming you have a totalPigs prop
-        // totalWeight: Number,
+        stockInSum:Number,
+         // percentageChange:Number
+
     });
 
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }
 
-    const currentMonthSalesChart = ref(null);
+   const currentMonthSalesChart = ref(null);
 
-    watch(() => props.currentMonthSales, () => {
-    if (currentMonthSalesChart.value) {
-        currentMonthSalesChart.value.destroy(); // Destroy the existing chart if it exists
-    }
+   const shouldShowChart = () => {
+      const instance = getCurrentInstance();
+      const userHasPermission = instance?.appContext.config.globalProperties.$page.props.auth.permissions.includes('manage_sales');
+      return userHasPermission && props.currentMonthSales && props.currentMonthSales.length > 0;
+    };
 
-    createChart();
-    });
+    const createChart = () => {
+      if (!shouldShowChart()) {
+        return;
+      }
 
+      if (currentMonthSalesChart.value) {
+        currentMonthSalesChart.value.destroy();
+      }
 
-    function createChart() {
-        if (!props.currentMonthSales || props.currentMonthSales.length === 0) {
-            // You can handle this case by displaying a message or taking any other action
-            return;
-        }
-        const ctx = document.getElementById('currentMonthSalesChart').getContext('2d');
+      const ctx = document.getElementById('currentMonthSalesChart').getContext('2d');
 
-    // Check if there are no sales data
-
-
-    const monthNames = [
+      const monthNames = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
-    ];
+      ];
 
-    currentMonthSalesChart.value = new Chart(ctx, {
+      currentMonthSalesChart.value = new Chart(ctx, {
         type: 'bar',
         data: {
-        labels: props.currentMonthSales.map(item => `${monthNames[item.month - 1]} ${item.year}`),
-        datasets: [
+          labels: props.currentMonthSales.map(item => `${monthNames[item.month - 1]} ${item.year}`),
+          datasets: [
             {
-            label: `Total Sales of ${monthNames[props.currentMonthSales[0].month - 1]}`, // Display the month name
-            data: props.currentMonthSales.map(item => item.total_sales),
-            backgroundColor: 'rgba(39,150,248,0.68)',
-            borderColor: 'rgba(23, 68, 88, 1)',
-            borderWidth: 1,
+              label: `Total Sales of ${monthNames[props.currentMonthSales[0].month - 1]}`,
+              data: props.currentMonthSales.map(item => item.total_sales),
+              backgroundColor: 'rgba(39,150,248,0.68)',
+              borderColor: 'rgba(23, 68, 88, 1)',
+              borderWidth: 1,
             },
-        ],
+          ],
         },
-    });
-    }
+      });
+    };
 
     onMounted(() => {
-    createChart();
+      createChart();
     });
+
+    watch(() => props.currentMonthSales, () => {
+      createChart();
+    });
+
+
 
 
     const isPositiveChange = computed(() => {
@@ -164,7 +167,7 @@ import Chart from 'chart.js/auto';
                      </div>
                 </div>
             </div>
-            <div class="pt-8 px-2" >
+            <div class="pt-8 px-2" v-if="$page.props.auth.permissions.includes('manage_sales')" >
                 <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  ">
                       <div class="flex items-center justify-between mb-4">
@@ -172,7 +175,7 @@ import Chart from 'chart.js/auto';
                             <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">₱ {{ totalAmountAllSales }}</span>
                             <h3 class="text-base font-normal text-gray-500">Sales this month</h3>
                          </div>
-                         <div v-if="percentageChange !== null">
+                         <!-- <div v-if="percentageChange !== null">
                             <div :class="{ 'text-green-500': isPositiveChange, 'text-red-500': !isPositiveChange }" class="flex items-center justify-end flex-1 text-base font-bold">
                               {{ Math.min(Math.abs(percentageChange), 100).toFixed(2) }}%
                               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -184,9 +187,9 @@ import Chart from 'chart.js/auto';
                                 </template>
                               </svg>
                             </div>
-                          </div>
+                          </div> -->
                       </div>
-                      <div id="main-chart">
+                      <div id="main-chart" v-if="shouldShowChart">
                             <div v-if="props.currentMonthSales && props.currentMonthSales.length > 0">
                                 <canvas id="currentMonthSalesChart"></canvas>
                             </div>
@@ -361,13 +364,15 @@ import Chart from 'chart.js/auto';
                </div>
                 </div>
             </div>
-            <div class="pt-8 px-2" >
+
+
+            <div class="pt-8 px-2" v-if="$page.props.auth.permissions.includes('manage_sales')" >
                 <div class="w-full grid grid-cols-1 xl:grid-cols-1 2xl:grid-cols-3 gap-4">
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
                       <div class="mb-4 flex items-center justify-between">
                          <div>
                             <h3 class="text-xl font-bold text-gray-900 mb-2">Latest Invoice</h3>
-                            <span class="text-base font-normal text-gray-500">This is a list of latest Sales</span>
+                            <span class="text-base font-normal text-gray-500">This the list of latest Sales this month</span>
 
                          </div>
                          <div class="flex-shrink-0">
@@ -380,6 +385,7 @@ import Chart from 'chart.js/auto';
                                <div class="shadow overflow-hidden sm:rounded-lg">
                                   <table class="min-w-full divide-y divide-gray-200">
                                      <thead class="bg-gray-50">
+
                                         <tr >
                                            <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                               Customer
@@ -399,6 +405,9 @@ import Chart from 'chart.js/auto';
                                         </tr>
                                      </thead>
                                      <tbody class="bg-white">
+                                        <tr v-if="sales.length === 0">
+                                            <td colspan="10" class="text-center text-lg text-gray-400 py-3">No sales record available</td>
+                                        </tr>
                                         <tr v-for="sale in sales" :key="sale.id">
                                            <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
                                              <span class="font-normal">{{sale.customers.name}}</span>

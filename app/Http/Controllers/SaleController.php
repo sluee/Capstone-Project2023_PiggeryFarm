@@ -23,9 +23,9 @@ class SaleController extends Controller
                 ->orWhereHas('customers', function ($categoryQuery) use ($search) {
                     $categoryQuery->where('name', 'like', '%' . $search . '%');
                 });
-              
+
         })
-        ->paginate(8)
+        ->paginate(6)
         ->withQueryString();
 
         // Calculate the total weight and total pigs for each sale

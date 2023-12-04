@@ -82,7 +82,7 @@
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {
@@ -155,7 +155,7 @@
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                     <!-- <th class="py-3 px-3 text-left">Id</th> -->
-                                    <th class="py-3 px-3 text-left">Name </th>
+                                    <th class="py-3 px-3 text-center">Name </th>
                                     <th class="py-3 px-3 text-center">Gender</th>
                                     <th class="py-3 px-3 text-center">Type</th>
                                     <th class="py-3 px-3 text-center">Email</th>
@@ -170,54 +170,43 @@
                                     <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No user record available</td>
                                 </tr>
                                 <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="user in users.data" :key="user.id">
-                                    <!-- <td class="py-3 px-6 text-left whitespace-nowrap">
-                                        <div class="flex items-center">
 
-                                            <p class="font-medium">{{ user.id }}</p>
-                                        </div>
-                                    </td> -->
-                                    <td class="py-3 px-6 text-center">
+                                    <td class="py-3 px-4 text-center">
                                         <div class="flex items-center justify-center">
                                             <p class="font-medium">{{user.firstName }} {{user.middleName}} {{ user.lastName}} {{ user.suffix }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
+                                    <td class="py-3 px-4 text-center">
                                         <div class="flex items-center justify-center">
                                             <p class="font-medium">{{ user.gender }}</p>
                                         </div>
                                     </td>
 
-                                    <td class="py-3 px-6 text-center">
+                                    <td class="py-3 px-4 text-center">
                                         <div class="flex items-center justify-center">
                                             <p class="font-medium">{{ user.type }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
+                                    <td class="py-3 px-4 text-center">
                                         <div class="flex items-center justify-center">
                                             <p class="font-medium">{{ user.email }}</p>
                                         </div>
                                     </td>
-                                    <!-- <td class="py-3 px-6 text-center">
-                                        <div class="flex items-center justify-center">
-                                            <p class="font-medium">{{ user.phone }}</p>
-                                        </div>
-                                    </td> -->
-                                    <td class="py-3 px-6 text-center">
+
+                                    <td class="py-3 px-4 text-center">
                                         <div class="flex items-center justify-center" v-for="role in user.roles" :key="role.id">
                                             <p class="font-medium">{{ role.name }}</p>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-3 text-center">
-                                        <span class="remarks-cell  py-1 px-3 rounded-full text-xs"
-                                            :class="{
-                                                'bg-green-200 text-green-600':user.status == 1,
-                                                'bg-red-200 text-red-600' :user.status == 0,
-
-                                            }"
-                                        >{{ user.status === 0 ? 'Inactive' : 'Active' }}</span>
+                                    <td class="py-3 px-4 text-center">
+                                        <div class="flex items-center justify-center mb-2">
+                                            <span v-if="user.status == 1" class="remarks-cell py-1 px-3 rounded-full text-xs bg-green-200 text-green-600">Active</span>
+                                            <span v-else class="text-md font-semibold remarks-cell py-1 px-3 rounded-full text-xs bg-red-200 text-red-600">Inactive</span>
+                                        </div>
                                     </td>
 
-                                    <td class="py-3 px-6 text-center">
+
+                                    <td class="py-3 px-4 text-center">
                                         <div class="flex item-center justify-center">
 
                                             <div class="flex item-center justify-center">

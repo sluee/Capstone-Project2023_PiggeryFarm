@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FeedsPurchase;
 use App\Models\FinancialCategory;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\FinancialTransaction;
 use App\Models\FinancialTransactionItems;
+use App\Models\Payroll;
+use App\Models\Sale;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class FinancialTransactionController extends Controller
@@ -36,10 +41,54 @@ class FinancialTransactionController extends Controller
      */
     public function create()
     {
+        $currentMonth = Carbon::now()->format('m');
+        $currentYear = Carbon::now()->format('Y');
+
+        $sales = Sale::whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->orderBy('id')
+            ->get();
+
+        // Calculate the total amount of Sale for the current month and year
+        $totalAmount = $sales->sum('total_amount');
+
+        $feedsPurchase = FeedsPurchase::whereYear('date', $currentYear)
+            ->whereMonth('date', $currentMonth)
+            ->orderBy('id')
+            ->get();
+
+         // Calculate the total amount of feeds purchase for the current month and year
+        $totalFeedPurchase = $feedsPurchase->sum('totalAmount');
+
+        $salary = Payroll::where(function ($query) use ($currentYear, $currentMonth) {
+            $query->whereYear('payrollPeriodFrom', $currentYear)
+                ->whereMonth('payrollPeriodFrom', $currentMonth)
+                ->orWhere(function ($query) use ($currentYear, $currentMonth) {
+                    $query->whereYear('payrollPeriodTo', $currentYear)
+                        ->whereMonth('payrollPeriodTo', $currentMonth);
+                });
+        })
+        ->orderBy('id')
+        ->get();
 
 
-        return inertia('Transactions/create');
+        // Calculate the total amount of feeds purchase for the current month and year
+        $totalSalary = $salary->sum('total_net_amount')??0;
 
+        $latestTransaction = FinancialTransaction::latest('created_at')
+        ->select('totalCashBalance')
+        ->first();
+
+    // Access the totalCashBalance
+    $totalCashBalance = $latestTransaction ? $latestTransaction->totalCashBalance : null;
+
+
+    return inertia('Transactions/create', [
+        'totalFeedPurchase' => $totalFeedPurchase,
+        'totalAmount' => $totalAmount,
+        'totalSalary'   => $totalSalary,
+        'latestTransaction' => $totalCashBalance
+    ]);
     }
 
     /**
@@ -53,6 +102,11 @@ class FinancialTransactionController extends Controller
             'particulars.*.debit' => 'nullable|numeric',
             'particulars.*.credit' => 'nullable|numeric',
             'particulars.*.balance' => 'nullable|numeric',
+
+        ]);
+
+        $request->validate([
+            'date' => 'required|date',
         ]);
 
         $transaction = FinancialTransaction::create([

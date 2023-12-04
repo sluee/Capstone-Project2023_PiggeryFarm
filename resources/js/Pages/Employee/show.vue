@@ -50,8 +50,14 @@
                         </li>
                         <li class="flex items-center py-3 text-sm">
                           <span>Cash Advance Total </span>
-                          <span class="ml-auto">  ₱ {{ employee.advance_total.totalCashAdvance }}</span>
+                            <span class="ml-auto" v-if="employee.advance_total === null">
+                                ₱ 0
+                            </span>
+                            <span class="ml-auto" v-else>
+                            ₱ {{ employee.advance_total.totalCashAdvance }}
+                            </span>
                         </li>
+                        
                       </ul>
                             
                   </div>
@@ -105,9 +111,9 @@ import SideBarLayout from '@/Layouts/SideBarLayout.vue';
 import {Link, Head} from '@inertiajs/vue3';
 import moment from 'moment';
 
-const props = defineProps({
-    employee:Object
-})
+    const props = defineProps({
+        employee:Object
+    })
     function formattedDate(date){
         return moment(date).format('MMMM   D, YYYY');
     }

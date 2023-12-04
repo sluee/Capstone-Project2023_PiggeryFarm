@@ -229,9 +229,10 @@ const submit = async () => {
                         <div class="flex mb-2">
                             <label class="leading-loose px-3">Date Covered From: </label>
                             <input type="date" class="border rounded-lg h-8 w-100 mr-2 px-3 py-2   text-sm  text-gray-600" v-model="form.payrollPeriodFrom" @change="calculateDays"/>
+                            <div class="text-red-600" v-if="form.errors.payrollPeriodFrom">{{ form.errors.payrollPeriodFrom }}</div>
                             <label class="leading-loose px-3">Date Covered To: </label>
                             <input type="date" class="border rounded-lg px-3 py-2  text-sm h-8 w-100  text-gray-600" v-model="form.payrollPeriodTo"  @change="calculateDays"/>
-
+                            <div class="text-red-600" v-if="form.errors.payrollPeriodTo">{{ form.errors.payrollPeriodTo }}</div>
                           </div>
                         <div class="mb-2">
                             <label class="leading-loose px-3">No. of Working Days: </label>

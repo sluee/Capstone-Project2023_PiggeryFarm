@@ -120,7 +120,9 @@ class SowController extends Controller
      */
     public function destroy(Sow $sow)
     {
-        //
+        $sow->delete();
+
+        return redirect('/sows')->with('success', 'Sows has been deleted successfully!');
     }
 
     public function deactivateSow(Sow $sow){

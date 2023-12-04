@@ -27,10 +27,6 @@ class Employee extends Model
     public function payrollItem(){
         return $this->hasMany(PayrollItem::class , 'emp_id');
     }
-    // public function cash_advance(){
-    //     return $this->hasOne(CashAdvance::class ,'emp_id');
-    // }
-
 
     public function cashAdvances()
     {

@@ -123,8 +123,8 @@ onMounted(() => {
                 <div class="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
                     <div class="self-start hidden lg:flex flex-col  text-white">
 
-                        <h1 class="my-3 font-semibold text-4xl">RQR PIGGERY FARM</h1>
-                        <p class="pr-3 text-m opacity-75">Welcome to RQR Piggery Farm, proudly located in San Agustin and Canmaya Centro, Sagbayan, Bohol.
+                        <h1 class="my-3 font-semibold text-5xl">RQR PIGGERY FARM </h1>
+                        <p class="pr-3 text-xl opacity-75">Welcome to RQR Piggery Farm, located in San Agustin and Canmaya Centro, Sagbayan, Bohol.
                             We're dedicated to quality pig farming, serving our community with passion and responsibility. </p>
                     </div>
                 </div>

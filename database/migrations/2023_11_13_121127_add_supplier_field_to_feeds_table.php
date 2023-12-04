@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('feeds', function (Blueprint $table) {
             $table->bigInteger('sup_id')->unsigned();
-
             $table->foreign('sup_id')->references('id')->on('suppliers')->onDelete('cascade');
         });
     }

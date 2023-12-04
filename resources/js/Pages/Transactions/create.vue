@@ -6,8 +6,13 @@
 
 
     const props = defineProps({
-        particular : Object,
+
+        totalAmount:Number,
+        totalFeedPurchase: Number,
+        totalSalary:Number,
+        latestTransaction:Number
     })
+
 
     const particularNames = ['Cash on Hand', 'Sales', 'Cash Received', 'Feeds Expenses', 'Miscellaneous', 'Salary'];
     const form = useForm({
@@ -18,7 +23,26 @@
     });
 
     const updateBalances = () => {
-        form.particulars[0].balance = form.particulars[0].credit;
+
+        const latestTransaction = props.latestTransaction;
+
+        if (latestTransaction !== null && latestTransaction !== undefined) {
+            form.particulars[0].credit = latestTransaction;
+            form.particulars[0].balance = latestTransaction;
+        } else {
+            form.particulars[0].balance = form.particulars[0].credit;
+        }
+
+        // form.particulars[0].balance = form.particulars[0].credit;
+
+        const totalAmount = props.totalAmount??0;
+        form.particulars[1].credit = totalAmount;
+
+        const totalFeedPurchase = props.totalFeedPurchase??0;
+        form.particulars[3].debit = totalFeedPurchase;
+
+        const totalSalary = props.totalSalary??0;
+        form.particulars[5].debit = totalSalary;
 
         for (let i = 1; i < form.particulars.length; i++) {
             form.particulars[i].balance =
@@ -33,8 +57,8 @@
 
     totalCash.value = form.particulars.reduce((sum, item) => sum + item.balance, 0);
 
-    const isDebitFieldDisabled = (index) => index >= 1 && index <= 2;
-    const isCreditFieldDisabled = (index) => index >= 3 && index <= 6;
+    const isDebitFieldDisabled = (index) => index >= 0 && index <= 2;
+    const isCreditFieldDisabled = (index) => index >= 3 && index <= 5;
 
 function submit() {
     form.post('/transactions/');
@@ -84,7 +108,9 @@ function submit() {
                         <div class="flex mb-2">
                             <Label class="sm-2 py-2 px-3rounded mr-3" >Liquidation Date:</Label>
                             <input v-model="form.date" type="date" step="0.01" class="border rounded-md border-gray-300 p-2 w-[20]">
+
                         </div>
+                        <div class="text-red-600" v-if="form.errors.date">{{ form.errors.date }}</div>
 
                         <div class="bg-white shadow-sm sm:rounded-lg">
 

@@ -153,24 +153,6 @@ class BreedingController extends Controller
         return redirect()->route('breeding.index')->with('success', 'Breeding record deleted successfully');
     }
 
-//     public function calendar($date = null)
-// {
-//     $query = Breeding::query();
-
-//     if ($date) {
-//         $query->whereDate('date_field', $date)
-//               ->orWhereDate('change_feeds', $date)
-//               ->orWhereDate('exp_date_of_farrowing', $date);
-//     }
-
-//     $breedingEvents = $query->get();
-
-//     return Inertia::render('Breeding/calendar', [
-//         'breedingEvents' => $breedingEvents,
-//         'selectedDate' => $date,
-//     ]);
-// }
-
 
 
 }

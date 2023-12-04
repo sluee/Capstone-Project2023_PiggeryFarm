@@ -5,7 +5,7 @@
     <SideBarLayout>
         <template #header >
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Feeds Purchase</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">List of Feeds Purchase</h2>
                 <div style="position:relative">
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-9 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search feeds purchase here" v-model="search">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#444  " width="20px" height="20px" viewBox="0 0 16 16"
@@ -87,13 +87,13 @@
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium"> ₱{{ purchase.feeds.categories.price }}</p>
+                                        <p class="font-medium"> ₱ {{ purchase.feeds.categories.price }}</p>
                                     </div>
                                 </td>
                                     <td class="py-3 px-6 text-right whitespace-nowrap">
                                     <div class="flex items-center">
 
-                                        <p class="font-medium">₱{{ purchase.totalAmount  }}</p>
+                                        <p class="font-medium">₱ {{ purchase.totalAmount  }}</p>
                                     </div>
                                 </td>
 
@@ -234,7 +234,7 @@
 
                         </div>
                     </Modal>
-                    
+
 
                 </div>
                 <Pagination :links="feedsPurchase.links" class="mt-6 flex justify-center"/>

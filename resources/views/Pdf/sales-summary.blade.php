@@ -48,7 +48,7 @@
             <p style="display: inline-block; margin-right: 10px;margin-bottom:1"><span style="font-size: 18px">Quantity of Pigs: </span><strong>{{$totalPigs}} pc/s</strong> </p>
 
             <p style="display: inline-block; margin-right: 200px; margin-bottom:1" ><span style="font-size: 18px" >Date: </span> <strong>{{ $sale->created_at->format('F j, Y') }}</strong></p>
-            <p style="display: inline-block; margin-right: 10px; margin-bottom:1"><span style="font-size: 18px">Remarks: </span><strong> {{$sale->remarks}}</strong> </p>
+            <p style="display: inline-block; margin-right: 200ppx; margin-bottom:1"><span style="font-size: 18px">Remarks: </span><strong> {{$sale->remarks}}</strong> </p>
         </div>
 
 
@@ -78,7 +78,7 @@
                     </td>
                 </tr>
 
-                @endforeach       
+                @endforeach
 
             </tbody>
 

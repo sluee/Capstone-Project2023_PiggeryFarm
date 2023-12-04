@@ -46,6 +46,11 @@ class PayrollItemController extends Controller
             'payrolls.*.netAmount' => 'required|numeric',
         ]);
 
+
+        $request->validate([
+            'payrollPeriodFrom' => 'required|date',
+            'payrollPeriodTo' => 'required|date|after:payrollPeriodFrom',
+        ]);
          // Create the Sale instance
          $payroll = Payroll::create([
             'payrollPeriodFrom' => $request->input('payrollPeriodFrom'),
@@ -129,6 +134,28 @@ class PayrollItemController extends Controller
     //     ]);
     // }
 
+    // public function showMyPayroll()
+    // {
+    //     $employeeId = auth()->user()->employee->id;
+
+    //     // Retrieve the employee information
+    //     $employee = Employee::where('id', $employeeId)->with('user', 'position')->first();
+
+    //     // Retrieve the most recent payroll item for the employee
+    //     $payroll = PayrollItem::with(['employee.user', 'employee.position', 'payroll'])
+    //         ->where('emp_id', $employeeId)
+    //         ->latest('created_at') // Order by created_at in descending order
+    //         ->first(); // Retrieve only the most recent item
+
+    //         $payrollItem = $payroll->payroll;
+
+    //     return inertia('Payroll/payslip', [
+    //         'payrollItem' => $payroll,
+    //         'employee' => $employee,
+    //         'payroll'   => $payrollItem
+    //     ]);
+    // }
+
     public function showMyPayroll()
 {
     $employeeId = auth()->user()->employee->id;
@@ -137,14 +164,17 @@ class PayrollItemController extends Controller
     $employee = Employee::where('id', $employeeId)->with('user', 'position')->first();
 
     // Retrieve the most recent payroll item for the employee
-    $payroll = PayrollItem::with(['employee.user', 'employee.position', 'payroll'])
+    $payrollItem = PayrollItem::with(['employee.user', 'employee.position', 'payroll'])
         ->where('emp_id', $employeeId)
         ->latest('created_at') // Order by created_at in descending order
         ->first(); // Retrieve only the most recent item
 
+
+
     return inertia('Payroll/payslip', [
-        'payrollItem' => $payroll,
+        'payrollItem' => $payrollItem,
         'employee' => $employee,
+
     ]);
 }
 
