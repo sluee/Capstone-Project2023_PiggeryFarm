@@ -51,8 +51,8 @@ import { Link } from '@inertiajs/vue3';
                   </div>
               </li>
               <hr class="text-white mt-5">
-              <li>
-                <Link :href="route('dashboard')" :active="route().current('dashboard')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+              <li  :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('dashboard') }">
+                <Link :href="route('dashboard')"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-blue-500 pr-6">
                   <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                   </span>
@@ -60,7 +60,7 @@ import { Link } from '@inertiajs/vue3';
                 </Link>
               </li>
 
-              <li v-if="$page.props.auth.permissions.includes('manage_report')" >
+              <li v-if="$page.props.auth.permissions.includes('manage_report')"  :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('employees.index') }">
                     <Link :href="route('employees.index')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                         <span class="inline-flex justify-center items-center ml-4">
                             <hr class="text-white mt-5">
@@ -84,7 +84,7 @@ import { Link } from '@inertiajs/vue3';
                     <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Calendar</span>
                     </Link>
               </li> -->
-              <li v-if="$page.props.auth.permissions.includes('read_payslip')" >
+              <li v-if="$page.props.auth.permissions.includes('read_payslip')" :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('payroll.payslip') }">
                 <Link  :href="route('payroll.payslip')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                   <span class="inline-flex justify-center items-center ml-4">
                     <hr class="text-white mt-5">
@@ -96,7 +96,7 @@ import { Link } from '@inertiajs/vue3';
                   <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Payslip</span>
                 </Link>
               </li>
-              <li v-if="$page.props.auth.permissions.includes('manage_payroll')" >
+              <li v-if="$page.props.auth.permissions.includes('manage_payroll')"  :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('payroll.index') }">
 
                   <Link :href="route('payroll.index')"   class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -105,7 +105,10 @@ import { Link } from '@inertiajs/vue3';
                     <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Payroll</span>
 
                 </Link>
-                  <Link :href="route('cashAdvance.index')"  class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
+                  
+              </li>
+              <li v-if="$page.props.auth.permissions.includes('manage_payroll')" :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('cashAdvance.index') }" >
+                <Link :href="route('cashAdvance.index')"  class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
                     </svg>
@@ -114,7 +117,7 @@ import { Link } from '@inertiajs/vue3';
 
                 </Link>
               </li>
-              <li v-if="$page.props.auth.permissions.includes('manage_payroll')">
+              <li v-if="$page.props.auth.permissions.includes('manage_payroll')"  :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('transaction.index') }">
                 <button  @click="isOpenFinancial" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -142,7 +145,7 @@ import { Link } from '@inertiajs/vue3';
 
               </li>
 
-              <li v-if="$page.props.auth.permissions.includes('manage_reports')">
+              <li v-if="$page.props.auth.permissions.includes('manage_reports')"  :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('payroll.payroll') }">
                     <Link :href="route('payroll.payroll')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                         <span class="inline-flex justify-center items-center ml-4">
                         <hr class="text-white mt-5">
@@ -154,7 +157,7 @@ import { Link } from '@inertiajs/vue3';
                         <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Payroll</span>
                     </Link>
               </li>
-              <li v-if="$page.props.auth.permissions.includes('manage_reports')">
+              <li v-if="$page.props.auth.permissions.includes('manage_reports')" :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('SalesHistory.index') }">
                     <Link :href="route('SalesHistory.index')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                         <span class="inline-flex justify-center items-center ml-4">
                         <hr class="text-white mt-5">
@@ -166,7 +169,7 @@ import { Link } from '@inertiajs/vue3';
                         <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Sales</span>
                     </Link>
                 </li>
-              <li v-if="$page.props.auth.permissions.includes('manage_reports')">
+              <li v-if="$page.props.auth.permissions.includes('manage_reports')" :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('transaction.financial') }">
 
                 <Link :href="route('transaction.financial')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
@@ -179,7 +182,8 @@ import { Link } from '@inertiajs/vue3';
                   </Link>
 
               </li>
-              <li v-if="$page.props.auth.permissions.includes('manage_reports')">
+              
+              <li v-if="$page.props.auth.permissions.includes('manage_reports')" >
                 <button @click="isOpenReport" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -206,7 +210,7 @@ import { Link } from '@inertiajs/vue3';
                 </div>
 
               </li>
-              <li v-if="$page.props.auth.permissions.includes('manage_pigs')">
+              <li v-if="$page.props.auth.permissions.includes('manage_pigs')" >
 
                     <button  @click="isOpen" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6" >
                         <span class="inline-flex justify-center items-center ml-4">
@@ -351,7 +355,7 @@ import { Link } from '@inertiajs/vue3';
                 </div>
 
             </li>
-            <li v-if="$page.props.auth.permissions.includes('manage_users')">
+            <li v-if="$page.props.auth.permissions.includes('manage_users')"  >
                 <button  @click="isOpenUser" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -367,8 +371,8 @@ import { Link } from '@inertiajs/vue3';
                     </span>
                     <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Position</span>
                 </Link>
-                <li>
-                    <Link :href="route('employees.index')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+                <li class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+                    <Link :href="route('employees.index')" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                         <span class="inline-flex justify-center items-center ml-4">
                             <hr class="text-white mt-5">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -380,7 +384,7 @@ import { Link } from '@inertiajs/vue3';
                     </Link>
                 </li>
 
-                <Link :href="route('user.index')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+                <Link :href="route('user.index')" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />

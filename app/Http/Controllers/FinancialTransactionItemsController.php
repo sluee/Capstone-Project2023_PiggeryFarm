@@ -15,6 +15,11 @@ class FinancialTransactionItemsController extends Controller
      */
     public function index()
     {
+        $yearlyFinancial = DB::table('financial_transactions')
+            ->select(DB::raw('YEAR(date) as year'), DB::raw('SUM(totalCashBalance) as totalCashBalance'))
+            ->groupBy('year')
+            ->get();
+
         $currentYear = now()->year; // Get the current year
 
         $monthlyFinancial = FinancialTransaction::whereYear('date', $currentYear)
@@ -28,6 +33,7 @@ class FinancialTransactionItemsController extends Controller
         return inertia('Transactions/chart', [
             'monthlyFinancial' => $monthlyFinancial,
             'currentYear' => $currentYear,
+            'yearlyFinancial' => $yearlyFinancial
         ]);
     }
 
