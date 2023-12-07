@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('feed_id')->unsigned();
-            $table->integer('stock_in');
-            $table->integer('stock_out');
+            $table->integer('stock_in')->nullable()->default(0);
+            $table->integer('stock_out')->nullable()->default(0);
             $table->timestamps();
             $table->foreign('feed_id')->references('id')->on('feeds')->onDelete('cascade');
 

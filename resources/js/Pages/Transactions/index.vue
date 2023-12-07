@@ -70,7 +70,7 @@
                         </tbody>
                     </table>                    
                 </div>
-                <Pagination :links="transactions.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="transactions.data.length >0" :links="transactions.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
     </SideBarLayout>

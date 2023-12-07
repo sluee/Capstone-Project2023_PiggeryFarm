@@ -42,6 +42,7 @@
                                 <th class="py-3 px-6 text-left">Sow No</th>
                                 <th class="py-3 px-6 text-center">Location</th>
                                 <th class="py-3 px-6 text-center">Date of Arrival</th>
+                                <th class="py-3 px-6 text-center">Status</th>
                                 <th class="py-3 px-6 text-center">Actions</th>
                             </tr>
                         </thead>
@@ -71,6 +72,12 @@
                                         <p class="font-medium">{{formattedDate (sow.date_arrived) }}</p>
                                     </div>
 
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <span v-if="sow.status == 1" class="remarks-cell py-1 px-3 rounded-full text-xs bg-green-200 text-green-600">Active</span>
+                                        <span v-else class="text-md font-semibold remarks-cell py-1 px-3 rounded-full text-xs bg-red-200 text-red-600">Inactive</span>
+                                    </div>
                                 </td>
 
                                 <td class="py-3 px-6 text-center">
@@ -126,7 +133,8 @@
                         </div>
                     </div>
                 </Modal>
-                <Pagination :links="sows.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="sows.data.length >0" :links="sows.links" class="mt-6 flex justify-center"/>
+                <!-- <Pagination :links="sows.links" class="mt-6 flex justify-center"/> -->
             </div>
         </div>
 

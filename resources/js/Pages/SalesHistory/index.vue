@@ -191,7 +191,7 @@ import {ref, watch, onMounted} from 'vue'
 
                     </table>   
                 </div>
-                <Pagination :links="sales.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="sales.data.length >0" :links="sales.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
    </SideBarLayout>

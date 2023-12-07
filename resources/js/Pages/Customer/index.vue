@@ -112,7 +112,7 @@
                         </tbody>
                     </table>
                 </div>
-                <Pagination :links="customers.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="customers.data.length >0" :links="customers.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
 

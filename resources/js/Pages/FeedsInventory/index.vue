@@ -28,8 +28,8 @@
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Id</th>
-                                <th class="py-3 px-6 text-left">Feeds</th>
+                                <th class="py-3 px-6 text-center">Id</th>
+                                <th class="py-3 px-6 text-center">Feeds</th>
                                 <th class="py-3 px-6 text-left">Stock In</th>
                                 <th class="py-3 px-6 text-left">Stock Out</th>
                                 <th class="py-3 px-6 text-left">Stock Available</th>
@@ -40,7 +40,7 @@
                             <tr v-if="inventory.length === 0">
                                 <td colspan="10" class="text-center text-lg  text-gray-400 py-6">No inventory record available</td>
                             </tr>
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="inv in inventory" :key="inv.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="inv in inventory.data" :key="inv.id">
                                 <td class="py-3 px-6 text-center whitespace-nowrap">
                                     <div class="flex items-center">
 
@@ -48,10 +48,11 @@
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center whitespace-nowrap">
-                                    <div class="flex items-center">
-
-                                        <p class="font-medium">{{ inv.feeds.categories.name }}</p>
+                                    <div class="text-sm">
+                                        <div class="font-medium ">{{ inv.feeds.categories.name }}</div>
+                                        <div class="">{{ inv.feeds.supplier.name }}</div>
                                     </div>
+
                                 </td>
                                 <td class="py-3 px-6 text-center whitespace-nowrap">
                                     <div class="flex items-center">
@@ -78,6 +79,7 @@
                     </table>
 
                 </div>
+                <Pagination v-if="inventory.data.length >0" :links="inventory.links" class="mt-6 flex justify-center"/>
                 <!-- <Pagination :links="positions.links" class="mt-6 flex justify-center"/> -->
             </div>
         </div>
@@ -87,11 +89,11 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import SideBarLayout from '@/Layouts/SideBarLayout.vue';
+import Pagination from '@/Components/Pagination.vue';
 
 const props = defineProps({
     flash:Object,
-    inventory:Array
+    inventory:Object
 })
 
-console.log(props.inventory);
 </script>

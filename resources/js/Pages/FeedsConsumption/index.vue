@@ -187,7 +187,7 @@
                             </div>
                         </Modal>
                     </div>
-                    <Pagination :links="consumption.links" class="mt-6 flex justify-center"/>
+                    <Pagination v-if="consumption.data.length >0" :links="consumption.links" class="mt-6 flex justify-center"/>
                 </div>
             </div>
         </div>

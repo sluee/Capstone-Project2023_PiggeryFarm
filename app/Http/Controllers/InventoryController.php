@@ -13,7 +13,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventories = Inventory::with('feeds.categories')->get();
+        $inventories = Inventory::with('feeds.categories', 'feeds.supplier')->paginate(6);
 
         $inventories->each(function ($inventory){
             $inventory->Available = $inventory->stock_out ? ($inventory->stock_in - $inventory->stock_out): $inventory->stock_in;

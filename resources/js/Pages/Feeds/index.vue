@@ -171,7 +171,7 @@
                         </div>
                     </Modal>
                 </div>
-                <Pagination :links="feeds.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="feeds.data.length >0" :links="feeds.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
 
@@ -211,15 +211,31 @@ function submit() {
 }
 
 const showAddItemModal = ref(false);
+let showConfirm = ref(false)
+let selectedFeedForDelete = null
+let selectedFeed = null
+let deleteForm = useForm({});
 
 const openAddItemModal = () => {
   showAddItemModal.value = true;
 };
-
+function closeModal(){
+    showConfirm.value = false;
+}
 const closeAddItemModal = () => {
   showAddItemModal.value = false;
 };
 
+
+    function remove(feed) {
+    selectedFeedForDelete = feed
+    showConfirm.value = true;
+}
+
+function deleteCat(){
+    deleteForm.delete('/feeds/' + selectedFeedForDelete.id)
+    showConfirm.value = false;
+}
 const addItem = () => {
     form.post('/feeds/');
     form.reset();
@@ -236,20 +252,7 @@ let search = ref(props.filters.search);
             }
         );
     });
-let showConfirm = ref(false)
-let selectedFeedForDelete = null
-let selectedFeed = null
-let deleteForm = useForm({});
 
-    function remove(feed) {
-    selectedFeedForDelete = feed
-    showConfirm.value = true;
-}
-
-function deleteCat(){
-    deleteForm.delete('/feeds/' + selectedFeedForDelete.id)
-    showConfirm.value = false;
-}
 
     onMounted(() => {
     // Set a timeout to hide the success flash message after 3 seconds

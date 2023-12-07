@@ -206,7 +206,7 @@
                                 </div>
                             </Modal>
                         </div>
-                        <Pagination :links="categories.links" class="mt-6 flex justify-center"/>
+                        <Pagination v-if="categories.data.length >0" :links="categories.links" class="mt-6 flex justify-center"/>
                     </div>
 
                   </div>

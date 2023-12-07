@@ -136,7 +136,7 @@
                         </div>
                     </div>
                 </Modal>
-                <Pagination :links="employees.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="employees.data.length >0" :links="employees.links" class="mt-6 flex justify-center"/>
 
 
             </div>

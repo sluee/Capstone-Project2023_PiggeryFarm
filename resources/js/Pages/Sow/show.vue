@@ -22,15 +22,24 @@
                             <img src="https://images.unsplash.com/photo-1611192711250-892c9df53d61?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="rounded-sm shadow-xl lg:w-full 2xl:w-full 2xl:h-44 object-cover"/>
                                 <h2 class="text-center text-gray-800 text-2xl font-bold pt-2 mb-2">Sow: {{ sows.sow_no }} </h2>
                                 <div class="w-5/6 m-auto">
-                                <p class=" text-gray-500 ">
-                                    <span class="font-bold text-gray-900">
-                                    Location :
-                                    </span> {{ sows.location }}
-                                </p>
-                                <p class=" text-gray-500">
-                                    <span class="font-bold text-gray-900">
-                                        Arrival Date:
-                                    </span> {{ formattedDate(sows.date_arrived) }} </p>
+                                    <p class=" text-gray-500 ">
+                                        <span class="font-bold text-gray-900">
+                                        Location :
+                                        </span> {{ sows.location }}
+                                    </p>
+                                    <p class=" text-gray-500">
+                                        <span class="font-bold text-gray-900">
+                                            Arrival Date:
+                                        </span> {{ formattedDate(sows.date_arrived) }}
+                                    </p>
+                                    <p  class="text-gray-500">
+                                        <span class="font-bold text-gray-900">
+                                            Status:
+                                        </span>
+                                            <span v-if="sows.status == 1" class="remarks-cell py-1 px-3 rounded-full text-xs bg-green-200 text-green-600">Active</span>
+                                            <span v-else class="text-md font-semibold remarks-cell py-1 px-3 rounded-full text-xs bg-red-200 text-red-600">Inactive</span>
+
+                                    </p>
                                 </div>
 
                                 <div class="flex justify-center mt-3 ml-2 mr-4" v-if="sows.status===1">
@@ -100,7 +109,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <Pagination :links="breedings.links" class="mt-6 flex justify-center"/>
+                            <Pagination v-if="breedings.data.length >0" :links="breedings.links" class="mt-6 flex justify-center"/>
 
 
                         </div>
@@ -146,7 +155,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <Pagination :links="labors.links" class="mt-6 flex justify-center"/>
+                                <Pagination v-if="labors.data.length >0" :links="labors.links" class="mt-6 flex justify-center"/>
 
                         </div>
 
@@ -186,7 +195,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <Pagination :links="weanings.links" class="mt-6 flex justify-center"/>
+                                <Pagination v-if="weanings.data.length >0" :links="weanings.links" class="mt-6 flex justify-center"/>
 
 
                             </div>

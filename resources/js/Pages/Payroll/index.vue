@@ -215,7 +215,7 @@
                         </tbody>
                     </table>
                 </div>
-                <Pagination :links="payroll.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="payroll.data.length >0" :links="payroll.links" class="mt-6 flex justify-center"/>
             </div>
           </div>
     </SideBarLayout>

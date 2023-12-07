@@ -193,7 +193,7 @@ onMounted(() => {
                                 </tr>
                             </tbody>
                         </table>
-                        <Pagination :links="cashAdvance.links" class="mt-6 flex justify-center"/>                   
+                        <Pagination v-if="cashAdvance.data.length >0" :links="cashAdvance.links" class="mt-6 flex justify-center"/>              
                     </div>
             
                     <div v-show="openTab === 2" class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
@@ -253,7 +253,7 @@ onMounted(() => {
                                 </tr>
                             </tbody>
                         </table> 
-                        <Pagination :links="cashAdvanceTotal.links" class="mt-6 flex justify-center"/>
+                        <Pagination v-if="cashAdvanceTotal.data.length >0" :links="cashAdvanceTotal.links" class="mt-6 flex justify-center"/>
                     </div>
 
                 </div>

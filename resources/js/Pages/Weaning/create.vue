@@ -72,7 +72,7 @@
                        </span>
                        <p class="text-body-color  text-base ">
                           Sow:<strong>{{ labor.sow.sow_no }}</strong>
-                          
+
                        </p>
                        <p
                           class="
@@ -94,16 +94,16 @@
                             No of Pigs Born: <strong>{{ labor.no_pigs_born}}</strong>
                           </p>
                           <p class="text-base  ">
-                            No of Pigs Alive: <strong>{{ labor.no_pigs_born}}</strong>
+                            No of Pigs Alive: <strong>{{ labor.no_pigs_alive}}</strong>
                           </p>
                           <p class="text-base  ">
                             Date of Weaning: <strong>{{ formattedDate(labor.date_of_weaning) }}</strong>
                           </p>
-                       </div>     
+                       </div>
                     </div>
                  </div>
                 <div >
-                
+
                 </div>
                 <div >
                     <div class="flex flex-col justify-center items-center">

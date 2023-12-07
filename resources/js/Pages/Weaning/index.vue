@@ -96,7 +96,7 @@
                         </tbody>
                     </table>
                 </div>
-                <Pagination :links="weaning.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="weaning.data.length >0" :links="weaning.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
     </SideBarLayout>

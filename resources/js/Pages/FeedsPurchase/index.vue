@@ -237,7 +237,7 @@
 
 
                 </div>
-                <Pagination :links="feedsPurchase.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="feedsPurchase.data.length >0" :links="feedsPurchase.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
     </SideBarLayout>

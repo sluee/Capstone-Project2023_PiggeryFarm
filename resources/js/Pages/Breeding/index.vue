@@ -141,7 +141,7 @@
                         </table>
                     </div>
                 </div>
-                <Pagination :links="breedings.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="breedings.data.length >0" :links="breedings.links" class="mt-6 flex justify-center"/>
 
                 <!-- <Modal :show="showAddItemModal" @close="closeAddItemModal">
                     <div class="p-4 sm:p-10 text-center ">

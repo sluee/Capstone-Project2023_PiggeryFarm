@@ -14,7 +14,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        
+
         return inertia('Customer/index',[
             'customers' => Customer::query()
             ->when(HttpRequest::input('search'), function ($query, $search) {
@@ -78,7 +78,7 @@ class CustomerController extends Controller
     //             // Store the count in the 'totalPig' attribute
     //         });
 
-        
+
 
     //         return inertia('Customer/show', [
     //             'customer' => $customer,
@@ -87,24 +87,45 @@ class CustomerController extends Controller
     //         ]);
 
     //     }
-    public function show(Customer $customer)
+//     public function show(Customer $customer)
+// {
+//     // Paginate the sales relationship and load related items
+//     $customer->sales()->with('salesItems')->paginate(3);
+
+
+//     // Calculate the total weight for each sale
+//     $sales->each(function ($sale)with('customer') {
+//         $totalWeight = $sale->salesItems->sum('pig_weight');
+//         $sale->total = number_format($totalWeight);
+//         $totalPigs = $sale->salesItems->count(); // Count the number of salesItems
+//         $sale->totalPig = $totalPigs;
+//     });
+//     return inertia('Customer/show', [
+//         'customer' => $customer,
+//         'filters' => request()->only(['search']),
+//     ]);
+// }
+
+public function show(Customer $customer)
 {
     // Paginate the sales relationship and load related items
-    $customer->sales()->with('salesItems');
-   
+    $sales = $customer->sales()->with('salesItems')->paginate(5);
 
     // Calculate the total weight for each sale
-    $customer->sales->each(function ($sale) {
+    $sales->each(function ($sale) {
         $totalWeight = $sale->salesItems->sum('pig_weight');
         $sale->total = number_format($totalWeight);
         $totalPigs = $sale->salesItems->count(); // Count the number of salesItems
         $sale->totalPig = $totalPigs;
     });
+
     return inertia('Customer/show', [
         'customer' => $customer,
+        'sales' => $sales,
         'filters' => request()->only(['search']),
     ]);
 }
+
 
 
 

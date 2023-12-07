@@ -8,6 +8,7 @@
     import Breadcrumb from '@/Components/Breadcrumbs.vue';
     import Pagination from '@/Components/Pagination.vue'
 
+
     let deleteForm = useForm({ })
     const props = defineProps({
         customer: Object,
@@ -102,11 +103,11 @@
                                     <p class="text-gray-500 text-sm">PHP {{ client.credit_limit }}</p>
                                 </div>
                             </div> -->
-                            <div class="flex justify-between mt-3 ml-2 mr-4">
-                                <DangerButton @click="remove(customer)" class="mr-2">
+                            <div class="flex justify-center items-center mt-3 ml-2 mr-4">
+                                <!-- <DangerButton @click="remove(customer)" class="mr-2">
                                     Delete Customer
-                                </DangerButton>
-                                <PrimaryButton @click="edit()">Edit Customer</PrimaryButton>
+                                </DangerButton> -->
+                                <PrimaryButton @click="edit()" >Edit Customer</PrimaryButton>
                             </div>
 
                         </div>
@@ -147,8 +148,10 @@
                             </tr>
                         </thead>
                         <tbody >
-
-                            <tr class="bg-blue-200 hover:bg-blue-300 text-center font-medium text-black  whitespace-nowrap " v-for="sale in customer.sales" :key="sale.id">
+                            <tr v-if="sales.data.length === 0">
+                                <td colspan="7" class="text-center text-lg  text-gray-400 py-6">No transaction record available</td>
+                            </tr>
+                            <tr class="bg-blue-200 hover:bg-blue-300 text-center font-medium text-black  whitespace-nowrap " v-for="sale in sales.data" :key="sale.id">
 
                                 <td class="px-3 py-4 text-center">
                                     <Link :href="'/sales/'+sale.id" style="text-decoration: underline; color: blue;">
@@ -177,16 +180,22 @@
                                 <td class="px-3 py-4">
                                     ₱ {{ sale.balance }}
                                 </td>
-                                
+
                             </tr>
                         </tbody>
 
                     </table>
-                    
+                    <div class="px-5 py-5 border-t flex flex-col xs:flex-row items-center xs:justify-between">
+						
+                        <Pagination v-if="sales.data.length >0" :links="sales.links" class="mt-2"/>
+                    </div>
+                    <!-- <Pagination :links="sales.links" class="mt-6 flex justify-center" /> -->
                 </div>
-                <!-- <Pagination :links="customer.sales.links" class="mt-6 flex justify-center"/> -->
+
+
             </div>
         </div>
+
     </SideBarLayout>
 </template>
 

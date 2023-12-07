@@ -18,24 +18,25 @@ class DashboardController extends Controller
 {
     public function index(){
 
-        $firstDayOfMonth = Carbon::now()->startOfMonth();
-        $lastDayOfMonth = Carbon::now()->endOfMonth();
+        
 
         // Fetch sales for the current month
-        $sales = Sale::with('salesItems', 'customers')
-            ->whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
+            // Retrieve all sales for the current month and year
+        $allSales = Sale::with('salesItems', 'customers')
+        ->whereMonth('created_at', now()->month)
+        ->whereYear('created_at', now()->year)
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         // Calculate the total weight and total pigs for each sale
-        foreach ($sales as $sale) {
+        foreach ($allSales as $sale) {
             $sale->totalWeight = $sale->salesItems->sum('pig_weight');
             $sale->totalPigs = $sale->salesItems->count();
         }
 
-        // Calculate the total sales for the current month
-        $totalAmountAllSales = $sales->sum('total_amount');
+        // Calculate the total sales for the current month and year
+        $totalAmountAllSales = $allSales->sum('total_amount');
+
 
 
         $employeeCount = Employee::count();
@@ -105,7 +106,7 @@ class DashboardController extends Controller
 
 
         return inertia('Dashboard',[
-            'sales' => $sales,
+            'sales' => $allSales,
             'totalAmountAllSales' => $totalAmountAllSales,
              // 'monthlySales ' => $monthlySales,
             'employeeCount' => $employeeCount,
