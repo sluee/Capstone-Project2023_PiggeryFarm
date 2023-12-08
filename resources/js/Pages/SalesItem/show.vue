@@ -72,7 +72,7 @@
 }
 
 .success .progress-bar {
-   
+
     animation: progressBar 5s linear;
 }
 .error .progress-bar {
@@ -155,9 +155,9 @@
 
                             </div>
                             <div class="justify-right">
-                                <p class="text-sm font-normal ">
+                                <!-- <p class="text-sm font-normal ">
                                     Mode of Payment : <strong>{{ sale.payment }}</strong>
-                                </p>
+                                </p> -->
                                 <p class="text-sm font-normal ">
                                     Quantity of Pigs : <strong>{{ totalPigs }} pc/pcs.</strong>
                                 </p>

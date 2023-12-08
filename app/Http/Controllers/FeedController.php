@@ -109,16 +109,16 @@ class FeedController extends Controller
     $feed = Feed::create($fields);
 
     $inventory = Inventory::where('feed_id' ,$feed->id)->first();
-    if($inventory){
-        $inventory->stock_in += $feed->qty;
-        $inventory->save();
-    } else {
-        $inventory = new Inventory([
-            'feed_id'  => $feed->id,
-            'stock_in'  => $feed->qty
-        ]);
-        $inventory->save();
-    }
+        if($inventory){
+            $inventory->stock_in += $feed->qty??0;
+            $inventory->save();
+        } else {
+            $inventory = new Inventory([
+                'feed_id'  => $feed->id,
+                'stock_in'  => $feed->qty
+            ]);
+            $inventory->save();
+        }
 
     return redirect('/feeds')->with('success', 'Feeds Added Successfully');
 }

@@ -42,7 +42,7 @@
 
         <div>
             <p style="display: inline-block; margin-right: 220px; margin-bottom:1" ><span style="font-size: 18px" >Invoice Details: </span> <strong> 0000{{$sale->id}}</strong></p>
-            <p style="display: inline-block; margin-right: 20px; margin-bottom:1"><span style="font-size: 18px">Mode of Payment: </span><strong>{{$sale->payment}}</strong> </p>
+            {{-- <p style="display: inline-block; margin-right: 20px; margin-bottom:1"><span style="font-size: 18px">Mode of Payment: </span><strong>{{$sale->payment}}</strong> </p> --}}
 
             <p style="display: inline-block; margin-right: 200px; margin-bottom:1" ><span style="font-size: 18px" >Customer: </span> <strong>{{$sale->customers->name}}</strong></p>
             <p style="display: inline-block; margin-right: 10px;margin-bottom:1"><span style="font-size: 18px">Quantity of Pigs: </span><strong>{{$totalPigs}} pc/s</strong> </p>

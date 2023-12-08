@@ -104,6 +104,7 @@
                                                 <span v-if="bred.remarks ==='Laboring'" class="text-md font-semibold text-green-500">Labored</span>
                                                 <span v-if="bred.remarks ==='Abort'" class="text-md font-semibold text-blue-500">Aborted</span>
                                                 <span v-if="bred.remarks ==='Reheat'" class="text-md font-semibold text-red-500">Reheat</span>
+                                                <span v-if="bred.remarks ==='Done'" class="text-md font-semibold text-blue-500">Done</span>
                                             </div>
                                         </td>
                                     </tr>
@@ -149,6 +150,7 @@
                                                 <div class="flex justify-center mb-2">
                                                     <span v-if="lab.remarks ==='Weaned'" class="text-md font-semibold text-green-500">Weaned</span>
                                                     <span v-if="lab.remarks ==='Waiting for results'" class="text-md font-semibold text-blue-500">Waiting for results</span>
+                                                   
                                                     <span v-if="lab.remarks ===''" class="text-md font-semibold text-red-500">N/A</span>
                                                 </div>
                                             </td>

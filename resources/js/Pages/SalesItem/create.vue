@@ -197,7 +197,7 @@ import { computed, ref , watch} from "vue";
                                               <input v-model="form.total_amount"  name="total_amount"  class=" px-3 py-2 mt-3 mb-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total"  readonly>
                                           </div>
 
-                                          <div class="flex justify-between">
+                                          <!-- <div class="flex justify-between">
                                               <label class="leading-loose mr-3">Payment</label>
                                               <select
                                               id="payment"
@@ -210,7 +210,7 @@ import { computed, ref , watch} from "vue";
                                               <option value="Partial Payment">Partial Payment</option>
                                               </select>
                                               <div class="text-sm text-red-500 italic" v-if="form.errors.payment">{{ form.errors.payment }}</div>
-                                          </div>
+                                          </div> -->
                                           <div class="flex justify-between">
                                               <label class="leading-loose mr-3 mt-3 ">Amount</label>
                                               <input id="is_credit" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="amount" v-model="form.is_credit">

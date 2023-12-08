@@ -136,9 +136,9 @@
                                 <th scope="col" class="px-6 py-3">
                                     Total Amount
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <!-- <th scope="col" class="px-6 py-3">
                                     Payment
-                                </th>
+                                </th> -->
                                 <th scope="col" class="px-6 py-3">
                                     Balance
                                 </th>
@@ -161,9 +161,9 @@
                                 <td class="px-3 py-4">
                                     {{ formattedDate(sale.created_at)}}
                                 </td>
-                                <td class="px-3 py-4">
+                                <!-- <td class="px-3 py-4">
                                      {{ sale.payment }}
-                                </td>
+                                </td> -->
                                 <td class="px-3 py-4">
                                     {{ sale.totalPig }}
                                 </td>
@@ -186,7 +186,7 @@
 
                     </table>
                     <div class="px-5 py-5 border-t flex flex-col xs:flex-row items-center xs:justify-between">
-						
+
                         <Pagination v-if="sales.data.length >0" :links="sales.links" class="mt-2"/>
                     </div>
                     <!-- <Pagination :links="sales.links" class="mt-6 flex justify-center" /> -->

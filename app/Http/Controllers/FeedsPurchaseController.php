@@ -5,6 +5,7 @@ use App\Models\Feed;
 use App\Models\FeedsPurchase;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FeedsPurchaseController extends Controller
 {
@@ -63,38 +64,40 @@ class FeedsPurchaseController extends Controller
     {
         $fields = $request->validate([
             'feed_id' => 'required|numeric|exists:feeds,id',
-            'qty'    => 'required',
-            'date' =>'required'
+            'qty'     => 'required',
+            'date'    => 'required',
         ]);
 
-        // Retrieve the associated feed with the category loaded
-        $feed = Feed::with('categories')->findOrFail($fields['feed_id']);
+        // Wrap the database operations in a transaction
+        DB::transaction(function () use ($fields) {
+            // Retrieve the associated feed with the category loaded
+            $feed = Feed::with('categories')->findOrFail($fields['feed_id']);
 
-        // Calculate totalAmount using category price and feed quantity
-        $totalAmount = $feed->categories->price * $fields['qty'];
+            // Calculate totalAmount using category price and feed quantity
+            $totalAmount = $feed->categories->price * $fields['qty'];
 
-        // Add totalAmount to the fields array
-        $fields['totalAmount'] = $totalAmount;
+            // Add totalAmount to the fields array
+            $fields['totalAmount'] = $totalAmount;
 
-        // Create the FeedPurchase model with the calculated totalAmount
-         FeedsPurchase::create($fields);
+            // Create the FeedPurchase model with the calculated totalAmount
+            FeedsPurchase::create($fields);
 
-        // $newStock = $feed->qty + $fields['qty'];
-        // $feed->update(['qty' => $newStock]);
-        $feed->increment('qty', $fields['qty']);
+            // Increment the qty field of the Feed model
+            $feed->increment('qty', $fields['qty']);
 
-        $inventory = Inventory::where('feed_id' ,$feed->feed_id)->first();
-        if($inventory){
-            $inventory->stock_in += $feed->qty;
-            $inventory->save();
-        } else {
-            $inventory = new Inventory([
-                'feed_id'  => $feed->id,
-                'stock_in'  => $feed->qty
-            ]);
-            $inventory->save();
-        }
-
+            // Update or create the Inventory model
+            $inventory = Inventory::where('feed_id', $feed->id)->first();
+            if ($inventory) {
+                $inventory->stock_in += $fields['qty'];
+                $inventory->save();
+            } else {
+                $inventory = new Inventory([
+                    'feed_id'  => $feed->id,
+                    'stock_in' => $fields['qty'],
+                ]);
+                $inventory->save();
+            }
+        });
 
         return redirect('/feeds-purchase')->with('success', 'Feeds Purchase Added Successfully');
 

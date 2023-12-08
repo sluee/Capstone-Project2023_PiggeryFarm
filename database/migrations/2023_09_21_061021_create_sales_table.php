@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('cust_id')->unsigned();
-            $table->string('payment');
+            // $table->string('payment');
             $table->double('total_amount');
             $table->double('is_credit');
             $table->double('balance');

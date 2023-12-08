@@ -80,7 +80,7 @@ class SaleItemController extends Controller
             'cust_id' => $request->input('cust_id'),
             'total_amount' => 0, // Calculate 'total_amount' based on the associated SaleItems
             'is_credit' => $request->input('is_credit'),
-            'payment' => $request->input('payment'),
+            // 'payment' => $request->input('payment'),
             'balance' => $request->input('balance'),
             'remarks' => $request->input('remarks'),
             // Add any other relevant fields here
