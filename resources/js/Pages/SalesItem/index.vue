@@ -205,7 +205,7 @@ import { computed, ref , watch} from "vue";
 
                                 <td colspan="2" class="mt-6 mr-2">
                                     <div class="flex justify-between">
-                                        <label class="leading-loose mr-3 mt-3">Total:</label>
+                                        <label class="leading-loose mr-3 mt-3">Total Amount:</label>
                                         <input v-model="form.total_amount"  name="total_amount"  class=" px-3 py-2 mt-3 mb-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total"  readonly>
                                     </div>
 
@@ -223,21 +223,34 @@ import { computed, ref , watch} from "vue";
                                         </select>
                                         <div class="text-sm text-red-500 italic" v-if="form.errors.payment">{{ form.errors.payment }}</div>
                                     </div> -->
-                                    <div class="flex justify-between">
-                                        <label class="leading-loose mr-3 mt-3 ">Amount</label>
+                                    <div class="flex justify-between  m ">
+                                        <label class="leading-loose mr-3 mt-3 ">Cash Tendered</label>
                                         <input id="is_credit" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="amount" v-model="form.is_credit">
                                     </div>
                                     <div class="flex justify-between">
-                                        <label class="leading-loose mr-3 mt-3 ">Balance:</label>
-
+                                        <label class="leading-loose mr-3 mt-3 ">Change:</label>
                                         <input id="balance" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total"  v-model="form.balance"  name="balance" readonly>
 
                                         <!-- <input type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Balance" v-model="form.balance"> -->
                                     </div>
-                                    <div class="flex justify-between">
+                                    <div class="flex justify-between mr-3 mt-3 mb -2">
+                                        <label class="leading-loose mr-3">Payment</label>
+                                        <select
+                                        id="remarks"
+                                        name="remarks"
+                                        v-model="form.remarks"
+                                        class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600 mb-3"
+                                        >
+                                        <option value="" disabled hidden>Select Payment</option>
+                                        <option value="Full Payment">Full Payment</option>
+                                        <option value="Partial Payment">Partial Payment</option>
+                                        </select>
+                                        <div class="text-sm text-red-500 italic" v-if="form.errors.payment">{{ form.errors.payment }}</div>
+                                    </div>
+                                    <!-- <div class="flex justify-between">
                                         <label class="leading-loose mr-3 mt-3 ">Remarks</label>
                                         <input id="remarks" type="text" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600 mb-2" placeholder="Remarks" v-model="form.remarks">
-                                    </div>
+                                    </div> -->
                                 </td>
 
                             </tr>

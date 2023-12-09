@@ -212,11 +212,11 @@ import { computed, ref , watch} from "vue";
                                               <div class="text-sm text-red-500 italic" v-if="form.errors.payment">{{ form.errors.payment }}</div>
                                           </div> -->
                                           <div class="flex justify-between">
-                                              <label class="leading-loose mr-3 mt-3 ">Amount</label>
+                                              <label class="leading-loose mr-3 mt-3 ">Amount Tendered</label>
                                               <input id="is_credit" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="amount" v-model="form.is_credit">
                                           </div>
                                           <div class="flex justify-between">
-                                              <label class="leading-loose mr-3 mt-3 ">Balance:</label>
+                                              <label class="leading-loose mr-3 mt-3 ">Change:</label>
 
                                               <input id="balance" type="number" class="px-4 py-2 mt-3 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Total"  v-model="form.balance"  name="balance" readonly>
 

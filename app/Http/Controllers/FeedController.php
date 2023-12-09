@@ -7,7 +7,9 @@ use App\Models\Feed;
 use App\Models\Inventory;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class FeedController extends Controller
 {
@@ -96,32 +98,42 @@ class FeedController extends Controller
     //     return redirect('/feeds')->with('success', 'Feeds Added Successfully');
     // }
     public function store(Request $request)
-{
-    $fields = $request->validate([
-        'cat_id' => 'required|numeric|exists:categories,id',
-        'sup_id' => 'required|numeric|exists:suppliers,id',
-        // Add a unique rule for the combination of cat_id and sup_id
-        'cat_id' => Rule::unique('feeds')->where(function ($query) use ($request) {
-            return $query->where('sup_id', $request->sup_id);
-        })->ignore($request->id), // Add this line if you're updating a record
-    ]);
+    {
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'cat_id' => [
+                'required',
+                Rule::unique('feeds')->where(function ($query) use ($request) {
+                    return $query->where('sup_id', $request->sup_id);
+                })->ignore($request->id),
+            ],
+            'sup_id' => 'required|numeric|exists:suppliers,id',
+            'qty' => 'required|numeric',
+        ]);
 
-    $feed = Feed::create($fields);
-
-    $inventory = Inventory::where('feed_id' ,$feed->id)->first();
-        if($inventory){
-            $inventory->stock_in += $feed->qty??0;
-            $inventory->save();
-        } else {
-            $inventory = new Inventory([
-                'feed_id'  => $feed->id,
-                'stock_in'  => $feed->qty
-            ]);
-            $inventory->save();
+        // If validation fails, redirect back with errors
+        if ($validator->fails()) {
+            return redirect('/feeds')->withErrors($validator)->withInput()->with('error', 'Feeds already exist.');
         }
 
-    return redirect('/feeds')->with('success', 'Feeds Added Successfully');
-}
+        // Create a new Feed
+        $feed = Feed::create([
+            'cat_id' => $request->cat_id,
+            'sup_id' => $request->sup_id,
+            'qty' => $request->qty,
+            // Add other fields as needed
+        ]);
+
+        // Update or create the corresponding inventory record
+        $inventory = Inventory::updateOrCreate(
+            ['feed_id' => $feed->id],
+            ['stock_in' => DB::raw('stock_in + ' . ($feed->qty ?? 0))]
+        );
+
+        return redirect('/feeds')->with('success', 'Feeds Added Successfully');
+    }
+
+
 
 
 

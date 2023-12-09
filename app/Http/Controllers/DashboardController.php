@@ -18,7 +18,7 @@ class DashboardController extends Controller
 {
     public function index(){
 
-        
+
 
         // Fetch sales for the current month
             // Retrieve all sales for the current month and year
@@ -99,10 +99,15 @@ class DashboardController extends Controller
         ->whereYear('created_at', $year)
         ->sum('no_of_pigs_weaned');
 
-        $stockInSum = Inventory::whereMonth('created_at', $month)
+        // $stockInSum = Inventory::whereMonth('created_at', $month)
+        // ->whereYear('created_at', $year)
+        // ->sum('stock_in') ??0;
+        $inventoryRecords = Inventory::whereMonth('created_at', $month)
         ->whereYear('created_at', $year)
+        ->get();
 
-        ->sum('stock_in') ??0;
+// Calculate the total available stock
+        $stockInSum = $inventoryRecords->sum('available');
 
 
         return inertia('Dashboard',[

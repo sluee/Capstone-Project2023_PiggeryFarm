@@ -129,10 +129,10 @@ function submit() {
                                             <span>{{ part.fin_id }}</span>
                                         </td>
                                         <td class="py-2 px-2">
-                                            <input v-model="part.debit" type="number" step="0.01" class="w-full border border-gray-300 p-2" :readonly="isDebitFieldDisabled(index)">
+                                            <input v-model="part.debit" type="number" step="0.01" class="w-full border border-gray-300 p-2" :hidden="isDebitFieldDisabled(index)">
                                         </td>
                                         <td class="py-2 px-2">
-                                            <input v-model="part.credit" type="number" step="0.01" class="w-full border border-gray-300 p-2" :readonly="isCreditFieldDisabled(index)">
+                                            <input v-model="part.credit" type="number" step="0.01" class="w-full border border-gray-300 p-2" :hidden="isCreditFieldDisabled(index)">
                                         </td>
                                         <td class="py-2 px-2">
                                             <input v-model="part.balance" type="number" step="0.01" class="w-full border border-gray-300 p-2" readonly>

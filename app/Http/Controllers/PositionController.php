@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Position;
+use Illuminate\Support\Facades\Validator;
+
+// use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -39,17 +43,31 @@ class PositionController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $fields=$request->validate([
-            'position' => 'required',
-            'rate' => 'required',
+{
+    $validator = Validator::make($request->all(), [
+        'position' => [
+            'required',
+            Rule::unique('positions'),
+        ],
+        'rate' => 'required',
+    ]);
 
-        ]);
-
-        Position::create($fields);
-
-        return redirect('/positions')->with('success','Position Added Successfully');
+    if ($validator->fails()) {
+        return redirect('/positions')  // Replace with the actual route of your form
+            ->with('error', 'Position already exists.');
     }
+
+    // If validation passes, create the position
+    Position::create([
+        'position' => $request->input('position'),
+        'rate' => $request->input('rate'),
+    ]);
+
+    return redirect('/positions')->with('success', 'Position Added Successfully');
+}
+
+
+
 
     /**
      * Display the specified resource.

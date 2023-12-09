@@ -4,7 +4,7 @@
 
     <SideBarLayout>
         <div class="py-5">
-            
+
             <div class=" flex justify-end items-center">
                 <label for="chartType" class="mr-2 font-bold text-slate-700">Select Chart Type:</label>
                 <select v-model="selectedChartType" id="chartType" class="rounded-full">
@@ -24,33 +24,34 @@
 
                 </div>
             </div>
-                        <div v-show="selectedChartType === 'monthly'">
-                            <div v-if="monthlyFinancial && monthlyFinancial.length > 0">
-                                <canvas ref="chartRef" width="200" height="80"></canvas>
-        
-                            </div>
-                            <div class=" bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
-                                <p class="text-center text-lg font-bold text-gray-900 py-6">Financial Chart information is unavailable for now</p>
-                            </div>
-                        </div>
-                        <div v-show="selectedChartType === 'yearly'">
-                            <div v-if="yearlyFinancial && yearlyFinancial.length > 0">
-                                <h3 class="font-bold text-slate-700 text-center"> Yearly Financial Chart</h3>
-                                <div class="w-full px-5 py-4">
-                                    <!-- Include the canvas directly in the component -->
-                                    <canvas id="yearlyFinancialChart" width="200" height="80"></canvas>
-                                </div>
-                            </div>
-                            <div class="bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
-                                <p class="text-center text-lg font-bold text-gray-900 py-6">Financial Chart information for the entire year is unavailable for now</p>
-                                </div>
-                            
-                        </div>
-                        
-                        
+            <div v-show="selectedChartType === 'monthly'">
+                <h3 class="font-bold text-slate-700 text-center">Financial Chart for {{ currentYear }}</h3>
+                <div v-if="monthlyFinancial && monthlyFinancial.length > 0">
+                    <canvas ref="chartRef" width="200" height="80"></canvas>
+
+                </div>
+                <div class=" bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
+                    <p class="text-center text-lg font-bold text-gray-900 py-6">Financial Chart information is unavailable for now</p>
+                </div>
+            </div>
+            <div v-show="selectedChartType === 'yearly'">
+                <div v-if="yearlyFinancial && yearlyFinancial.length > 0">
+                    <h3 class="font-bold text-slate-700 text-center"> Yearly Financial Chart</h3>
+                    <div class="w-full px-5 py-4">
+                        <!-- Include the canvas directly in the component -->
+                        <canvas id="yearlyFinancialChart" width="200" height="80"></canvas>
                     </div>
-              
-        
+                </div>
+                <div class="bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
+                    <p class="text-center text-lg font-bold text-gray-900 py-6">Financial Chart information for the entire year is unavailable for now</p>
+                    </div>
+
+            </div>
+
+
+        </div>
+
+
 
     </SideBarLayout>
 

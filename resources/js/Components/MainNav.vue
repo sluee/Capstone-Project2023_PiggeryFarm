@@ -105,7 +105,7 @@ import { Link } from '@inertiajs/vue3';
                     <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Payroll</span>
 
                 </Link>
-                  
+
               </li>
               <li v-if="$page.props.auth.permissions.includes('manage_payroll')" :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('cashAdvance.index') }" >
                 <Link :href="route('cashAdvance.index')"  class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
@@ -117,7 +117,7 @@ import { Link } from '@inertiajs/vue3';
 
                 </Link>
               </li>
-              <li v-if="$page.props.auth.permissions.includes('manage_payroll')"  :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('transaction.index') }">
+              <li v-if="$page.props.auth.permissions.includes('manage_payroll')"  >
                 <button  @click="isOpenFinancial" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -182,7 +182,7 @@ import { Link } from '@inertiajs/vue3';
                   </Link>
 
               </li>
-              
+
               <li v-if="$page.props.auth.permissions.includes('manage_reports')" >
                 <button @click="isOpenReport" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">

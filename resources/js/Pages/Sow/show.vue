@@ -150,7 +150,7 @@
                                                 <div class="flex justify-center mb-2">
                                                     <span v-if="lab.remarks ==='Weaned'" class="text-md font-semibold text-green-500">Weaned</span>
                                                     <span v-if="lab.remarks ==='Waiting for results'" class="text-md font-semibold text-blue-500">Waiting for results</span>
-                                                   
+
                                                     <span v-if="lab.remarks ===''" class="text-md font-semibold text-red-500">N/A</span>
                                                 </div>
                                             </td>
