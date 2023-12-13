@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use App\Models\Feed;
 use App\Models\FeedsPurchase;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FeedsPurchaseController extends Controller
@@ -80,7 +83,7 @@ class FeedsPurchaseController extends Controller
             $fields['totalAmount'] = $totalAmount;
 
             // Create the FeedPurchase model with the calculated totalAmount
-            FeedsPurchase::create($fields);
+            $purchase= FeedsPurchase::create($fields);
 
             // Increment the qty field of the Feed model
             $feed->increment('qty', $fields['qty']);
@@ -97,6 +100,8 @@ class FeedsPurchaseController extends Controller
                 ]);
                 $inventory->save();
             }
+            $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a feeds purchase item  with the id# " . $purchase->id;
+            event(new UserLog($log_entry));
         });
 
         return redirect('/feeds-purchase')->with('success', 'Feeds Purchase Added Successfully');

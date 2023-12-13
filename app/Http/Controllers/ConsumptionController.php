@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\Category;
 use App\Models\Consumption;
 use App\Models\Feed;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ConsumptionController extends Controller
 {
@@ -55,7 +57,7 @@ class ConsumptionController extends Controller
             'date' =>'required'
         ]);
 
-       
+
         $feed = Feed::with('categories')->findOrFail($fields['feed_id']);
 
         // Check if the consumption quantity is greater than the available feed quantity
@@ -66,15 +68,18 @@ class ConsumptionController extends Controller
         // Create the FeedPurchase model with the calculated totalAmount
         $cons = Consumption::create($fields);
 
-        
+
         $feed->decrement('qty', $fields['qty']);
 
         $inventory = Inventory::where('feed_id' ,$cons->feed_id)->first();
         if($inventory){
             $inventory->stock_out += $cons->qty;
             $inventory->save();
-        } 
-           
+        }
+
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a feeds consumption with the id# " . $cons->id;
+        event(new UserLog($log_entry));
 
         return redirect('/feeds-consumption')->with('success', 'Feeds Consumption Added Successfully');
     }
@@ -92,7 +97,7 @@ class ConsumptionController extends Controller
      */
     public function edit(Consumption $consumption)
     {
-        
+
     }
 
     /**
@@ -126,6 +131,9 @@ class ConsumptionController extends Controller
         // Update the feed quantity
         $newStock = $feed->qty - $fields['qty'];
         $feed->update(['qty' => $newStock]);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a feeds consumption with the id# " . $consumption->id;
+        event(new UserLog($log_entry));
 
         return redirect('/feeds-consumption')->with('success', 'Feeds Consumption Updated Successfully');
     }

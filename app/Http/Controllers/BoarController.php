@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Boar;
 use App\Models\Breeding;
 use App\Models\Labor;
 use App\Models\Weaning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BoarController extends Controller
 {
@@ -54,7 +57,10 @@ class BoarController extends Controller
 
 
 
-        Boar::create($fields);
+       $boars =  Boar::create($fields);
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a Boar with the id# " . $boars->id;
+        event(new UserLog($log_entry));
+
 
         return redirect('/boars')->with('success','Boar Added Successfully');
     }
@@ -114,6 +120,8 @@ class BoarController extends Controller
         ]);
 
         $boar->update($fields);
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a Boar with the id# " . $boar->id;
+        event(new UserLog($log_entry));
 
         return redirect('/boars')->with('success','Boar Updated Successfully');
     }
@@ -129,11 +137,17 @@ class BoarController extends Controller
     public function deactivateBoar(Boar $boar){
         $boar->update(['status' => 0]);
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a Boar status to deactivated  with the id# " . $boar->id;
+        event(new UserLog($log_entry));
+
         return redirect('/boars/' . $boar->id)->with('success','Boar deactivated successfully');
     }
 
     public function activateBoar(Boar $boar){
         $boar->update(['status' => 1]);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a Boar status to activated  with the id# " . $boar->id;
+        event(new UserLog($log_entry));
 
         return redirect('/boars/' . $boar->id)->with('success','Boar activated successfully');
     }

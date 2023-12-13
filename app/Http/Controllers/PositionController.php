@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Position;
 use Illuminate\Support\Facades\Validator;
@@ -8,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 // use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PositionController extends Controller
@@ -58,10 +61,13 @@ class PositionController extends Controller
     }
 
     // If validation passes, create the position
-    Position::create([
+    $position = Position::create([
         'position' => $request->input('position'),
         'rate' => $request->input('rate'),
     ]);
+
+    $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a position  with the id# " . $position->id;
+    event(new UserLog($log_entry));
 
     return redirect('/positions')->with('success', 'Position Added Successfully');
 }
@@ -97,6 +103,8 @@ class PositionController extends Controller
         ]);
 
        $position->update($fields);
+       $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a position  with the id# " . $position->id;
+       event(new UserLog($log_entry));
 
         return redirect('/positions')->with('success','Position Updated Successfully');
     }
@@ -107,6 +115,8 @@ class PositionController extends Controller
     public function destroy(Position $position)
     {
         $position->delete();
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " deleted a position  with the id# " . $position->id;
+        event(new UserLog($log_entry));
 
         return redirect('/positions')->with('success', 'Position has been deleted successfully!');
     }

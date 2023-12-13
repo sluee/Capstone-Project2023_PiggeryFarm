@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Breeding;
 use App\Models\Labor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LaborController extends Controller
 {
@@ -65,11 +68,14 @@ class LaborController extends Controller
             'date_of_weaning' => 'required|date|after:actual_date_farrowing',
         ]);
 
-        Labor::create($fields);
+       $labor = Labor::create($fields);
         $breeding = Breeding::findOrFail($request->input('breed_id'));
 
         // Update the remarks field to "Laboring"
         $breeding->update(['remarks' => 'Laboring']);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a labor and updated the breeding status to Laboring  with the id# " . $labor->id;
+        event(new UserLog($log_entry));
 
         // Breeding::update($breeding);
         return redirect('/labors')->with('success', 'Labor Added Successfully');
@@ -119,7 +125,9 @@ class LaborController extends Controller
 
         $labor->update($fields);
 
-        // Breeding::update($breeding);
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a labor with the id# " . $labor->id;
+        event(new UserLog($log_entry));
+
         return redirect('/labors')->with('success', 'Labor Updated Successfully');
     }
 

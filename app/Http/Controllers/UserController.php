@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -79,6 +82,10 @@ class UserController extends Controller
             $user->employee()->save($employee);
 
         }
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a User with the id# " . $user->id;
+        event(new UserLog($log_entry));
+
         return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
 

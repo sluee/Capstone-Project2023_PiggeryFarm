@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\CashAdvanceTotals;
 use App\Models\Employee;
 use App\Models\Payroll;
 use App\Models\PayrollItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PayrollItemController extends Controller
 {
@@ -82,6 +84,9 @@ class PayrollItemController extends Controller
 
             $payroll->payrollItem()->save($payrollItem);
         }
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a payroll item  with the id# " . $payroll->id;
+        event(new UserLog($log_entry));
+
 
         return redirect('/payroll/'.  $payroll->id)->with('success', 'Payroll data saved successfully');
     }

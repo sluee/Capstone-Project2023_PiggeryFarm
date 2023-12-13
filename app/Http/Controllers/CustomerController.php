@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Customer;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -53,7 +56,10 @@ class CustomerController extends Controller
 
         ]);
 
-        Customer::create($fields);
+       $customer = Customer::create($fields);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a customer with the id# " . $customer->id;
+        event(new UserLog($log_entry));
 
         return redirect('/customers')->with('success','Customer Added Successfully');
     }
@@ -155,7 +161,8 @@ public function show(Customer $customer)
         ]);
 
         $customer->update($fields);
-
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " edited  a customer with the id# " . $customer->id;
+        event(new UserLog($log_entry));
         return redirect('/customers')->with('success','Customer Updated Successfully');
     }
 
@@ -166,6 +173,8 @@ public function show(Customer $customer)
     {
 
         $customer->delete();
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " deleted   a customer with the id# " . $customer->id;
+        event(new UserLog($log_entry));
 
         return back();
 

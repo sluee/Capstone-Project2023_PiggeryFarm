@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\FeedsPurchase;
 use App\Models\FinancialCategory;
 use Illuminate\Support\Facades\Request as HttpRequest;
@@ -11,6 +12,7 @@ use App\Models\Payroll;
 use App\Models\Sale;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -127,6 +129,9 @@ class FinancialTransactionController extends Controller
         }
 
         $transaction->financialItems()->saveMany($transactionItems);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a financial liquidation with the id# " . $transaction->id;
+        event(new UserLog($log_entry));
 
         return redirect('/transactions/' . $transaction->id)->with('success', 'Financial Transaction Added Successfully');
     }

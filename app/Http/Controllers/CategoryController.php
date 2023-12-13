@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Category;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -13,13 +16,6 @@ class CategoryController extends Controller
      */
     public function index()
     {
-
-        // return inertia('FeedsCategory/index',[
-        //     'categories' => Category::orderBy('id', 'asc')
-        //     ->get(),
-
-
-        // ]);
 
         return inertia('FeedsCategory/index',[
             'categories' => Category::query()
@@ -52,8 +48,9 @@ class CategoryController extends Controller
 
         ]);
 
-        Category::create($fields);
-
+        $cat = Category::create($fields);
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created  a feeds category with the id# " . $cat->id;
+        event(new UserLog($log_entry));
         return redirect('/categories')->with('success','Feeds Category Added Successfully');
     }
 
@@ -87,6 +84,8 @@ class CategoryController extends Controller
 
         $category->update($fields);
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated  a feeds category with the id# " . $category->id;
+        event(new UserLog($log_entry));
         return redirect('/categories')->with('success','Feeds Category Updated Successfully');
     }
 
@@ -97,6 +96,8 @@ class CategoryController extends Controller
     {
         $category->delete();
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " deleted  a feeds category with the id# " . $category->id;
+        event(new UserLog($log_entry));
         return redirect('/categories')->with('success', 'Category has been deleted successfully!');
     }
 }

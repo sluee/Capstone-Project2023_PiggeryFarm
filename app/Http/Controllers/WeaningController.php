@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\Breeding;
 use Illuminate\Support\Facades\Request as HttpRequest;
 
 use App\Models\Labor;
 use App\Models\Weaning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -73,7 +75,7 @@ class WeaningController extends Controller
     //     Weaning::create($fields);
 
     //     $labor = Labor::findOrFail($request->input('labor_id'));
-       
+
     //     // Update the remarks field to "Laboring"
     //     $labor->update(['remarks' => 'Weaned']);
     //     $fields->updateBreedingRemarks();
@@ -98,6 +100,8 @@ class WeaningController extends Controller
     // Update the Breeding remarks
     $weaning->updateBreedingRemarks();
 
+    $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a weaning and updated the breeding status to done  with the id# " . $weaning->id;
+    event(new UserLog($log_entry));
     return redirect('/weaning')->with('success', 'Weaning Added Successfully');
 }
 
@@ -139,7 +143,8 @@ class WeaningController extends Controller
 
         $weaning->update($fields);
 
-
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updating a weaning with the id# " . $weaning->id;
+        event(new UserLog($log_entry));
         return redirect('/weaning')->with('success', 'Weaning Updated Successfully');
     }
 

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\CashAdvance;
 use App\Models\CashAdvanceTotals;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CashAdvanceController extends Controller
 {
@@ -17,16 +19,16 @@ class CashAdvanceController extends Controller
         $cashAdvance = CashAdvance::with('employee.user')
             ->orderBy('id', 'desc')
             ->paginate(6);
-    
+
         $cashAdvanceTotal = CashAdvanceTotals::with('employee.user')
             ->paginate(6);
-    
+
         return inertia('CashAdvance/index', [
             'cashAdvance' => $cashAdvance,
             'cashAdvanceTotal' => $cashAdvanceTotal,
         ]);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -81,6 +83,8 @@ class CashAdvanceController extends Controller
         // Save the new cash advance record
         $newCashAdvance->save();
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a cash advance for " . $newCashAdvance->employee->user->firstName . $newCashAdvance->employee->user->lastName . " with the id# " . $newCashAdvance->id;
+        event(new UserLog($log_entry));
 
         return redirect('/cashAdvance')->with('success', 'Cash Advance Added Successfully');
     }

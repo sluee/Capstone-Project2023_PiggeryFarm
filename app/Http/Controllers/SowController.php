@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\Breeding;
 use App\Models\Labor;
 use App\Models\Sow;
 use App\Models\Weaning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as HttpRequest;
 
@@ -54,8 +56,10 @@ class SowController extends Controller
             'date_arrived' => 'required|date',
         ]);
 
-        Sow::create($fields);
+        $sow = Sow::create($fields);
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a with the id# " . $sow->id;
+        event(new UserLog($log_entry));
         return redirect('/sows')->with('success','Sow Added Successfully');
     }
 
@@ -112,6 +116,8 @@ class SowController extends Controller
 
         $sow->update($fields);
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a sow  with the id# " . $sow->id;
+        event(new UserLog($log_entry));
         return redirect('/sows')->with('success','Sow Updated Successfully');
     }
 
@@ -121,12 +127,16 @@ class SowController extends Controller
     public function destroy(Sow $sow)
     {
         $sow->delete();
-
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " deleted a sow  with the id# " . $sow->id;
+        event(new UserLog($log_entry));
         return redirect('/sows')->with('success', 'Sows has been deleted successfully!');
     }
 
     public function deactivateSow(Sow $sow){
         $sow->update(['status' => 0]);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a sow status to deactivated  with the id# " . $sow->id;
+        event(new UserLog($log_entry));
 
         return redirect('/sows/' . $sow->id);
     }
@@ -134,7 +144,11 @@ class SowController extends Controller
     public function activateSow(Sow $sow){
         $sow->update(['status' => 1]);
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a sow status to activated  with the id# " . $sow->id;
+        event(new UserLog($log_entry));
+
         return redirect('/sows/' . $sow->id);
+
     }
 
 }

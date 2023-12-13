@@ -26,6 +26,7 @@ use App\Http\Controllers\ConsumptionController;
 use App\Http\Controllers\FeedsPurchaseController;
 use App\Http\Controllers\FinancialTransactionItemsController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\LogController;
 
 // use App\Models\Payroll;
 use Illuminate\Foundation\Application;
@@ -189,6 +190,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/employees/toggle/{employee}', [EmployeeController::class, 'toggleActive'])->name('employees.toggle');
         Route::put('/employees/{employee}', [EmployeeController::class, 'update']);
         Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy']);
+        Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
 
     });
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index')->middleware('can:read_users');

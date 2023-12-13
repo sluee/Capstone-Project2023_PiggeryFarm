@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
 {
@@ -41,7 +44,10 @@ class SupplierController extends Controller
 
         ]);
 
-        Supplier::create($fields);
+       $sup= Supplier::create($fields);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a feeds supplier  with the id# " . $sup->id;
+        event(new UserLog($log_entry));
 
         return redirect('/suppliers')->with('success','Suppliers Added Successfully');
     }
@@ -74,6 +80,8 @@ class SupplierController extends Controller
         ]);
 
         $supplier->update($fields);
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a feeds supplier  with the id# " . $supplier->id;
+        event(new UserLog($log_entry));
 
         return redirect('/suppliers')->with('success','Suppliers Updated Successfully');
     }
@@ -84,6 +92,8 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " deleted a feeds supplier  with the id# " . $supplier->id;
+        event(new UserLog($log_entry));
 
         return redirect('/suppliers')->with('success', 'Supplier has been deleted successfully!');
     }

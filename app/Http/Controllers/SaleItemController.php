@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\Customer;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SaleItemController extends Controller
@@ -100,6 +102,9 @@ class SaleItemController extends Controller
         // Calculate the total amount for the sale based on associated SaleItems
         $sale->total_amount = $sale->salesItems->sum('total');
         $sale->save();
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a sales invoince for".  $sale->customers->name ."with the id# " . $sale->id;
+        event(new UserLog($log_entry));
 
         return redirect('/sales/' .  $sale->id)->with('success', 'Sales Added Successfully');
 

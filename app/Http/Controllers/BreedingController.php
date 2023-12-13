@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\UserLog;
 use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Boar;
 use App\Models\Breeding;
 use App\Models\Sow;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class BreedingController extends Controller
@@ -50,6 +53,7 @@ class BreedingController extends Controller
         ->orderBy('breed', 'asc')
         ->get();
 
+
         return inertia('Breeding/create',[
             'breedings' =>Breeding::orderBy('date_of_breed','asc'),
             'sows'      =>$sows,
@@ -73,7 +77,10 @@ class BreedingController extends Controller
             'exp_date_of_farrowing' => 'required|date|after:possible_reheat'
         ]);
 
-        Breeding::create($fields);
+        $breed = Breeding::create($fields);
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a Breeding  with the id# " . $breed->id;
+        event(new UserLog($log_entry));
 
         return redirect('/breedings')->with('success', 'Breeding Added Successfully');
     }
@@ -95,12 +102,18 @@ class BreedingController extends Controller
         $breeding->update(['remarks' => 'Reheat']);
         $breeding->save();
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated the remarks of breeding with reheat with the id# " . $breeding->id;
+        event(new UserLog($log_entry));
+
         return redirect('/breedings')->with('error' ,'The sow reheats');
     }
 
     public function abortRemarks(Breeding $breeding) {
         $breeding->update(['remarks' => 'Abort']);
         $breeding->save();
+
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated the status of breeding with abort with the id# " . $breeding->id;
+        event(new UserLog($log_entry));
 
         return redirect('/breedings')->with('error', 'The sow underwent a miscarriage.');
     }
@@ -114,6 +127,8 @@ class BreedingController extends Controller
         $breeding->load('sow', 'boar');
         $sows = Sow::orderBy('sow_no', 'asc')->get();
         $boars = Boar::orderBy('breed', 'asc')->get();
+
+
         return inertia('Breeding/edit', [
             'breeding' => $breeding, // Pass the specific $breeding record to the view
             'sows' => $sows,
@@ -137,6 +152,8 @@ class BreedingController extends Controller
         ]);
 
         $breeding->update($fields);
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated a breeding with the id# " . $breeding->id;
+        event(new UserLog($log_entry));
 
         return redirect('/breedings')->with('success', 'Breeding Updated Successfully');
     }
@@ -149,6 +166,8 @@ class BreedingController extends Controller
         // Delete the instance
         $breeding->delete();
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " deleted  a breeding with the id# " . $breeding->id;
+        event(new UserLog($log_entry));
         // Optionally, you can redirect to a specific route or perform other actions after deletion
         return redirect()->route('breeding.index')->with('success', 'Breeding record deleted successfully');
     }

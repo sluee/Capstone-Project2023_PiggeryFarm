@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLog;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -89,6 +91,8 @@ class EmployeeController extends Controller
 
         $user->employee()->save($employee);
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created an employee with the id# " . $employee->id;
+        event(new UserLog($log_entry));
         return redirect('/employees')->with('message', 'Employee successfully created');
     }
 
@@ -142,7 +146,8 @@ class EmployeeController extends Controller
             'status' => $request->input('status'),
         ]);
 
-
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " updated  an employee with the id# " . $employee->id;
+        event(new UserLog($log_entry));
         return redirect('/employees')->with('success', 'Employee information updated successfully');
     }
 
@@ -153,6 +158,8 @@ class EmployeeController extends Controller
     {
         $employee->delete();
 
+        $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " deleted  an employee with the id# " . $employee->id;
+        event(new UserLog($log_entry));
         return redirect('/employees')->with('success', 'Employee has been deleted successfully!');
     }
 }
