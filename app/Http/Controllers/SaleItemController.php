@@ -150,4 +150,38 @@ class SaleItemController extends Controller
     {
         //
     }
+
+    public function saleReports(){
+      // Get all sales for the current month and year
+         $currentMonth = now()->month;
+         $currentYear = now()->year;
+
+        $allSales = Sale::with('salesItems', 'customers')
+        ->whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
+
+        // Calculate the total weight and total pigs for each sale
+        foreach ($allSales as $sale) {
+        $sale->totalWeight = $sale->salesItems->sum('pig_weight');
+        $sale->totalPigs = $sale->salesItems->count();
+        }
+
+        // Calculate the total weight of all pigs in the month
+        $totalWeightAllPigs = $allSales->sum('totalWeight');
+
+        // Calculate the total amount for all sales in the month
+        $totalAmountAllSales = $allSales->sum('total_amount');
+
+        $currentMonthAndYear = now()->format('F Y');
+
+        return inertia('Sales/reports', [
+            'allSales' => $allSales,
+            'totalWeightAllPigs' => $totalWeightAllPigs,
+            'totalAmountAllSales' => $totalAmountAllSales,
+            'currentMonthAndYear' => $currentMonthAndYear,
+
+        ]);
+    }
 }

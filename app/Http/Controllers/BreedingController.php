@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Request as HttpRequest;
 use App\Models\Boar;
 use App\Models\Breeding;
 use App\Models\Sow;
+use App\Models\Weaning;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class BreedingController extends Controller
@@ -170,6 +172,38 @@ class BreedingController extends Controller
         event(new UserLog($log_entry));
         // Optionally, you can redirect to a specific route or perform other actions after deletion
         return redirect()->route('breeding.index')->with('success', 'Breeding record deleted successfully');
+    }
+
+
+    public function breedingReports(){
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
+
+        $weaning = Weaning::with('labors.breeding.boar', 'labors.breeding.sow')
+        ->whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->paginate(5);
+
+                
+        $countAbort = Breeding::where('remarks', 'Abort')
+        ->where(DB::raw('MONTH(created_at)'), $currentMonth)
+        ->where(DB::raw('YEAR(created_at)'), $currentYear)
+        ->count();
+
+        $countReheat = Breeding::where('remarks', 'Reheat')
+        ->where(DB::raw('MONTH(created_at)'), $currentMonth)
+        ->where(DB::raw('YEAR(created_at)'), $currentYear)
+        ->count();
+        $totalPigsWeaned = $weaning->sum('no_of_pigs_weaned');
+        $currentMonthAndYear = now()->format('F Y');
+
+       return inertia('Breeding/reports', [
+            'weaning' => $weaning,
+            'totalPigsWeaned' => $totalPigsWeaned,
+            'currentMonthAndYear' => $currentMonthAndYear,
+            'countAbort' => $countAbort,
+            'countReheat' => $countReheat
+        ]);
     }
 
 

@@ -207,8 +207,8 @@ import Chart from 'chart.js/auto';
                 </div>
                 <div class="bg-white p-6 rounded shadow flex justify-center text-justify" v-else>
                     <p class="text-center text-lg font-bold text-gray-900 py-6">Sales Chart information for the entire year is unavailable for now</p>
-                    </div>
-                
+                </div>
+
             </div>
         </div>
     </SideBarLayout>

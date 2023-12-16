@@ -24,7 +24,7 @@
   </template>
 
   <script setup>
-  import { defineProps, ref, onMounted } from 'vue';
+  import { ref, onMounted } from 'vue';
   import moment from 'moment';
 
   const props = defineProps(['breedingEvents', 'selectedDate']);

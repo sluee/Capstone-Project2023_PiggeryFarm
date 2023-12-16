@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
     defineProps({
-    collapse:Boolean
+    collapse:Boolean,
+
     })
     let show = ref(false);
     const isOpen = () => (show.value = !show.value);
@@ -18,6 +19,9 @@ import { Link } from '@inertiajs/vue3';
 
     let showReport = ref(false);
     const isOpenReport = () => (showReport.value = !showReport.value);
+
+    let showRep = ref(false);
+    const isOpenRep = () => (showRep.value = !showRep.value);
 
     let showfinancial = ref(false);
     const isOpenFinancial = () => (showfinancial.value = !showfinancial.value);
@@ -43,9 +47,12 @@ import { Link } from '@inertiajs/vue3';
                 <div class="flex flex-row items-center h-2">
                     <div class="text-m font-light tracking-wide text-white" v-show="!collapse">
                       <p class="font-semibold tracking-wide text-m text-white leading-tight">
-                        <span v-if="$page.props.auth.user.type  === 'admin'">Administrator</span>
-                        <span v-else-if="$page.props.auth.user.type === 'employee'">Employee</span>
+                        <span v-if="$page.props.auth.user.type === 'admin'">Administrator</span>
+                        <span v-else-if="$page.props.auth.user.type ==='emplo' && $page.props.auth.user.roles.name === 'specialEmployee'">Employee</span>
+                        <span v-else-if="$page.props.auth.user.type === 'specialEmployee'">Special Employee</span>
                         <span v-else-if="$page.props.auth.user.type === 'owner'">Owner</span>
+                        <span v-else>Unknown Role</span>
+
                       </p>
                     </div>
                   </div>
@@ -395,6 +402,33 @@ import { Link } from '@inertiajs/vue3';
                 </Link>
             </div>
             </li>
+            <li  v-if="$page.props.auth.permissions.includes('view_sales')" :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('breeding.index') }">
+                <button  @click="isOpenRep" class="relative flex flex-row items-center cursor-pointer w-full h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+                    <span class="inline-flex justify-center items-center ml-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                          </svg>
+
+                    </span>
+                    <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Reports</span>
+                </button>
+                <div v-show="showRep" class="flex justify-start  flex-col w-full md:w-auto items-start pb-1 ml-3 ">
+
+                    <Link :href="route('breeding.reports')"    class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                    </svg>
+                    <span class="text-base leading-2" v-show="!collapse">Breeding Reports</span>
+                    </Link>
+                    <Link :href="route('sales.reports')"    class="flex justify-start items-center space-x-6 hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 rounded px-3 py-2 w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                        </svg>
+                    <span class="text-base leading-4" v-show="!collapse">Sales Report </span>
+                    </Link>
+
+                </div>
+            </li>
             <li v-if="$page.props.auth.permissions.includes('manage_users')"  :class="{ 'bg-blue-500 font-bold text-gray-800  border-transparent ': route().current('employees.index') }">
                 <Link :href="route('logs.index')" class=" relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-white hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                     <span class="inline-flex justify-center items-center ml-4">
@@ -408,6 +442,7 @@ import { Link } from '@inertiajs/vue3';
                     <span class="ml-2 text-m tracking-wide truncate" v-show="!collapse">Logs</span>
                 </Link>
             </li>
+
 
             </ul>
           </div>

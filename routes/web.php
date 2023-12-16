@@ -97,6 +97,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/breedings/delete/{breeding}', [BreedingController::class, 'destroy']);
 
 
+
+
+
+
     //For Labor///
     Route::get('/labors',[LaborController::class, 'index'])->name('labor.index');
     Route::get('/labors/create/{breed_id}',[LaborController::class,'create']);
@@ -138,6 +142,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/histories' ,[SaleController::class, 'index'])->name('SalesHistory.index');
         Route::get('/salesChart' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.chart');
+        Route::get('/sales-reports' ,[SaleItemController::class, 'saleReports'])->name('sales.reports');
+        Route::get('/breeding-reports' ,[BreedingController::class, 'breedingReports'])->name('breeding.reports');
 
     });
 

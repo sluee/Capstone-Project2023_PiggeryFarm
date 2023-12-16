@@ -5,7 +5,7 @@
     <SideBarLayout>
         <div class="py-5">
 
-            <div class=" flex justify-end items-center">
+            <div class="flex justify-end items-center">
                 <label for="chartType" class="mr-2 font-bold text-slate-700">Select Chart Type:</label>
                 <select v-model="selectedChartType" id="chartType" class="rounded-full">
                     <option value="monthly">Current Year</option>
