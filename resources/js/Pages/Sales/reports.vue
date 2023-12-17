@@ -97,7 +97,7 @@
                     <p class="font-bold">Total Weight of All Pigs: {{ totalWeightAllPigs }} kgs</p> 
                     <p class="font-bold">Total Amount of All Sales: ₱ {{ totalAmountAllSales }}</p>
                 </div>
-                <Pagination v-if="allSales.data.length >0" :links="allSales.links" class="mt-6 flex justify-center"/>
+                <Pagination v-if="allSales.data.length >0" :links="allSales.links" class="mt-6 flex justify-center"/>   
 
             </div>
 
