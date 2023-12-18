@@ -43,12 +43,12 @@ import { Link } from '@inertiajs/vue3';
     <div>
         <div class="overflow-y-auto overflow-x-hidden flex-grow">
             <ul class="flex flex-col py-4 space-y-1">
-              <li class="px-5">
+              <li class="px-5 py-3">
                 <div class="flex flex-row items-center h-2">
                     <div class="text-m font-light tracking-wide text-white" v-show="!collapse">
                       <p class="font-semibold tracking-wide text-m text-white leading-tight">
                         <span v-if="$page.props.auth.user.type === 'admin'">Administrator</span>
-                        <span v-if="$page.props.auth.user.type === 'employee' && $page.props.auth.user.roles.name === 'specialEmployee'">Special Employee</span>
+                        <!-- <span v-if="$page.props.auth.user.type === 'employee' && $page.props.auth.user.roles.name === 'specialEmployee'">Special Employee</span> -->
                         <span v-else-if="$page.props.auth.user.type === 'employee'">Employee</span>
                         <span v-else-if="$page.props.auth.user.type === 'owner'">Owner</span>
                         <span v-else>Unknown Role</span>

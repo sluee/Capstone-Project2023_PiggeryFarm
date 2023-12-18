@@ -17,7 +17,7 @@
 });
 
 function submit() {
-        form.post('/cashAdvance/')
+        form.post('/cash-advance/')
     }
 </script>
 

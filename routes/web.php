@@ -141,7 +141,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:view_sales')->group(function(){
 
         Route::get('/histories' ,[SaleController::class, 'index'])->name('SalesHistory.index');
-        Route::get('/salesChart' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.chart');
+        Route::get('/sales-chart' ,[SaleHistoryController::class, 'index'])->name('SalesHistory.chart');
         Route::get('/sales-reports' ,[SaleItemController::class, 'saleReports'])->name('sales.reports');
         Route::get('/breeding-reports' ,[BreedingController::class, 'breedingReports'])->name('breeding.reports');
 
@@ -228,9 +228,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/payroll', [PayrollItemController::class, 'store'])->name('payroll.create');
         Route::get('/payroll/{payroll}',[PayrollController::class,'show']);
 
-        Route::get('/cashAdvance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
-        Route::get('/cashAdvance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');
-        Route::post('/cashAdvance',[CashAdvanceController::class, 'store'])->name('cashAdvance.store');
+        Route::get('/cash-advance', [CashAdvanceController::class, 'index'])->name('cashAdvance.index');
+        Route::get('/cash-advance/create', [CashAdvanceController::class, 'create'])->name('cashAdvance.create');
+        Route::post('/cash-advance',[CashAdvanceController::class, 'store'])->name('cashAdvance.store');
 
     });
 
