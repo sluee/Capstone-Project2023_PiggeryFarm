@@ -84,7 +84,8 @@ class BreedingController extends Controller
         $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a Breeding  with the id# " . $breed->id;
         event(new UserLog($log_entry));
 
-        return redirect('/breedings')->with('success', 'Breeding Added Successfully');
+        // return redirect('/breedings')->with('success', 'Breeding Added Successfully');
+        return redirect()->route('breeding.index')->with('success', 'Breeding Added successfully');
     }
 
 
@@ -184,7 +185,7 @@ class BreedingController extends Controller
         ->whereYear('created_at', $currentYear)
         ->paginate(5);
 
-                
+
         $countAbort = Breeding::where('remarks', 'Abort')
         ->where(DB::raw('MONTH(created_at)'), $currentMonth)
         ->where(DB::raw('YEAR(created_at)'), $currentYear)

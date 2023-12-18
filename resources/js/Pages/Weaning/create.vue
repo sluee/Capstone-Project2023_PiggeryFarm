@@ -30,7 +30,7 @@
     }
 
     function submit() {
-        form.post('/weaning/');
+        form.post('/weaning');
 
     }
 

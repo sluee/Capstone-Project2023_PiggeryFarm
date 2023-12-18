@@ -12,7 +12,7 @@
         customers:Object
     })
     function submit() {
-        form.post('/customers/')
+        form.post('/customers')
     }
 </script>
 

@@ -134,7 +134,7 @@
                         <div class="p-4 sm:p-10 text-center ">
                             <div class=" pr-6">
                             <h4 class="px-5 text-xl font-bold text-navy-700 dark:text-black">
-                                Feeds Details
+                                Positions Details
                             </h4>
                             <hr>
                             <form @submit.prevent="update" >

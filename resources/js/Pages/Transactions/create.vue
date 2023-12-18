@@ -61,7 +61,7 @@
     const isCreditFieldDisabled = (index) => index >= 3 && index <= 5;
 
 function submit() {
-    form.post('/transactions/');
+    form.post('/transactions');
 }
 
 

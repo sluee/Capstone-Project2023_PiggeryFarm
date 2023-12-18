@@ -59,23 +59,6 @@ class PayrollController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show(Payroll $payroll)
-    // {
-    //     $payroll->load('payrollItem.employee.user', 'employee.position', 'employee.cash_advance');
-
-    // // Convert the Eloquent model to an array
-    //     $payrollData = $payroll->toArray();
-
-    //     return inertia('Payroll/show', [
-    //     'payroll' => $payrollData
-    //         // 'payrollItem' =>$payrollItem
-    //         // Other data...
-    //     ]);
-    // }
-
     public function show(Payroll $payroll)
     {
         $payroll->load('payrollItem.employee.user', 'payrollItem.employee.position', 'payrollItem.employee.advanceTotal' );

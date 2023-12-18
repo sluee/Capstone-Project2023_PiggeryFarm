@@ -46,7 +46,7 @@ const props = defineProps({
 });
 
 function submit() {
-    form.post('/breedings/');
+    form.post('/breedings');
     console.log('Possible Reheat:', calculateFutureDate.value);
 }
 

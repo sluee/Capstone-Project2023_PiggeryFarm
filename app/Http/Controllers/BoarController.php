@@ -62,7 +62,7 @@ class BoarController extends Controller
         event(new UserLog($log_entry));
 
 
-        return redirect('/boars')->with('success','Boar Added Successfully');
+        return redirect()->route('boar.index')->with('success', 'User created successfully.');
     }
 
     /**

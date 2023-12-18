@@ -11,8 +11,9 @@
     const props = defineProps({
         boars:Object
     })
-    function submit() {
-        form.post('/boars/')
+    const submit = () =>{
+        form.post('/boars')
+        // console.log(form)
     }
 </script>
 

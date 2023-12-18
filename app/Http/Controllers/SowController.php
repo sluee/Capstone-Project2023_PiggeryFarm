@@ -60,7 +60,9 @@ class SowController extends Controller
 
         $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a with the id# " . $sow->id;
         event(new UserLog($log_entry));
-        return redirect('/sows')->with('success','Sow Added Successfully');
+
+        // return redirect('/sows')->with('success','Sow Added Successfully');
+        return redirect()->route('sow.index')->with('success', 'User created successfully.');
     }
 
     /**
