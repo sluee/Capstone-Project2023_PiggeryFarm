@@ -61,16 +61,14 @@ class FeedController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data
+        //Validate the request data
         $validator = Validator::make($request->all(), [
             'cat_id' => [
                 'required',
-                Rule::unique('feeds')->where(function ($query) use ($request) {
-                    return $query->where('sup_id', $request->sup_id);
-                })->ignore($request->id),
+                Rule::unique('feeds')
             ],
             'sup_id' => 'required|numeric|exists:suppliers,id',
-            'qty' => 'required|numeric',
+           // 'qty' => 'required|numeric',
         ]);
 
         // If validation fails, redirect back with errors
@@ -82,7 +80,7 @@ class FeedController extends Controller
         $feed = Feed::create([
             'cat_id' => $request->cat_id,
             'sup_id' => $request->sup_id,
-            'qty' => $request->qty,
+            // 'qty' => $request->qty,
             // Add other fields as needed
         ]);
 
