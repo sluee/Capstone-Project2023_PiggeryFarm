@@ -270,7 +270,7 @@ const closeAddItemModal = () => {
 };
 
 const addItem = () => {
-    form.post('/categories/');
+    form.post('/categories');
     form.reset();
     closeAddItemModal();
 };

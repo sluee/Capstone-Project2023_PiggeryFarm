@@ -22,7 +22,7 @@ function formattedDate(date){
 // }
 
 function submit() {
-    form.post('/financial/');
+    form.post('/financial');
     form.particulars=''
 
 }

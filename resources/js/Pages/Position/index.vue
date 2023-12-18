@@ -244,7 +244,7 @@ const closeAddItemModal = () => {
   showAddItemModal.value = false;
 };
 const addItem = () => {
-    form.post('/positions/');
+    form.post('/positions');
     form.reset();
     closeAddItemModal();
 };

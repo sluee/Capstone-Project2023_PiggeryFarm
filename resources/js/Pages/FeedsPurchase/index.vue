@@ -285,7 +285,7 @@ const closeAddItemModal = () => {
 };
 
 const addItem = () => {
-    form.post('/feeds-purchase/');
+    form.post('/feeds-purchase');
     form.reset();
     closeAddItemModal();
 };

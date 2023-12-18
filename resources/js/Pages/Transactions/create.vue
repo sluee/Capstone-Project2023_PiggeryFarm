@@ -60,9 +60,9 @@
     const isDebitFieldDisabled = (index) => index >= 0 && index <= 2;
     const isCreditFieldDisabled = (index) => index >= 3 && index <= 5;
 
-function submit() {
-    form.post('/transactions');
-}
+    function submit() {
+        form.post('/transactions');
+    }
 
 
 </script>

@@ -277,12 +277,12 @@ const closeAddItemModal = () => {
 };
 
 const addItem = () => {
-    form.post('/feeds-consumption/');
+    form.post('/feeds-consumption');
     form.reset();
     closeAddItemModal();
 };
 function submit() {
-    form.post('/feeds/');
+    form.post('/feeds');
     form.qty='',
     form.description='',
     form.cat_id=''

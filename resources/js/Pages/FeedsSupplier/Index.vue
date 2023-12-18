@@ -235,7 +235,7 @@ import DangerButton from '@/Components/DangerButton.vue';
     };
 
     const addItem = () => {
-        form.post('/suppliers/');
+        form.post('/suppliers');
         form.reset();
         closeAddItemModal();
     };

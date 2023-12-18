@@ -2,6 +2,13 @@
 import {Head, useForm } from "@inertiajs/vue3";
 import SideBarLayout from "@/Layouts/SideBarLayout.vue";
 import { computed, ref , watch} from "vue";
+    const props = defineProps({
+        salesItems:Array,
+        customers:Object,
+        sale:Object,
+        total:Number,
+        totalAmount:Number
+        });
     const form = useForm({
         cust_id: '',
         total_amount:'',
@@ -100,13 +107,7 @@ import { computed, ref , watch} from "vue";
 
 
 
-    const props = defineProps({
-    salesItems:Array,
-    customers:Object,
-    sale:Object,
-    total:Number,
-    totalAmount:Number
-    });
+   
 
     function submit() {
         form.post('/sales');

@@ -204,11 +204,11 @@ const props = defineProps({
 function formattedDate(date){
     return moment(date).format('MMMM   D, YYYY');
 }
-function submit() {
-    form.post('/feeds/');
-    form.sup_id='',
-    form.cat_id=''
-}
+// function submit() {
+//     form.post('/feeds');
+//     form.sup_id='',
+//     form.cat_id=''
+// }
 
 const showAddItemModal = ref(false);
 let showConfirm = ref(false)
@@ -237,7 +237,7 @@ function deleteCat(){
     showConfirm.value = false;
 }
 const addItem = () => {
-    form.post('/feeds/');
+    form.post('/feeds');
     form.reset();
     closeAddItemModal();
 };
