@@ -44,11 +44,11 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light" >
-                            <!-- <tr>
-                                <td colspan="10" class="text-center text-lg text-gray-400 py-6">No logs record available</td>
-                            </tr> -->
+                            <tr v-if="logEntries.data.length === 0">
+                                <td colspan="7" class="text-center text-lg  text-gray-400 py-6">No logs record available</td>
+                            </tr>
 
-                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="logs in logEntries" :key="logs.id">
+                            <tr  class="border-b border-gray-200 hover:bg-gray-100" v-for="logs in logEntries.data" :key="logs.id">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
 
@@ -61,12 +61,6 @@
                                         <p class="font-medium">{{ logs.log_entry }}</p>
                                     </div>
                                 </td>
-
-
-
-
-
-
                             </tr>
 
                         </tbody>
@@ -74,7 +68,7 @@
 
 
                 </div>
-                <!-- <Pagination v-if="feeds.data.length >0" :links="feeds.links" class="mt-6 flex justify-center"/> -->
+                <Pagination v-if="logEntries.data.length >0" :links="logEntries.links" class="mt-6 flex justify-center"/>
             </div>
         </div>
 

@@ -10,7 +10,7 @@ class LogController extends Controller
 {
     public function index()
     {
-        $logEntries = Log::orderBy('created_at', 'desc')->get();
+        $logEntries = Log::orderBy('created_at', 'desc')->paginate(8);
 
         // Format the created_at timestamps
         $logEntries->transform(function ($logEntry) {
