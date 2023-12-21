@@ -43,7 +43,7 @@ import { Link } from '@inertiajs/vue3';
     <div>
         <div class="overflow-y-auto overflow-x-hidden flex-grow">
             <ul class="flex flex-col py-4 space-y-1">
-              <li class="px-5 py-3">
+              <li class="px-5 py-2">
                 <div class="flex flex-row items-center h-2">
                     <div class="text-m font-light tracking-wide text-white" v-show="!collapse">
                       <p class="font-semibold tracking-wide text-m text-white leading-tight">

@@ -86,7 +86,7 @@ class CashAdvanceController extends Controller
         $log_entry = Auth::user()->firstName . " ". Auth::user()->lastName . " created a cash advance for " . $newCashAdvance->employee->user->firstName . $newCashAdvance->employee->user->lastName . " with the id# " . $newCashAdvance->id;
         event(new UserLog($log_entry));
 
-        return redirect('/cashAdvance')->with('success', 'Cash Advance Added Successfully');
+        return redirect('/cash-advance')->with('success', 'Cash Advance Added Successfully');
     }
 
 
