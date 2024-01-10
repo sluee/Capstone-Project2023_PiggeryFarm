@@ -11,6 +11,7 @@ import { computed, ref , watch} from "vue";
         });
     const form = useForm({
         cust_id: '',
+        // date:'',
         total_amount:'',
         // payment:'',
         is_credit:0,
@@ -85,7 +86,7 @@ import { computed, ref , watch} from "vue";
 
 
     watch(() => form.salesItems, (newSalesItems) => {
-  // Calculate the total amount from the newSalesItems array
+         // Calculate the total amount from the newSalesItems array
         const totalAmount = newSalesItems.reduce((total, item) => {
             // Assuming that 'pig_weight' and 'rate' are numeric values
             return total + (item.pig_weight * item.rate);
@@ -95,19 +96,16 @@ import { computed, ref , watch} from "vue";
         form.total_amount = totalAmount;
     });
 
-    watch(() => [form.total_amount, form.is_credit], ([newTotalAmount, newIsCredit]) => {
-        if (newTotalAmount !== undefined && newIsCredit !== undefined) {
-            const balanceAmount = newTotalAmount - newIsCredit;
-            form.balance = balanceAmount;
-        } else {
-            // Handle the case where either total_amount or is_credit is not defined
-            form.balance = null; // You can set this to an appropriate default value or handle it differently
-        }
-    });
+    // watch(() => [form.total_amount, form.is_credit], ([newTotalAmount, newIsCredit]) => {
+    //     if (newTotalAmount !== undefined && newIsCredit !== undefined) {
+    //         const balanceAmount = newTotalAmount - newIsCredit;
+    //         form.balance = balanceAmount;
+    //     } else {
+    //         // Handle the case where either total_amount or is_credit is not defined
+    //         form.balance = null;
+    //     }
+    // });
 
-
-
-   
 
     function submit() {
         form.post('/sales');
@@ -126,7 +124,7 @@ import { computed, ref , watch} from "vue";
       </template>
 
       <div class="px-8 py-12">
-          <div class=" w-full h-screen ">
+          <div class=" w-full h-screen overflow-x-hidden ">
             <div class="flex justify-center mb-5 ">
                 <div><img src="/images/logo.png" alt="Logo" class="w-[70px] h-[70px] rounded-full object-cover"></div>
                 <div class=" ">
@@ -140,19 +138,36 @@ import { computed, ref , watch} from "vue";
               <div class="flex justify-start ">
 
                   <form @submit.prevent="submit">
-                      <div>
-                        <label class="leading-loose">Customer: </label>
-                        <select
-                          id="cust_id"
-                          name="cust_id"
-                          v-model="form.cust_id"
-                          class="pr-4 py-2 w-[180px]  border focus:ring-gray-500 focus:border-gray-900  sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                        >
-                          <option value="" disabled>Select Customer</option>
-                          <option v-for="cust in customers" :value="cust.id" :key="cust.id">{{ cust.name }}</option>
-                        </select>
-                        <div class="text-sm text-red-500 italic" v-if="form.errors.cust_id">{{ form.errors.cust_id }}</div>
-                      </div>
+                    <div class="flex justify-between">
+                        <div >
+                            <label class="leading-loose">Customer: </label>
+                            <select
+                              id="cust_id"
+                              name="cust_id"
+                              v-model="form.cust_id"
+                              class="pr-4 py-2 w-[180px]  border focus:ring-gray-500 focus:border-gray-900  sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            >
+                              <option value="" disabled>Select Customer</option>
+                              <option v-for="cust in customers" :value="cust.id" :key="cust.id">{{ cust.name }}</option>
+                            </select>
+                            <div class="text-sm text-red-500 italic" v-if="form.errors.cust_id">{{ form.errors.cust_id }}</div>
+                          </div>
+                          <!-- <div >
+                            <label class="leading-loose">Date of payment: </label>
+                            <select
+                              id="cust_id"
+                              name="cust_id"
+                              v-model="form.cust_id"
+                              class="pr-4 py-2 w-[180px]  border focus:ring-gray-500 focus:border-gray-900  sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            >
+                              <option value="" disabled>Select Customer</option>
+                              <option v-for="cust in customers" :value="cust.id" :key="cust.id">{{ cust.name }}</option>
+                            </select>
+                            <div class="text-sm text-red-500 italic" v-if="form.errors.cust_id">{{ form.errors.cust_id }}</div>
+                          </div> -->
+                    </div>
+
+
 
                       <div class="container mx-auto mt-2">
                         <div class="flex justify-between">

@@ -60,10 +60,10 @@ class DashboardController extends Controller
 
 
     // Calculate the percentage change
-        $percentageChange = 0; // Default value if there are no previous month sales
-        if ($previousMonthSales && $previousMonthSales->total_sales != 0) {
-            $percentageChange = (($currentMonthSales->total_sales - $previousMonthSales->total_sales) / $previousMonthSales->total_sales) * 100;
-        }
+        // $percentageChange = 0; // Default value if there are no previous month sales
+        // if ($previousMonthSales && $previousMonthSales->total_sales != 0) {
+        //     $percentageChange = (($currentMonthSales->total_sales - $previousMonthSales->total_sales) / $previousMonthSales->total_sales) * 100;
+        // }
 
 
         $now = Carbon::now();
@@ -117,7 +117,7 @@ class DashboardController extends Controller
             'employeeCount' => $employeeCount,
             'pigsCount' => $pigsCount,
             'currentMonthSales' => $currentMonthSales,
-            'percentageChange' => $percentageChange,
+            // 'percentageChange' => $percentageChange,
             'breedingCountReheat' =>$breedingCountReheat,
             'breedingCountAbort' =>$breedingCountAbort,
             'breedingCountLabor' =>$breedingCountLabor,
